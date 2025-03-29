@@ -1,6 +1,6 @@
 <template>
   <div>
-    <LayoutNav />
+    <!-- <LayoutNav /> -->
     <LayoutFooter />
   </div>
 </template>

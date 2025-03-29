@@ -2,6 +2,11 @@ import { createRouter, createWebHistory } from 'vue-router'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 
+//全局进度条的配置
+NProgress.configure({
+  showSpinner: false,
+})
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -9,6 +14,11 @@ const router = createRouter({
       path: '/',
       component: () => import('@/views/Layout/index.vue'),
       children: [],
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: () => import('@/views/Login/index.vue'),
     },
     {
       path: '/:pathMatch(.*)',

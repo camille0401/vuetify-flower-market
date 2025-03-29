@@ -5,43 +5,24 @@ import { createVuetify } from 'vuetify'
 import * as components from 'vuetify/components'
 import * as directives from 'vuetify/directives'
 
-const fsCustomLightTheme = {
+const fsCustomTheme = {
   dark: false,
   light: {
-    primary: '#EC407A',
-    secondary: '#424242',
-    accent: '#82B1FF',
-    error: '#FF5252',
-    info: '#2196F3',
-    success: '#4CAF50',
-    warning: '#FFC107',
+    primary: '#ec407a',
   },
   colors: {
-    background: '#FFFFFF',
-    surface: '#FFFFFF',
-    'surface-bright': '#FFFFFF',
-    'surface-light': '#EEEEEE',
-    'surface-variant': '#424242',
-    'on-surface-variant': '#EEEEEE',
-    primary: '#e84393',
-    'primary-darken-1': '#1F5592',
-    secondary: '#48A9A6',
-    'secondary-darken-1': '#018786',
-    error: '#B00020',
-    info: '#2196F3',
-    success: '#1dc779',
-    warning: '#FB8C00',
+    primary: '#ec407a',
   },
   variables: {
-    'font-size-root': '14px',
+    'font-size-root': '12px',
   },
 }
 
 export default createVuetify({
   theme: {
-    defaultTheme: 'fsCustomLightTheme',
+    defaultTheme: 'light',
     themes: {
-      fsCustomLightTheme,
+      light: fsCustomTheme,
     },
   },
   icons: {
