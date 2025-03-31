@@ -11,7 +11,7 @@
 
 <script setup name="LayoutHeaderUI">
 import { useCategoryStore } from '@/stores/category'
-import { computed } from 'vue'
+import { computed, onMounted } from 'vue'
 
 const props = defineProps({
   position: {
@@ -23,6 +23,11 @@ const props = defineProps({
 const showHome = computed(() => props.position === 'category' || props.position === 'fixed' ? true : false);
 
 const categoryStore = useCategoryStore()
+
+onMounted(() => {
+  if (categoryStore.categoryList.length > 0) return
+  categoryStore.getCategory();
+})
 </script>
 
 <style lang="scss" scoped>
@@ -42,7 +47,7 @@ $--active-color: $fs-base-color-dark;
     text-align: center;
 
     a {
-      font-size: 1.6rem;
+      font-size: 16px;
       line-height: 32px;
       height: 32px;
       display: inline-block;

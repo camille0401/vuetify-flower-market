@@ -1,6 +1,7 @@
 <script setup>
 import FSAppNavBar from './components/FSAppNavBar.vue';
 import FSHeader from './components/FSHeader.vue';
+import FSFooter from './components/FSFooter.vue';
 </script>
 
 <template>
@@ -14,5 +15,6 @@ import FSHeader from './components/FSHeader.vue';
         </v-fade-transition>
       </router-view>
     </v-main>
+    <FSFooter />
   </v-app>
 </template>

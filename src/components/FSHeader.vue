@@ -4,8 +4,9 @@
       <FSLogo />
 
       <div class="search">
-        <v-text-field label="キーワードで検索する" type="text" variant="outlined" color="primary" bg-color="#FCE4EC"
-          base-color="#FCE4EC" prepend-inner-icon="mdi-magnify" clearable hide-details></v-text-field>
+        <v-text-field label="キーワードで検索する" type="text" variant="outlined" color="primary" bg-color="#EFEBE9"
+          base-color="#EFEBE9" prepend-inner-icon="mdi-magnify" clearable hide-details>
+        </v-text-field>
         <v-btn color="primary" size="x-large">検索</v-btn>
       </div>
       <FSCartIcon />

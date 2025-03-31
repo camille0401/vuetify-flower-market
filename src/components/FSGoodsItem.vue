@@ -41,7 +41,7 @@ defineProps({
   }
 
   .name {
-    font-size: 1.6rem;
+    font-size: 16px;
   }
 
   .desc {
@@ -51,7 +51,7 @@ defineProps({
 
   .price {
     color: $priceColor;
-    font-size: 2rem;
+    font-size: 20px;
   }
 }
 </style>

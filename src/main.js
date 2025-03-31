@@ -1,5 +1,3 @@
-import './assets/main.css'
-
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
@@ -15,6 +13,8 @@ import { lazyImgPlugin } from '@/directives'
 // import * as components from 'vuetify/components'
 // import * as directives from 'vuetify/directives'
 import vuetify from './plugins/vuetify'
+import ToastPlugin from 'vue-toast-notification'
+
 import './styles/common.scss'
 
 const app = createApp(App)
@@ -22,12 +22,7 @@ const app = createApp(App)
 app.use(createPinia().use(piniaPluginPersistedstate))
 app.use(router)
 app.use(lazyImgPlugin)
-
-// const vuetify = createVuetify({
-//   components,
-//   directives,
-// })
-
 app.use(vuetify)
+app.use(ToastPlugin)
 
 app.mount('#app')

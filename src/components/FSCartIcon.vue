@@ -1,6 +1,6 @@
 <template>
   <div class="fs-cart-icon">
-    <v-badge color="error" content="2">
+    <v-badge color="error" :content="cartListLength">
       <v-icon>mdi-cart</v-icon>
     </v-badge>
     <div class="layer" v-if="cartListLength > 0">
@@ -27,7 +27,6 @@
           <p>共 {{ cartStore.cartAllCount }} 件商品</p>
           <p>&yen; {{ cartStore.cartAllPrice }} </p>
         </div>
-        <!-- <el-button size="large" type="primary" @click="toCartListPage">去购物车结算</el-button> -->
         <v-btn size="large" color="primary" @click="toCartListPage">去购物车结算</v-btn>
       </div>
     </div>
@@ -42,7 +41,8 @@ import { useRouter } from 'vue-router';
 const cartStore = useCartStore();
 const router = useRouter();
 const cartListLength = computed(() => cartStore.cartList.length);
-
+//
+// console.log(cartListLength.value)
 // item-delete-btn
 const handleDeleteCart = (skuId) => {
   cartStore.delCart(skuId)
@@ -55,8 +55,9 @@ const toCartListPage = () => {
 
 <style scoped lang="scss">
 .fs-cart-icon {
-  width: 50px;
   position: relative;
+  width: 50px;
+  text-align: right;
   z-index: 600;
 
   &:hover {
