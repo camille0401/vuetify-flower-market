@@ -90,6 +90,7 @@
         flex-wrap: wrap;
 
         a {
+          font-size: 14px;
           padding: 0 5px;
           padding-left: 0;
           line-height: 24px;

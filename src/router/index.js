@@ -19,6 +19,26 @@ const router = createRouter({
           name: 'home',
           component: () => import('@/views/Home/index.vue'),
         },
+        {
+          path: 'allCategories', //测试
+          name: 'allCategories',
+          component: () => import('@/views/AllCategories/index.vue'),
+        },
+        {
+          path: 'category/:id',
+          name: 'category',
+          component: () => import('@/views/Category/index.vue'),
+        },
+        {
+          path: 'category1/:id',
+          name: 'category1',
+          component: () => import('@/views/Category/index1.vue'),
+        },
+        {
+          path: 'category/sub/:id',
+          name: 'SubCategory',
+          component: () => import('@/views/SubCategory/index.vue'),
+        },
       ],
     },
     {

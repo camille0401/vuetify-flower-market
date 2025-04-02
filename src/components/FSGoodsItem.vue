@@ -46,7 +46,7 @@ defineProps({
 
   .desc {
     color: #999;
-    height: 29px;
+    height: 30px;
   }
 
   .price {

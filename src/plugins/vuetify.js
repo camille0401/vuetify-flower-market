@@ -8,11 +8,15 @@ import * as directives from 'vuetify/directives'
 const fsCustomTheme = {
   dark: false,
   light: {
-    primary: '#795548',
+    primary: 'red',
   },
   colors: {
     primary: '#795548',
-    surface: '#795548',
+    secondary: '#0d1117',
+    success: '#009688',
+    error: '#f78166', // 错误色
+    info: '#2196F3', // 信息色
+    warning: '#FFC107', // 警告色
   },
   variables: {
     'font-size-root': '12px',

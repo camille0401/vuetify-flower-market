@@ -25,7 +25,7 @@ const categoryStore = useCategoryStore();
 <style lang="scss" scoped>
 // category
 .fs-full-category-nav-box {
-  $--active-color: #cd1076;
+  $--active-color: #8D6E63;
 
   width: 100%;
   background: $fs-base-color-dark;
@@ -38,7 +38,7 @@ const categoryStore = useCategoryStore();
       align-items: center;
       justify-content: center;
       width: 250px;
-      background: #cd1076;
+      background: #8D6E63;
       font-size: 18px;
       line-height: 52px;
       font-weight: bold;
@@ -65,7 +65,7 @@ const categoryStore = useCategoryStore();
 
       a {
         display: inline-block;
-        font-size: 1.6rem;
+        font-size: 16px;
         line-height: 32px;
         color: inherit;
         padding: 10px 15px;
