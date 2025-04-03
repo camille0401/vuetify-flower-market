@@ -1,10 +1,8 @@
-<template>
+<!-- <template>
   <div class="fs-member-useraddress-container">
     <div class="add-btns">
       <el-button type="primary">添加收货地址</el-button>
     </div>
-
-    <!-- list -->
 
     <el-table :data="tableData" style="width: 100%">
       <el-table-column prop="consignee" label="收货人" width="180" />
@@ -22,6 +20,49 @@
       </el-table-column>
     </el-table>
   </div>
+</template> -->
+<template>
+  <v-card class="mx-auto pa-4" rounded="l" elevation="4">
+    <v-card-item>
+      <v-card-action>
+        <v-btn color="primary">添加收货地址</v-btn>
+      </v-card-action>
+    </v-card-item>
+    <v-card-item>
+      <v-divider></v-divider>
+    </v-card-item>
+    <v-card-item>
+      <v-table>
+        <thead>
+          <tr>
+            <th class="text-left">
+              收货人
+            </th>
+            <th class="text-left">
+              收获地址
+            </th>
+            <th class="text-left">
+              联系电话
+            </th>
+            <th class="text-left">
+              操作
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(item, index) in tableData" :key="index">
+            <td>{{ item.consignee }}</td>
+            <td>{{ item.address }}</td>
+            <td>{{ item.phone }}</td>
+            <td class="member-add-actions">
+              <v-btn size="small" color="success">编辑</v-btn>
+              <v-btn size="small" color="error">删除</v-btn>
+            </td>
+          </tr>
+        </tbody>
+      </v-table>
+    </v-card-item>
+  </v-card>
 </template>
 
 <script setup>
@@ -52,14 +93,9 @@ const tableData = ref([
 </script>
 
 <style lang="scss" scoped>
-.fs-member-useraddress-container {
-  background: #fff;
-  min-height: 200px;
-  border-radius: 12px;
-  padding: 20px;
-
-  .add-btns {
-    margin-bottom: 20px;
-  }
+.member-add-actions {
+  display: flex;
+  align-items: center;
+  column-gap: 10px;
 }
 </style>
