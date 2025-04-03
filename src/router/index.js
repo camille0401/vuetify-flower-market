@@ -20,7 +20,12 @@ const router = createRouter({
           component: () => import('@/views/Home/index.vue'),
         },
         {
-          path: 'allCategories', //测试
+          path: '/index',
+          name: 'index',
+          component: () => import('@/views/Home/index1.vue'),
+        },
+        {
+          path: 'allCategories',
           name: 'allCategories',
           component: () => import('@/views/AllCategories/index.vue'),
         },
@@ -38,6 +43,37 @@ const router = createRouter({
           path: 'category/sub/:id',
           name: 'SubCategory',
           component: () => import('@/views/SubCategory/index.vue'),
+        },
+        {
+          path: 'detail/:id',
+          name: 'detail',
+          component: () => import('@/views/Detail/index.vue'),
+        },
+        {
+          path: 'member',
+          name: 'member',
+          component: () => import('@/views/Member/index.vue'),
+          children: [
+            // {
+            //   path: 'home',
+            //   component: () => import('@/views/Member/UserHome/index.vue'),
+            // },
+            {
+              path: 'info',
+              name: 'member-userinfo',
+              component: () => import('@/views/Member/UserInfo/index.vue'),
+            },
+            {
+              path: 'address',
+              name: 'member-useraddress',
+              component: () => import('@/views/Member/UserAddress/index.vue'),
+            },
+            {
+              path: 'order',
+              name: 'member-userorder',
+              component: () => import('@/views/Member/UserOrder/index.vue'),
+            },
+          ],
         },
       ],
     },

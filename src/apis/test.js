@@ -1,7 +1,13 @@
 import request from '@/utils/request'
 
-export function getCategoryAPI() {
+export function getHomeGoodsTypeAPI() {
   return request({
-    url: 'home/category/head',
+    url: '/flower/home/goodsType',
+  })
+}
+
+export function getHomeGoodsAPI() {
+  return request({
+    url: '/flower/home/goods',
   })
 }

@@ -2,13 +2,15 @@ import axios from 'axios'
 import { useUserStore } from '@/stores/user'
 import router from '@/router'
 
-// const baseURL =
-//   import.meta.env.NODE_ENV === 'production'
-//     ? import.meta.env.VITE_APP_PROXY_TARGET
-//     : import.meta.env.VITE_APP_PROXY_TARGET + import.meta.env.VITE_APP_BASE_API
+const baseURL =
+  import.meta.env.NODE_ENV === 'production'
+    ? import.meta.env.VITE_APP_PROXY_TARGET
+    : import.meta.env.VITE_APP_PROXY_TARGET + import.meta.env.VITE_APP_BASE_API
 
 // 创建axios实例
 const request = axios.create({
+  // baseURL: baseURL,
+  // 'http://pcapi-xiaotuxian-front-devtest.itheima.net',
   baseURL: 'http://pcapi-xiaotuxian-front-devtest.itheima.net',
   timeout: 5000,
   showLoading: true,
@@ -46,11 +48,11 @@ request.interceptors.response.use(
     // 401 token timeout
     const userStore = useUserStore()
     console.log(router)
-    if (error.response.status === 401) {
-      userStore.clearUserInfo()
-      console.log('======')
-      router.replace('/login')
-    }
+    // if (error.response.status === 401) {
+    //   userStore.clearUserInfo()
+    //   console.log('======')
+    //   router.replace('/login')
+    // }
     return Promise.reject(error)
   },
 )

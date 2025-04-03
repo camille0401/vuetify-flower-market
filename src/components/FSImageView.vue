@@ -1,8 +1,8 @@
 <template>
-  <div class="goods-image">
+  <div class="fs-goods-image">
     <!-- 左侧大图-->
     <div class="middle" ref="target">
-      <img :src="imageList[activeIndex]" alt="" />
+      <img :src="imageList[activeIndex]" alt="" width="100%" height="100%" />
       <!-- 蒙层小滑块 -->
       <div v-show="!isOutside" class="layer" :style="{ left: `${left}px`, top: `${top}px` }"></div>
     </div>
@@ -10,7 +10,7 @@
     <ul class="small">
       <li v-for="(img, i) in imageList" :key="i" @mouseenter="handleMouseEnter(i)"
         :class="{ 'active': activeIndex === i }">
-        <img :src="img" alt="" />
+        <img :src="img" alt="" width="100%" height="100%" />
       </li>
     </ul>
     <!-- 放大镜大图 -->
@@ -83,7 +83,7 @@ watch([elementX, elementY, isOutside], () => {
 </script>
 
 <style scoped lang="scss">
-.goods-image {
+.fs-goods-image {
   width: 480px;
   height: 400px;
   position: relative;
@@ -93,6 +93,11 @@ watch([elementX, elementY, isOutside], () => {
     width: 400px;
     height: 400px;
     background: #f5f5f5;
+
+    img {
+      width: 100%;
+      height: 100%;
+    }
   }
 
   .large {

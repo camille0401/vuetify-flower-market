@@ -45,16 +45,16 @@
       <div class="container nav-box">
         <template v-if="userStore?.userInfo?.token">
           <v-btn to="/member/info">
-            admin
-          </v-btn>
-          <v-btn prepend-icon="mdi-logout">
-            logout
+            {{ userStore?.userInfo?.account }}
           </v-btn>
           <v-btn to="/member/order">
             我的订单
           </v-btn>
           <v-btn to="/member/home">
             会员中心
+          </v-btn>
+          <v-btn prepend-icon="mdi-logout">
+            logout
           </v-btn>
         </template>
         <template v-else>

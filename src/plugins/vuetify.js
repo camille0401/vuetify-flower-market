@@ -11,12 +11,15 @@ const fsCustomTheme = {
     primary: 'red',
   },
   colors: {
+    background: '#FAFAFA',
     primary: '#795548',
+    // surface: '#000000',
     secondary: '#0d1117',
     success: '#009688',
     error: '#f78166', // 错误色
     info: '#2196F3', // 信息色
     warning: '#FFC107', // 警告色
+    'on-surface	': '#FFFFFF',
   },
   variables: {
     'font-size-root': '12px',

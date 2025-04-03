@@ -119,7 +119,6 @@ const reqData = ref({
 // 无限滚动加载
 const onLoad = async ({ done }) => {
   if (loading.value) return; // 防止重复请求
-
   loading.value = true;
   try {
     const res = await getSubCategoryAPI(reqData.value);
@@ -137,6 +136,7 @@ const onLoad = async ({ done }) => {
   } finally {
     loading.value = false;
   }
+
 };
 
 
@@ -158,7 +158,7 @@ const resetList = async () => {
   reqData.value.page = 1;
   loading.value = false;
 
-  // await nextTick(); // 等待 Vue 视图更新
+  await nextTick(); // 等待 Vue 视图更新
 
   // // 强制触发 `onLoad`
   // onLoad({ done: () => { } });

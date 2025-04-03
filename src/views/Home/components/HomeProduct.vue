@@ -3,13 +3,6 @@
     <HomePanel :title="cate.name" v-for="cate in goodsProduct" :key="cate.id">
       <template #main>
         <div class="box">
-          <!-- <RouterLink class="cover" to="/">
-                        <img v-img-lazy="cate.picture" />
-                        <strong class="label">
-                            <span>{{ cate.name }}馆</span>
-                            <span>{{ cate.saleInfo }}</span>
-                        </strong>
-                    </RouterLink> -->
           <ul class="goods-list">
             <li v-for="goods in cate.goods" :key="goods.id">
               <GoodsItem :goods="goods" />
