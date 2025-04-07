@@ -1,7 +1,7 @@
 <template>
   <div class="fs-cart-icon">
     <v-badge color="error" :content="cartListLength">
-      <v-icon>mdi-cart</v-icon>
+      <v-icon icon="mdi-cart"></v-icon>
     </v-badge>
     <div class="layer" v-if="cartListLength > 0">
       <div class="list">
@@ -19,7 +19,8 @@
               <p class="count">x{{ cart.count }}</p>
             </div>
           </RouterLink>
-          <i class="iconfont icon-close-new" @click="handleDeleteCart(cart.skuId)"></i>
+          <!-- <i class="iconfont icon-close-new" @click="handleDeleteCart(cart.skuId)"></i> -->
+          <v-icon icon="mdi-close" @click="handleDeleteCart(cart.skuId)"></v-icon>
         </div>
       </div>
       <div class="foot">

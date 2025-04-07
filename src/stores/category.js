@@ -1,6 +1,6 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
-import { getCategoryAPI } from '@/apis/layout'
+import { getHomeGoodsTypeAPI } from '@/apis/global'
 
 export const useCategoryStore = defineStore('category', () => {
   /**
@@ -9,8 +9,8 @@ export const useCategoryStore = defineStore('category', () => {
 
   const categoryList = ref([])
   const getCategory = async () => {
-    const res = await getCategoryAPI()
-    categoryList.value = res?.result || []
+    const res = await getHomeGoodsTypeAPI()
+    categoryList.value = res || []
   }
 
   return {

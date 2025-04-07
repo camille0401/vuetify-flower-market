@@ -1,34 +1,60 @@
 import request from '@/utils/request'
 
 /**
- * @description: category-page-data
+ * @description: category-page-api
  * @id {*}
  * @return {*}
  */
-export function getCategoryAPI(id) {
+export function getCategoryAPI(typeId) {
   return request({
-    url: `/category`,
+    url: `/flower/home/category`,
     method: 'GET',
-    params: {
-      id,
-    },
+    params: {typeId}
   })
 }
 
 /**
- * @description: sub-category-data
+ * @description: category-page-api
  * @id {*}
  * @return {*}
  */
-export function getCategoryFilterAPI(id) {
+export function getCategoryGoodsAPI(params) {
   return request({
-    url: `/category/sub/filter`,
+    url: `/flower/home/category/goods`,
     method: 'GET',
-    params: {
-      id,
-    },
+    params
   })
 }
+
+// /**
+//  * @description: category-page-data
+//  * @id {*}
+//  * @return {*}
+//  */
+// export function getCategoryAPI(id) {
+//   return request({
+//     url: `/category`,
+//     method: 'GET',
+//     params: {
+//       id,
+//     },
+//   })
+// }
+
+// /**
+//  * @description: sub-category-data
+//  * @id {*}
+//  * @return {*}
+//  */
+// export function getCategoryFilterAPI(id) {
+//   return request({
+//     url: `/category/sub/filter`,
+//     method: 'GET',
+//     params: {
+//       id,
+//     },
+//   })
+// }
 
 /**
  * @description: sub-category-list-data
@@ -40,10 +66,10 @@ export function getCategoryFilterAPI(id) {
    }
  * @return {*}
  */
-export function getSubCategoryAPI(data) {
+export function getSubCategoryAPI(params) {
   return request({
-    url: `/category/goods/temporary`,
-    method: 'POST',
-    data,
+    url: `/flower/home/subCategorys`,
+    method: 'GET',
+    params,
   })
 }

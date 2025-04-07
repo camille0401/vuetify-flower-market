@@ -1,6 +1,28 @@
 import request from '@/utils/request'
 
 /**
+ * @description: home-category
+ * @cc {*}
+ * @return {*}
+ */
+export function getHomeGoodsTypeAPI() {
+  return request({
+    url: '/flower/home/goodsType',
+  })
+}
+
+/**
+ * @description: home-goods
+ * @cc {*}
+ * @return {*}
+ */
+export function getHomeGoodsAPI() {
+  return request({
+    url: '/flower/home/goods',
+  })
+}
+
+/**
  * @description: home-banner
  * @cc {*}
  * @return {*}

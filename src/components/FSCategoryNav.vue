@@ -4,15 +4,16 @@
       <RouterLink to="/">首页</RouterLink>
     </li>
     <li class="home" v-for="category in categoryStore.categoryList" :key="category.id">
-      <RouterLink active-class="active" :to="`/category/${category.id}`">{{ category.name }}</RouterLink>
+      <RouterLink active-class="active" :to="`/category/1/${category.id}`">{{ category.cname }}</RouterLink>
     </li>
   </ul>
 </template>
 
 <script setup name="LayoutHeaderUI">
+import { computed } from 'vue'
 import { useCategoryStore } from '@/stores/category'
-import { computed, onMounted } from 'vue'
 
+const categoryStore = useCategoryStore()
 const props = defineProps({
   position: {
     type: String,
@@ -21,13 +22,6 @@ const props = defineProps({
 })
 
 const showHome = computed(() => props.position === 'category' || props.position === 'fixed' ? true : false);
-
-const categoryStore = useCategoryStore()
-
-onMounted(() => {
-  if (categoryStore.categoryList.length > 0) return
-  categoryStore.getCategory();
-})
 </script>
 
 <style lang="scss" scoped>

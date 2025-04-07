@@ -72,7 +72,8 @@
               <FSGoodsSku :goods="detailData" @change="handleSkuChange" />
               <!-- 数据组件 -->
               <!-- <el-input-number v-model="count" /> -->
-              <v-number-input v-model="count" width="200px" control-variant="split" inset></v-number-input>
+              <v-number-input v-model="count" width="200px" variant="outlined" control-variant="split" :min="0"
+                hide-details inset></v-number-input>
               <!-- 按钮组件 -->
               <v-btn color="primary" elevation="8" size="x-large" @click="handleAddCart">加入购物车</v-btn>
             </div>
@@ -115,12 +116,13 @@
 import DetailHot from './components/DetailHot.vue';
 import FSImageView from '@/components/FSImageView.vue';
 import FSGoodsSku from '@/components/FSSku/index.vue';
+import { useToast } from "vue-toastification";
 import { getDetailAPI } from '@/apis/detail';
 import { onMounted, ref } from 'vue';
 import { onBeforeRouteUpdate, useRoute } from 'vue-router';
 import { useCartStore } from '@/stores/cart';
 
-
+const toast = useToast();
 const route = useRoute();
 const cartStore = useCartStore();
 const count = ref(1); //input-count
@@ -156,6 +158,7 @@ const handleAddCart = () => {
   } else {
     // 规格没有选择 提示用户
     // ElMessage.warning('请先选择规格')
+    toast.error('请先选择规格')
   }
 }
 

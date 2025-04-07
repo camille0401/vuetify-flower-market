@@ -2,6 +2,12 @@
 import FSAppNavBar from './components/FSAppNavBar.vue';
 import FSHeader from './components/FSHeader.vue';
 import FSFooter from './components/FSFooter.vue';
+import { onMounted } from 'vue'
+import { useCategoryStore } from '@/stores/category'
+
+const categoryStore = useCategoryStore()
+onMounted(() => categoryStore.getCategory())
+
 </script>
 
 <template>

@@ -2,167 +2,96 @@
   <div class="fs-sub-category-page">
     <div class="container ">
       <!-- 面包屑 -->
-      <div class="bread-container">
-        <v-breadcrumbs bg-color="primary">
-          <v-breadcrumbs-item :to="{ path: '/' }">首页</v-breadcrumbs-item>
-          <v-breadcrumbs-divider divider=">"></v-breadcrumbs-divider>
-          <v-breadcrumbs-item :to="{ path: `/category/${categoryFilterData.parentId}` }">{{
-            categoryFilterData.parentName }}</v-breadcrumbs-item>
-          <v-breadcrumbs-divider divider=">"></v-breadcrumbs-divider>
-          <v-breadcrumbs-item :disabled="true">{{ categoryFilterData.name }}</v-breadcrumbs-item>
-        </v-breadcrumbs>
-      </div>
-      <div class="sub-container">
-        <v-tabs color="success" v-model="reqData.sortField" @update:modelValue="tabChange">
-          <v-tab value="publishTime">最新商品</v-tab>
-          <v-tab value="orderNum">最高人气</v-tab>
-          <v-tab value="evaluateNum">评论最多</v-tab>
-        </v-tabs>
-        <!-- <v-infinite-scroll :key="reqData.sortField" @load="onLoad">
-          <template v-slot:default>
-            <div class="listss">
-              <FSGoodsItem v-for="goods in goodsList" :key="goods.id" :goods="goods" />
-            </div>
-          </template>
-<template v-slot:loading>
-            <v-progress-circular color="primary" indeterminate />
-          </template>
-<template v-slot:empty>
-            <v-alert type="warning">没有更多数据了!</v-alert>
-          </template>
-</v-infinite-scroll> -->
-        <v-tabs-window v-model="reqData.sortField">
-          <v-tabs-window-item value="publishTime">
-            <v-infinite-scroll @load="onLoad">
-              <template v-slot:default>
-                <div class="listss">
-                  <FSGoodsItem v-for="goods in goodsList" :key="goods.id" :goods="goods" />
-                </div>
-              </template>
-              <template v-slot:loading>
-                <v-progress-circular color="primary" indeterminate />
-              </template>
-              <template v-slot:empty>
-                <v-alert type="warning">没有更多数据了!</v-alert>
-              </template>
-            </v-infinite-scroll>
-          </v-tabs-window-item>
-          <v-tabs-window-item value="orderNum">
-            <v-infinite-scroll @load="onLoad">
-              <template v-slot:default>
-                <div class="listss">
-                  <FSGoodsItem v-for="goods in goodsList" :key="goods.id" :goods="goods" />
-                </div>
-              </template>
-              <template v-slot:loading>
-                <v-progress-circular color="primary" indeterminate />
-              </template>
-              <template v-slot:empty>
-                <v-alert type="warning">没有更多数据了!</v-alert>
-              </template>
-            </v-infinite-scroll>
-          </v-tabs-window-item>
-          <v-tabs-window-item value="evaluateNum">
-            <v-infinite-scroll @load="onLoad">
-              <template v-slot:default>
-                <div class="listss">
-                  <FSGoodsItem v-for="goods in goodsList" :key="goods.id" :goods="goods" />
-                </div>
-              </template>
-              <template v-slot:loading>
-                <v-progress-circular color="primary" indeterminate />
-              </template>
-              <template v-slot:empty>
-                <v-alert type="warning">没有更多数据了!</v-alert>
-              </template>
-            </v-infinite-scroll>
-          </v-tabs-window-item>
-        </v-tabs-window>
+      <v-breadcrumbs color="primary">
+        <v-breadcrumbs-item :to="{ path: '/' }">首页</v-breadcrumbs-item>
+        <v-breadcrumbs-divider divider=">"></v-breadcrumbs-divider>
+        <v-breadcrumbs-item :disabled="true">{{ categoryData.cname }}</v-breadcrumbs-item>
+      </v-breadcrumbs>
+      <v-card class="mx-auto pa-4 mb-4">
+        <v-card-item>
+          <div class="category-type-box">
+            <div class="title">分类</div>
+            <ul class="list">
+              <li v-for="sub in subCategoryList" :key="sub.id">
+                <RouterLink active-class="active" :to="`/category/sub/${sub.id}`">{{ sub.cname }}</RouterLink>
+              </li>
+            </ul>
+          </div>
+        </v-card-item>
+        <v-card-item>
+          <v-divider color="#000000"></v-divider>
+        </v-card-item>
+        <v-card-item>
+          <v-tabs color="primary" :model-value="reqData.orderBy" @update:modelValue="tabChange">
+            <v-tab value="">综合</v-tab>
+            <v-tab value="publishTime">最新商品</v-tab>
+            <v-tab value="orderNum">最高人气</v-tab>
+            <v-tab value="evaluateNum">评论最多</v-tab>
+          </v-tabs>
+          <div v-if="goodsList.length > 0" class="category-goods-list mb-10">
+            <FSGoodsItem v-for="goods in goodsList" :key="goods.id" :goods="goods" />
+          </div>
+          <div v-else class="empty-box">
+            <FSEmptyPannel title="暂无数据"></FSEmptyPannel>
+          </div>
+        </v-card-item>
+      </v-card>
 
-      </div>
+
     </div>
   </div>
 </template>
 
 <script setup>
-import { getCategoryFilterAPI, getSubCategoryAPI } from "@/apis/category"
-import { onMounted, ref, watch, nextTick } from "vue"
-import { useRoute } from "vue-router"
+import { getCategoryAPI, getCategoryGoodsAPI } from "@/apis/category"
+import { useCategory } from "@/composables/useCategory"
 import FSGoodsItem from "@/components/FSGoodsItem.vue"
+import FSEmptyPannel from "@/components/FSEmptyPannel.vue"
 
-const route = useRoute();
+const { categoryData,
+  subCategoryList,
+  goodsList } = useCategory;
 
-// 获取分类导航数据
-const categoryFilterData = ref({});
-const getCategoryFilterData = async () => {
-  const res = await getCategoryFilterAPI(route.params.id)
-  categoryFilterData.value = res?.result || {}
-}
-onMounted(() => getCategoryFilterData())
+console.log(categoryData)
+// const route = useRoute();
 
-// 获取商品列表
-const goodsList = ref([])
-const loading = ref(false)
-const reqData = ref({
-  categoryId: route.params.id,
-  page: 1,
-  pageSize: 20,
-  sortField: 'publishTime',
-})
-
-// const getGoodsList = async () => {
-//   const res = await getSubCategoryAPI(reqData.value)
-//   goodsList.value = res?.result?.items || []
+// // 获取分类导航数据
+// const categoryData = ref({});
+// const subCategoryList = ref([])
+// const getCategoryData = async (id = route.params.id) => {
+//   const res = await getCategoryAPI(id)
+//   categoryData.value = res?.category || {}
+//   subCategoryList.value = res?.subCategorys || []
 // }
-// onMounted(() => getGoodsList())
-
-// 无限滚动加载
-const onLoad = async ({ done }) => {
-  if (loading.value) return; // 防止重复请求
-  loading.value = true;
-  try {
-    const res = await getSubCategoryAPI(reqData.value);
-
-    if (res?.result?.items?.length) {
-      goodsList.value = [...goodsList.value, ...res.result.items];
-      reqData.value.page++;
-      done(); // 继续监听加载
-    } else {
-      done('empty'); // 没有更多数据，停止监听
-    }
-  } catch (error) {
-    console.error('加载数据出错:', error);
-    done('error'); // 触发错误状态
-  } finally {
-    loading.value = false;
-  }
-
-};
+// onMounted(() => getCategoryData())
 
 
-// 切换排序
-const tabChange = () => {
-  console.log('排序方式变更:', reqData.value.sortField);
-  resetList();
-};
 
-
-// // 监听排序字段变化
-// watch(() => reqData.value.sortField, () => {
-//   resetList()
+// const goodsList = ref([])
+// const reqData = ref({
+//   typeId: route.params.id,
+//   orderBy: '',
 // })
 
-// 重置列表并重新加载
-const resetList = async () => {
-  goodsList.value = [];
-  reqData.value.page = 1;
-  loading.value = false;
+// const getCategoryGoodsData = async (id = route.params.id) => {
+//   reqData.value.typeId = id;
+//   const res = await getCategoryGoodsAPI(reqData.value)
+//   goodsList.value = res?.goods || [];
+// }
+// onMounted(() => getCategoryGoodsData())
 
-  await nextTick(); // 等待 Vue 视图更新
+// onBeforeRouteUpdate((to) => {
+//   getCategoryData(to.params.id)
+//   getCategoryGoodsData(to.params.id)
+// })
 
-  // // 强制触发 `onLoad`
-  // onLoad({ done: () => { } });
-};
+// // 切换排序
+// const tabChange = () => {
+//   console.log('排序方式变更:', reqData.value.orderBy);
+
+// };
+
+
 
 
 </script>
@@ -174,17 +103,72 @@ const resetList = async () => {
     color: #666;
   }
 
+  .category-type-box {
+    display: flex;
+    align-items: center;
+    column-gap: 20px;
+
+    .title {
+      min-width: max-content;
+      height: 40px;
+      font-size: 16px;
+      line-height: 40px;
+      font-weight: bold;
+    }
+
+    .list {
+      display: flex;
+      flex-wrap: wrap;
+
+      li {
+        display: flex;
+        align-items: center;
+
+        a {
+          display: flex;
+          align-items: center;
+          color: #737373;
+          font-size: 14px;
+          font-weight: lighter;
+          line-height: 30px;
+
+          &:hover {
+            color: $fs-base-color-dark;
+          }
+
+          &.active {
+            color: $fs-base-color-dark;
+          }
+
+        }
+
+        &:not(:last-child) {
+          a::after {
+            content: "|";
+            display: inline-block;
+            width: 28px;
+            text-align: center;
+            color: #7e7e80;
+          }
+        }
+      }
+
+    }
+  }
+
+  .category-goods-list {
+    display: grid;
+    grid-template-columns: repeat(5, calc((100% - 40px) / 5));
+    gap: 10px;
+    width: 100%;
+    padding: 0 10px;
+  }
+
   .sub-container {
     padding: 20px 0;
-    background-color: #fff;
+    // background-color: #fff;
 
-    .listss {
-      display: grid;
-      grid-template-columns: repeat(5, calc((100% - 40px) / 5));
-      gap: 10px;
-      width: 100%;
-      padding: 0 10px;
-    }
+
 
     .pagination-container {
       margin-top: 20px;

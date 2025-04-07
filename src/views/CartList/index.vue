@@ -2,24 +2,27 @@
   <div class="fs-cart-page">
     <div class="container m-top-20">
       <div class="cart">
-        <table>
+        <v-table>
           <thead>
             <tr>
               <th width="120">
-                <el-checkbox :model-value="cartStore.cartIsAll" @change="(e) => handleAllChange(e)" />
+                <v-checkbox color="primary" hide-details :model-value="cartStore.cartIsAll"
+                  @update:model-value="(e) => handleAllChange(e)"></v-checkbox>
+
               </th>
               <th width="400">商品信息</th>
-              <th width="220">单价</th>
-              <th width="180">数量</th>
-              <th width="180">小计</th>
-              <th width="140">操作</th>
+              <th width="220" style="text-align: center;">单价</th>
+              <th width="180" style="text-align: center;">数量</th>
+              <th width="180" style="text-align: center;">小计</th>
+              <th width="140" style="text-align: center;">操作</th>
             </tr>
           </thead>
           <!-- 商品列表 -->
           <tbody>
             <tr v-for="cart in cartStore.cartList" :key="cart.id">
               <td>
-                <el-checkbox :model-value="cart.selected" @change="(e) => handleSingleChange(e, cart.skuId)" />
+                <v-checkbox color="primary" hide-details :model-value="cart.selected"
+                  @update:model-value="(e) => handleSingleChange(e, cart.skuId)"></v-checkbox>
               </td>
               <td>
                 <div class="goods">
@@ -35,34 +38,57 @@
                 <p>&yen;{{ cart.price }}</p>
               </td>
               <td class="tc">
-                <el-input-number v-model="cart.count" />
+                <v-number-input v-model="cart.count" width="100%" color="primary" variant="outlined"
+                  control-variant="split" :min="0" hide-details inset></v-number-input>
               </td>
               <td class="tc">
                 <p class="f16 red">&yen;{{ (cart.price * cart.count).toFixed(2) }}</p>
               </td>
               <td class="tc">
-                <p>
-                  <el-popconfirm title="确认删除吗?" confirm-button-text="确认" cancel-button-text="取消"
-                    @confirm="handleDelCart(cart.skuId)">
-                    <template #reference>
-                      <a href="javascript:;">删除</a>
+                <div>
+                  <v-dialog v-model="deleteDialog" max-width="500" transition="scale-transition">
+                    <template #activator="{ props }">
+                      <v-btn v-bind="props" color="error" variant="text">
+                        删除
+                      </v-btn>
                     </template>
-                  </el-popconfirm>
-                </p>
+
+                    <v-card>
+                      <v-card-text>
+                        <div class="text-body-1">
+                          确认删除吗？
+                        </div>
+                        <div class="text-caption text-medium-emphasis mt-2">
+                          此操作不可撤销！
+                        </div>
+                      </v-card-text>
+
+                      <v-card-actions class="justify-end">
+                        <v-btn variant="text" @click="deleteDialog = false">
+                          取消
+                        </v-btn>
+                        <v-btn color="error" variant="tonal" @click="handleDelCart(cart.skuId)">
+                          确认删除
+                        </v-btn>
+                      </v-card-actions>
+                    </v-card>
+                  </v-dialog>
+                </div>
               </td>
             </tr>
             <tr v-if="cartStore.cartList.length === 0">
               <td colspan="6">
-                <div class="cart-none">
-                  <el-empty description="购物车列表为空">
-                    <el-button type="primary" @click="toHomePage">随便逛逛</el-button>
-                  </el-empty>
-                </div>
+                <FSEmptyPannel title="购物车列表为空">
+                  <template #actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="primary" text="随便逛逛" @click="toHomePage"></v-btn>
+                    <v-spacer></v-spacer>
+                  </template>
+                </FSEmptyPannel>
               </td>
             </tr>
           </tbody>
-
-        </table>
+        </v-table>
       </div>
       <!-- 操作栏 -->
       <div class="action" v-if="cartStore.cartList.length !== 0">
@@ -71,7 +97,8 @@
           <span class="red">¥ {{ cartStore.cartSelectedPrice }} </span>
         </div>
         <div class="total">
-          <el-button size="large" type="primary" @click="toSettlementPage">下单结算</el-button>
+          <!-- <v-btn v-show="cartStore.cartIsAll" class="mr-4" color="error" size="large" variant="outlined">删除</v-btn> -->
+          <v-btn color="primary" size="large" variant="flat" @click="toSettlementPage">下单结算</v-btn>
         </div>
       </div>
     </div>
@@ -79,13 +106,20 @@
 </template>
 
 <script setup name="CartList">
+import { ref } from 'vue';
 import { useCartStore } from '@/stores/cart';
 import { useRouter } from 'vue-router';
+import FSEmptyPannel from '@/components/FSEmptyPannel.vue';
 
 const cartStore = useCartStore();
+
+const deleteDialog = ref(false);
+// 单个删除
 const handleDelCart = (skuId) => {
   cartStore.delCart(skuId)
+  deleteDialog.value = false;
 }
+
 const handleSingleChange = (e, skuId) => {
   cartStore.singleCheck(skuId, e)
 }
@@ -101,11 +135,18 @@ const toHomePage = () => {
   router.push({ path: "/" })
 }
 
+
+
 </script>
 
 <style scoped lang="scss">
 .fs-cart-page {
   margin-top: 20px;
+
+  p {
+    padding: 0;
+    margin: 0;
+  }
 
   .cart {
     background: #fff;
@@ -129,21 +170,10 @@ const toHomePage = () => {
       }
 
       th {
-        font-size: 1.6rem;
+        font-size: 16px;
         font-weight: normal;
-        line-height: 5rem;
+        line-height: 50px;
       }
-    }
-  }
-
-  .cart-none {
-    text-align: center;
-    padding: 120px 0;
-    background: #fff;
-
-    p {
-      color: #999;
-      padding: 20px 0;
     }
   }
 
@@ -169,7 +199,7 @@ const toHomePage = () => {
   }
 
   .f16 {
-    font-size: 1.6rem;
+    font-size: 16px;
   }
 
   .goods {
@@ -183,11 +213,11 @@ const toHomePage = () => {
 
     >div {
       width: 280px;
-      font-size: 1.6rem;
+      font-size: 16px;
       padding-left: 10px;
 
       .attr {
-        font-size: 1.4rem;
+        font-size: 14px;
         color: #999;
       }
     }
@@ -201,7 +231,7 @@ const toHomePage = () => {
     margin-top: 20px;
     background: #fff;
     height: 80px;
-    font-size: 1.6rem;
+    font-size: 16px;
 
     .xtx-checkbox {
       color: #999;
@@ -215,16 +245,16 @@ const toHomePage = () => {
 
     .red {
       margin-right: 20px;
-      font-size: 1.8rem;
+      font-size: 18px;
       font-weight: bold;
     }
   }
 
   .tit {
     color: #666;
-    font-size: 1.6rem;
+    font-size: 16px;
     font-weight: normal;
-    line-height: 5rem;
+    line-height: 50px;
   }
 
 }

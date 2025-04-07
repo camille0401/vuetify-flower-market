@@ -3,19 +3,19 @@
     <v-toolbar color="grey-darken-4" title="">
       <div class="container nav-box">
         <template v-if="userStore?.userInfo?.token">
-          <v-btn color="error" to="/member/info">
+          <v-btn color="#f78166" to="/member/info">
             {{ userStore?.userInfo?.account }}
           </v-btn>
-          <v-btn color="error" to="/member/order">
+          <v-btn color="#f78166" to="/member/order">
             我的订单
           </v-btn>
-          <v-btn color="error" to="/member/home">
+          <v-btn color="#f78166" to="/member/home">
             会员中心
           </v-btn>
           <!-- 退出登录 -->
           <v-dialog v-model="logout_dialog" max-width="500" transition="scale-transition">
             <template #activator="{ props }">
-              <v-btn v-bind="props" color="error" variant="text">
+              <v-btn v-bind="props" color="#f78166" variant="text">
                 <v-icon start>mdi-logout</v-icon>
                 logout
               </v-btn>
@@ -46,17 +46,17 @@
           </v-btn> -->
         </template>
         <template v-else>
-          <v-btn color="error" to="/login" prepend-icon="mdi-login">
+          <v-btn color="#f78166" to="/login" prepend-icon="mdi-login">
             Login
           </v-btn>
-          <v-btn color="error">
+          <v-btn color="#f78166">
             帮助中心
           </v-btn>
-          <v-btn color="error">
+          <v-btn color="#f78166">
             关于我们
           </v-btn>
         </template>
-        <v-btn color="error" prepend-icon="mdi-phone">4009-939-002</v-btn>
+        <v-btn color="#f78166" prepend-icon="mdi-phone">XXXXXXX</v-btn>
       </div>
     </v-toolbar>
   </nav>

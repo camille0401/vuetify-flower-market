@@ -17,7 +17,7 @@ const router = createRouter({
         {
           path: '',
           name: 'home',
-          component: () => import('@/views/Home/index.vue'),
+          component: () => import('@/views/Home/index1.vue'),
         },
         {
           path: '/index',
@@ -29,14 +29,14 @@ const router = createRouter({
           name: 'allCategories',
           component: () => import('@/views/AllCategories/index.vue'),
         },
+        // {
+        //   path: 'category/:id',
+        //   name: 'category',
+        //   component: () => import('@/views/Category/index.vue'),
+        // },
         {
-          path: 'category/:id',
+          path: 'category/:type/:id',
           name: 'category',
-          component: () => import('@/views/Category/index.vue'),
-        },
-        {
-          path: 'category1/:id',
-          name: 'category1',
           component: () => import('@/views/Category/index1.vue'),
         },
         {
@@ -48,6 +48,31 @@ const router = createRouter({
           path: 'detail/:id',
           name: 'detail',
           component: () => import('@/views/Detail/index.vue'),
+        },
+        {
+          path: 'cartlist',
+          name: 'cartlist',
+          component: () => import('@/views/CartList/index.vue'),
+        },
+        {
+          path: 'settlement',
+          name: 'settlement',
+          component: () => import('@/views/Settlement/index.vue'),
+        },
+        {
+          path: 'settlement1',
+          name: 'settlement1', ////测试
+          component: () => import('@/views/Settlement/index1.vue'),
+        },
+        {
+          path: 'pay',
+          name: 'pay',
+          component: () => import('@/views/Pay/index.vue'),
+        },
+        {
+          path: 'pay/result',
+          name: 'payResult',
+          component: () => import('@/views/Pay/PayResult.vue'),
         },
         {
           path: 'member',

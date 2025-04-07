@@ -16,8 +16,7 @@
         <v-col cols="3">
           <v-card class="mx-auto" rounded="l" elevation="4">
             <v-list>
-              <v-list-item prepend-avatar="https://cdn.vuetifyjs.com/images/john.png" subtitle="john@google.com"
-                title="John Leider">
+              <v-list-item :prepend-avatar="userStore.userInfo?.avatar" subtitle="john@google.com" title="John Leider">
               </v-list-item>
             </v-list>
 
@@ -47,6 +46,10 @@
 
 <script setup>
 import FSFullCategoryNav from '@/components/FSFullCategoryNav.vue';
+import { useUserStore } from '@/stores/user'
+
+const userStore = useUserStore()
+
 const items = [
   { text: '个人信息', icon: 'mdi-account', path: '/member/info' },
   { text: '收货地址', icon: 'mdi-map-marker', path: '/member/address' },

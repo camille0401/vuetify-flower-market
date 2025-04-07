@@ -9,7 +9,7 @@
           <RouterLink to="/">首页</RouterLink>
         </li>
         <li v-for="category in categoryStore.categoryList" :key="category.id">
-          <RouterLink active-class="active" :to="`/category/${category.id}`">{{ category.name }}</RouterLink>
+          <RouterLink active-class="active" :to="`/category/1/${category.id}`">{{ category.cname }}</RouterLink>
         </li>
       </ul>
     </div>

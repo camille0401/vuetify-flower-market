@@ -1,6 +1,6 @@
 <template>
   <div class="home-product">
-    <HomePanel :title="cate.name" v-for="cate in goodsProduct" :key="cate.id">
+    <HomePanel :title="cate.cname" v-for="cate in goodsProduct" :key="cate.id">
       <template #main>
         <div class="box">
           <ul class="goods-list">
@@ -17,15 +17,15 @@
 <script setup name="HomeProduct">
 import HomePanel from './HomePanel.vue'
 import GoodsItem from '@/components/FSGoodsItem.vue'
-import { getGoodsAPI } from '@/apis/home'
+import { getHomeGoodsAPI } from '@/apis/home'
 import { ref, onMounted } from 'vue'
 
 const goodsProduct = ref([])
-const getGoods = async () => {
-  const res = await getGoodsAPI()
-  goodsProduct.value = res?.result || []
+const getHomeGoods = async () => {
+  const res = await getHomeGoodsAPI()
+  goodsProduct.value = res.slice(0, 8) || []
 }
-onMounted(() => getGoods())
+onMounted(() => getHomeGoods())
 
 </script>
 
@@ -96,10 +96,6 @@ onMounted(() => getGoods())
     }
 
     .goods-list {
-      // width: 990px;
-      // flex: 1;
-      // display: flex;
-      // flex-wrap: wrap;
       width: 100%;
       display: grid;
       grid-template-columns: repeat(4, calc((100% - 30px) / 4));
@@ -107,9 +103,7 @@ onMounted(() => getGoods())
 
       li {
         width: 100%;
-        height: 300px;
-        // margin-right: 10px;
-        // margin-bottom: 10px;
+        // height: 300px;
 
         &:nth-last-child(-n + 4) {
           margin-bottom: 0;
@@ -120,42 +114,6 @@ onMounted(() => getGoods())
         }
       }
     }
-
-    // .goods-item {
-    //   display: block;
-    //   width: 220px;
-    //   padding: 20px 30px;
-    //   text-align: center;
-    //   transition: all .5s;
-
-    //   &:hover {
-    //     transform: translate3d(0, -3px, 0);
-    //     box-shadow: 0 3px 8px rgb(0 0 0 / 20%);
-    //   }
-
-    //   img {
-    //     width: 160px;
-    //     height: 160px;
-    //   }
-
-    //   p {
-    //     padding-top: 10px;
-    //   }
-
-    //   .name {
-    //     font-size: 16px;
-    //   }
-
-    //   .desc {
-    //     color: #999;
-    //     height: 29px;
-    //   }
-
-    //   .price {
-    //     color: $priceColor;
-    //     font-size: 20px;
-    //   }
-    // }
   }
 }
 </style>

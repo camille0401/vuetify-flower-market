@@ -9,9 +9,9 @@ const baseURL =
 
 // 创建axios实例
 const request = axios.create({
-  // baseURL: baseURL,
+  baseURL,
   // 'http://pcapi-xiaotuxian-front-devtest.itheima.net',
-  baseURL: 'http://pcapi-xiaotuxian-front-devtest.itheima.net',
+  // baseURL: 'http://pcapi-xiaotuxian-front-devtest.itheima.net',
   timeout: 5000,
   showLoading: true,
 })
@@ -35,6 +35,7 @@ request.interceptors.request.use(
 request.interceptors.response.use(
   (res) => {
     //关闭全局loading
+    console.log(res)
     return Promise.resolve(res.data)
   },
   (error) => {

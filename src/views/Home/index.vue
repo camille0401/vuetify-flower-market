@@ -1,6 +1,5 @@
 <template>
   <div class="fs-home-page pb-10">
-    <HomeNav />
     <div class='container home-content'>
       <HomeCategory />
       <HomeBanner />
@@ -13,7 +12,6 @@
 
 <script setup name='Home'>
 import { defineAsyncComponent, onMounted } from 'vue';
-import HomeNav from './components/HomeNav.vue';
 import HomeCategory from './components/HomeCategory.vue';
 import HomeBanner from './components/HomeBanner.vue';
 

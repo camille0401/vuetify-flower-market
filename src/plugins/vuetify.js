@@ -12,13 +12,13 @@ const fsCustomTheme = {
   },
   colors: {
     background: '#FAFAFA',
-    primary: '#795548',
+    primary: '#880E4F',
     // surface: '#000000',
     secondary: '#0d1117',
     success: '#009688',
-    error: '#f78166', // 错误色
-    info: '#2196F3', // 信息色
-    warning: '#FFC107', // 警告色
+    // error: '#f78166', // 错误色
+    // info: '#2196F3', // 信息色
+    // warning: '#FFC107', // 警告色
     'on-surface	': '#FFFFFF',
   },
   variables: {

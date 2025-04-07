@@ -14,10 +14,7 @@
       </div>
       <!-- 种类 -->
       <div class="strain-box">
-        <a href="javascript:void(0);">バラ本</a>
-        <a href="javascript:void(0);">コスモス</a>
-        <a href="javascript:void(0);">チューリップ</a>
-        <a href="javascript:void(0);">カーネーション</a>
+        <RouterLink v-for="item in categoryStore.categoryList" :key="item.id" to="">{{ item.cname }}</RouterLink>
       </div>
       <!-- menu -->
       <div class="menu-box m-bottom-20">
@@ -203,6 +200,10 @@
 
 <script setup>
 import FSFullCategoryNav from '@/components/FSFullCategoryNav.vue';
+import { useCategoryStore } from '@/stores/category'
+
+const categoryStore = useCategoryStore()
+
 </script>
 
 <style lang="scss" scoped>

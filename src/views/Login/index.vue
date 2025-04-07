@@ -47,7 +47,6 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/user'
 import { useToast } from "vue-toastification";
-import $snackbar from '@/components/FSSnackbar';
 import EmailTextField from './components/EmailTextField.vue';
 import PasswordTextField from './components/PasswordTextField.vue';
 import PasswordCheckTextField from './components/PasswordCheckTextField.vue';
