@@ -1,87 +1,79 @@
-<!-- <template>
-  <nav class="fs-app-topnav">
-    <div class="container">
-      <ul>
-        <template v-if="userStore?.userInfo?.token">
-          <li>
-            <RouterLink to="/member/info">
-              <v-icon>mdi-magnify</v-icon>
-              {{ userStore?.userInfo?.account }}
-            </RouterLink>
-          </li>
-          <li>
-            <el-popconfirm @confirm="confirmLogout" title="确认退出吗?" confirm-button-text="确认" cancel-button-text="取消">
-              <template #reference>
-                <a href="javascript:;">退出登录</a>
-              </template>
-            </el-popconfirm>
-          </li>
-          <li>
-            <RouterLink to="/member/order">我的订单</RouterLink>
-          </li>
-          <li>
-            <RouterLink to="/member/home">会员中心</RouterLink>
-          </li>
-        </template>
-        <template v-else>
-          <li>
-            <RouterLink to="/login">请先登录</RouterLink>
-          </li>
-          <li><a href="javascript:void(0);">帮助中心</a></li>
-          <li><a href="javascript:void(0);">关于我们</a></li>
-        </template>
-        <li>
-          <a href="javascript:void(0);">
-            <v-icon class="mr-1">mdi-phone</v-icon>4009-939-002
-          </a>
-        </li>
-      </ul>
-    </div>
-  </nav>
-</template> -->
 <template>
   <nav class="fs-app-topnav">
     <v-toolbar color="grey-darken-4" title="">
       <div class="container nav-box">
         <template v-if="userStore?.userInfo?.token">
-          <v-btn to="/member/info">
+          <v-btn color="error" to="/member/info">
             {{ userStore?.userInfo?.account }}
           </v-btn>
-          <v-btn to="/member/order">
+          <v-btn color="error" to="/member/order">
             我的订单
           </v-btn>
-          <v-btn to="/member/home">
+          <v-btn color="error" to="/member/home">
             会员中心
           </v-btn>
-          <v-btn prepend-icon="mdi-logout">
+          <!-- 退出登录 -->
+          <v-dialog v-model="logout_dialog" max-width="500" transition="scale-transition">
+            <template #activator="{ props }">
+              <v-btn v-bind="props" color="error" variant="text">
+                <v-icon start>mdi-logout</v-icon>
+                logout
+              </v-btn>
+            </template>
+
+            <v-card>
+              <v-card-text>
+                <div class="text-body-1">
+                  确定要退出当前登录账号吗？
+                </div>
+                <div class="text-caption text-medium-emphasis mt-2">
+                  退出后将需要重新登录才能访问受保护内容
+                </div>
+              </v-card-text>
+
+              <v-card-actions class="justify-end">
+                <v-btn variant="text" @click="logout_dialog = false">
+                  取消
+                </v-btn>
+                <v-btn color="error" variant="tonal" @click="confirmLogout">
+                  确认退出
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+          <!-- <v-btn prepend-icon="mdi-logout">
             logout
-          </v-btn>
+          </v-btn> -->
         </template>
         <template v-else>
-          <v-btn to="/login" prepend-icon="mdi-login">
+          <v-btn color="error" to="/login" prepend-icon="mdi-login">
             Login
           </v-btn>
-          <v-btn>
+          <v-btn color="error">
             帮助中心
           </v-btn>
-          <v-btn>
+          <v-btn color="error">
             关于我们
           </v-btn>
         </template>
-        <v-btn prepend-icon="mdi-phone">4009-939-002</v-btn>
+        <v-btn color="error" prepend-icon="mdi-phone">4009-939-002</v-btn>
       </div>
     </v-toolbar>
   </nav>
 </template>
 
 <script setup>
-import FSCartIcon from './FSCartIcon.vue'
+import { ref } from 'vue'
 import { useUserStore } from '@/stores/user'
 import { useRouter } from 'vue-router'
 
 const userStore = useUserStore()
 const router = useRouter()
+
+const logout_dialog = ref(false)
+
 const confirmLogout = () => {
+  logout_dialog.value = false;
   userStore.clearUserInfo()
   // 2.跳转到登录页
   router.push('/login')

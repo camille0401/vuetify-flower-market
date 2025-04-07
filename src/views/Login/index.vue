@@ -43,17 +43,17 @@
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue'
+import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/user'
-import { useToast } from 'vue-toast-notification';
-import 'vue-toast-notification/dist/theme-sugar.css';
+import { useToast } from "vue-toastification";
 import $snackbar from '@/components/FSSnackbar';
 import EmailTextField from './components/EmailTextField.vue';
 import PasswordTextField from './components/PasswordTextField.vue';
 import PasswordCheckTextField from './components/PasswordCheckTextField.vue';
 import SocialButtons from './components/SocialButtons.vue';
-const $toast = useToast();
+
+const toast = useToast();
 const userStore = useUserStore();
 const router = useRouter();
 
@@ -78,23 +78,15 @@ const loginForm = ref({
   password: ""
 })
 const doLogin = async () => {
-  // $toast.open({
-  //   message: '登录成功',
-  //   type: 'info',
-  //   position: 'top'
-  // })
-
   const { valid } = await loginFormRef.value.validate()
-  console.log(valid)
   if (valid) {
     console.log(loginForm.value)
     const { account, password } = loginForm.value
     userStore.login({ account, password })
     // 1. 提示用户
-    $snackbar.show({
-      color: "success",
-      message: "登录成功"
-    })
+    toast.success("登录成功", {
+      timeout: 2000
+    });
     // 2. 跳转首页
     router.replace({ path: '/' })
   }
@@ -108,11 +100,7 @@ const registerForm = ref({
   checkPassword: ""
 })
 const doRegister = async () => {
-  // $toast.open({
-  //   message: '登录成功',
-  //   type: 'info',
-  //   position: 'top'
-  // })
+
 
 }
 
