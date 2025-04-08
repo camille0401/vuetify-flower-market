@@ -2,7 +2,6 @@
 
 <template>
   <div class="fs-member-page" style="padding-bottom: 40px">
-    <FSFullCategoryNav />
     <div class="container">
       <!-- 面包屑 -->
       <div class="bread-box">
@@ -14,9 +13,9 @@
       </div>
       <v-row>
         <v-col cols="3">
-          <v-card class="mx-auto" rounded="l" elevation="4">
+          <v-card class="mx-auto" rounded="l" elevation="4" style="height: 100%;">
             <v-list>
-              <v-list-item :prepend-avatar="userStore.userInfo?.avatar" subtitle="john@google.com" title="John Leider">
+              <v-list-item :title="userStore.userInfo?.nickName" :subtitle="userStore.userInfo?.email" >
               </v-list-item>
             </v-list>
 
@@ -45,7 +44,6 @@
 </template>
 
 <script setup>
-import FSFullCategoryNav from '@/components/FSFullCategoryNav.vue';
 import { useUserStore } from '@/stores/user'
 
 const userStore = useUserStore()

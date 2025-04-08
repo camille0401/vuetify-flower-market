@@ -6,8 +6,8 @@ import request from '@/utils/request'
  */
 export const getCartListAPI = () => {
   return request({
-    url: '/member/cart',
-    method: 'GET',
+    url: '/flower/carts',
+    method: 'GET'
   })
 }
 
@@ -16,14 +16,45 @@ export const getCartListAPI = () => {
  * @data {*}
  * @return {*}
  */
-export const insertCartAPI = ({ skuId, count }) => {
+export const insertCartAPI = ({ goodsCount, goodsId, selected }) => {
   return request({
-    url: '/member/cart',
+    url: '/flower/carts',
     method: 'POST',
     data: {
-      skuId,
-      count,
-    },
+      goodsCount,
+      goodsId,
+      selected
+    }
+  })
+}
+
+/**
+ * @description: update-cart-api
+ * @data {*}
+ * @return {*}
+ */
+export const updateCartAPI = ({ goodsCount, goodsId, selected }) => {
+  return request({
+    url: '/flower/carts',
+    method: 'PUT',
+    data: {
+      goodsCount,
+      goodsId,
+      selected
+    }
+  })
+}
+
+/**
+ * @description: update-cart-api
+ * @data {*}
+ * @return {*}
+ */
+export const selectedCartAPI = (data) => {
+  return request({
+    url: '/flower/carts/selected',
+    method: 'PUT',
+    data
   })
 }
 
@@ -33,12 +64,11 @@ export const insertCartAPI = ({ skuId, count }) => {
  * @return {*}
  */
 export const deleteCartAPI = (ids) => {
+  const idstring = ids.join(',')
   return request({
-    url: '/member/cart',
-    method: 'POST',
-    data: {
-      ids,
-    },
+    url: `/flower/carts`,
+    method: 'DELETE',
+    params: {ids: idstring}
   })
 }
 
@@ -49,8 +79,8 @@ export const deleteCartAPI = (ids) => {
  */
 export const mergeCartAPI = (data) => {
   return request({
-    url: '/member/cart/merge',
+    url: '/flower/carts/merge',
     method: 'POST',
-    data,
+    data
   })
 }

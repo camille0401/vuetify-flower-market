@@ -9,14 +9,14 @@
         </v-text-field>
         <v-btn color="primary" size="x-large">検索</v-btn>
       </div>
-      <FSCartIcon />
+      <CartIcon />
     </div>
   </header>
 </template>
 
 <script setup name="LayoutHeader">
 import FSLogo from "@/components/FSLogo.vue";
-import FSCartIcon from "./FSCartIcon.vue";
+import CartIcon from "@/views/CartList/components/CartIcon.vue";
 
 import { ref } from 'vue'
 

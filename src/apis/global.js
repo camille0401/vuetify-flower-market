@@ -7,6 +7,6 @@ import request from '@/utils/request'
  */
 export function getHomeGoodsTypeAPI() {
   return request({
-    url: '/flower/home/goodsType',
+    url: '/flower/home/goodsType'
   })
 }

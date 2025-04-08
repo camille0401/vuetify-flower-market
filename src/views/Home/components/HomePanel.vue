@@ -1,12 +1,10 @@
 <template>
-  <div class="home-panel">
+  <div class="home-panel mb-4">
     <div class="head">
-      <!-- 主标题和副标题 -->
       <h3>
         {{ title }}<small>{{ subTitle }}</small>
       </h3>
     </div>
-    <!-- 主体内容区域 -->
     <slot name="main"></slot>
   </div>
 </template>

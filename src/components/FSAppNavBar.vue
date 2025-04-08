@@ -2,14 +2,14 @@
   <nav class="fs-app-topnav">
     <v-toolbar color="grey-darken-4" title="">
       <div class="container nav-box">
-        <template v-if="userStore?.userInfo?.token">
+        <template v-if="userStore?.token">
           <v-btn color="#f78166" to="/member/info">
-            {{ userStore?.userInfo?.account }}
+            Welcome {{ userStore?.userInfo?.nickName }}
           </v-btn>
           <v-btn color="#f78166" to="/member/order">
             我的订单
           </v-btn>
-          <v-btn color="#f78166" to="/member/home">
+          <v-btn color="#f78166" to="/member/info">
             会员中心
           </v-btn>
           <!-- 退出登录 -->
@@ -46,15 +46,15 @@
           </v-btn> -->
         </template>
         <template v-else>
-          <v-btn color="#f78166" to="/login" prepend-icon="mdi-login">
+          <v-btn color="#f78166" to="/user/login" prepend-icon="mdi-login">
             Login
           </v-btn>
-          <v-btn color="#f78166">
+          <!-- <v-btn color="#f78166">
             帮助中心
           </v-btn>
           <v-btn color="#f78166">
             关于我们
-          </v-btn>
+          </v-btn> -->
         </template>
         <v-btn color="#f78166" prepend-icon="mdi-phone">XXXXXXX</v-btn>
       </div>
@@ -76,7 +76,7 @@ const confirmLogout = () => {
   logout_dialog.value = false;
   userStore.clearUserInfo()
   // 2.跳转到登录页
-  router.push('/login')
+  router.push('/user/login')
 }
 
 </script>

@@ -7,11 +7,11 @@ import request from '@/utils/request'
  */
 export function getDetailAPI(id) {
   return request({
-    url: `/goods`,
+    url: `/flower/goods/goods`,
     method: 'GET',
     params: {
-      id,
-    },
+      id
+    }
   })
 }
 
@@ -24,6 +24,6 @@ export function getDetailHotAPI(params) {
   return request({
     url: `/goods/hot`,
     method: 'GET',
-    params,
+    params
   })
 }

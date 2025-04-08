@@ -8,7 +8,6 @@
               <th width="120">
                 <v-checkbox color="primary" hide-details :model-value="cartStore.cartIsAll"
                   @update:model-value="(e) => handleAllChange(e)"></v-checkbox>
-
               </th>
               <th width="400">商品信息</th>
               <th width="220" style="text-align: center;">单价</th>
@@ -19,10 +18,10 @@
           </thead>
           <!-- 商品列表 -->
           <tbody>
-            <tr v-for="cart in cartStore.cartList" :key="cart.id">
+            <tr v-for="cart in cartStore.cartList" :key="cart.goodsId">
               <td>
-                <v-checkbox color="primary" hide-details :model-value="cart.selected"
-                  @update:model-value="(e) => handleSingleChange(e, cart.skuId)"></v-checkbox>
+                <v-checkbox color="primary" hide-details :model-value="cart.selected?true:false"
+                  @update:model-value="(e) => handleSingleChange(e, cart.goodsId)"></v-checkbox>
               </td>
               <td>
                 <div class="goods">
@@ -38,41 +37,21 @@
                 <p>&yen;{{ cart.price }}</p>
               </td>
               <td class="tc">
-                <v-number-input v-model="cart.count" width="100%" color="primary" variant="outlined"
-                  control-variant="split" :min="0" hide-details inset></v-number-input>
+                <v-number-input
+                  v-model="cart.count"
+                  @update:modelValue="handleInput(cart)"
+                  width="100%" color="primary" variant="outlined"
+                  control-variant="split" :min="0"  hide-details inset>
+                </v-number-input>
               </td>
               <td class="tc">
                 <p class="f16 red">&yen;{{ (cart.price * cart.count).toFixed(2) }}</p>
               </td>
               <td class="tc">
                 <div>
-                  <v-dialog v-model="deleteDialog" max-width="500" transition="scale-transition">
-                    <template #activator="{ props }">
-                      <v-btn v-bind="props" color="error" variant="text">
-                        删除
-                      </v-btn>
-                    </template>
-
-                    <v-card>
-                      <v-card-text>
-                        <div class="text-body-1">
-                          确认删除吗？
-                        </div>
-                        <div class="text-caption text-medium-emphasis mt-2">
-                          此操作不可撤销！
-                        </div>
-                      </v-card-text>
-
-                      <v-card-actions class="justify-end">
-                        <v-btn variant="text" @click="deleteDialog = false">
-                          取消
-                        </v-btn>
-                        <v-btn color="error" variant="tonal" @click="handleDelCart(cart.skuId)">
-                          确认删除
-                        </v-btn>
-                      </v-card-actions>
-                    </v-card>
-                  </v-dialog>
+                  <v-btn size="small" icon color="error" class="ml-2" @click="handleDelCart(cart.goodsId)">
+                    <v-icon>mdi-delete</v-icon>
+                  </v-btn>
                 </div>
               </td>
             </tr>
@@ -97,7 +76,7 @@
           <span class="red">¥ {{ cartStore.cartSelectedPrice }} </span>
         </div>
         <div class="total">
-          <!-- <v-btn v-show="cartStore.cartIsAll" class="mr-4" color="error" size="large" variant="outlined">删除</v-btn> -->
+          <v-btn class="mr-4" color="error" size="large" variant="outlined" @click="handleDelAllCart">删除</v-btn>
           <v-btn color="primary" size="large" variant="flat" @click="toSettlementPage">下单结算</v-btn>
         </div>
       </div>
@@ -111,22 +90,33 @@ import { useCartStore } from '@/stores/cart';
 import { useRouter } from 'vue-router';
 import FSEmptyPannel from '@/components/FSEmptyPannel.vue';
 
-const cartStore = useCartStore();
+const cartStore = useCartStore()
 
-const deleteDialog = ref(false);
 // 单个删除
-const handleDelCart = (skuId) => {
-  cartStore.delCart(skuId)
-  deleteDialog.value = false;
+const handleDelCart = (goodsId) => {
+  cartStore.delCart(goodsId)
 }
 
-const handleSingleChange = (e, skuId) => {
-  cartStore.singleCheck(skuId, e)
+const handleSingleChange = (e, goodsId) => {
+  cartStore.singleCheck(goodsId, e)
 }
 
 const handleAllChange = (e) => {
   cartStore.allCheck(e)
 }
+
+// 多个删除
+const handleDelAllCart = () => {
+  const goodsIds = cartStore.cartList.filter(item=>item.selected).map(item=>item.goodsId)
+  if(goodsIds.length!==0){
+    cartStore.delAllCart(goodsIds)
+  }
+}
+
+const handleInput = (goods) => {
+  cartStore.countChange(goods)
+}
+
 const router = useRouter();
 const toSettlementPage = () => {
   router.push({ path: "/settlement" })
@@ -134,7 +124,6 @@ const toSettlementPage = () => {
 const toHomePage = () => {
   router.push({ path: "/" })
 }
-
 
 
 </script>

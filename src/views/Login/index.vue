@@ -2,7 +2,6 @@
   <div class="fs-login-page">
     <section class="login-section">
       <div class="container">
-        <!-- 登录 -->
         <div class="form-box" v-show="isLogin">
           <h1>Welcome Back</h1>
           <v-form ref="loginFormRef" @submit.prevent="doLogin">
@@ -18,8 +17,8 @@
             </v-btn>
           </v-form>
           <p class="p">Don't have an account? <span class="span" @click="showRegister">Sign Up</span> </p>
-          <p class="p line">Or With</p>
-          <SocialButtons />
+          <!-- <p class="p line">Or With</p> -->
+          <!-- <SocialButtons /> -->
         </div>
         <!-- 注册 -->
         <div class="form-box" v-show="!isLogin">
@@ -34,8 +33,8 @@
             </v-btn>
           </v-form>
           <p class="p">Already have an acount <span class="span" @click="showLogin">Sign In</span> </p>
-          <p class="p line">Or With</p>
-          <SocialButtons />
+          <!-- <p class="p line">Or With</p> -->
+          <!-- <SocialButtons /> -->
         </div>
       </div>
     </section>
@@ -73,15 +72,15 @@ const showLogin = () => {
 const loginFormRef = ref()
 const loading = ref(false)
 const loginForm = ref({
-  account: "",
+  username: "",
   password: ""
 })
 const doLogin = async () => {
   const { valid } = await loginFormRef.value.validate()
   if (valid) {
     console.log(loginForm.value)
-    const { account, password } = loginForm.value
-    userStore.login({ account, password })
+    const { username, password } = loginForm.value
+    await userStore.login({ username, password })
     // 1. 提示用户
     toast.success("登录成功", {
       timeout: 2000
@@ -94,12 +93,24 @@ const doLogin = async () => {
 // 注册
 const registerFormRef = ref()
 const registerForm = ref({
-  account: "",
+  username: "1231@qq.com",
   password: "",
   checkPassword: ""
 })
 const doRegister = async () => {
-
+  const { valid } = await registerFormRef.value.validate()
+  if (valid) {
+    const { username, password } = registerForm.value
+    const nickname = username.split("@")[0]
+    const res = await userStore.register({ username, nickname, password })
+    console.log(res)
+    if (res) {
+      toast.success("注册成功,请登录", {
+        timeout: 2000
+      });
+      showLogin.value = true;
+    }
+  }
 
 }
 
@@ -130,52 +141,6 @@ const doRegister = async () => {
   p {
     font-size: 14px;
     color: #FFF;
-  }
-
-  .toHome {
-    --line: #e84393;
-    --color: #e84393;
-    text-decoration: none;
-    color: var(--color);
-    position: relative;
-
-    span {
-      background-image: linear-gradient(0deg, var(--line) 0%, var(--line) 100%);
-      background-position: 100% 100%;
-      background-repeat: no-repeat;
-      background-size: var(--background-size, 100%) 1px;
-      transition: background-size .2s linear var(--background-delay, .15s);
-      font-size: 16px;
-      line-height: 20px;
-      transform: translateZ(0);
-    }
-
-    svg {
-      vertical-align: top;
-      display: inline;
-      line-height: 1;
-      width: 13px;
-      height: 20px;
-      position: relative;
-      left: -2px;
-      fill: none;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-      stroke-width: 1px;
-      stroke: var(--line);
-      stroke-dasharray: 7.95 30;
-      stroke-dashoffset: var(--stroke-dashoffset, 46);
-      transition: stroke-dashoffset var(--stroke-duration, .15s) var(--stroke-easing, linear) var(--stroke-delay, 0s);
-    }
-
-    &:hover {
-      --background-size: 0%;
-      --background-delay: 0s;
-      --stroke-dashoffset: 26;
-      --stroke-duration: .3s;
-      --stroke-easing: cubic-bezier(.3, 1.5, .5, 1);
-      --stroke-delay: .195s;
-    }
   }
 }
 

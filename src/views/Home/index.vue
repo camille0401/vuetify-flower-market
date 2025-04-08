@@ -2,27 +2,29 @@
   <div class="fs-home-page pb-10">
     <div class='container home-content'>
       <HomeCategory />
-      <HomeBanner />
-      <HomeNew />
-      <HomeHot />
+      <div class="home-banner">
+        <img src="@/assets/images/login-bg.jpg" width="100%" height="500" alt="">
+      </div>
       <HomeProduct />
     </div>
   </div>
 </template>
 
-<script setup name='Home'>
-import { defineAsyncComponent, onMounted } from 'vue';
+<script setup>
+import { defineAsyncComponent } from 'vue';
 import HomeCategory from './components/HomeCategory.vue';
-import HomeBanner from './components/HomeBanner.vue';
 
-// const HomeNav = defineAsyncComponent(() => import('./components/HomeNav.vue'));
-// const HomeBanner = defineAsyncComponent(() => import('./components/HomeBanner.vue'));
-// const HomeCategory = defineAsyncComponent(() => import('./components/HomeCategory.vue'));
-const HomeNew = defineAsyncComponent(() => import('./components/HomeNew.vue'));
-const HomeHot = defineAsyncComponent(() => import('./components/HomeHot.vue'));
 const HomeProduct = defineAsyncComponent(() => import('./components/HomeProduct.vue'));
-
 
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.home-banner {
+  width: 1240px;
+  height: 500px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 98;
+}
+</style>

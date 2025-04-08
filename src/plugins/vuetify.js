@@ -8,34 +8,33 @@ import * as directives from 'vuetify/directives'
 const fsCustomTheme = {
   dark: false,
   light: {
-    primary: 'red',
+    primary: 'red'
   },
   colors: {
-    background: '#FAFAFA',
     primary: '#880E4F',
-    // surface: '#000000',
-    secondary: '#0d1117',
-    success: '#009688',
-    // error: '#f78166', // 错误色
-    // info: '#2196F3', // 信息色
-    // warning: '#FFC107', // 警告色
-    'on-surface	': '#FFFFFF',
+    secondary: '#E91E63',
+    surface: '#FFFFFF',
+    accent: '#9c27b0',
+    error: '#f44336',
+    warning: '#ff9800',
+    info: '#2196f3',
+    success: '#4caf50'
   },
   variables: {
-    'font-size-root': '12px',
-  },
+    'font-size-root': '12px'
+  }
 }
 
 export default createVuetify({
   theme: {
     defaultTheme: 'light',
     themes: {
-      light: fsCustomTheme,
-    },
+      light: fsCustomTheme
+    }
   },
   icons: {
-    defaultSet: 'mdi',
+    defaultSet: 'mdi'
   },
   components,
-  directives,
+  directives
 })

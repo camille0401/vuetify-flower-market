@@ -1,18 +1,13 @@
 <template>
   <div class="fs-flower-goods-page">
-    <div class="container" v-if="detailData.details">
+    <div class="container" v-if="detailData">
       <div class="bread-container">
-        <v-breadcrumbs bg-color="primary">
+        <v-breadcrumbs color="primary">
           <v-breadcrumbs-item :to="{ path: '/' }">首页</v-breadcrumbs-item>
           <v-breadcrumbs-divider divider=">"></v-breadcrumbs-divider>
-          <v-breadcrumbs-item :to="{ path: '/category/' + detailData?.categories?.[1].id }">
-            {{ detailData?.categories?.[1].name }}</v-breadcrumbs-item>
-          <v-breadcrumbs-divider divider=">"></v-breadcrumbs-divider>
-          <v-breadcrumbs-item :to="{ path: '/category/sub/' + detailData?.categories?.[0].id }">
-            {{ detailData?.categories?.[0].name }}</v-breadcrumbs-item>
-          <v-breadcrumbs-divider divider=">"></v-breadcrumbs-divider>
-          <v-breadcrumbs-item :disabled="true">{{ detailData.name }}</v-breadcrumbs-item>
+          <v-breadcrumbs-item :disabled="true">{{ detailData.cname }}</v-breadcrumbs-item>
         </v-breadcrumbs>
+
       </div>
       <!-- 商品信息 -->
       <div class="info-container">
@@ -22,7 +17,7 @@
               <!-- 图片预览区 -->
               <FSImageView :image-list="detailData.mainPictures || []" />
               <!-- 统计数量 -->
-              <ul class="goods-sales">
+              <!-- <ul class="goods-sales">
                 <li>
                   <p>销量人气</p>
                   <p>{{ detailData.salesCount }}+ </p>
@@ -43,67 +38,48 @@
                   <p>{{ detailData.brand?.name }}</p>
                   <p><i class="iconfont icon-dynamic-filling"></i>品牌主页</p>
                 </li>
-              </ul>
+              </ul> -->
             </div>
             <div class="spec">
-              <!-- 商品信息区 -->
-              <p class="g-name">{{ detailData.name }}</p>
-              <p class="g-desc">{{ detailData.desc }}</p>
-              <p class="g-price">
-                <span>{{ detailData.oldPrice }}</span>
-                <span> {{ detailData.price }}</span>
-              </p>
-              <div class="g-service">
-                <dl>
-                  <dt>促销</dt>
-                  <dd>12月好物放送，App领券购买直降120元</dd>
-                </dl>
-                <dl>
-                  <dt>服务</dt>
-                  <dd>
-                    <span>无忧退货</span>
-                    <span>快速退款</span>
-                    <span>免费包邮</span>
-                    <a href="javascript:;">了解详情</a>
-                  </dd>
-                </dl>
-              </div>
-              <!-- sku组件 -->
-              <FSGoodsSku :goods="detailData" @change="handleSkuChange" />
-              <!-- 数据组件 -->
-              <!-- <el-input-number v-model="count" /> -->
-              <v-number-input v-model="count" width="200px" variant="outlined" control-variant="split" :min="0"
-                hide-details inset></v-number-input>
-              <!-- 按钮组件 -->
-              <v-btn color="primary" elevation="8" size="x-large" @click="handleAddCart">加入购物车</v-btn>
+              <v-card class="wx-auto pa-4" style="height: 100%;" color="#EEEEEE" elevation="0">
+                <v-card-item>
+                  <v-card-title>{{ detailData.cname }}</v-card-title>
+                  <v-card-subtitle>{{ detailData.describes }}</v-card-subtitle>
+                </v-card-item>
+                <v-card-item>
+                  <v-divider></v-divider>
+                </v-card-item>
+                <v-card-item>
+                  <div class="g-service">
+                    <p class="g-price">单价：<span>{{detailData.price || '0'}}</span></p>
+                    <p class="g-price">总计：<span>{{ allPrice }}</span></p>
+                  </div>
+                </v-card-item>
+                <v-card-item>
+                  <div class="goods-count-box">
+                    <label>数量：</label>
+                    <v-number-input v-model="count" width="100" variant="outlined" control-variant="split"
+                      :min="0" :max="detailData.inventory" hide-details inset></v-number-input>
+                    <span>库存量：{{detailData.inventory || '0'}}件</span>
+                    <span>已售：{{detailData.salesCount || '0'}}件</span>
+                  </div>
+                <!-- 按钮组件 -->
+              </v-card-item>
+                <v-card-item>
+                  <v-btn color="primary" elevation="8" size="large" @click="handleAddCart">加入购物车</v-btn>
+                </v-card-item>
+              </v-card>
             </div>
           </div>
           <div class="goods-footer">
-            <div class="goods-article">
-              <!-- 商品详情 -->
-              <div class="goods-tabs">
-                <nav>
-                  <a>商品详情</a>
-                </nav>
-                <div class="goods-detail">
-                  <!-- 属性 -->
-                  <ul class="attrs">
-                    <li v-for="item in detailData?.details?.properties" :key="item.value">
-                      <span class="dt">{{ item.name }}</span>
-                      <span class="dd">{{ item.value }}</span>
-                    </li>
-                  </ul>
-                  <!-- 图片 -->
-                  <img v-for="img in detailData.details?.pictures" :src="img" :key="img" alt="">
-                </div>
+            <!-- 商品详情 -->
+            <div class="goods-tabs">
+              <nav>
+                <span>商品详情</span>
+              </nav>
+              <div class="goods-detail">
+                <img v-for="img in detailData.detailPictures" :src="img" :key="img" alt="">
               </div>
-            </div>
-            <!-- 24热榜+专题推荐 -->
-            <div class="goods-aside">
-              <!-- 24小时 -->
-              <DetailHot :hot-type="1" />
-              <!-- 周 -->
-              <DetailHot :hot-type="2" />
             </div>
           </div>
         </div>
@@ -113,12 +89,11 @@
 </template>
 
 <script setup name="Detail">
-import DetailHot from './components/DetailHot.vue';
 import FSImageView from '@/components/FSImageView.vue';
-import FSGoodsSku from '@/components/FSSku/index.vue';
-import { useToast } from "vue-toastification";
+// import FSGoodsSku from '@/components/FSSku/index.vue';
+import { useToast } from 'vue-toastification'
 import { getDetailAPI } from '@/apis/detail';
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { onBeforeRouteUpdate, useRoute } from 'vue-router';
 import { useCartStore } from '@/stores/cart';
 
@@ -131,34 +106,32 @@ const count = ref(1); //input-count
 const detailData = ref({});
 const getDetailData = async (id = route.params.id) => {
   const res = await getDetailAPI(id);
-  detailData.value = res?.result || {};
+  detailData.value = res || {};
 }
 onMounted(() => getDetailData());
 onBeforeRouteUpdate((to) => {
   getDetailData(to.params.id)
 })
-// sku-change
-let skuObj = {}
-const handleSkuChange = (sku) => {
-  skuObj = sku
-}
+
+const allPrice = computed(()=>detailData.value.price * count.value || 0)
 
 const handleAddCart = () => {
-  if (skuObj.skuId) {
+  if(count.value===0){
+    toast.warning('请先输入数量')
+  }else {
     cartStore.addCart({
-      id: detailData.value.id,
-      name: detailData.value.name,
-      picture: detailData.value.mainPictures[0],
-      price: detailData.value.price,
+      ...detailData.value,
       count: count.value,
-      skuId: skuObj.skuId,
-      attrsText: skuObj.specsText,
-      selected: true
+      selected: 1,
+      picture: detailData.value?.mainPictures?.[0],
+      goodsId: detailData.value?.id,
+      // id: detailData.value.id,
+      // name: detailData.value.goodsCnName,
+      // price: detailData.value.price,
+      // count: count.value,
+      // skuId: skuObj.skuId,
+      // attrsText: skuObj.specsText,
     })
-  } else {
-    // 规格没有选择 提示用户
-    // ElMessage.warning('请先选择规格')
-    toast.error('请先选择规格')
   }
 }
 
@@ -167,22 +140,27 @@ const handleAddCart = () => {
 <style lang='scss' scoped>
 .fs-flower-goods-page {
   .goods-info {
-    min-height: 600px;
-    background: #fff;
     display: flex;
+    min-height: 400px;
+    padding: 30px 50px;
+    background: #fff;
 
     .media {
       width: 580px;
-      height: 600px;
-      padding: 30px 50px;
     }
 
     .spec {
       flex: 1;
-      padding: 30px 30px 30px 0;
+      height: 400px;
     }
   }
 
+  .goods-count-box{
+    display: flex;
+    align-items: center;
+    column-gap: 20px;
+    font-size: 14px;
+  }
   .goods-footer {
     display: flex;
     margin-top: 20px;
@@ -229,8 +207,16 @@ const handleAddCart = () => {
     margin-top: 10px;
   }
 
+  .g-service {
+    background: #f5f5f5;
+    width: 500px;
+    padding: 10px 20px;
+  }
+
   .g-price {
-    margin-top: 10px;
+    line-height: 40px;
+    display: flex;
+    align-items: center;
 
     span {
       &::before {
@@ -242,53 +228,14 @@ const handleAddCart = () => {
         color: $priceColor;
         margin-right: 10px;
         font-size: 22px;
+        line-height: 50px;
       }
 
-      &:last-child {
-        color: #999;
-        text-decoration: line-through;
-        font-size: 16px;
-      }
+
     }
   }
 
-  .g-service {
-    background: #f5f5f5;
-    width: 500px;
-    padding: 20px 10px 0 10px;
-    margin-top: 10px;
 
-    dl {
-      padding-bottom: 20px;
-      display: flex;
-      align-items: center;
-
-      dt {
-        width: 50px;
-        color: #999;
-      }
-
-      dd {
-        color: #666;
-
-        &:last-child {
-          span {
-            margin-right: 10px;
-
-            &::before {
-              content: "•";
-              color: $fs-base-color-dark;
-              margin-right: 2px;
-            }
-          }
-
-          a {
-            color: $fs-base-color-dark;
-          }
-        }
-      }
-    }
-  }
 
   .goods-sales {
     display: flex;

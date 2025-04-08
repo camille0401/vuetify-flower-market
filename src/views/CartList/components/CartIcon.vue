@@ -5,28 +5,27 @@
     </v-badge>
     <div class="layer" v-if="cartListLength > 0">
       <div class="list">
-        <div class="item" v-for="cart in cartStore.cartList" :key="cart.skuId">
-          <RouterLink to="">
+        <div class="item" v-for="cart in cartStore.cartList" :key="cart.goodsId">
+          <RouterLink :to="'/detail/'+cart.goodsId">
             <img :src="cart.picture" alt="" />
             <div class="center">
               <p class="name ellipsis-2">
                 {{ cart.name }}
               </p>
-              <p class="attr ellipsis">{{ cart.attrsText }}</p>
+              <!-- <p class="attr ellipsis">{{ cart.attrsText }}</p> -->
             </div>
             <div class="right">
-              <p class="price">&yen;{{ cart.price }}</p>
+              <p class="price">{{ cart.price }}</p>
               <p class="count">x{{ cart.count }}</p>
             </div>
           </RouterLink>
-          <!-- <i class="iconfont icon-close-new" @click="handleDeleteCart(cart.skuId)"></i> -->
-          <v-icon icon="mdi-close" @click="handleDeleteCart(cart.skuId)"></v-icon>
+          <v-icon icon="mdi-close" @click="handleDeleteCart(cart.goodsId)"></v-icon>
         </div>
       </div>
       <div class="foot">
         <div class="total">
           <p>共 {{ cartStore.cartAllCount }} 件商品</p>
-          <p>&yen; {{ cartStore.cartAllPrice }} </p>
+          <p>{{ cartStore.cartAllPrice }} </p>
         </div>
         <v-btn size="large" color="primary" @click="toCartListPage">去购物车结算</v-btn>
       </div>
@@ -45,8 +44,9 @@ const cartListLength = computed(() => cartStore.cartList.length);
 //
 // console.log(cartListLength.value)
 // item-delete-btn
-const handleDeleteCart = (skuId) => {
-  cartStore.delCart(skuId)
+const handleDeleteCart = (goodsId) => {
+  console.log(goodsId)
+  cartStore.delCart(goodsId)
 }
 const toCartListPage = () => {
   router.push('/cartlist')
@@ -58,9 +58,8 @@ const toCartListPage = () => {
 .fs-cart-icon {
   position: relative;
   width: 50px;
-  text-align: right;
   z-index: 600;
-
+  border: 1px solid red;
   &:hover {
     .layer {
       opacity: 1;

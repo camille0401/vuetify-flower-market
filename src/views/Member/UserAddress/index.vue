@@ -1,95 +1,127 @@
-<!-- <template>
-  <div class="fs-member-useraddress-container">
-    <div class="add-btns">
-      <el-button type="primary">添加收货地址</el-button>
-    </div>
-
-    <el-table :data="tableData" style="width: 100%">
-      <el-table-column prop="consignee" label="收货人" width="180" />
-      <el-table-column prop="address" label="收获地址" width="180" />
-      <el-table-column prop="phone" label="联系电话" />
-      <el-table-column label="操作">
-        <template #default="scope">
-          <el-button size="small">
-            Edit
-          </el-button>
-          <el-button size="small" type="danger">
-            Delete
-          </el-button>
-        </template>
-      </el-table-column>
-    </el-table>
-  </div>
-</template> -->
 <template>
   <v-card class="mx-auto pa-4" rounded="l" elevation="4">
     <v-card-item>
-      <v-card-action>
-        <v-btn color="primary">添加收货地址</v-btn>
-      </v-card-action>
+      <v-btn color="primary" @click="openCreateDialog"><v-icon class="mr-2">mdi-pen-plus</v-icon>添加地址</v-btn>
     </v-card-item>
     <v-card-item>
       <v-divider></v-divider>
     </v-card-item>
     <v-card-item>
-      <v-table>
-        <thead>
-          <tr>
-            <th class="text-left">
-              收货人
-            </th>
-            <th class="text-left">
-              收获地址
-            </th>
-            <th class="text-left">
-              联系电话
-            </th>
-            <th class="text-left">
-              操作
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(item, index) in tableData" :key="index">
-            <td>{{ item.consignee }}</td>
-            <td>{{ item.address }}</td>
-            <td>{{ item.phone }}</td>
-            <td class="member-add-actions">
-              <v-btn size="small" color="success">编辑</v-btn>
-              <v-btn size="small" color="error">删除</v-btn>
-            </td>
-          </tr>
-        </tbody>
-      </v-table>
+      <!-- 地址表格 -->
+      <v-data-table :headers="headers" :items="addressStore.addressList" hide-default-footer>
+        <template v-slot:item.isDefault="{ item }">
+          <v-switch :model-value="item.isDefault" color="primary" :true-value="1" :false-value="0" hide-details
+            @update:modelValue="toggleDefault(item.id, $event)"></v-switch>
+        </template>
+        <!-- 操作列 -->
+        <template #item.actions="{ item }">
+          <v-btn size="x-small" icon color="primary" @click="openEditDialog(item)">
+            <v-icon>mdi-pencil</v-icon>
+          </v-btn>
+
+          <v-btn size="x-small" icon color="error" class="ml-2" @click="openDeleteDialog(item.id)">
+            <v-icon>mdi-delete</v-icon>
+          </v-btn>
+        </template>
+      </v-data-table>
     </v-card-item>
   </v-card>
+  <!-- 编辑对话框 -->
+  <v-dialog v-model="editDialog" max-width="600">
+    <AddressForm :initial-data="selectedAddress" @submit="handleSubmit" @close="editDialog = false" />
+  </v-dialog>
+
+  <!-- 删除确认对话框 -->
+  <v-dialog v-model="deleteDialog" max-width="500">
+    <v-card>
+      <v-card-title class="text-h6">
+        <v-icon color="error" class="mr-2">mdi-alert-circle</v-icon>
+        确认删除？
+      </v-card-title>
+      <v-card-text> 确定要删除这个地址吗？此操作不可撤销。 </v-card-text>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn color="grey" @click="deleteDialog = false">取消</v-btn>
+        <v-btn color="error" @click="confirmDelete"> 确认删除 </v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue'
+import { useAddressStore } from '@/stores/address'
+import AddressForm from './components/AddressForm.vue'
 
-const tableData = ref([
-  {
-    consignee: 'lucy',
-    address: '浙江杭州市西湖区秋雅元',
-    phone: '189****0909',
-  },
-  {
-    consignee: 'lucy',
-    address: '浙江杭州市西湖区秋雅元',
-    phone: '189****0909',
-  },
-  {
-    consignee: 'lucy',
-    address: '浙江杭州市西湖区秋雅元',
-    phone: '189****0909'
-  },
-  {
-    consignee: 'lucy',
-    address: '浙江杭州市西湖区秋雅元',
-    phone: '189****0909',
-  },
-])
+// 表格列配置
+const headers = [
+  { title: '收货人', key: 'recipient',sortable: false },
+  { title: '联系方式', key: 'phone' ,sortable: false},
+  { title: '详细地址', key: 'address' ,value: (item) => `${item.prefecture} ${item.city} ${item.address}`,sortable: false },
+  { title: '默认地址', key: 'isDefault',sortable: false },
+  { title: '操作', key: 'actions', sortable: false }
+]
+
+const addressStore = useAddressStore()
+// 组件状态
+const deleteDialog = ref(false)
+const editDialog = ref(false)
+const selectedId = ref(null)
+const selectedAddress = ref(null)
+
+// 生命周期钩子
+onMounted(() => {
+  addressStore.fetchAddresses()
+})
+
+// 删除操作
+const openDeleteDialog = (id) => {
+  selectedId.value = id
+  deleteDialog.value = true
+}
+
+const confirmDelete = async () => {
+  try {
+    await addressStore.deleteAddress(selectedId.value)
+    deleteDialog.value = false
+  } catch (err) {
+    console.error('删除失败:', err)
+  }
+}
+
+// 切换默认地址
+const toggleDefault = async (id, newValue) => {
+  try {
+    await addressStore.updateDefaultStatus(id, newValue)
+  } catch (err) {
+    console.error('状态更新失败:', err)
+  }
+}
+
+// 表单处理
+const openCreateDialog = () => {
+  selectedAddress.value = null
+  editDialog.value = true
+}
+
+const openEditDialog = (address) => {
+  selectedAddress.value = { ...address }
+  editDialog.value = true
+}
+
+const handleSubmit = async (formData) => {
+  try {
+    if (formData.id) {
+      await addressStore.updateAddress(formData)
+    } else {
+      await addressStore.createAddress(formData)
+    }
+    editDialog.value = false
+  } catch (err) {
+    console.error('保存失败:', err)
+  }
+}
+
 </script>
 
 <style lang="scss" scoped>

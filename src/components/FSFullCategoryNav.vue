@@ -1,19 +1,23 @@
 <template>
-  <div class="fs-full-category-nav-box">
-    <div class="container">
-      <RouterLink to="/allCategories" class="left-box" active-class="active">
-        <span>所有分类</span>
-      </RouterLink>
-      <ul class="right-box">
-        <li>
-          <RouterLink to="/">首页</RouterLink>
-        </li>
-        <li v-for="category in categoryStore.categoryList" :key="category.id">
-          <RouterLink active-class="active" :to="`/category/1/${category.id}`">{{ category.cname }}</RouterLink>
-        </li>
-      </ul>
+  <v-sheet color="primary">
+    <div class="fs-full-category-nav-box">
+      <div class="container">
+        <v-sheet color="secondary">
+          <RouterLink to="/allCategories" class="left-box" active-class="active">
+            <span>所有分类</span>
+          </RouterLink>
+        </v-sheet>
+        <ul class="right-box">
+          <li>
+            <RouterLink to="/">首页</RouterLink>
+          </li>
+          <li v-for="category in categoryStore.categoryList" :key="category.id">
+            <RouterLink active-class="active" :to="`/category/1/${category.id}`">{{ category.cname }}</RouterLink>
+          </li>
+        </ul>
+      </div>
     </div>
-  </div>
+  </v-sheet>
 </template>
 
 <script setup>
@@ -25,10 +29,7 @@ const categoryStore = useCategoryStore();
 <style lang="scss" scoped>
 // category
 .fs-full-category-nav-box {
-  $--active-color: #8D6E63;
-
   width: 100%;
-  background: $fs-base-color-dark;
 
   .container {
     display: flex;
@@ -38,7 +39,6 @@ const categoryStore = useCategoryStore();
       align-items: center;
       justify-content: center;
       width: 250px;
-      background: #8D6E63;
       font-size: 18px;
       line-height: 52px;
       font-weight: bold;
@@ -47,7 +47,6 @@ const categoryStore = useCategoryStore();
 
       &.active {
         color: #ffffff;
-        background-color: $--active-color;
       }
     }
 
@@ -57,7 +56,7 @@ const categoryStore = useCategoryStore();
       display: flex;
       align-items: center;
       flex-wrap: wrap;
-      color: #ffffff;
+      // color: #ffffff;
       z-index: 998;
       flex-shrink: 0;
       padding-left: 20px;
@@ -68,17 +67,15 @@ const categoryStore = useCategoryStore();
         font-size: 16px;
         line-height: 32px;
         color: inherit;
-        padding: 10px 15px;
+        padding: 10px 25px;
 
         &:hover {
-          color: #ffffff;
-          background-color: $--active-color;
+          background-color: $fs-hover-color;
         }
       }
 
       .active {
-        color: #ffffff;
-        background-color: $--active-color;
+        background-color: $fs-hover-color;
       }
 
     }

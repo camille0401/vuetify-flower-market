@@ -17,7 +17,6 @@
     height: 100px;
     font-size: 25px;
     line-height: 60px;
-    color: $fs-base-color-dark;
     align-items: center;
     font-weight: 700;
     // text-indent: -9999px;

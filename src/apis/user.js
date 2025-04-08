@@ -1,15 +1,32 @@
 import request from '@/utils/request'
 
-/**
- * @description: category-page-data
- * @data {*}
- * @return {*}
- */
 export function loginAPI(data) {
   return request({
-    url: `/login`,
+    url: `/auth/login`,
     method: 'POST',
-    data,
+    data
+  })
+}
+
+export function registerAPI(data) {
+  return request({
+    url: `/auth/create`,
+    method: 'POST',
+    data
+  })
+}
+
+export const userInfoAPI = () => {
+  return request({
+    url: '/auth/info',
+    method: 'GET'
+  })
+}
+
+export const logoutAPI = () => {
+  return request({
+    url: '/auth/logout',
+    method: 'DELETE'
   })
 }
 
@@ -17,7 +34,7 @@ export const getLikeListAPI = ({ limit = 4 }) => {
   return request({
     url: '/goods/relevant',
     params: {
-      limit,
-    },
+      limit
+    }
   })
 }

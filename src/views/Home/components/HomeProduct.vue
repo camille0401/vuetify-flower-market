@@ -3,9 +3,16 @@
     <HomePanel :title="cate.cname" v-for="cate in goodsProduct" :key="cate.id">
       <template #main>
         <div class="box">
+          <RouterLink class="cover" :to="`/category/1/${cate.id}`">
+            <img v-img-lazy="cate.picture" />
+            <strong class="label">
+              <span>{{ cate.cname }}</span>
+              <!-- <span>{{ cate.saleInfo }}</span> -->
+            </strong>
+          </RouterLink>
           <ul class="goods-list">
-            <li v-for="goods in cate.goods" :key="goods.id">
-              <GoodsItem :goods="goods" />
+            <li v-for="goods in cate.goods.slice(0, 8)" :key="goods.id">
+              <FSGoodsItem :goods="goods" />
             </li>
           </ul>
         </div>
@@ -16,14 +23,14 @@
 
 <script setup name="HomeProduct">
 import HomePanel from './HomePanel.vue'
-import GoodsItem from '@/components/FSGoodsItem.vue'
+import FSGoodsItem from '@/components/FSGoodsItem.vue'
 import { getHomeGoodsAPI } from '@/apis/home'
 import { ref, onMounted } from 'vue'
 
 const goodsProduct = ref([])
 const getHomeGoods = async () => {
   const res = await getHomeGoodsAPI()
-  goodsProduct.value = res.slice(0, 8) || []
+  goodsProduct.value = res || []
 }
 onMounted(() => getHomeGoods())
 
@@ -31,7 +38,7 @@ onMounted(() => getHomeGoods())
 
 <style scoped lang='scss'>
 .home-product {
-  margin-top: 20px;
+  margin-top: 40px;
 
   .sub {
     margin-bottom: 2px;
@@ -53,12 +60,13 @@ onMounted(() => getHomeGoods())
   }
 
   .box {
+    height: 610px;
     display: flex;
+    column-gap: 10px;
 
     .cover {
       width: 240px;
-      height: 610px;
-      margin-right: 10px;
+      height: 100%;
       position: relative;
 
       img {
@@ -67,7 +75,7 @@ onMounted(() => getHomeGoods())
       }
 
       .label {
-        width: 188px;
+        width: 100%;
         height: 66px;
         display: flex;
         font-size: 18px;
@@ -83,7 +91,7 @@ onMounted(() => getHomeGoods())
           text-align: center;
 
           &:first-child {
-            width: 76px;
+            flex: 1;
             background: rgba(0, 0, 0, 0.9);
           }
 
@@ -96,22 +104,17 @@ onMounted(() => getHomeGoods())
     }
 
     .goods-list {
-      width: 100%;
       display: grid;
       grid-template-columns: repeat(4, calc((100% - 30px) / 4));
+      // grid-template-columns: repeat(4, 240px);
+      grid-template-rows: repeat(2, calc((100% - 10px) / 2));
       gap: 10px;
+      width: calc(100% - 250px);
+      height: 100%;
+      overflow: hidden;
 
       li {
         width: 100%;
-        // height: 300px;
-
-        &:nth-last-child(-n + 4) {
-          margin-bottom: 0;
-        }
-
-        &:nth-child(4n) {
-          margin-right: 0;
-        }
       }
     }
   }

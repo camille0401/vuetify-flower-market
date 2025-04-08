@@ -3,10 +3,12 @@
     <ul class="menu">
       <li v-for="category in categoryStore.categoryList" :key="category.id">
         <p class="main-menu">
-          <RouterLink to="/">{{ category.cname }}</RouterLink>
+          <RouterLink :to="`/category/1/${category.id}`">{{ category.cname }}</RouterLink>
         </p>
         <div class="sub-menu">
-          <RouterLink v-for="child in category.children" :key="child.id" to="/">{{ child.cname }}</RouterLink>
+          <RouterLink v-for="child in category.children" :key="child.id" :to="`/category/2/${child.id}`">
+            {{ child.cname }}
+          </RouterLink>
         </div>
       </li>
     </ul>

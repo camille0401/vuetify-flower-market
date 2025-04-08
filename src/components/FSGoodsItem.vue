@@ -1,10 +1,12 @@
 <template>
-  <RouterLink :to="`/detail/${goods.id}`" class="goods-item">
-    <img v-img-lazy="goods.picture" alt="" />
-    <p class="name ellipsis">{{ goods.cname }}</p>
-    <!-- <p class="desc ellipsis">{{ goods.desc }}</p> -->
-    <!-- <p class="price">&yen;{{ goods.price }}</p> -->
-  </RouterLink>
+  <v-card class="mx-auto" color="#EEEEEE" elevation="0" style="height: 100%;">
+    <RouterLink :to="`/detail/${goods.id}`" class="goods-item">
+      <img v-img-lazy="goods.picture" alt="" />
+      <p class="name ellipsis">{{ goods.cname }}</p>
+      <!-- <p class="desc ellipsis">{{ goods.desc }}</p> -->
+      <!-- <p class="price">&yen;{{ goods.price }}</p> -->
+    </RouterLink>
+  </v-card>
 </template>
 
 <script setup name="FSGoodsItem">
@@ -23,8 +25,8 @@ defineProps({
   height: 100%;
   padding: 20px 30px;
   text-align: center;
-  transition: all .5s;
-  background: #ffffff;
+  transition: all 0.5s;
+  // background: #ffffff;
 
   &:hover {
     transform: translate3d(0, -3px, 0);

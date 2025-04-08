@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import { loginAPI } from '@/apis/user'
+import { loginAPI, registerAPI } from '@/apis/user'
 import { useCartStore } from './cart'
 
 export const useUserStore = defineStore(
@@ -10,23 +10,31 @@ export const useUserStore = defineStore(
     const token = ref('')
     const cartStore = useCartStore()
 
-    const getUserInfo = (data) => {
-      userInfo.value = data
-      token.value = data.token
-    }
-
     const clearUserInfo = () => {
       userInfo.value = {}
       token.value = ''
     }
 
+    const getUserInfo = async (data) => {
+      token.value = data.token
+      userInfo.value = data.user
+      // const res = await userInfoAPI()
+      // if (res) {
+      // }
+    }
+
     const login = async (value) => {
       const res = await loginAPI(value)
-      if (res.code === '1') {
-        getUserInfo(res.result)
+      if (res) {
+        getUserInfo(res)
         // 合并购物车
         cartStore.mergeCartList()
       }
+    }
+
+    const register = async (value) => {
+      const res = await registerAPI(value)
+      return Promise.resolve(res)
     }
 
     return {
@@ -35,9 +43,10 @@ export const useUserStore = defineStore(
       getUserInfo,
       clearUserInfo,
       login,
+      register
     }
   },
   {
-    persist: true,
-  },
+    persist: true
+  }
 )

@@ -18,26 +18,28 @@
         </v-avatar>
         <div class="form-group">
           <v-form ref="userinfoFormRef">
-            <v-text-field v-model="userInfoForm.userName" color="primary" label="User name"
+            <v-text-field v-model="userInfoForm.username" color="primary" label="User name"
               variant="underlined"></v-text-field>
 
-            <v-select v-model="userInfoForm.gender" color="primary" label="Gender" variant="underlined"
-              :items="[{ title: '男', value: 0 }, { title: '女', value: 1 }]">
-
-            </v-select>
-
-            <v-text-field v-model="userInfoForm.birthday" color="primary" label="Birthday"
-              variant="underlined"></v-text-field>
-
-            <!-- <v-date-picker ></v-date-picker> -->
-
-            <v-text-field v-model="userInfoForm.phone" color="primary" label="Phone"
+            <v-text-field v-model="userInfoForm.nickName" color="primary" label="Nick name"
               variant="underlined"></v-text-field>
 
             <v-text-field v-model="userInfoForm.email" color="primary" label="Email"
               variant="underlined"></v-text-field>
+            <!-- <v-select v-model="userInfoForm.gender" color="primary" label="Gender" variant="underlined"
+                :items="[{ title: '男', value: 0 }, { title: '女', value: 1 }]">
 
-            <v-btn color="primary" size="x-large" type="submit" variant="elevated" block>submit</v-btn>
+              </v-select>
+
+              <v-text-field v-model="userInfoForm.birthday" color="primary" label="Birthday"
+                variant="underlined"></v-text-field> -->
+
+            <!-- <v-date-picker ></v-date-picker> -->
+
+            <!-- <v-text-field v-model="userInfoForm.phone" color="primary" label="Phone"
+                variant="underlined"></v-text-field> -->
+
+            <v-btn color="primary" size="x-large" variant="elevated" block @click="handleSubmit">submit</v-btn>
           </v-form>
         </div>
       </div>
@@ -46,49 +48,37 @@
 </template>
 
 <script setup>
-// import { getLikeListAPI } from '@/apis/user'
-import { ref } from 'vue'
+import { ref, watchEffect } from 'vue'
 import { useUserStore } from '@/stores/user'
-// import GoodsItem from '@/views/Home/components/GoodsItem.vue'
+import { useToast } from 'vue-toastification'
+
+const toast = useToast()
 
 const userStore = useUserStore()
 
 const userinfoFormRef = ref(null);
 const userInfoForm = ref({
-  avatar: "",
-  userName: "",
-  gender: 1,
-  birthday: "",
-  phone: "",
+  username: "",
   email: "",
+  nickName: "",
+  // avatar: "",
+  // gender: 1,
+  // birthday: "",
+  // phone: "",
 
 })
 
-const form = ref()
+// 初始化表单数据
+watchEffect(() => {
+  if (userStore.userInfo) {
+    userInfoForm.value = { ...userStore?.userInfo }
+  }
+})
 
-const items = [
-  'Item 1',
-  'Item 2',
-  'Item 3',
-  'Item 4',
-]
+const handleSubmit = () => {
+  toast.warning("开发中")
 
-const nameRules = ref([
-  v => !!v || 'Name is required',
-  v => (v && v.length <= 10) || 'Name must be 10 characters or less',
-])
-const EmailRules = ref([
-  value => {
-    if (value) return true
-
-    return 'E-mail is required.'
-  },
-  value => {
-    if (/.+@.+\..+/.test(value)) return true
-
-    return 'E-mail must be valid.'
-  },
-])
+}
 
 </script>
 

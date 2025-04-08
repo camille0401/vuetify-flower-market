@@ -25,7 +25,7 @@ const showHome = computed(() => props.position === 'category' || props.position 
 </script>
 
 <style lang="scss" scoped>
-$--active-color: $fs-base-color-dark;
+$--active-color: $fs-hover-color;
 
 .fs-category-nav-list {
   position: relative;

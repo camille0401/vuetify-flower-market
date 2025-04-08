@@ -8,9 +8,9 @@ import { lazyImgPlugin } from '@/plugins/lazyImg'
 
 // Vuetify
 import vuetify from './plugins/vuetify'
-import Toast from "vue-toastification";
+import Toast from 'vue-toastification'
 // 导入CSS文件，或者使用自己的样式
-import "vue-toastification/dist/index.css";
+import 'vue-toastification/dist/index.css'
 
 import './styles/common.scss'
 
@@ -20,6 +20,6 @@ app.use(createPinia().use(piniaPluginPersistedstate))
 app.use(router)
 app.use(lazyImgPlugin)
 app.use(vuetify)
-app.use(Toast, {});
+app.use(Toast, {})
 
 app.mount('#app')

@@ -17,27 +17,17 @@ const router = createRouter({
         {
           path: '',
           name: 'home',
-          component: () => import('@/views/Home/index1.vue'),
-        },
-        {
-          path: '/index',
-          name: 'index',
-          component: () => import('@/views/Home/index1.vue'),
+          component: () => import('@/views/Home/index.vue'),
         },
         {
           path: 'allCategories',
           name: 'allCategories',
           component: () => import('@/views/AllCategories/index.vue'),
         },
-        // {
-        //   path: 'category/:id',
-        //   name: 'category',
-        //   component: () => import('@/views/Category/index.vue'),
-        // },
         {
           path: 'category/:type/:id',
           name: 'category',
-          component: () => import('@/views/Category/index1.vue'),
+          component: () => import('@/views/Category/index.vue'),
         },
         {
           path: 'category/sub/:id',
@@ -103,9 +93,24 @@ const router = createRouter({
       ],
     },
     {
-      path: '/login',
-      name: 'login',
-      component: () => import('@/views/Login/index.vue'),
+      path: '/user',
+      component: () => import('@/views/User/index.vue'),
+      children: [
+        {
+          path: '',
+          component: () => import('@/views/User/login.vue'),
+        },
+        {
+          path: 'login',
+          name: 'login',
+          component: () => import('@/views/User/login.vue'),
+        },
+        {
+          path: 'register',
+          name: 'register',
+          component: () => import('@/views/User/register.vue'),
+        },
+      ],
     },
     {
       path: '/:pathMatch(.*)',
