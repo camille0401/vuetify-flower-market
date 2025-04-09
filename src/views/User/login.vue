@@ -5,15 +5,15 @@
       <EmailTextField v-model="loginForm" />
       <PasswordTextField v-model="loginForm" />
       <div class="d-flex justify-space-between">
-        <v-checkbox label="Remember me"></v-checkbox>
+        <v-checkbox label="记住我" hide-details></v-checkbox>
         <a href="javascript:void(0);" class="d-flex align-center span forget">忘记密码?</a>
       </div>
       <br>
       <v-btn :loading="loading" color="primary" size="x-large" type="submit" variant="elevated" block>
-        Sign In
+        登录
       </v-btn>
     </v-form>
-    <p class="p">Don't have an account? <span class="span" @click="toRegister">Sign Up</span> </p>
+    <p class="p">Don't have an account? <span class="span" @click="toRegister">去注册</span> </p>
     <!-- <p class="p line">Or With</p> -->
     <!-- <SocialButtons /> -->
   </div>

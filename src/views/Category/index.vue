@@ -8,13 +8,20 @@
         <v-breadcrumbs-item :disabled="true">{{ categoryData.cname }}</v-breadcrumbs-item>
       </v-breadcrumbs>
       <v-breadcrumbs color="primary" v-else>
-        <v-breadcrumbs-item :to="{ path: '/' }">首页</v-breadcrumbs-item>
-        <v-breadcrumbs-divider divider=">"></v-breadcrumbs-divider>
-        <v-breadcrumbs-item :to="`/category/1/${categoryData.id}`">{{ categoryData.cname }}</v-breadcrumbs-item>
-        <v-breadcrumbs-divider divider=">"></v-breadcrumbs-divider>
-        <v-breadcrumbs-item :disabled="true">{{ subCategoryData.cname }}</v-breadcrumbs-item>
+        <template v-if="categoryData.id">
+          <v-breadcrumbs-item :to="{ path: '/' }">首页</v-breadcrumbs-item>
+          <v-breadcrumbs-divider divider=">"></v-breadcrumbs-divider>
+          <v-breadcrumbs-item :to="`/category/1/${categoryData.id}`">{{ categoryData.cname }}</v-breadcrumbs-item>
+          <v-breadcrumbs-divider divider=">"></v-breadcrumbs-divider>
+          <v-breadcrumbs-item :disabled="true">{{ subCategoryData.cname }}</v-breadcrumbs-item>
+        </template>
+        <template v-else>
+          <v-breadcrumbs-item :to="{ path: '/' }">首页</v-breadcrumbs-item>
+          <v-breadcrumbs-divider divider=">"></v-breadcrumbs-divider>
+          <v-breadcrumbs-item :disabled="true">{{ subCategoryData.cname }}</v-breadcrumbs-item>
+        </template>
       </v-breadcrumbs>
-      <v-card class="mx-auto pa-4 mb-4">
+      <v-card class="mx-auto pa-4 mb-4" elevation="1">
         <v-card-item>
           <div class="category-type-box">
             <div class="title">分类</div>

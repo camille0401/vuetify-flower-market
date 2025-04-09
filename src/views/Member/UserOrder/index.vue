@@ -27,7 +27,7 @@ const getOrderList = async () => {
   total.value = res.result.counts
 }
 
-onMounted(() => getOrderList())
+// onMounted(() => getOrderList())
 
 // tab切换
 const tabChange = (type) => {
@@ -57,97 +57,23 @@ const fomartPayState = (payState) => {
 }
 </script>
 <template>
-  <v-card class="mx-auto pa-4" rounded="l" elevation="4">
+  <v-card class="mx-auto pa-4" rounded="l" elevation="4" style="height: 100%;">
     <v-card-item>
-      <v-tabs v-model="tab" color="deep-purple-accent-4">
+      <v-tabs v-model="tab" color="primary">
         <v-tab v-for="tab in tabTypes" :key="tab.name" :value="tab.name">{{ tab.label }}</v-tab>
       </v-tabs>
     </v-card-item>
 
     <v-card-item>
-      <div class="main-container">
-        <!-- <div class="holder-container" v-if="orderList.length === 0">
-          <v-empty-state text="No data."></v-empty-state>
-        </div> -->
-        <div>
-          <!-- 订单列表 -->
-          <div class="order-item" v-for="order in 3" :key="order.id">
-            <div class="head">
-              <span>下单时间：{{ order.createTime }}</span>
-              <span>订单编号：{{ order.id }}</span>
-              <!-- 未付款，倒计时时间还有 -->
-              <span class="down-time" v-if="order.orderState === 1">
-                <i class="iconfont icon-down-time"></i>
-                <b>付款截止: {{ order.countdown }}</b>
-              </span>
-            </div>
-            <div class="body">
-              <div class="column goods">
-                <ul>
-                  <li v-for="item in order.skus" :key="item.id">
-                    <a class="image" href="javascript:;">
-                      <img :src="item.image" alt="" />
-                    </a>
-                    <div class="info">
-                      <p class="name ellipsis-2">
-                        {{ item.name }}
-                      </p>
-                      <p class="attr ellipsis">
-                        <span>{{ item.attrsText }}</span>
-                      </p>
-                    </div>
-                    <div class="price">¥{{ item.realPay?.toFixed(2) }}</div>
-                    <div class="count">x{{ item.quantity }}</div>
-                  </li>
-                </ul>
-              </div>
-              <div class="column state">
-                <p>{{ fomartPayState(order.orderState) }}</p>
-                <p v-if="order.orderState === 3">
-                  <a href="javascript:;" class="green">查看物流</a>
-                </p>
-                <p v-if="order.orderState === 4">
-                  <a href="javascript:;" class="green">评价商品</a>
-                </p>
-                <p v-if="order.orderState === 5">
-                  <a href="javascript:;" class="green">查看评价</a>
-                </p>
-              </div>
-              <div class="column amount">
-                <p class="red">¥{{ order.payMoney?.toFixed(2) }}</p>
-                <p>（含运费：¥{{ order.postFee?.toFixed(2) }}）</p>
-                <p>在线支付</p>
-              </div>
-              <div class="column action">
-                <el-button v-if="order.orderState === 1" type="primary" size="small">
-                  立即付款
-                </el-button>
-                <el-button v-if="order.orderState === 3" type="primary" size="small">
-                  确认收货
-                </el-button>
-                <p><a href="javascript:;">查看详情</a></p>
-                <p v-if="[2, 3, 4, 5].includes(order.orderState)">
-                  <a href="javascript:;">再次购买</a>
-                </p>
-                <p v-if="[4, 5].includes(order.orderState)">
-                  <a href="javascript:;">申请售后</a>
-                </p>
-                <p v-if="order.orderState === 1"><a href="javascript:;">取消订单</a></p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <v-alert title="开发中" type="warning"></v-alert>
     </v-card-item>
 
     <!-- 分页 -->
-    <v-card-item>
+    <!-- <v-card-item>
       <div class="pagination-container">
-        <!-- <el-pagination :total="total" @current-change="pageChange" :page-size="params.pageSize" background
-          layout="prev, pager, next" /> -->
         <v-pagination v-model="page" :length="4" color="primary" size="small" rounded="circle"></v-pagination>
       </div>
-    </v-card-item>
+    </v-card-item> -->
   </v-card>
 </template>
 

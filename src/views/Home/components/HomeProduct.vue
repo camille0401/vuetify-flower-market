@@ -1,5 +1,5 @@
 <template>
-  <div class="home-product">
+  <div class="home-product mt-10">
     <HomePanel :title="cate.cname" v-for="cate in goodsProduct" :key="cate.id">
       <template #main>
         <div class="box">
@@ -38,7 +38,7 @@ onMounted(() => getHomeGoods())
 
 <style scoped lang='scss'>
 .home-product {
-  margin-top: 40px;
+  // margin-top: 40px;
 
   .sub {
     margin-bottom: 2px;

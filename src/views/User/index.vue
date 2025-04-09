@@ -44,7 +44,7 @@
   background: url("@/assets/images/login-bg.jpg");
   background-position: center;
   background-size: cover;
-  padding: 50px;
+  padding: 150px 0;
 
   .container {
     display: flex;

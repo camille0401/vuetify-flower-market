@@ -8,10 +8,10 @@
       <PasswordCheckTextField v-model="registerForm" />
       <br>
       <v-btn :loading="loading" color="primary" size="x-large" type="submit" variant="elevated" block>
-        Sign Up
+        注册
       </v-btn>
     </v-form>
-    <p class="p">Already have an acount <span class="span" @click="toLogin">Sign In</span> </p>
+    <p class="p">Already have an acount <span class="span" @click="toLogin">去登录</span> </p>
     <!-- <p class="p line">Or With</p> -->
     <!-- <SocialButtons /> -->
   </div>
@@ -33,8 +33,9 @@ const router = useRouter();
 
 // 注册
 const registerFormRef = ref()
+
 const registerForm = ref({
-  username: "456@qq.com",
+  username: "",
   password: "",
   checkPassword: ""
 })
@@ -43,6 +44,7 @@ const toLogin = () => {
   router.push("/user/login")
   registerFormRef.value.reset()
 }
+
 const doRegister = async () => {
   const { valid } = await registerFormRef.value.validate()
   if (valid) {

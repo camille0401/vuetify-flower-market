@@ -6,7 +6,7 @@
     <div class="layer" v-if="cartListLength > 0">
       <div class="list">
         <div class="item" v-for="cart in cartStore.cartList" :key="cart.goodsId">
-          <RouterLink :to="'/detail/'+cart.goodsId">
+          <RouterLink :to="'/detail/' + cart.goodsId">
             <img :src="cart.picture" alt="" />
             <div class="center">
               <p class="name ellipsis-2">
@@ -59,7 +59,7 @@ const toCartListPage = () => {
   position: relative;
   width: 50px;
   z-index: 600;
-  border: 1px solid red;
+
   &:hover {
     .layer {
       opacity: 1;

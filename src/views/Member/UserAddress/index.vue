@@ -1,5 +1,5 @@
 <template>
-  <v-card class="mx-auto pa-4" rounded="l" elevation="4">
+  <v-card class="mx-auto pa-4" rounded="l" elevation="4" style="height: 100%;">
     <v-card-item>
       <v-btn color="primary" @click="openCreateDialog"><v-icon class="mr-2">mdi-pen-plus</v-icon>添加地址</v-btn>
     </v-card-item>
@@ -55,10 +55,10 @@ import AddressForm from './components/AddressForm.vue'
 
 // 表格列配置
 const headers = [
-  { title: '收货人', key: 'recipient',sortable: false },
-  { title: '联系方式', key: 'phone' ,sortable: false},
-  { title: '详细地址', key: 'address' ,value: (item) => `${item.prefecture} ${item.city} ${item.address}`,sortable: false },
-  { title: '默认地址', key: 'isDefault',sortable: false },
+  { title: '收货人', key: 'recipient', sortable: false },
+  { title: '联系方式', key: 'phone', sortable: false },
+  { title: '详细地址', key: 'address', value: (item) => `${item.prefecture} ${item.city} ${item.address}`, sortable: false },
+  { title: '默认地址', key: 'isDefault', sortable: false },
   { title: '操作', key: 'actions', sortable: false }
 ]
 

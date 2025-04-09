@@ -1,5 +1,5 @@
 <template>
-  <div class="home-panel mb-4">
+  <div class="home-panel mb-10">
     <div class="head">
       <h3>
         {{ title }}<small>{{ subTitle }}</small>

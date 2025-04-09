@@ -44,7 +44,7 @@ request.interceptors.response.use(
   (error) => {
     console.log(error)
     // 统一错误提示
-    toast.warning(error.message || 'Error', {
+    toast.warning(error.response?.data?.message || error.message, {
       timeout: 2000
     })
     // 401 token timeout

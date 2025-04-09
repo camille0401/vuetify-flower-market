@@ -1,5 +1,5 @@
 <template>
-  <v-card class="mx-auto pa-4" rounded="l" elevation="4">
+  <v-card class="mx-auto pa-4" rounded="l" elevation="4" style="height: 100%;">
     <v-card-item>
       <v-card-title>
         个人信息

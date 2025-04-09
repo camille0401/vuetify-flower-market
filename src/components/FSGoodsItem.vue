@@ -1,5 +1,5 @@
 <template>
-  <v-card class="mx-auto" color="#EEEEEE" elevation="0" style="height: 100%;">
+  <v-card class="mx-auto" color="#FAFAFA" elevation="0" style="height: 100%;">
     <RouterLink :to="`/detail/${goods.id}`" class="goods-item">
       <img v-img-lazy="goods.picture" alt="" />
       <p class="name ellipsis">{{ goods.cname }}</p>

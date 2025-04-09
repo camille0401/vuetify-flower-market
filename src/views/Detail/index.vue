@@ -41,7 +41,7 @@
               </ul> -->
             </div>
             <div class="spec">
-              <v-card class="wx-auto pa-4" style="height: 100%;" color="#EEEEEE" elevation="0">
+              <v-card class="wx-auto pa-4" style="height: 100%;" color="#FAFAFA" elevation="1">
                 <v-card-item>
                   <v-card-title>{{ detailData.cname }}</v-card-title>
                   <v-card-subtitle>{{ detailData.describes }}</v-card-subtitle>
@@ -51,20 +51,20 @@
                 </v-card-item>
                 <v-card-item>
                   <div class="g-service">
-                    <p class="g-price">单价：<span>{{detailData.price || '0'}}</span></p>
+                    <p class="g-price">单价：<span>{{ detailData.price || '0' }}</span></p>
                     <p class="g-price">总计：<span>{{ allPrice }}</span></p>
                   </div>
                 </v-card-item>
                 <v-card-item>
                   <div class="goods-count-box">
                     <label>数量：</label>
-                    <v-number-input v-model="count" width="100" variant="outlined" control-variant="split"
-                      :min="0" :max="detailData.inventory" hide-details inset></v-number-input>
-                    <span>库存量：{{detailData.inventory || '0'}}件</span>
-                    <span>已售：{{detailData.salesCount || '0'}}件</span>
+                    <v-number-input v-model="count" width="100" variant="outlined" control-variant="split" :min="0"
+                      :max="detailData.inventory" hide-details inset></v-number-input>
+                    <span>库存量：{{ detailData.inventory || '0' }}件</span>
+                    <span>已售：{{ detailData.salesCount || '0' }}件</span>
                   </div>
-                <!-- 按钮组件 -->
-              </v-card-item>
+                  <!-- 按钮组件 -->
+                </v-card-item>
                 <v-card-item>
                   <v-btn color="primary" elevation="8" size="large" @click="handleAddCart">加入购物车</v-btn>
                 </v-card-item>
@@ -113,12 +113,12 @@ onBeforeRouteUpdate((to) => {
   getDetailData(to.params.id)
 })
 
-const allPrice = computed(()=>detailData.value.price * count.value || 0)
+const allPrice = computed(() => detailData.value.price * count.value || 0)
 
 const handleAddCart = () => {
-  if(count.value===0){
+  if (count.value === 0) {
     toast.warning('请先输入数量')
-  }else {
+  } else {
     cartStore.addCart({
       ...detailData.value,
       count: count.value,
@@ -155,12 +155,13 @@ const handleAddCart = () => {
     }
   }
 
-  .goods-count-box{
+  .goods-count-box {
     display: flex;
     align-items: center;
     column-gap: 20px;
     font-size: 14px;
   }
+
   .goods-footer {
     display: flex;
     margin-top: 20px;

@@ -11,11 +11,11 @@
           <v-breadcrumbs-item :disabled="true">会员中心</v-breadcrumbs-item>
         </v-breadcrumbs>
       </div>
-      <v-row>
+      <v-row style="min-height: 500px;">
         <v-col cols="3">
           <v-card class="mx-auto" rounded="l" elevation="4" style="height: 100%;">
             <v-list>
-              <v-list-item :title="userStore.userInfo?.nickName" :subtitle="userStore.userInfo?.email" >
+              <v-list-item :title="userStore.userInfo?.nickName" :subtitle="userStore.userInfo?.email">
               </v-list-item>
             </v-list>
 
