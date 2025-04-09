@@ -20,7 +20,7 @@
           <tbody>
             <tr v-for="cart in cartStore.cartList" :key="cart.goodsId">
               <td>
-                <v-checkbox color="primary" hide-details :model-value="cart.selected?true:false"
+                <v-checkbox color="primary" hide-details :model-value="cart.selected ? true : false"
                   @update:model-value="(e) => handleSingleChange(e, cart.goodsId)"></v-checkbox>
               </td>
               <td>
@@ -37,11 +37,8 @@
                 <p>&yen;{{ cart.price }}</p>
               </td>
               <td class="tc">
-                <v-number-input
-                  v-model="cart.count"
-                  @update:modelValue="handleInput(cart)"
-                  width="100%" color="primary" variant="outlined"
-                  control-variant="split" :min="0"  hide-details inset>
+                <v-number-input v-model="cart.count" @update:modelValue="handleInput(cart)" width="100%" color="primary"
+                  variant="outlined" control-variant="split" :min="0" hide-details inset>
                 </v-number-input>
               </td>
               <td class="tc">
@@ -107,8 +104,8 @@ const handleAllChange = (e) => {
 
 // 多个删除
 const handleDelAllCart = () => {
-  const goodsIds = cartStore.cartList.filter(item=>item.selected).map(item=>item.goodsId)
-  if(goodsIds.length!==0){
+  const goodsIds = cartStore.cartList.filter(item => item.selected).map(item => item.goodsId)
+  if (goodsIds.length !== 0) {
     cartStore.delAllCart(goodsIds)
   }
 }

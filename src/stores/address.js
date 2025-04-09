@@ -1,6 +1,12 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import { getAddressAPI, insertAddressAPI, updateAddressAPI, deleteAddressAPI, updateDefaultAddressAPI } from '@/apis/address'
+import {
+  getAddressAPI,
+  insertAddressAPI,
+  updateAddressAPI,
+  deleteAddressAPI,
+  updateDefaultAddressAPI
+} from '@/apis/address'
 import { useToast } from 'vue-toastification'
 
 export const useAddressStore = defineStore(
@@ -37,7 +43,7 @@ export const useAddressStore = defineStore(
     // 更新地址
     const updateAddress = async (address) => {
       try {
-       await updateAddressAPI(address)
+        await updateAddressAPI(address)
         toast.success('更新地址成功')
         fetchAddresses()
       } catch (err) {

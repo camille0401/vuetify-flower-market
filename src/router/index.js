@@ -4,7 +4,7 @@ import 'nprogress/nprogress.css'
 
 //全局进度条的配置
 NProgress.configure({
-  showSpinner: false,
+  showSpinner: false
 })
 
 const router = createRouter({
@@ -17,52 +17,47 @@ const router = createRouter({
         {
           path: '',
           name: 'home',
-          component: () => import('@/views/Home/index.vue'),
+          component: () => import('@/views/Home/index.vue')
         },
         {
           path: 'allCategories',
           name: 'allCategories',
-          component: () => import('@/views/AllCategories/index.vue'),
+          component: () => import('@/views/AllCategories/index.vue')
         },
         {
           path: 'category/:type/:id',
           name: 'category',
-          component: () => import('@/views/Category/index.vue'),
+          component: () => import('@/views/Category/index.vue')
         },
         {
           path: 'category/sub/:id',
           name: 'SubCategory',
-          component: () => import('@/views/SubCategory/index.vue'),
+          component: () => import('@/views/SubCategory/index.vue')
         },
         {
           path: 'detail/:id',
           name: 'detail',
-          component: () => import('@/views/Detail/index.vue'),
+          component: () => import('@/views/Detail/index.vue')
         },
         {
           path: 'cartlist',
           name: 'cartlist',
-          component: () => import('@/views/CartList/index.vue'),
+          component: () => import('@/views/CartList/index.vue')
         },
         {
           path: 'settlement',
           name: 'settlement',
-          component: () => import('@/views/Settlement/index.vue'),
-        },
-        {
-          path: 'settlement1',
-          name: 'settlement1', ////测试
-          component: () => import('@/views/Settlement/index1.vue'),
+          component: () => import('@/views/Settlement/index.vue')
         },
         {
           path: 'pay',
           name: 'pay',
-          component: () => import('@/views/Pay/index.vue'),
+          component: () => import('@/views/Pay/index.vue')
         },
         {
           path: 'pay/result',
           name: 'payResult',
-          component: () => import('@/views/Pay/PayResult.vue'),
+          component: () => import('@/views/Pay/PayResult.vue')
         },
         {
           path: 'member',
@@ -76,21 +71,21 @@ const router = createRouter({
             {
               path: 'info',
               name: 'member-userinfo',
-              component: () => import('@/views/Member/UserInfo/index.vue'),
+              component: () => import('@/views/Member/UserInfo/index.vue')
             },
             {
               path: 'address',
               name: 'member-useraddress',
-              component: () => import('@/views/Member/UserAddress/index.vue'),
+              component: () => import('@/views/Member/UserAddress/index.vue')
             },
             {
               path: 'order',
               name: 'member-userorder',
-              component: () => import('@/views/Member/UserOrder/index.vue'),
-            },
-          ],
-        },
-      ],
+              component: () => import('@/views/Member/UserOrder/index.vue')
+            }
+          ]
+        }
+      ]
     },
     {
       path: '/user',
@@ -98,32 +93,32 @@ const router = createRouter({
       children: [
         {
           path: '',
-          component: () => import('@/views/User/login.vue'),
+          component: () => import('@/views/User/login.vue')
         },
         {
           path: 'login',
           name: 'login',
-          component: () => import('@/views/User/login.vue'),
+          component: () => import('@/views/User/login.vue')
         },
         {
           path: 'register',
           name: 'register',
-          component: () => import('@/views/User/register.vue'),
-        },
-      ],
+          component: () => import('@/views/User/register.vue')
+        }
+      ]
     },
     {
       path: '/:pathMatch(.*)',
       name: 'NotFound',
-      redirect: { name: 'home' },
+      redirect: { name: 'home' }
       // component: () => import("@/views/NotFound/index.vue"),
-    },
+    }
   ],
   scrollBehavior() {
     return {
-      top: 0,
+      top: 0
     }
-  },
+  }
 })
 
 // 页面渲染成功之后，展示进度条（实际效果：Mac的Chrome就是在页面顶部有条2px左右的进度条）

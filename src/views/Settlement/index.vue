@@ -1,355 +1,331 @@
+<template>
+  <div class="fs-settlement-page mt-10 mb-10">
+    <div class="container">
+      <v-hover v-slot="{ isHovering, props }">
+        <v-card class="pb-4" v-bind="props" :elevation="isHovering ? 10 : 2">
+          <v-card-item>
+            <v-card-title>
+              <div class="d-flex justify-space-between align-center	pa-2">
+                <span class="text-subtitle-1 font-weight-bold">收货人信息</span>
+                <div class="d-flex">
+                  <v-btn class="mr-2" color="primary" @click="openCreateDialog"><v-icon
+                      class="mr-2">mdi-pen-plus</v-icon>添加地址</v-btn>
+                  <v-btn color="primary">
+                    切换地址
+                  </v-btn>
+                </div>
+              </div>
+            </v-card-title>
+            <v-divider class="border-opacity-30"></v-divider>
+            <v-card-text>
+              <div class="address">
+                <div class="text">
+                  <div class="none">您需要先添加收货地址才可提交订单。</div>
+                  <!-- <ul>
+                  <li><span>收<i />货<i />人：</span>刘xx</li>
+                  <li><span>联系方式：</span>186576767</li>
+                  <li><span>收货地址：</span>浙江省杭州市余杭区</li>
+                </ul> -->
+                </div>
+              </div>
+            </v-card-text>
+          </v-card-item>
+          <v-card-item>
+            <v-card-title>
+              <div class="pa-2 bg-surface">
+                <span class="text-subtitle-1 font-weight-bold">收货人信息</span>
+              </div>
+            </v-card-title>
+            <v-divider class="border-opacity-30"></v-divider>
+            <v-card-text>
+              <table class="goods">
+                <thead>
+                  <tr>
+                    <th width="520">商品信息</th>
+                    <th width="170">单价</th>
+                    <th width="170">数量</th>
+                    <th width="170">小计</th>
+                    <th width="170">实付</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="i in checkInfo.goods" :key="i.id">
+                    <td>
+                      <a href="javascript:;" class="info">
+                        <img :src="i.picture" alt="">
+                        <div class="right">
+                          <p>{{ i.name }}</p>
+                          <p>{{ i.attrsText }}</p>
+                        </div>
+                      </a>
+                    </td>
+                    <td>&yen;{{ i.price }}</td>
+                    <td>{{ i.price }}</td>
+                    <td>&yen;{{ i.totalPrice }}</td>
+                    <td>&yen;{{ i.totalPayPrice }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </v-card-text>
+          </v-card-item>
+          <v-card-item>
+            <v-card-title>
+              <div class="pa-2 bg-surface">
+                <span class="text-subtitle-1 font-weight-bold">配送时间</span>
+              </div>
+            </v-card-title>
+            <v-divider class="border-opacity-30"></v-divider>
+            <v-card-text>
+              <v-chip-group filter>
+                <v-chip color="primary" rounded="sm" variant="outlined">不限送货时间：周一至周日</v-chip>
+                <v-chip color="primary" rounded="sm" variant="outlined">工作日送货：周一至周五</v-chip>
+                <v-chip color="primary" rounded="sm" variant="outlined">双休日、假日送货：周六至周日</v-chip>
+              </v-chip-group>
+            </v-card-text>
+          </v-card-item>
+          <v-card-item>
+            <v-card-title>
+              <div class="pa-2 bg-surface">
+                <span class="text-subtitle-1 font-weight-bold">支付方式</span>
+              </div>
+            </v-card-title>
+            <v-divider class="border-opacity-30"></v-divider>
+            <v-card-text>
+              <v-chip-group filter>
+                <v-chip color="primary" rounded="sm" variant="outlined">在线支付</v-chip>
+                <v-chip color="primary" rounded="sm" variant="outlined">货到付款(货到付款需付5元手续费)</v-chip>
+              </v-chip-group>
+            </v-card-text>
+          </v-card-item>
+          <v-card-item>
+            <v-card-title>
+              <div class="pa-2 bg-surface">
+                <span class="text-subtitle-1 font-weight-bold">金额明细</span>
+              </div>
+            </v-card-title>
+            <v-divider class="border-opacity-30"></v-divider>
+            <v-card-text>
+              <div class="total">
+                <dl>
+                  <dt>商品件数：</dt>
+                  <dd>{{ checkInfo.summary?.goodsCount }}件</dd>
+                </dl>
+                <dl>
+                  <dt>商品总价：</dt>
+                  <dd>¥{{ checkInfo.summary?.totalPrice.toFixed(2) }}</dd>
+                </dl>
+                <dl>
+                  <dt>运<i></i>费：</dt>
+                  <dd>¥{{ checkInfo.summary?.postFee.toFixed(2) }}</dd>
+                </dl>
+                <dl>
+                  <dt>应付总额：</dt>
+                  <dd class="price">{{ checkInfo.summary?.totalPayPrice.toFixed(2) }}</dd>
+                </dl>
+              </div>
+            </v-card-text>
+          </v-card-item>
+          <v-card-item>
+            <v-divider class="border-opacity-30"></v-divider>
+          </v-card-item>
+          <v-card-item>
+            <div class="d-flex justify-end ga-4">
+              <v-btn color="primary" variant="outlined" size="x-large">返回</v-btn>
+              <v-btn color="primary" variant="flat" size="x-large">提交订单</v-btn>
+            </div>
+          </v-card-item>
+        </v-card>
+      </v-hover>
+    </div>
+  </div>
+  <!-- 编辑对话框 -->
+  <v-dialog v-model="editDialog" max-width="600">
+    <AddressForm :initial-data="selectedAddress" @submit="handleSubmit" @close="editDialog = false" />
+  </v-dialog>
+
+</template>
+
 <script setup>
-import AddressList from './components/AddressList.vue';
+import AddressForm from '@/views/Member/UserAddress/components/AddressForm.vue';
 import { onMounted, ref } from 'vue';
-import { getCheckInfoAPI, createOrderAPI } from '@/apis/order';
-import { useRouter } from 'vue-router';
-import { useCartStore } from '@/stores/cart';
+import { useAddressStore } from '@/stores/address'
 
-const router = useRouter();
+const addressStore = useAddressStore()
 
+// 组件状态
 const checkInfo = ref({}); // 订单对象
-const curAddress = ref({});
-const getCheckInfo = async () => {
-  const res = await getCheckInfoAPI()
-  checkInfo.value = res?.result || {};
-  curAddress.value = res.result.userAddresses.find(item => item.isDefault === 0);
-}
-// onMounted(() => getCheckInfo())
+const editDialog = ref(false)
+const selectedId = ref(null)
+const selectedAddress = ref(null)
 
-// address-modal
-const activeAddress = ref({})
-const switchAddress = (item) => {
-  activeAddress.value = item;
+// 表单处理
+const openCreateDialog = () => {
+  selectedAddress.value = null
+  editDialog.value = true
 }
-const showAddressListDialog = ref(false);
-// const closeAddressList = () => {
-//   showAddressListDialog.value = false;
-// }
-const confirmAddress = () => {
-  curAddress.value = activeAddress;
-  showAddressListDialog.value = false;
-  activeAddress.value = {}
-}
-const showAddressAddDialog = ref(false);
 
-// create-order
-const hanldeCreateOrder = async () => {
-  const goods = checkInfo.value.goods.map(item => ({ skuId: item.skuId, count: item.count }))
-  const res = await createOrderAPI({
-    deliveryTimeType: 1,
-    payType: 1,
-    payChannel: 1,
-    buyerMessage: '',
-    addressId: curAddress.value.id,
-    goods,
-  })
-  const orderId = res.result.id
-  router.push({
-    path: '/pay',
-    query: {
-      id: orderId
+const openEditDialog = (address) => {
+  selectedAddress.value = { ...address }
+  editDialog.value = true
+}
+
+const handleSubmit = async (formData) => {
+  try {
+    if (formData.id) {
+      await addressStore.updateAddress(formData)
+    } else {
+      await addressStore.createAddress(formData)
     }
-  })
-  // update-cart-list
-  useCartStore().getCartList();
+    editDialog.value = false
+  } catch (err) {
+    console.error('保存失败:', err)
+  }
 }
 
 </script>
 
-<template>
-  <div class="fs-pay-checkout-page">
-    <div class="container">
-      <div class="wrapper">
-        <!-- 收货地址 -->
-        <h3 class="box-title">收货地址</h3>
-        <div class="box-body">
-          <div class="address">
-            <div class="text">
-              <div class="none" v-if="!curAddress.receiver">您需要先添加收货地址才可提交订单。</div>
-              <ul v-else>
-                <li><span>收<i />货<i />人：</span>{{ curAddress.receiver }}</li>
-                <li><span>联系方式：</span>{{ curAddress.contact }}</li>
-                <li><span>收货地址：</span>{{ curAddress.fullLocation }} {{ curAddress.address }}</li>
-              </ul>
-            </div>
-            <div class="action">
-              <el-button size="large" type="primary" @click="showAddressListDialog = true">切换地址</el-button>
-              <el-button size="large" type="primary" @click="showAddressAddDialog = true">添加地址</el-button>
-            </div>
-          </div>
-        </div>
-        <!-- 商品信息 -->
-        <h3 class="box-title">商品信息</h3>
-        <div class="box-body">
-          <table class="goods">
-            <thead>
-              <tr>
-                <th width="520">商品信息</th>
-                <th width="170">单价</th>
-                <th width="170">数量</th>
-                <th width="170">小计</th>
-                <th width="170">实付</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="i in checkInfo.goods" :key="i.id">
-                <td>
-                  <a href="javascript:;" class="info">
-                    <img :src="i.picture" alt="">
-                    <div class="right">
-                      <p>{{ i.name }}</p>
-                      <p>{{ i.attrsText }}</p>
-                    </div>
-                  </a>
-                </td>
-                <td>&yen;{{ i.price }}</td>
-                <td>{{ i.price }}</td>
-                <td>&yen;{{ i.totalPrice }}</td>
-                <td>&yen;{{ i.totalPayPrice }}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <!-- 配送时间 -->
-        <h3 class="box-title">配送时间</h3>
-        <div class="box-body">
-          <a class="my-btn active" href="javascript:;">不限送货时间：周一至周日</a>
-          <a class="my-btn" href="javascript:;">工作日送货：周一至周五</a>
-          <a class="my-btn" href="javascript:;">双休日、假日送货：周六至周日</a>
-        </div>
-        <!-- 支付方式 -->
-        <h3 class="box-title">支付方式</h3>
-        <div class="box-body">
-          <a class="my-btn active" href="javascript:;">在线支付</a>
-          <a class="my-btn" href="javascript:;">货到付款</a>
-          <span style="color:#999">货到付款需付5元手续费</span>
-        </div>
-        <!-- 金额明细 -->
-        <h3 class="box-title">金额明细</h3>
-        <div class="box-body">
-          <div class="total">
-            <dl>
-              <dt>商品件数：</dt>
-              <dd>{{ checkInfo.summary?.goodsCount }}件</dd>
-            </dl>
-            <dl>
-              <dt>商品总价：</dt>
-              <dd>¥{{ checkInfo.summary?.totalPrice.toFixed(2) }}</dd>
-            </dl>
-            <dl>
-              <dt>运<i></i>费：</dt>
-              <dd>¥{{ checkInfo.summary?.postFee.toFixed(2) }}</dd>
-            </dl>
-            <dl>
-              <dt>应付总额：</dt>
-              <dd class="price">{{ checkInfo.summary?.totalPayPrice.toFixed(2) }}</dd>
-            </dl>
-          </div>
-        </div>
-        <!-- 提交订单 -->
-        <div class="submit">
-          <el-button type="primary" size="large" @click="hanldeCreateOrder">提交订单</el-button>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- 切换地址 -->
-  <template v-if="showAddressListDialog">
-    <el-dialog v-model="showAddressListDialog" title="切换收货地址" width="30%" center>
-      <AddressList :list="checkInfo.userAddresses || []" :activeAddress="activeAddress"
-        @switchAddress="switchAddress" />
-      <template #footer>
-        <span class="dialog-footer">
-          <el-button @click="showAddressListDialog = false">取消</el-button>
-          <el-button type="primary" @click="confirmAddress">确定</el-button>
-        </span>
-      </template>
-    </el-dialog>
-  </template>
-  <!-- 添加地址 -->
-
-</template>
-
-<style scoped lang="scss">
-.fs-pay-checkout-page {
+<style lang="scss" scoped>
+.fs-settlement-page {
   margin-top: 20px;
 
-  .wrapper {
-    background: #fff;
-    padding: 0 20px;
-
-    .box-title {
-      font-size: 16px;
-      font-weight: normal;
-      padding-left: 10px;
-      line-height: 70px;
-      border-bottom: 1px solid #f5f5f5;
-    }
-
-    .box-body {
-      padding: 20px 0;
-    }
-  }
-}
-
-.address {
-  border: 1px solid #f5f5f5;
-  display: flex;
-  align-items: center;
-
-  .text {
-    flex: 1;
-    min-height: 90px;
+  .address {
+    border: 1px solid #f5f5f5;
     display: flex;
     align-items: center;
 
-    .none {
-      line-height: 90px;
-      color: #999;
-      text-align: center;
-      width: 100%;
+    .text {
+      flex: 1;
+      min-height: 90px;
+      display: flex;
+      align-items: center;
+
+      .none {
+        line-height: 90px;
+        color: #999;
+        text-align: center;
+        width: 100%;
+      }
+
+      >ul {
+        flex: 1;
+        padding: 20px;
+
+        li {
+          line-height: 30px;
+
+          span {
+            color: #999;
+            margin-right: 5px;
+
+            >i {
+              width: 0.5em;
+              display: inline-block;
+            }
+          }
+        }
+      }
+
+      >a {
+        color: $fs-base-color-light;
+        width: 160px;
+        text-align: center;
+        height: 90px;
+        line-height: 90px;
+        border-right: 1px solid #f5f5f5;
+      }
     }
 
-    >ul {
-      flex: 1;
-      padding: 20px;
+    .action {
+      width: 420px;
+      text-align: center;
 
-      li {
-        line-height: 30px;
+      .btn {
+        width: 140px;
+        height: 46px;
+        line-height: 44px;
+        font-size: 14px;
 
-        span {
-          color: #999;
-          margin-right: 5px;
+        &:first-child {
+          margin-right: 10px;
+        }
+      }
+    }
+  }
 
-          >i {
-            width: 0.5em;
-            display: inline-block;
+  .goods {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+
+    .info {
+      display: flex;
+      text-align: left;
+
+      img {
+        width: 70px;
+        height: 70px;
+        margin-right: 20px;
+      }
+
+      .right {
+        line-height: 24px;
+
+        p {
+          &:last-child {
+            color: #999;
           }
         }
       }
     }
 
-    >a {
-      color: $fs-base-color-light;
-      width: 160px;
-      text-align: center;
-      height: 90px;
-      line-height: 90px;
-      border-right: 1px solid #f5f5f5;
-    }
-  }
-
-  .action {
-    width: 420px;
-    text-align: center;
-
-    .btn {
-      width: 140px;
-      height: 46px;
-      line-height: 44px;
-      font-size: 14px;
-
-      &:first-child {
-        margin-right: 10px;
+    s tr {
+      th {
+        background: #f5f5f5;
+        font-weight: normal;
       }
-    }
-  }
-}
 
-.goods {
-  width: 100%;
-  border-collapse: collapse;
-  border-spacing: 0;
+      td,
+      th {
+        text-align: center;
+        padding: 20px;
+        border-bottom: 1px solid #f5f5f5;
 
-  .info {
-    display: flex;
-    text-align: left;
+        &:first-child {
+          border-left: 1px solid #f5f5f5;
+        }
 
-    img {
-      width: 70px;
-      height: 70px;
-      margin-right: 20px;
-    }
-
-    .right {
-      line-height: 24px;
-
-      p {
         &:last-child {
-          color: #999;
+          border-right: 1px solid #f5f5f5;
         }
       }
     }
   }
 
-  tr {
-    th {
-      background: #f5f5f5;
-      font-weight: normal;
-    }
+  .total {
+    dl {
+      display: flex;
+      justify-content: flex-end;
+      line-height: 50px;
 
-    td,
-    th {
-      text-align: center;
-      padding: 20px;
-      border-bottom: 1px solid #f5f5f5;
-
-      &:first-child {
-        border-left: 1px solid #f5f5f5;
+      dt {
+        i {
+          display: inline-block;
+          width: 2em;
+        }
       }
 
-      &:last-child {
-        border-right: 1px solid #f5f5f5;
-      }
-    }
-  }
-}
+      dd {
+        width: 240px;
+        text-align: right;
+        padding-right: 70px;
 
-.my-btn {
-  width: 228px;
-  height: 50px;
-  border: 1px solid #e4e4e4;
-  text-align: center;
-  line-height: 48px;
-  margin-right: 25px;
-  color: #666666;
-  display: inline-block;
-
-  &.active,
-  &:hover {
-    border-color: $fs-base-color-light;
-  }
-}
-
-.total {
-  dl {
-    display: flex;
-    justify-content: flex-end;
-    line-height: 50px;
-
-    dt {
-      i {
-        display: inline-block;
-        width: 2em;
-      }
-    }
-
-    dd {
-      width: 240px;
-      text-align: right;
-      padding-right: 70px;
-
-      &.price {
-        font-size: 20px;
-        color: $priceColor;
+        &.price {
+          font-size: 20px;
+          color: $priceColor;
+        }
       }
     }
   }
-}
 
-.submit {
-  text-align: right;
-  padding: 60px;
-  border-top: 1px solid #f5f5f5;
 }
 </style>
