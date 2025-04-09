@@ -1,85 +1,84 @@
 <template>
   <div class="fs-flower-goods-page">
     <div class="container" v-if="detailData">
-      <div class="bread-container">
-        <v-breadcrumbs color="primary">
-          <v-breadcrumbs-item :to="{ path: '/' }">首页</v-breadcrumbs-item>
-          <v-breadcrumbs-divider divider=">"></v-breadcrumbs-divider>
-          <v-breadcrumbs-item :disabled="true">{{ detailData.cname }}</v-breadcrumbs-item>
-        </v-breadcrumbs>
-
-      </div>
+      <v-breadcrumbs>
+        <v-breadcrumbs-item :to="{ path: '/' }">首页</v-breadcrumbs-item>
+        <v-breadcrumbs-divider divider=">"></v-breadcrumbs-divider>
+        <v-breadcrumbs-item :disabled="true">{{ detailData.cname }}</v-breadcrumbs-item>
+      </v-breadcrumbs>
       <!-- 商品信息 -->
       <div class="info-container">
-        <div>
-          <div class="goods-info">
-            <div class="media">
-              <!-- 图片预览区 -->
-              <FSImageView :image-list="detailData.mainPictures || []" />
-              <!-- 统计数量 -->
-              <!-- <ul class="goods-sales">
-                <li>
-                  <p>销量人气</p>
-                  <p>{{ detailData.salesCount }}+ </p>
-                  <p><i class="iconfont icon-task-filling"></i>销量人气</p>
-                </li>
-                <li>
-                  <p>商品评价</p>
-                  <p>{{ detailData.commentCount }}+</p>
-                  <p><i class="iconfont icon-comment-filling"></i>查看评价</p>
-                </li>
-                <li>
-                  <p>收藏人气</p>
-                  <p>{{ detailData.collectCount }}+</p>
-                  <p><i class="iconfont icon-favorite-filling"></i>收藏商品</p>
-                </li>
-                <li>
-                  <p>品牌信息</p>
-                  <p>{{ detailData.brand?.name }}</p>
-                  <p><i class="iconfont icon-dynamic-filling"></i>品牌主页</p>
-                </li>
-              </ul> -->
-            </div>
-            <div class="spec">
-              <v-card class="wx-auto pa-4" style="height: 100%;" color="#FAFAFA" elevation="1">
-                <v-card-item>
-                  <v-card-title>{{ detailData.cname }}</v-card-title>
-                  <v-card-subtitle>{{ detailData.describes }}</v-card-subtitle>
-                </v-card-item>
-                <v-card-item>
-                  <v-divider></v-divider>
-                </v-card-item>
-                <v-card-item>
-                  <div class="g-service">
-                    <p class="g-price">单价：<span>{{ detailData.price || '0' }}</span></p>
-                    <p class="g-price">总计：<span>{{ allPrice }}</span></p>
-                  </div>
-                </v-card-item>
-                <v-card-item>
-                  <div class="goods-count-box">
-                    <label>数量：</label>
-                    <v-number-input v-model="count" width="100" variant="outlined" control-variant="split" :min="0"
-                      :max="detailData.inventory" hide-details inset></v-number-input>
-                    <span>库存量：{{ detailData.inventory || '0' }}件</span>
-                    <span>已售：{{ detailData.salesCount || '0' }}件</span>
-                  </div>
-                  <!-- 按钮组件 -->
-                </v-card-item>
-                <v-card-item>
-                  <v-btn color="primary" elevation="8" size="large" @click="handleAddCart">加入购物车</v-btn>
-                </v-card-item>
-              </v-card>
-            </div>
+        <div class="goods-info">
+          <div class="media">
+            <!-- 图片预览区 -->
+            <ImageView :image-list="detailData.mainPictures || []" />
+            <!-- 统计数量 -->
+            <!-- <ul class="goods-sales">
+              <li>
+                <p>销量人气</p>
+                <p>{{ detailData.salesCount }}+ </p>
+                <p><i class="iconfont icon-task-filling"></i>销量人气</p>
+              </li>
+              <li>
+                <p>商品评价</p>
+                <p>{{ detailData.commentCount }}+</p>
+                <p><i class="iconfont icon-comment-filling"></i>查看评价</p>
+              </li>
+              <li>
+                <p>收藏人气</p>
+                <p>{{ detailData.collectCount }}+</p>
+                <p><i class="iconfont icon-favorite-filling"></i>收藏商品</p>
+              </li>
+              <li>
+                <p>品牌信息</p>
+                <p>{{ detailData.brand?.name }}</p>
+                <p><i class="iconfont icon-dynamic-filling"></i>品牌主页</p>
+              </li>
+            </ul> -->
           </div>
-          <div class="goods-footer">
-            <!-- 商品详情 -->
-            <div class="goods-tabs">
-              <nav>
-                <span>商品详情</span>
-              </nav>
-              <div class="goods-detail">
-                <img v-for="img in detailData.detailPictures" :src="img" :key="img" alt="">
-              </div>
+          <div class="spec">
+            <v-card class="wx-auto pa-4" style="height: 100%;" color="background" elevation="0">
+              <v-card-item>
+                <v-card-title>{{ detailData.cname }}</v-card-title>
+                <v-card-subtitle>{{ detailData.describes }}</v-card-subtitle>
+              </v-card-item>
+              <v-card-item>
+                <v-divider></v-divider>
+              </v-card-item>
+              <v-card-item>
+                <div class="g-service">
+                  <p class="g-price">单价：<span>{{ detailData.price || '0' }}</span></p>
+                  <p class="g-price">总计：<span>{{ allPrice }}</span></p>
+                </div>
+              </v-card-item>
+              <v-card-item>
+                <div class="goods-count-box">
+                  <div class="d-flex align-center">
+                    <label>数量：</label>
+                    <v-number-input v-model="count" width="200px" variant="outlined" control-variant="split" :min="0"
+                      :max="detailData.inventory" hide-details inset></v-number-input>
+                  </div>
+                  <span>库存量：{{ detailData.inventory || '0' }}件</span>
+                  <span>已售：{{ detailData.salesCount || '0' }}件</span>
+                </div>
+                <!-- 按钮组件 -->
+              </v-card-item>
+              <v-card-item>
+                <v-btn class="mr-4" color="primary" elevation="8" size="x-large" prepend-icon="mdi-cart-plus"
+                  @click="handleAddCart">加入购物车</v-btn>
+                <v-btn color="error" elevation="8" size="x-large" to="/settlement">立即购买</v-btn>
+              </v-card-item>
+            </v-card>
+          </div>
+        </div>
+        <div class="goods-footer">
+          <!-- 商品详情 -->
+          <div class="goods-tabs">
+            <nav class="mb-2">
+              <span>商品详情</span>
+            </nav>
+            <div class="goods-detail">
+              <img v-for="img in detailData.detailPictures" :src="img" :key="img" alt="">
             </div>
           </div>
         </div>
@@ -89,16 +88,18 @@
 </template>
 
 <script setup name="Detail">
-import FSImageView from '@/components/FSImageView.vue';
+// import FSImageView from '@/components/FSImageView.vue';
+import ImageView from './components/ImageView.vue';
 // import FSGoodsSku from '@/components/FSSku/index.vue';
 import { useToast } from 'vue-toastification'
 import { getDetailAPI } from '@/apis/detail';
 import { computed, onMounted, ref } from 'vue';
-import { onBeforeRouteUpdate, useRoute } from 'vue-router';
+import { onBeforeRouteUpdate, useRoute, useRouter } from 'vue-router';
 import { useCartStore } from '@/stores/cart';
 
 const toast = useToast();
 const route = useRoute();
+const router = useRouter();
 const cartStore = useCartStore();
 const count = ref(1); //input-count
 
@@ -135,19 +136,22 @@ const handleAddCart = () => {
   }
 }
 
+// const toSettlementPage = () => {
+//   router.push('/settlement')
+
+// }
+
 </script>
 
 <style lang='scss' scoped>
 .fs-flower-goods-page {
   .goods-info {
     display: flex;
+    justify-content: center;
+    column-gap: 20px;
+    width: 100%;
     min-height: 400px;
-    padding: 30px 50px;
     background: #fff;
-
-    .media {
-      width: 580px;
-    }
 
     .spec {
       flex: 1;
@@ -288,14 +292,15 @@ const handleAddCart = () => {
   }
 
   .goods-tabs {
+    width: 100%;
     min-height: 600px;
     background: #fff;
 
     nav {
-      height: 70px;
-      line-height: 70px;
       display: flex;
       border-bottom: 1px solid #f5f5f5;
+      height: 70px;
+      line-height: 70px;
 
       a {
         padding: 0 40px;
@@ -312,7 +317,8 @@ const handleAddCart = () => {
   }
 
   .goods-detail {
-    padding: 40px;
+    width: 100%;
+    margin: 0 auto;
 
     .attrs {
       display: flex;

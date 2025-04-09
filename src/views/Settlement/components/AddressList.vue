@@ -1,5 +1,5 @@
 <template>
-  <div class="addressWrapper">
+  <!-- <div class="addressWrapper">
     <div class="text item" :class="{ active: item.id === activeAddress.id }" v-for="item in list" :key="item.id"
       @click="switchAddress(item)">
       <ul>
@@ -8,21 +8,61 @@
         <li><span>收货地址：</span>{{ item.fullLocation + item.address }}</li>
       </ul>
     </div>
-  </div>
+  </div> -->
+  <v-card>
+    <v-card-title class="d-flex align-center bg-primary">
+      <span class="text-white">切换地址</span>
+      <v-spacer />
+      <v-btn icon @click="handleClose" variant="text">
+        <v-icon color="white">mdi-close</v-icon>
+      </v-btn>
+    </v-card-title>
+    <v-card-text>
+      <div class="addressWrapper">
+        <div v-for="(item, i) in list" :key="item.id" class="text item" :class="{ active: item.id === selectedId }"
+          @click="handleSwitch(item, i)">
+          <ul>
+            <li><span>收<i />货<i />人：</span>{{ item.recipient }} </li>
+            <li><span>联系方式：</span>{{ item.phone }}</li>
+            <li><span>收货地址：</span>{{ item.prefecture + item.city + item.address }}</li>
+          </ul>
+        </div>
+      </div>
+
+    </v-card-text>
+
+  </v-card>
 </template>
 
 <script setup>
-defineProps({
+import { ref } from 'vue'
+
+const props = defineProps({
   list: {
     type: Array,
     default: [],
   },
-  activeAddress: {
-    type: Object,
-    default: {}
+  activeId: {
+    type: String,
+    default: ""
   }
 })
-defineEmits(["switchAddress"])
+
+
+const emit = defineEmits(["close", "switchAddress"])
+
+const selectedId = ref(props.activeId)
+
+
+// 关闭
+const handleClose = () => {
+  emit('close')
+}
+
+const handleSwitch = (item, index) => {
+  selectedId.value = item.id;
+
+}
 </script>
 
 <style lang="scss" scoped>
@@ -41,18 +81,21 @@ defineEmits(["switchAddress"])
       margin-bottom: 10px;
       cursor: pointer;
 
-      &.active,
-      &:hover {
-        border-color: $fs-base-color-light;
-        background: light($fs-base-color-light, 50%);
-      }
+
 
       >ul {
         padding: 10px;
         font-size: 14px;
         line-height: 30px;
       }
+
+      &.active,
+      &:hover {
+        border-color: $fs-primary-color;
+        background: light($fs-primary-color, 50%);
+      }
     }
+
   }
 }
 </style>

@@ -25,20 +25,21 @@ const showHome = computed(() => props.position === 'category' || props.position 
 </script>
 
 <style lang="scss" scoped>
-$--active-color: $fs-hover-color;
+$--active-color: $fs-primary-color;
 
 .fs-category-nav-list {
   position: relative;
   display: flex;
   flex-wrap: wrap;
+  column-gap: 20px;
   width: 100%;
   z-index: 998;
   flex-shrink: 0;
   padding: 10px 0 10px 20px;
 
   li {
-    margin-right: 20px;
     text-align: center;
+    padding: 0 10px;
 
     a {
       font-size: 16px;

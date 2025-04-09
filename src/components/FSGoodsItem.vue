@@ -1,12 +1,17 @@
 <template>
-  <v-card class="mx-auto" color="#FAFAFA" elevation="0" style="height: 100%;">
-    <RouterLink :to="`/detail/${goods.id}`" class="goods-item">
-      <img v-img-lazy="goods.picture" alt="" />
-      <p class="name ellipsis">{{ goods.cname }}</p>
-      <!-- <p class="desc ellipsis">{{ goods.desc }}</p> -->
-      <!-- <p class="price">&yen;{{ goods.price }}</p> -->
-    </RouterLink>
-  </v-card>
+  <v-hover v-slot="{ isHovering, props }">
+    <v-card v-bind="props" :elevation="isHovering ? 5 : 2" color="background" style="height: 100%;">
+      <RouterLink :to="`/detail/${goods.id}`" class="goods-item">
+        <div class="img-box bg-accent">
+          <img v-img-lazy="goods.picture" alt="" />
+        </div>
+        <p class="name ellipsis">{{ goods.cname }}</p>
+        <!-- <p class="desc ellipsis">{{ goods.desc }}</p> -->
+        <p class="price">10.00</p>
+      </RouterLink>
+    </v-card>
+
+  </v-hover>
 </template>
 
 <script setup name="FSGoodsItem">
@@ -23,23 +28,27 @@ defineProps({
   display: block;
   width: 100%;
   height: 100%;
-  padding: 20px 30px;
   text-align: center;
   transition: all 0.5s;
-  // background: #ffffff;
 
-  &:hover {
-    transform: translate3d(0, -3px, 0);
-    box-shadow: 0 3px 8px rgb(0 0 0 / 20%);
+
+  .img-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 210px;
+    margin-bottom: 10px;
   }
 
   img {
-    width: 160px;
-    height: 160px;
+    width: 100%;
+    height: 100%;
   }
 
   p {
-    padding-top: 10px;
+    margin-bottom: 10px;
+    padding: 0 20px;
   }
 
   .name {

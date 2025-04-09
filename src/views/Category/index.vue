@@ -59,7 +59,7 @@ import { getCategoryAPI, getCategoryGoodsAPI } from "@/apis/category"
 import { onMounted, onUnmounted, ref } from "vue"
 import { onBeforeRouteUpdate, useRoute, useRouter } from "vue-router"
 import FSGoodsItem from "@/components/FSGoodsItem.vue"
-import FSEmptyPannel from "@/components/FSEmptyPannel.vue"
+import FSEmptyPannel from "@/components/FSEmptyPanel.vue"
 
 const route = useRoute()
 

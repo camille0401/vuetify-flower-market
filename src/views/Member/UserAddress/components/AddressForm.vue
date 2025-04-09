@@ -77,13 +77,13 @@ const addressFormRef = ref()
 // 表单数据
 const addressForm = ref({
   address: "",
-	city: "",
-	id: null,
-	isDefault: 0,
-	phone: "",
-	postalCode: "",
-	prefecture: "",
-	recipient: ""
+  city: "",
+  id: null,
+  isDefault: 0,
+  phone: "",
+  postalCode: "",
+  prefecture: "",
+  recipient: ""
 })
 
 

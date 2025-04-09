@@ -1,10 +1,12 @@
 <template>
   <div class="home-panel mb-10">
-    <div class="head">
-      <h3>
-        {{ title }}<small>{{ subTitle }}</small>
-      </h3>
-    </div>
+    <v-sheet>
+      <div class="head ">
+        <h3>
+          {{ title }}<small>{{ subTitle }}送 · 让你怦然心动的人</small>
+        </h3>
+      </div>
+    </v-sheet>
     <slot name="main"></slot>
   </div>
 </template>
@@ -26,24 +28,20 @@ defineProps({
 <style scoped lang='scss'>
 .home-panel {
   .head {
-    display: flex;
-    align-items: flex-end;
     padding: 20px 0;
     margin: 20px auto;
-    background: rgba(255, 51, 153, .05);
+    text-align: left;
 
     h3 {
-      flex: 1;
-      font-size: 32px;
-      font-weight: normal;
       height: 35px;
       line-height: 35px;
-      text-align: center;
+      font-size: 30px;
+      font-weight: normal;
       color: #333;
 
       small {
         font-size: 16px;
-        color: $fs-base-color-dark;
+        color: #757575;
         margin-left: 20px;
       }
     }

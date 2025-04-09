@@ -1,11 +1,13 @@
 <template>
   <!-- 注册 -->
   <div class="form-box">
-    <h1>Create Account</h1>
+    <h1 class="text-h5 text-center">Create An Account</h1>
+    <p class="text-subtitle-2	text-center mb-10" style="color: #757575;">Welcome to Flower Market</p>
     <v-form ref="registerFormRef" @submit.prevent="doRegister">
       <EmailTextField v-model="registerForm" />
-      <PasswordTextField v-model="registerForm" />
-      <PasswordCheckTextField v-model="registerForm" />
+      <PasswordTextField v-model="registerForm" :showPassword="showPassword" />
+      <PasswordCheckTextField v-model="registerForm" :showPassword="showPassword" />
+      <v-checkbox v-model="showPassword" color="primary" label="Show Password" hide-details></v-checkbox>
       <br>
       <v-btn :loading="loading" color="primary" size="x-large" type="submit" variant="elevated" block>
         注册
@@ -32,13 +34,14 @@ const userStore = useUserStore();
 const router = useRouter();
 
 // 注册
+const showPassword = ref(false)
 const registerFormRef = ref()
-
 const registerForm = ref({
   username: "",
   password: "",
   checkPassword: ""
 })
+
 
 const toLogin = () => {
   router.push("/user/login")
@@ -59,8 +62,9 @@ const doRegister = async () => {
       toLogin();
     }
   }
-
 }
+
+
 
 </script>
 
@@ -75,15 +79,6 @@ const doRegister = async () => {
   background-color: #ffffff;
   border-radius: 20px;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-
-  h1 {
-    font-size: 3rem;
-    color: #151717;
-    margin: 0 0 20px;
-    letter-spacing: 2px;
-    font-weight: bold;
-    text-align: center;
-  }
 
   .forget {
     min-height: 56px;

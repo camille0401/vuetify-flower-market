@@ -41,7 +41,7 @@ import { ref, onMounted } from 'vue';
 import { useCountDown } from '@/composables/useCountDown';
 
 const route = useRoute();
-const { formatTime, start } = useCountDown;
+const { formatTime, start } = useCountDown();
 
 const payInfo = ref({});
 const getPayInfo = async () => {

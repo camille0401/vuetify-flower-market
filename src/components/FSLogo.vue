@@ -1,7 +1,7 @@
 <template>
   <h1 class="logo">
     <RouterLink to="/">
-      <span>FLOWER MARKET</span>
+      <span>Flower Market</span>
     </RouterLink>
   </h1>
 </template>
@@ -13,11 +13,12 @@
 
   a {
     display: flex;
+    align-items: center;
+    justify-content: center;
     width: 100%;
     height: 100px;
     font-size: 25px;
     line-height: 60px;
-    align-items: center;
     font-weight: 700;
     // text-indent: -9999px;
     // background: url('@/assets/images/logo.png') no-repeat center / contain;

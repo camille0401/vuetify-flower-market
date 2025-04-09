@@ -1,17 +1,17 @@
 <template>
-  <div class="home-category">
-    <ul class="menu">
-      <li v-for="category in categoryStore.categoryList" :key="category.id">
-        <p class="main-menu">
-          <RouterLink :to="`/category/1/${category.id}`">{{ category.cname }}</RouterLink>
-        </p>
-        <div class="sub-menu">
-          <RouterLink v-for="child in category.children" :key="child.id" :to="`/category/2/${child.id}`">
-            {{ child.cname }}
-          </RouterLink>
-        </div>
-      </li>
-    </ul>
+  <div class="home-category" v-show="categoryStore.categoryList.length">
+    <v-sheet color="rgba(0, 0, 0, 0.7)">
+      <ul class="menu">
+        <li v-for="category in categoryStore.categoryList" :key="category.id">
+          <RouterLink class="main-menu" :to="`/category/1/${category.id}`">{{ category.cname }}</RouterLink>
+          <div class="sub-menu">
+            <RouterLink v-for="child in category.children" :key="child.id" :to="`/category/2/${child.id}`">
+              {{ child.cname }}
+            </RouterLink>
+          </div>
+        </li>
+      </ul>
+    </v-sheet>
   </div>
 </template>
 
@@ -25,7 +25,6 @@ const categoryStore = useCategoryStore()
 .home-category {
   width: 250px;
   height: 500px;
-  background: rgba(0, 0, 0, 0.7);
   position: relative;
   z-index: 99;
 
@@ -40,23 +39,16 @@ const categoryStore = useCategoryStore()
     }
 
     li {
-      // padding-left: 40px;
-      // height: 55px;
-      // line-height: 55px;
       padding: 10px 20px;
       border-bottom: 1px dashed rgba(255, 255, 255, 0.2);
 
       a {
         margin-right: 4px;
         color: #fff;
-
-        // &:first-child {
-        //     font-size: 1.6rem;
-        // }
       }
 
       &:hover {
-        background: $fs-base-color-light;
+        background: $fs-primary-color;
         transition: all .2s linear;
 
         a {
@@ -65,10 +57,8 @@ const categoryStore = useCategoryStore()
       }
 
       .main-menu {
-        a {
-          font-size: 16px;
-          line-height: 50px;
-        }
+        font-size: 16px;
+        line-height: 50px;
       }
 
       .sub-menu {

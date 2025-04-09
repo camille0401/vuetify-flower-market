@@ -7,14 +7,12 @@ import * as directives from 'vuetify/directives'
 
 const fsCustomTheme = {
   dark: false,
-  light: {
-    primary: 'red'
-  },
   colors: {
-    primary: '#880E4F',
-    secondary: '#E91E63',
-    surface: '#FFFFFF',
-    accent: '#9c27b0',
+    primary: '#009688', // 主色：浅粉红
+    secondary: '#f78166', // 次色：浅绿
+    // background: '#FFF5EE', // 背景色：贝壳白
+    background: '#FFFFFF',
+    accent: '#FFF5EE', // 强调色：纯白
     error: '#f44336',
     warning: '#ff9800',
     info: '#2196f3',

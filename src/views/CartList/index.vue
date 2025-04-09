@@ -54,13 +54,13 @@
             </tr>
             <tr v-if="cartStore.cartList.length === 0">
               <td colspan="6">
-                <FSEmptyPannel title="购物车列表为空">
+                <FSEmptyPanel title="购物车列表为空">
                   <template #actions>
                     <v-spacer></v-spacer>
                     <v-btn color="primary" text="随便逛逛" @click="toHomePage"></v-btn>
                     <v-spacer></v-spacer>
                   </template>
-                </FSEmptyPannel>
+                </FSEmptyPanel>
               </td>
             </tr>
           </tbody>
@@ -85,7 +85,7 @@
 import { ref } from 'vue';
 import { useCartStore } from '@/stores/cart';
 import { useRouter } from 'vue-router';
-import FSEmptyPannel from '@/components/FSEmptyPannel.vue';
+import FSEmptyPanel from '@/components/FSEmptyPanel.vue';
 
 const cartStore = useCartStore()
 

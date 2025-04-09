@@ -46,7 +46,7 @@
 import { getCategoryAPI, getCategoryGoodsAPI } from "@/apis/category"
 import { useCategory } from "@/composables/useCategory"
 import FSGoodsItem from "@/components/FSGoodsItem.vue"
-import FSEmptyPannel from "@/components/FSEmptyPannel.vue"
+import FSEmptyPannel from "@/components/FSEmptyPanel.vue"
 
 const { categoryData,
   subCategoryList,

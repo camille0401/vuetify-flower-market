@@ -1,11 +1,12 @@
 <template>
   <div class="form-box">
-    <h1>Welcome Back</h1>
+    <h1 class="text-h5 text-center">Welcome Back</h1>
+    <p class="text-subtitle-2	text-center mb-10" style="color: #757575;">Lovely to see you again!</p>
     <v-form ref="loginFormRef" @submit.prevent="doLogin">
       <EmailTextField v-model="loginForm" />
       <PasswordTextField v-model="loginForm" />
       <div class="d-flex justify-space-between">
-        <v-checkbox label="记住我" hide-details></v-checkbox>
+        <v-checkbox v-model="showPassword" color="primary" label="Show Password" hide-details></v-checkbox>
         <a href="javascript:void(0);" class="d-flex align-center span forget">忘记密码?</a>
       </div>
       <br>
@@ -33,6 +34,7 @@ const userStore = useUserStore();
 const router = useRouter();
 
 // 登录
+const showPassword = ref(false)
 const loginFormRef = ref()
 const loading = ref(false)
 const loginForm = ref({
@@ -72,15 +74,6 @@ const toRegister = () => {
   background-color: #ffffff;
   border-radius: 20px;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-
-  h1 {
-    font-size: 3rem;
-    color: #151717;
-    margin: 0 0 20px;
-    letter-spacing: 2px;
-    font-weight: bold;
-    text-align: center;
-  }
 
   .forget {
     min-height: 56px;

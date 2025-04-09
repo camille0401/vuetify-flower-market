@@ -49,9 +49,11 @@
 </template>
 
 <script setup>
+import AddressForm from './components/AddressForm.vue'
 import { onMounted, ref } from 'vue'
 import { useAddressStore } from '@/stores/address'
-import AddressForm from './components/AddressForm.vue'
+import { useOpenAddDialog } from '@/composables/useOpenaddDialog'
+
 
 // 表格列配置
 const headers = [
@@ -63,11 +65,13 @@ const headers = [
 ]
 
 const addressStore = useAddressStore()
+
+const { editDialog, selectedId, selectedAddress,
+  openCreateDialog, openEditDialog, handleSubmit } = useOpenAddDialog();
+
 // 组件状态
 const deleteDialog = ref(false)
-const editDialog = ref(false)
-const selectedId = ref(null)
-const selectedAddress = ref(null)
+
 
 // 生命周期钩子
 onMounted(() => {
@@ -98,29 +102,7 @@ const toggleDefault = async (id, newValue) => {
   }
 }
 
-// 表单处理
-const openCreateDialog = () => {
-  selectedAddress.value = null
-  editDialog.value = true
-}
 
-const openEditDialog = (address) => {
-  selectedAddress.value = { ...address }
-  editDialog.value = true
-}
-
-const handleSubmit = async (formData) => {
-  try {
-    if (formData.id) {
-      await addressStore.updateAddress(formData)
-    } else {
-      await addressStore.createAddress(formData)
-    }
-    editDialog.value = false
-  } catch (err) {
-    console.error('保存失败:', err)
-  }
-}
 
 </script>
 

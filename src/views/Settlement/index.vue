@@ -10,7 +10,8 @@
                 <div class="d-flex">
                   <v-btn class="mr-2" color="primary" @click="openCreateDialog"><v-icon
                       class="mr-2">mdi-pen-plus</v-icon>添加地址</v-btn>
-                  <v-btn color="primary">
+                  <v-btn color="primary" @click="switchDialog = true">
+                    <v-icon class="mr-2">mdi-swap-horizontal</v-icon>
                     切换地址
                   </v-btn>
                 </div>
@@ -138,48 +139,36 @@
       </v-hover>
     </div>
   </div>
-  <!-- 编辑对话框 -->
+  <!-- 添加地址对话框 -->
   <v-dialog v-model="editDialog" max-width="600">
     <AddressForm :initial-data="selectedAddress" @submit="handleSubmit" @close="editDialog = false" />
   </v-dialog>
-
+  <!-- 切换地址对话框 -->
+  <v-dialog v-model="switchDialog" max-width="600">
+    <AddressList :list="addressStore.addressList" :activeId="activeAddress.id" @switchAddress="switchAddress"
+      @close="switchDialog = false" />
+  </v-dialog>
 </template>
 
 <script setup>
 import AddressForm from '@/views/Member/UserAddress/components/AddressForm.vue';
+import AddressList from './components/AddressList.vue';
 import { onMounted, ref } from 'vue';
 import { useAddressStore } from '@/stores/address'
+import { useOpenAddDialog } from '@/composables/useOpenaddDialog'
 
 const addressStore = useAddressStore()
 
+const { editDialog, selectedAddress, openCreateDialog, handleSubmit } = useOpenAddDialog();
+
 // 组件状态
 const checkInfo = ref({}); // 订单对象
-const editDialog = ref(false)
-const selectedId = ref(null)
-const selectedAddress = ref(null)
 
-// 表单处理
-const openCreateDialog = () => {
-  selectedAddress.value = null
-  editDialog.value = true
-}
+const activeAddress = addressStore.addressList?.[0] || {};
 
-const openEditDialog = (address) => {
-  selectedAddress.value = { ...address }
-  editDialog.value = true
-}
+const switchDialog = ref(false)
+const switchAddress = () => {
 
-const handleSubmit = async (formData) => {
-  try {
-    if (formData.id) {
-      await addressStore.updateAddress(formData)
-    } else {
-      await addressStore.createAddress(formData)
-    }
-    editDialog.value = false
-  } catch (err) {
-    console.error('保存失败:', err)
-  }
 }
 
 </script>

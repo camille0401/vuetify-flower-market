@@ -1,65 +1,53 @@
 <template>
   <nav class="fs-app-topnav">
-    <v-toolbar color="grey-darken-4" title="">
-      <div class="container nav-box">
+    <v-sheet color="grey-darken-4" :elevation="2">
+      <ul class="container">
         <template v-if="userStore?.token">
-          <v-btn color="#f78166" to="/member/info">
-            Welcome {{ userStore?.userInfo?.nickName }}
-          </v-btn>
-          <v-btn color="#f78166" to="/member/order">
-            我的订单
-          </v-btn>
-          <v-btn color="#f78166" to="/member/info">
-            会员中心
-          </v-btn>
-          <!-- 退出登录 -->
-          <v-dialog v-model="logout_dialog" max-width="500" transition="scale-transition">
-            <template #activator="{ props }">
-              <v-btn v-bind="props" color="#f78166" variant="text">
-                <v-icon start>mdi-logout</v-icon>
-                logout
-              </v-btn>
-            </template>
-
-            <v-card>
-              <v-card-text>
-                <div class="text-body-1">
-                  确定要退出当前登录账号吗？
-                </div>
-                <div class="text-caption text-medium-emphasis mt-2">
-                  退出后将需要重新登录才能访问受保护内容
-                </div>
-              </v-card-text>
-
-              <v-card-actions class="justify-end">
-                <v-btn variant="text" @click="logout_dialog = false">
-                  取消
-                </v-btn>
-                <v-btn color="error" variant="tonal" @click="confirmLogout">
-                  确认退出
-                </v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-dialog>
-          <!-- <v-btn prepend-icon="mdi-logout">
-            logout
-          </v-btn> -->
+          <li>
+            <RouterLink to="/member/info">
+              <v-icon class="mr-1">mdi-account</v-icon>
+              Welcome&nbsp;{{ userStore?.userInfo?.nickName }}
+            </RouterLink>
+          </li>
+          <li>
+            <a href="javascript:void(0)" @click="logout_dialog = true">退出登录</a>
+          </li>
+          <li>
+            <RouterLink to="/member/order">我的订单</RouterLink>
+          </li>
+          <li>
+            <RouterLink to="/member/info">会员中心</RouterLink>
+          </li>
         </template>
         <template v-else>
-          <v-btn color="#f78166" to="/user/login" prepend-icon="mdi-login">
-            Login
-          </v-btn>
-          <!-- <v-btn color="#f78166">
-            帮助中心
-          </v-btn>
-          <v-btn color="#f78166">
-            关于我们
-          </v-btn> -->
+          <li>
+            <RouterLink to="/user/login">请先登录</RouterLink>
+          </li>
+          <li><a href="javascript:void(0)">帮助中心</a></li>
+          <li><a href="javascript:void(0)">关于我们</a></li>
         </template>
-        <v-btn color="#f78166" prepend-icon="mdi-phone">XXXXXXX</v-btn>
-      </div>
-    </v-toolbar>
+        <li>
+          <a href="javascript:void(0)"><v-icon class="mr-1">mdi-phone</v-icon>&nbsp;XXXXXXX</a>
+        </li>
+      </ul>
+
+    </v-sheet>
   </nav>
+  <!-- 确认退出对话框 -->
+  <v-dialog v-model="logout_dialog" max-width="500">
+    <v-card>
+      <v-card-title class="d-flex align-center text-h6">
+        <v-icon color="error" class="mr-2">mdi-alert-circle</v-icon>
+        确定要退出当前登录账号吗？
+      </v-card-title>
+      <v-card-text> 退出后将需要重新登录才能访问受保护内容 </v-card-text>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn variant="outlined" @click="logout_dialog = false">取消</v-btn>
+        <v-btn variant="flat" color="error" @click="confirmLogout"> 确认退出 </v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 </template>
 
 <script setup>
@@ -83,7 +71,10 @@ const confirmLogout = () => {
 
 <style lang="scss" scoped>
 .fs-app-topnav {
-  background: #333333;
+
+  .v-btn {
+    text-transform: none;
+  }
 
   .nav-box {
     display: flex;
@@ -106,13 +97,8 @@ const confirmLogout = () => {
         line-height: 1;
         font-size: 12px;
 
-        // span {
-        //   font-size: 16px;
-        //   margin-right: 4px;
-        // }
-
         &:hover {
-          color: $fs-base-color-dark;
+          color: $fs-primary-color;
         }
       }
 

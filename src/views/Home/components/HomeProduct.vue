@@ -62,7 +62,7 @@ onMounted(() => getHomeGoods())
   .box {
     height: 610px;
     display: flex;
-    column-gap: 10px;
+    column-gap: 15px;
 
     .cover {
       width: 240px;
@@ -105,13 +105,13 @@ onMounted(() => getHomeGoods())
 
     .goods-list {
       display: grid;
-      grid-template-columns: repeat(4, calc((100% - 30px) / 4));
+      grid-template-columns: repeat(4, calc((100% - 45px) / 4));
       // grid-template-columns: repeat(4, 240px);
       grid-template-rows: repeat(2, calc((100% - 10px) / 2));
-      gap: 10px;
-      width: calc(100% - 250px);
+      gap: 15px;
+      width: calc(100% - 255px);
       height: 100%;
-      overflow: hidden;
+      // overflow: hidden;
 
       li {
         width: 100%;

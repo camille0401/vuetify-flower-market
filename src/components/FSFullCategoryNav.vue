@@ -2,15 +2,18 @@
   <v-sheet color="primary">
     <div class="fs-full-category-nav-box">
       <div class="container">
-        <v-sheet color="secondary">
+        <v-sheet color="#004D40">
           <RouterLink to="/allCategories" class="left-box" active-class="active">
             <span>所有分类</span>
           </RouterLink>
         </v-sheet>
+        <v-sheet>
+
+        </v-sheet>
         <ul class="right-box">
-          <li>
+          <!-- <li>
             <RouterLink to="/">首页</RouterLink>
-          </li>
+          </li> -->
           <li v-for="category in categoryStore.categoryList" :key="category.id">
             <RouterLink active-class="active" :to="`/category/1/${category.id}`">{{ category.cname }}</RouterLink>
           </li>
@@ -70,12 +73,12 @@ const categoryStore = useCategoryStore();
         padding: 10px 25px;
 
         &:hover {
-          background-color: $fs-hover-color;
+          background-color: $fs-secondary-color;
         }
       }
 
       .active {
-        background-color: $fs-hover-color;
+        background-color: $fs-secondary-color;
       }
 
     }

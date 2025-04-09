@@ -1,12 +1,14 @@
 <template>
   <div class="app-header-sticky" :class="{ show: y > 98 }">
-    <div class="container header-sticky-box">
-      <FSLogo />
-      <!-- 导航区域 -->
-      <div class="right-box">
-        <FSCategoryNav position="fixed" />
+    <v-sheet color="background" elevation="4">
+      <div class="container header-sticky-box">
+        <FSLogo />
+        <!-- 导航区域 -->
+        <div class="right-box">
+          <FSCategoryNav position="fixed" />
+        </div>
       </div>
-    </div>
+    </v-sheet>
   </div>
 </template>
 
@@ -26,9 +28,9 @@ const { y } = useScroll(window);
   z-index: 999;
   width: 100%;
   height: 100px;
-  background-color: #FFF;
+  // background-color: #FFF;
   // border-bottom: 1px solid #e4e4e4;
-  box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .1);
+  // box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .1);
   // 此处为关键样式!!!
   // 状态一：往上平移自身高度 + 完全透明
   transform: translateY(-100%);

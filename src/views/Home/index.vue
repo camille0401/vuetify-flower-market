@@ -1,10 +1,10 @@
 <template>
   <div class="fs-home-page pb-10">
     <div class='container home-content'>
-      <HomeCategory />
       <div class="home-banner">
         <img src="@/assets/images/login-bg.jpg" width="100%" height="500" alt="">
       </div>
+      <HomeCategory />
       <HomeProduct />
     </div>
   </div>
@@ -12,8 +12,9 @@
 
 <script setup>
 import { defineAsyncComponent } from 'vue';
-import HomeCategory from './components/HomeCategory.vue';
+// import HomeCategory from './components/HomeCategory.vue';
 
+const HomeCategory = defineAsyncComponent(() => import('./components/HomeCategory.vue'));
 const HomeProduct = defineAsyncComponent(() => import('./components/HomeProduct.vue'));
 
 </script>
