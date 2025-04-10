@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 import { useUserStore } from './user'
+import Big from 'big.js'
 import {
   getCartListAPI,
   insertCartAPI,
@@ -21,9 +22,14 @@ export const useCartStore = defineStore(
     // 1. 总的数量 所有项的count之和
     const cartAllCount = computed(() => cartList.value.reduce((prev, cur) => prev + cur.count, 0))
     // 2. 总价 所有项的count*price之和
-    const cartAllPrice = computed(() =>
-      cartList.value.reduce((prev, cur) => prev + cur.price * cur.count, 0).toFixed(2)
-    )
+    const cartAllPrice = computed(() => {
+      return cartList.value.reduce((prev, cur) => {
+        const price = new Big(cur.price)
+        const count = new Big(cur.count)
+        return prev.plus(price.times(count))
+      }, new Big(0))
+    })
+
     // 3.是否全选
     const cartIsAll = computed(() => {
       if (cartList.value.length === 0) return false
@@ -34,13 +40,16 @@ export const useCartStore = defineStore(
     const cartSelectedCount = computed(() =>
       cartList.value.filter((item) => item.selected).reduce((a, c) => a + c.count, 0)
     )
+
     // 5. 已选择商品价钱合计
-    const cartSelectedPrice = computed(() =>
-      cartList.value
+    const cartSelectedPrice = computed(() => {
+      return cartList.value
         .filter((item) => item.selected)
-        .reduce((a, c) => a + c.count * c.price, 0)
-        .toFixed(2)
-    )
+        .reduce((prev, cur) => {
+          const itemTotal = new Big(cur.price).times(cur.count)
+          return prev.plus(itemTotal)
+        }, new Big(0))
+    })
 
     // 查询购物车列表
     const getCartList = async () => {
@@ -153,6 +162,7 @@ export const useCartStore = defineStore(
       }
     }
 
+    // input-count-change
     const countChange = (goods) => {
       if (isLogin.value) {
         updateCart(goods)

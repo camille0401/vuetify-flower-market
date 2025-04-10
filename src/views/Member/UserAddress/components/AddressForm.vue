@@ -92,6 +92,23 @@ const formTitle = computed(() =>
   props.initialData?.id ? '编辑地址' : '新建地址'
 )
 
+// 验证规则
+const requiredRule = (v) => !!v || '此项为必填项'
+
+const mobileRule = (v) => {
+  const pattern = /^1[3-9]\d{9}$/
+  return !v || pattern.test(v) || '请输入有效的手机号码'
+}
+
+const zipcodeRule = (v) => {
+  const pattern = /^[1-9]\d{5}$/
+  return !v || pattern.test(v) || '请输入有效的邮政编码'
+}
+
+const addressRule = (v) => {
+  return !v || v.length >= 5 || '详细地址至少需要5个字符'
+}
+
 // 初始化表单数据
 watchEffect(() => {
   if (props.initialData) {

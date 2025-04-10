@@ -59,8 +59,6 @@ const categoryStore = useCategoryStore();
       display: flex;
       align-items: center;
       flex-wrap: wrap;
-      // color: #ffffff;
-      z-index: 998;
       flex-shrink: 0;
       padding-left: 20px;
 

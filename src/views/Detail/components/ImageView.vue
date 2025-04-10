@@ -135,6 +135,7 @@ watch([elementX, elementY, isOutside], () => {
 
   .small-img-box {
     width: 400px;
+    min-height: 68px;
 
     img {
       border: 2px solid #E0E0E0;

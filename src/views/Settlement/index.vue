@@ -21,12 +21,14 @@
             <v-card-text>
               <div class="address">
                 <div class="text">
-                  <div class="none">您需要先添加收货地址才可提交订单。</div>
-                  <!-- <ul>
-                  <li><span>收<i />货<i />人：</span>刘xx</li>
-                  <li><span>联系方式：</span>186576767</li>
-                  <li><span>收货地址：</span>浙江省杭州市余杭区</li>
-                </ul> -->
+                  <div v-if="!activeAddress" class="none">您需要先添加收货地址才可提交订单。</div>
+                  <ul v-else>
+                    <li><span>收<i />货<i />人：</span>刘xx
+                      <v-chip class="ml-4" color="red">默认</v-chip>
+                    </li>
+                    <li><span>联系方式：</span>186576767</li>
+                    <li><span>收货地址：</span>浙江省杭州市余杭区</li>
+                  </ul>
                 </div>
               </div>
             </v-card-text>
@@ -82,6 +84,7 @@
                 <v-chip color="primary" rounded="sm" variant="outlined">工作日送货：周一至周五</v-chip>
                 <v-chip color="primary" rounded="sm" variant="outlined">双休日、假日送货：周六至周日</v-chip>
               </v-chip-group>
+              <!-- <v-date-picker></v-date-picker> -->
             </v-card-text>
           </v-card-item>
           <v-card-item>
@@ -145,7 +148,7 @@
   </v-dialog>
   <!-- 切换地址对话框 -->
   <v-dialog v-model="switchDialog" max-width="600">
-    <AddressList :list="addressStore.addressList" :activeId="activeAddress.id" @switchAddress="switchAddress"
+    <AddressList :list="addressStore.addressList" :activeAddress="activeAddress" @switchAddress="switchAddress"
       @close="switchDialog = false" />
   </v-dialog>
 </template>
@@ -155,19 +158,19 @@ import AddressForm from '@/views/Member/UserAddress/components/AddressForm.vue';
 import AddressList from './components/AddressList.vue';
 import { onMounted, ref } from 'vue';
 import { useAddressStore } from '@/stores/address'
-import { useOpenAddDialog } from '@/composables/useOpenaddDialog'
+import { useAddressForm } from '@/composables/useAddressForm'
 
 const addressStore = useAddressStore()
 
-const { editDialog, selectedAddress, openCreateDialog, handleSubmit } = useOpenAddDialog();
+const { editDialog, selectedAddress, openCreateDialog, handleSubmit } = useAddressForm();
 
 // 组件状态
 const checkInfo = ref({}); // 订单对象
 
-const activeAddress = addressStore.addressList?.[0] || {};
+const activeAddress = addressStore.addressList.find(item => item.isDefault === 1) || {};
 
 const switchDialog = ref(false)
-const switchAddress = () => {
+const switchAddress = (address) => {
 
 }
 
@@ -203,7 +206,6 @@ const switchAddress = () => {
           line-height: 30px;
 
           span {
-            color: #999;
             margin-right: 5px;
 
             >i {

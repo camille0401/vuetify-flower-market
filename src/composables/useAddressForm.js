@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 import { useAddressStore } from '@/stores/address'
 
-export const useOpenAddDialog = () => {
+export const useAddressForm = () => {
   const addressStore = useAddressStore()
 
   const editDialog = ref(false)

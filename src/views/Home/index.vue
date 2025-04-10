@@ -26,6 +26,5 @@ const HomeProduct = defineAsyncComponent(() => import('./components/HomeProduct.
   position: absolute;
   left: 0;
   top: 0;
-  z-index: 98;
 }
 </style>

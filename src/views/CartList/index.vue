@@ -37,17 +37,16 @@
                 <p>&yen;{{ cart.price }}</p>
               </td>
               <td class="tc">
-                <v-number-input v-model="cart.count" @update:modelValue="handleInput(cart)" width="100%" color="primary"
-                  variant="outlined" control-variant="split" :min="0" hide-details inset>
-                </v-number-input>
+                <FSBoundedNumInput v-model="cart.count" :min="1" :max="cart.inventory" :debounce="500" :data="cart"
+                  @change="handleCountChange" @out-of-range="handleOutOfRange" @store-count="handleCountStore" />
               </td>
               <td class="tc">
-                <p class="f16 red">&yen;{{ (cart.price * cart.count).toFixed(2) }}</p>
+                <p class="f16 red">&yen;{{ calcGoodsTotalPrice(cart.price, cart.count) }}</p>
               </td>
               <td class="tc">
                 <div>
                   <v-btn size="small" icon color="error" class="ml-2" @click="handleDelCart(cart.goodsId)">
-                    <v-icon>mdi-delete</v-icon>
+                    <v-icon>mdi-delete-outline</v-icon>
                   </v-btn>
                 </div>
               </td>
@@ -73,7 +72,8 @@
           <span class="red">¥ {{ cartStore.cartSelectedPrice }} </span>
         </div>
         <div class="total">
-          <v-btn class="mr-4" color="error" size="large" variant="outlined" @click="handleDelAllCart">删除</v-btn>
+          <v-btn v-show="cartSelectedRows?.length > 0" class="mr-4" color="error" size="large" variant="outlined"
+            @click="handleDelAllCart">删除</v-btn>
           <v-btn color="primary" size="large" variant="flat" @click="toSettlementPage">下单结算</v-btn>
         </div>
       </div>
@@ -82,12 +82,26 @@
 </template>
 
 <script setup name="CartList">
-import { ref } from 'vue';
+import FSEmptyPanel from '@/components/FSEmptyPanel.vue';
+import FSBoundedNumInput from '@/components/FSBoundedNumInput.vue';
+import Big from 'big.js'
+import { computed, ref } from 'vue';
 import { useCartStore } from '@/stores/cart';
 import { useRouter } from 'vue-router';
-import FSEmptyPanel from '@/components/FSEmptyPanel.vue';
+import { useCartCount } from "@/composables/useCartCount";
+import { useToast } from 'vue-toastification';
 
+const toast = useToast()
 const cartStore = useCartStore()
+const { handleCountChange, handleOutOfRange } = useCartCount();
+
+const cartSelectedRows = computed(() => cartStore.cartList.filter(item => item.selected))
+
+const calcGoodsTotalPrice = (price, count) => {
+  const itemPrice = new Big(price)
+  const itemCount = new Big(count)
+  return itemPrice.times(itemCount)
+}
 
 // 单个删除
 const handleDelCart = (goodsId) => {
@@ -110,17 +124,25 @@ const handleDelAllCart = () => {
   }
 }
 
-const handleInput = (goods) => {
+// count-input-change
+const handleCountStore = (goods) => {
   cartStore.countChange(goods)
 }
 
 const router = useRouter();
+
 const toSettlementPage = () => {
-  router.push({ path: "/settlement" })
+  if (cartSelectedRows.value.length === 0) {
+    toast.warning('请先选择商品')
+    return
+  }
+  router.push({ path: '/settlement' })
 }
+
 const toHomePage = () => {
-  router.push({ path: "/" })
+  router.push({ path: '/' })
 }
+
 
 
 </script>

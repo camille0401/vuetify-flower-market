@@ -34,8 +34,8 @@
   <!-- 删除确认对话框 -->
   <v-dialog v-model="deleteDialog" max-width="500">
     <v-card>
-      <v-card-title class="text-h6">
-        <v-icon color="error" class="mr-2">mdi-alert-circle</v-icon>
+      <v-card-title class="d-flex align-center bg-primary">
+        <v-icon color="background" class="mr-2">mdi-alert-circle</v-icon>
         确认删除？
       </v-card-title>
       <v-card-text> 确定要删除这个地址吗？此操作不可撤销。 </v-card-text>
@@ -52,7 +52,7 @@
 import AddressForm from './components/AddressForm.vue'
 import { onMounted, ref } from 'vue'
 import { useAddressStore } from '@/stores/address'
-import { useOpenAddDialog } from '@/composables/useOpenaddDialog'
+import { useAddressForm } from '@/composables/useAddressForm'
 
 
 // 表格列配置
@@ -67,7 +67,7 @@ const headers = [
 const addressStore = useAddressStore()
 
 const { editDialog, selectedId, selectedAddress,
-  openCreateDialog, openEditDialog, handleSubmit } = useOpenAddDialog();
+  openCreateDialog, openEditDialog, handleSubmit } = useAddressForm();
 
 // 组件状态
 const deleteDialog = ref(false)

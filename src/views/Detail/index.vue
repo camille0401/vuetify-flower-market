@@ -12,32 +12,9 @@
           <div class="media">
             <!-- 图片预览区 -->
             <ImageView :image-list="detailData.mainPictures || []" />
-            <!-- 统计数量 -->
-            <!-- <ul class="goods-sales">
-              <li>
-                <p>销量人气</p>
-                <p>{{ detailData.salesCount }}+ </p>
-                <p><i class="iconfont icon-task-filling"></i>销量人气</p>
-              </li>
-              <li>
-                <p>商品评价</p>
-                <p>{{ detailData.commentCount }}+</p>
-                <p><i class="iconfont icon-comment-filling"></i>查看评价</p>
-              </li>
-              <li>
-                <p>收藏人气</p>
-                <p>{{ detailData.collectCount }}+</p>
-                <p><i class="iconfont icon-favorite-filling"></i>收藏商品</p>
-              </li>
-              <li>
-                <p>品牌信息</p>
-                <p>{{ detailData.brand?.name }}</p>
-                <p><i class="iconfont icon-dynamic-filling"></i>品牌主页</p>
-              </li>
-            </ul> -->
           </div>
           <div class="spec">
-            <v-card class="wx-auto pa-4" style="height: 100%;" color="background" elevation="0">
+            <v-card class="wx-auto" style="height: 100%;" color="background" elevation="0">
               <v-card-item>
                 <v-card-title>{{ detailData.cname }}</v-card-title>
                 <v-card-subtitle>{{ detailData.describes }}</v-card-subtitle>
@@ -46,27 +23,35 @@
                 <v-divider></v-divider>
               </v-card-item>
               <v-card-item>
-                <div class="g-service">
-                  <p class="g-price">单价：<span>{{ detailData.price || '0' }}</span></p>
-                  <p class="g-price">总计：<span>{{ allPrice }}</span></p>
-                </div>
+                <v-card-text>
+                  <div class="g-service">
+                    <p class="g-price">单价：<span>{{ detailData.price || '0' }}</span></p>
+                    <p class="g-price">总计：<span>{{ allPrice }}</span></p>
+                  </div>
+                </v-card-text>
               </v-card-item>
               <v-card-item>
-                <div class="goods-count-box">
-                  <div class="d-flex align-center">
-                    <label>数量：</label>
-                    <v-number-input v-model="count" width="200px" variant="outlined" control-variant="split" :min="0"
-                      :max="detailData.inventory" hide-details inset></v-number-input>
+                <v-card-text>
+                  <div class="goods-count-box">
+                    <div class="d-flex align-center">
+                      <label>数量：</label>
+                      <FSBoundedNumInput v-model="count" :min="1" :max="detailData.inventory" :debounce="500"
+                        @change="handleCountChange" @out-of-range="handleOutOfRange" />
+                      <!-- <v-number-input v-model="count" width="200px" variant="outlined" control-variant="split" :min="0"
+                        :max="detailData.inventory" hide-details inset></v-number-input> -->
+                    </div>
+                    <span>库存量：{{ detailData.inventory || '0' }}件</span>
+                    <span>已售：{{ detailData.salesCount || '0' }}件</span>
                   </div>
-                  <span>库存量：{{ detailData.inventory || '0' }}件</span>
-                  <span>已售：{{ detailData.salesCount || '0' }}件</span>
-                </div>
+                </v-card-text>
                 <!-- 按钮组件 -->
               </v-card-item>
               <v-card-item>
-                <v-btn class="mr-4" color="primary" elevation="8" size="x-large" prepend-icon="mdi-cart-plus"
-                  @click="handleAddCart">加入购物车</v-btn>
-                <v-btn color="error" elevation="8" size="x-large" to="/settlement">立即购买</v-btn>
+                <v-card-text>
+                  <v-btn class="mr-4" color="primary" elevation="8" size="x-large" prepend-icon="mdi-cart-plus"
+                    @click="handleAddCart">加入购物车</v-btn>
+                  <v-btn color="error" elevation="8" size="x-large" to="/settlement">立即购买</v-btn>
+                </v-card-text>
               </v-card-item>
             </v-card>
           </div>
@@ -88,20 +73,24 @@
 </template>
 
 <script setup name="Detail">
-// import FSImageView from '@/components/FSImageView.vue';
 import ImageView from './components/ImageView.vue';
-// import FSGoodsSku from '@/components/FSSku/index.vue';
+import FSBoundedNumInput from '@/components/FSBoundedNumInput.vue';
 import { useToast } from 'vue-toastification'
 import { getDetailAPI } from '@/apis/detail';
 import { computed, onMounted, ref } from 'vue';
 import { onBeforeRouteUpdate, useRoute, useRouter } from 'vue-router';
 import { useCartStore } from '@/stores/cart';
+import { useCartCount } from "@/composables/useCartCount";
 
 const toast = useToast();
 const route = useRoute();
 const router = useRouter();
 const cartStore = useCartStore();
+const { handleCountChange, handleOutOfRange } = useCartCount();
+
 const count = ref(1); //input-count
+
+const allPrice = computed(() => detailData.value.price * count.value || 0)
 
 // 获取detail-page数据
 const detailData = ref({});
@@ -114,7 +103,6 @@ onBeforeRouteUpdate((to) => {
   getDetailData(to.params.id)
 })
 
-const allPrice = computed(() => detailData.value.price * count.value || 0)
 
 const handleAddCart = () => {
   if (count.value === 0) {
@@ -136,10 +124,7 @@ const handleAddCart = () => {
   }
 }
 
-// const toSettlementPage = () => {
-//   router.push('/settlement')
 
-// }
 
 </script>
 
@@ -155,7 +140,7 @@ const handleAddCart = () => {
 
     .spec {
       flex: 1;
-      height: 400px;
+      min-height: 400px;
     }
   }
 
@@ -219,9 +204,9 @@ const handleAddCart = () => {
   }
 
   .g-price {
-    line-height: 40px;
     display: flex;
     align-items: center;
+    line-height: 40px;
 
     span {
       &::before {
@@ -233,7 +218,7 @@ const handleAddCart = () => {
         color: $priceColor;
         margin-right: 10px;
         font-size: 22px;
-        line-height: 50px;
+        line-height: 40px;
       }
 
 

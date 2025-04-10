@@ -36,15 +36,15 @@
   <!-- 确认退出对话框 -->
   <v-dialog v-model="logout_dialog" max-width="500">
     <v-card>
-      <v-card-title class="d-flex align-center text-h6">
-        <v-icon color="error" class="mr-2">mdi-alert-circle</v-icon>
+      <v-card-title class="d-flex align-center text-h6 bg-primary">
+        <v-icon color="background" class="mr-2">mdi-alert-circle</v-icon>
         确定要退出当前登录账号吗？
       </v-card-title>
       <v-card-text> 退出后将需要重新登录才能访问受保护内容 </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn variant="outlined" @click="logout_dialog = false">取消</v-btn>
-        <v-btn variant="flat" color="error" @click="confirmLogout"> 确认退出 </v-btn>
+        <v-btn color="grey" @click="logout_dialog = false">取消</v-btn>
+        <v-btn color="error" @click="confirmLogout"> 确认退出 </v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>

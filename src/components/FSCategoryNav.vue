@@ -33,7 +33,6 @@ $--active-color: $fs-primary-color;
   flex-wrap: wrap;
   column-gap: 20px;
   width: 100%;
-  z-index: 998;
   flex-shrink: 0;
   padding: 10px 0 10px 20px;
 
