@@ -1,7 +1,7 @@
 <template>
   <v-sheet color="background" elevation="2" style="height: 100%;">
     <RouterLink :to="`/detail/${goods.id}`" class="goods-item">
-      <div class="img-box bg-surface" style="height:imgHeight">
+      <div class="img-box bg-surface" :style="{height: imgHeight}">
         <img v-img-lazy="goods.picture" alt="" />
       </div>
       <p class="name ellipsis">{{ goods.cname }}</p>
@@ -19,7 +19,7 @@ defineProps({
   },
   imgHeight: {
     type: String,
-    default: '210px'
+    default: ''
   }
 })
 </script>
@@ -38,7 +38,6 @@ defineProps({
     align-items: center;
     justify-content: center;
     width: 100%;
-    min-height: 210px;
     margin-bottom: 10px;
   }
 

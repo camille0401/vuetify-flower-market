@@ -10,7 +10,7 @@
             </RouterLink>
           </li>
           <li>
-            <a href="javascript:void(0)" @click="logout_dialog = true">退出登录</a>
+            <a href="javascript:void(0)" @click="logoutDialog = true">退出登录</a>
           </li>
           <li>
             <RouterLink to="/member/order">我的订单</RouterLink>
@@ -34,17 +34,21 @@
     </v-sheet>
   </nav>
   <!-- 确认退出对话框 -->
-  <v-dialog v-model="logout_dialog" max-width="500">
+  <v-dialog v-model="logoutDialog" max-width="400">
     <v-card>
-      <v-card-title class="d-flex align-center text-h6 bg-primary">
-        <v-icon color="background" class="mr-2">mdi-alert-circle</v-icon>
-        确定要退出当前登录账号吗？
+      <v-card-title class="d-flex align-center bg-primary">
+        <v-icon icon="mdi-logout" class="mr-2" />
+        <span class="text-h6">确认退出</span>
       </v-card-title>
-      <v-card-text> 退出后将需要重新登录才能访问受保护内容 </v-card-text>
-      <v-card-actions>
-        <v-spacer></v-spacer>
-        <v-btn color="grey" @click="logout_dialog = false">取消</v-btn>
-        <v-btn color="error" @click="confirmLogout"> 确认退出 </v-btn>
+
+      <v-card-text class="pa-4">
+        确定要退出当前账号吗？退出后将需要重新登录才能访问会员内容。
+      </v-card-text>
+
+      <v-card-actions class="pa-4">
+        <v-spacer />
+        <v-btn variant="text" @click="logoutDialog = false">取消</v-btn>
+        <v-btn color="error" @click="handleLogout">确认退出</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -58,10 +62,10 @@ import { useRouter } from 'vue-router'
 const userStore = useUserStore()
 const router = useRouter()
 
-const logout_dialog = ref(false)
+const logoutDialog = ref(false)
 
 const confirmLogout = () => {
-  logout_dialog.value = false;
+  logoutDialog.value = false;
   userStore.clearUserInfo()
   // 2.跳转到登录页
   router.push('/user/login')

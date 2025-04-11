@@ -1,121 +1,192 @@
 <template>
-  <v-card class="mx-auto pa-4" rounded="l" elevation="0" style="height: 100%;">
-    <v-card-title>
-      个人信息
-    </v-card-title>
-    <v-divider class="ma-4"></v-divider>
-    <v-card-item>
-    </v-card-item>
+  <v-card class="pa-6" rounded="lg" flat>
+    <v-card-title class="text-h5 font-weight-bold mb-6">个人信息</v-card-title>
+
     <v-card-text>
-      <div class="content-box">
-        <v-avatar v-if="userStore.userInfo?.avatar" color="info" size="100">
-          <v-img alt="John" :src="userStore.userInfo?.avatar"></v-img>
-        </v-avatar>
-        <v-avatar v-else color="primary" size="100">
-          <v-icon icon="mdi-account-circle" size="80"></v-icon>
-        </v-avatar>
-        <div class="form-group">
-          <v-form ref="userinfoFormRef">
-            <v-text-field v-model="userInfoForm.username" color="primary" label="User name"
-              variant="underlined"></v-text-field>
+      <div class="profile-container">
+        <!-- 头像上传区域 -->
+        <div class="avatar-section">
+          <v-avatar color="primary-lighten-4" size="160" class="mb-4">
+            <v-img v-if="userStore.userInfo?.avatar" :src="userStore.userInfo.avatar" alt="用户头像" cover />
+            <v-icon v-else size="80">mdi-account-circle</v-icon>
+          </v-avatar>
 
-            <v-text-field v-model="userInfoForm.nickName" color="primary" label="Nick name"
-              variant="underlined"></v-text-field>
-
-            <v-text-field v-model="userInfoForm.email" color="primary" label="Email"
-              variant="underlined"></v-text-field>
-            <!-- <v-select v-model="userInfoForm.gender" color="primary" label="Gender" variant="underlined"
-                :items="[{ title: '男', value: 0 }, { title: '女', value: 1 }]">
-
-              </v-select>
-
-              <v-text-field v-model="userInfoForm.birthday" color="primary" label="Birthday"
-                variant="underlined"></v-text-field> -->
-
-            <!-- <v-date-picker ></v-date-picker> -->
-
-            <!-- <v-text-field v-model="userInfoForm.phone" color="primary" label="Phone"
-                variant="underlined"></v-text-field> -->
-
-            <v-btn color="primary" size="x-large" variant="elevated" block @click="handleSubmit">submit</v-btn>
-          </v-form>
+          <v-btn color="primary" variant="tonal" prepend-icon="mdi-camera" @click="openAvatarDialog">
+            更换头像
+          </v-btn>
         </div>
-      </div>
 
+        <!-- 表单区域 -->
+        <v-form ref="form" class="profile-form" @submit.prevent="handleSubmit">
+          <v-row>
+            <v-col cols="12" md="6">
+              <v-text-field v-model="form.username" label="用户名" variant="outlined" readonly density="comfortable" />
+            </v-col>
+
+            <v-col cols="12" md="6">
+              <v-text-field v-model="form.nickName" label="昵称" variant="outlined" density="comfortable"
+                :rules="[rules.required]" />
+            </v-col>
+
+            <v-col cols="12" md="6">
+              <v-text-field v-model="form.email" label="电子邮箱" variant="outlined" density="comfortable"
+                :rules="[rules.required, rules.email]" />
+            </v-col>
+
+            <v-col cols="12" md="6">
+              <v-text-field v-model="form.phone" label="手机号码" variant="outlined" density="comfortable"
+                :rules="[rules.phone]" />
+            </v-col>
+
+            <v-col cols="12">
+              <v-select v-model="form.gender" label="性别" variant="outlined" density="comfortable"
+                :items="genderOptions" />
+            </v-col>
+
+            <v-col cols="12">
+              <v-textarea v-model="form.bio" label="个人简介" variant="outlined" density="comfortable" rows="3"
+                counter="200" />
+            </v-col>
+          </v-row>
+
+          <v-card-actions class="px-0">
+            <v-spacer />
+            <v-btn color="primary" size="large" type="submit" :loading="submitting" prepend-icon="mdi-content-save">
+              保存修改
+            </v-btn>
+          </v-card-actions>
+        </v-form>
+      </div>
     </v-card-text>
+
+    <!-- 头像上传对话框 -->
+    <!-- <v-dialog v-model="avatarDialog" max-width="500">
+      <AvatarUploader
+        :current-avatar="form.avatar"
+        @close="avatarDialog = false"
+        @uploaded="handleAvatarUploaded"
+      />
+    </v-dialog> -->
   </v-card>
 </template>
 
 <script setup>
-import { ref, watchEffect } from 'vue'
+import { ref, reactive, watch } from 'vue'
 import { useUserStore } from '@/stores/user'
 import { useToast } from 'vue-toastification'
+// import AvatarUploader from '@/components/AvatarUploader.vue'
 
 const toast = useToast()
-
 const userStore = useUserStore()
+const formRef = ref(null)
 
-const userinfoFormRef = ref(null);
-const userInfoForm = ref({
-  username: "",
-  email: "",
-  nickName: "",
-  // avatar: "",
-  // gender: 1,
-  // birthday: "",
-  // phone: "",
-
+// 表单数据
+const form = reactive({
+  username: '',
+  nickName: '',
+  email: '',
+  phone: '',
+  gender: '',
+  bio: '',
+  avatar: ''
 })
+
+// 表单状态
+const submitting = ref(false)
+const avatarDialog = ref(false)
+
+// 表单验证规则
+const rules = {
+  required: value => !!value || '必填项',
+  email: value => /.+@.+\..+/.test(value) || '请输入有效的邮箱地址',
+  phone: value => !value || /^1[3-9]\d{9}$/.test(value) || '请输入有效的手机号'
+}
+
+// 性别选项
+const genderOptions = [
+  { title: '男', value: 'male' },
+  { title: '女', value: 'female' },
+  { title: '其他', value: 'other' }
+]
 
 // 初始化表单数据
-watchEffect(() => {
-  if (userStore.userInfo) {
-    userInfoForm.value = { ...userStore?.userInfo }
+watch(() => userStore.userInfo, (userInfo) => {
+  if (userInfo) {
+    Object.assign(form, {
+      username: userInfo.username || '',
+      nickName: userInfo.nickName || '',
+      email: userInfo.email || '',
+      phone: userInfo.phone || '',
+      gender: userInfo.gender || '',
+      bio: userInfo.bio || '',
+      avatar: userInfo.avatar || ''
+    })
   }
-})
+}, { immediate: true })
 
-const handleSubmit = () => {
-  toast.warning("开发中")
-
+// 打开头像上传对话框
+const openAvatarDialog = () => {
+  avatarDialog.value = true
 }
 
+// 处理头像上传成功
+const handleAvatarUploaded = (avatarUrl) => {
+  form.avatar = avatarUrl
+  avatarDialog.value = false
+  toast.success('头像更新成功')
+}
+
+// 提交表单
+const handleSubmit = async () => {
+  const { valid } = await formRef.value.validate()
+  if (!valid) return
+
+  submitting.value = true
+  try {
+    // 调用API更新用户信息
+    await userStore.updateUserInfo(form)
+    toast.success('个人信息更新成功')
+  } catch (error) {
+    toast.error(error.message || '更新失败')
+  } finally {
+    submitting.value = false
+  }
+}
 </script>
 
-
-<style scoped lang="scss">
-.content-box {
+<style lang="scss" scoped>
+.profile-container {
   display: flex;
-  justify-content: center;
-  align-items: center;
   flex-direction: column;
-  width: 400px;
-  row-gap: 20px;
-  margin: 40px;
+  align-items: center;
+  gap: 32px;
+
+  @media (min-width: 960px) {
+    flex-direction: row;
+    align-items: flex-start;
+  }
 }
 
-.form-group {
-  width: 100%;
+.avatar-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  min-width: 200px;
 
-  .dyn-label {
-    display: flex;
-    justify-content: space-between;
-    width: 48px;
-    font-size: 12px;
-    vertical-align: top;
-    font-weight: normal;
-    line-height: 36px;
-    margin-right: 20px;
+  .v-avatar {
+    border: 3px solid rgba(var(--v-theme-primary), 0.1);
+    transition: all 0.3s ease;
+
+    &:hover {
+      border-color: rgba(var(--v-theme-primary), 0.3);
+      transform: scale(1.05);
+    }
   }
+}
 
-  :deep(.el-form-item) {
-    margin-bottom: 40px;
-  }
-
-  :deep(.el-input__wrapper) {
-    background-color: #F7F9FA;
-    box-shadow: none;
-    color: #232628;
-  }
-
+.profile-form {
+  flex: 1;
+  min-width: 0;
 }
 </style>

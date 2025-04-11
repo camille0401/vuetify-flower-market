@@ -12,7 +12,7 @@
 
           <ul class="goods-list">
             <li v-for="goods in cate.goods.slice(0, 8)" :key="goods.id">
-              <FSGoodsItem :goods="goods" imgHeight="210px" />
+              <FSGoodsItem :goods="goods" imgHeight="200px" />
             </li>
           </ul>
         </div>

@@ -1,6 +1,7 @@
 <template>
   <v-card class="mx-auto pa-4" rounded="l" elevation="0" style="height: 100%;">
-    <v-card-title>
+    <v-card-title class="d-flex justify-space-between	align-center">
+      <p class="text-h5 font-weight-bold">收货地址</p>
       <v-btn color="primary" @click="openCreateDialog"><v-icon class="mr-2">mdi-pen-plus</v-icon>添加地址</v-btn>
     </v-card-title>
 
@@ -33,20 +34,26 @@
   </v-dialog>
 
   <!-- 删除确认对话框 -->
-  <v-dialog v-model="deleteDialog" max-width="500">
+  <!-- 确认退出对话框 -->
+  <v-dialog v-model="deleteDialog" max-width="400">
     <v-card>
       <v-card-title class="d-flex align-center bg-primary">
-        <v-icon color="background" class="mr-2">mdi-alert-circle</v-icon>
-        确认删除？
+        <v-icon icon="mdi-alert-circle-outline" class="mr-2" />
+        <span class="text-h6">确认删除？</span>
       </v-card-title>
-      <v-card-text> 确定要删除这个地址吗？此操作不可撤销。 </v-card-text>
-      <v-card-actions>
-        <v-spacer></v-spacer>
-        <v-btn color="grey" @click="deleteDialog = false">取消</v-btn>
-        <v-btn color="error" @click="confirmDelete"> 确认删除 </v-btn>
+
+      <v-card-text class="pa-4">
+        确定要删除这个地址吗？此操作不可撤销。
+      </v-card-text>
+
+      <v-card-actions class="pa-4">
+        <v-spacer />
+        <v-btn variant="text" @click="deleteDialog = false">取消</v-btn>
+        <v-btn color="error" @click="confirmDelete">确认删除</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
+
 </template>
 
 <script setup>
