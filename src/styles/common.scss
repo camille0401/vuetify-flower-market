@@ -89,53 +89,53 @@ input[type='checkbox'] {
   -webkit-line-clamp: 2;
   overflow: hidden;
 }
-// 奶茶粉主题自定义样式
-.v-application {
-  &.theme--light {
-    // 按钮样式
-    .v-btn {
-      &--primary {
-        box-shadow: 0 2px 4px rgba(232, 180, 184, 0.3);
-        &:hover {
-          box-shadow: 0 4px 8px rgba(232, 180, 184, 0.4);
-        }
-      }
+// // 奶茶粉主题自定义样式
+// .v-application {
+//   &.theme--light {
+//     // 按钮样式
+//     .v-btn {
+//       &--primary {
+//         box-shadow: 0 2px 4px rgba(232, 180, 184, 0.3);
+//         &:hover {
+//           box-shadow: 0 4px 8px rgba(232, 180, 184, 0.4);
+//         }
+//       }
 
-      &--secondary {
-        box-shadow: 0 2px 4px rgba(217, 167, 156, 0.3);
-      }
-    }
+//       &--secondary {
+//         box-shadow: 0 2px 4px rgba(217, 167, 156, 0.3);
+//       }
+//     }
 
-    // 卡片样式
-    .v-card {
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(201, 130, 131, 0.08);
-      border: 1px solid rgba(232, 180, 184, 0.15);
+//     // 卡片样式
+//     .v-card {
+//       border-radius: 12px;
+//       box-shadow: 0 4px 12px rgba(201, 130, 131, 0.08);
+//       border: 1px solid rgba(232, 180, 184, 0.15);
 
-      &-title {
-        color: #5e4a42; // 奶茶棕文字
-      }
-    }
+//       &-title {
+//         color: #5e4a42; // 奶茶棕文字
+//       }
+//     }
 
-    // 输入框样式
-    .v-text-field {
-      .v-field {
-        &__outline {
-          color: rgba(217, 167, 156, 0.4);
-        }
+//     // 输入框样式
+//     .v-text-field {
+//       .v-field {
+//         &__outline {
+//           color: rgba(217, 167, 156, 0.4);
+//         }
 
-        &:hover,
-        &:focus-within {
-          .v-field__outline {
-            color: #d9a79c;
-          }
-        }
-      }
-    }
+//         &:hover,
+//         &:focus-within {
+//           .v-field__outline {
+//             color: #d9a79c;
+//           }
+//         }
+//       }
+//     }
 
-    // 导航抽屉
-    .v-navigation-drawer {
-      background-color: #f9f1ee !important;
-    }
-  }
-}
+//     // 导航抽屉
+//     .v-navigation-drawer {
+//       background-color: #f9f1ee !important;
+//     }
+//   }
+// }

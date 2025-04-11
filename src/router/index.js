@@ -110,8 +110,8 @@ const router = createRouter({
     {
       path: '/:pathMatch(.*)',
       name: 'NotFound',
-      redirect: { name: 'home' }
-      // component: () => import("@/views/NotFound/index.vue"),
+      // redirect: { name: 'home' }
+      component: () => import('@/views/NotFound/index.vue')
     }
   ],
   scrollBehavior() {

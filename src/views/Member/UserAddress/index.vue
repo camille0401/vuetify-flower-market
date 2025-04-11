@@ -1,12 +1,12 @@
 <template>
-  <v-card class="mx-auto pa-4" rounded="l" elevation="4" style="height: 100%;">
-    <v-card-item>
+  <v-card class="mx-auto pa-4" rounded="l" elevation="0" style="height: 100%;">
+    <v-card-title>
       <v-btn color="primary" @click="openCreateDialog"><v-icon class="mr-2">mdi-pen-plus</v-icon>添加地址</v-btn>
-    </v-card-item>
-    <v-card-item>
-      <v-divider></v-divider>
-    </v-card-item>
-    <v-card-item>
+    </v-card-title>
+
+    <v-divider class="ma-4"></v-divider>
+
+    <v-card-text>
       <!-- 地址表格 -->
       <v-data-table :headers="headers" :items="addressStore.addressList" hide-default-footer>
         <template v-slot:item.isDefault="{ item }">
@@ -24,7 +24,8 @@
           </v-btn>
         </template>
       </v-data-table>
-    </v-card-item>
+    </v-card-text>
+
   </v-card>
   <!-- 编辑对话框 -->
   <v-dialog v-model="editDialog" max-width="600">

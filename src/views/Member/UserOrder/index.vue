@@ -57,23 +57,14 @@ const fomartPayState = (payState) => {
 }
 </script>
 <template>
-  <v-card class="mx-auto pa-4" rounded="l" elevation="4" style="height: 100%;">
-    <v-card-item>
+  <v-card class="mx-auto pa-4" rounded="l" elevation="0" style="height: 100%;">
+    <v-card-text>
       <v-tabs v-model="tab" color="primary">
         <v-tab v-for="tab in tabTypes" :key="tab.name" :value="tab.name">{{ tab.label }}</v-tab>
       </v-tabs>
-    </v-card-item>
-
-    <v-card-item>
+      <v-divider class="ma-4"></v-divider>
       <v-alert title="开发中" type="warning"></v-alert>
-    </v-card-item>
-
-    <!-- 分页 -->
-    <!-- <v-card-item>
-      <div class="pagination-container">
-        <v-pagination v-model="page" :length="4" color="primary" size="small" rounded="circle"></v-pagination>
-      </div>
-    </v-card-item> -->
+    </v-card-text>
   </v-card>
 </template>
 

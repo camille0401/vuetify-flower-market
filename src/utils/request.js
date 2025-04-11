@@ -51,7 +51,7 @@ request.interceptors.response.use(
     if (error.response.status === 401) {
       const userStore = useUserStore()
       userStore.clearUserInfo()
-      router.replace('/user/login')
+      // router.replace('/user/login')
     }
     return Promise.reject(error)
   }

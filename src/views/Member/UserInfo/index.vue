@@ -1,14 +1,12 @@
 <template>
-  <v-card class="mx-auto pa-4" rounded="l" elevation="4" style="height: 100%;">
+  <v-card class="mx-auto pa-4" rounded="l" elevation="0" style="height: 100%;">
+    <v-card-title>
+      个人信息
+    </v-card-title>
+    <v-divider class="ma-4"></v-divider>
     <v-card-item>
-      <v-card-title>
-        个人信息
-      </v-card-title>
     </v-card-item>
-    <v-card-item>
-      <v-divider></v-divider>
-    </v-card-item>
-    <v-card-item>
+    <v-card-text>
       <div class="content-box">
         <v-avatar v-if="userStore.userInfo?.avatar" color="info" size="100">
           <v-img alt="John" :src="userStore.userInfo?.avatar"></v-img>
@@ -43,7 +41,8 @@
           </v-form>
         </div>
       </div>
-    </v-card-item>
+
+    </v-card-text>
   </v-card>
 </template>
 
