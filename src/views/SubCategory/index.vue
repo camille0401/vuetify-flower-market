@@ -133,11 +133,11 @@ console.log(categoryData)
           line-height: 30px;
 
           &:hover {
-            color: $fs-base-color-dark;
+            color: $fs-primary-color;
           }
 
           &.active {
-            color: $fs-base-color-dark;
+            color: $fs-primary-color;
           }
 
         }

@@ -1,6 +1,6 @@
 <template>
   <h1 class="logo">
-    <RouterLink to="/">
+    <RouterLink class="text-primary-darken-1" to="/">
       <span>Flower Market</span>
     </RouterLink>
   </h1>

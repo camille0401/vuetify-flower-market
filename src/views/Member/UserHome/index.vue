@@ -129,7 +129,7 @@ onMounted(() => getLikeList())
 
         &:hover,
         &.active {
-          color: $fs-base-color-dark;
+          color: $fs-primary-color;
 
         }
       }

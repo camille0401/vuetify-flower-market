@@ -68,7 +68,7 @@ C318.115,0,375.068,22.126,419.404,58.936z"></path>
   }
 
   .btn:hover {
-    border: 1px solid $fs-base-color-dark;
+    border: 1px solid $fs-primary-color;
     ;
   }
 }

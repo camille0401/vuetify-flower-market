@@ -1,5 +1,5 @@
 <template>
-  <v-text-field class="mb-4" v-model="formData.password" :rules="PasswordRules"
+  <v-text-field class="mb-2" v-model="formData.password" :rules="PasswordRules"
     :type="showPassword ? 'text' : 'password'" variant="outlined" label="Password" placeholder="Enter your password"
     prepend-inner-icon="mdi-lock-outline">
   </v-text-field>

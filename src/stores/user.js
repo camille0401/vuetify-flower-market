@@ -13,6 +13,7 @@ export const useUserStore = defineStore(
     const clearUserInfo = () => {
       userInfo.value = {}
       token.value = ''
+      cartStore.clearCartList()
     }
 
     const getUserInfo = async (data) => {

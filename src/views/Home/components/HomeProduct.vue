@@ -1,18 +1,18 @@
 <template>
   <div class="home-product mt-10">
-    <HomePanel :title="cate.cname" v-for="cate in goodsProduct" :key="cate.id">
+    <HomePanel v-for="cate in goodsProduct" :key="cate.id" :title="cate.cname">
       <template #main>
         <div class="box">
-          <RouterLink class="cover" :to="`/category/1/${cate.id}`">
-            <img v-img-lazy="cate.picture" />
+          <RouterLink class="cover" :to="`/category/1/${cate.id}`" aria-label="查看分类">
+            <img v-img-lazy="cate.picture" :alt="cate.cname" />
             <strong class="label">
               <span>{{ cate.cname }}</span>
-              <!-- <span>{{ cate.saleInfo }}</span> -->
             </strong>
           </RouterLink>
+
           <ul class="goods-list">
             <li v-for="goods in cate.goods.slice(0, 8)" :key="goods.id">
-              <FSGoodsItem :goods="goods" />
+              <FSGoodsItem :goods="goods" imgHeight="210px" />
             </li>
           </ul>
         </div>
@@ -21,102 +21,125 @@
   </div>
 </template>
 
-<script setup name="HomeProduct">
+<script setup>
+import { ref, onMounted } from 'vue'
+import { RouterLink } from 'vue-router'
 import HomePanel from './HomePanel.vue'
 import FSGoodsItem from '@/components/FSGoodsItem.vue'
 import { getHomeGoodsAPI } from '@/apis/home'
-import { ref, onMounted } from 'vue'
 
 const goodsProduct = ref([])
-const getHomeGoods = async () => {
-  const res = await getHomeGoodsAPI()
-  goodsProduct.value = res || []
-}
-onMounted(() => getHomeGoods())
 
+const getHomeGoods = async () => {
+  try {
+    const res = await getHomeGoodsAPI()
+    goodsProduct.value = res || []
+  } catch (error) {
+    console.error('获取商品数据失败:', error)
+    goodsProduct.value = []
+  }
+}
+
+onMounted(() => {
+  getHomeGoods()
+})
 </script>
 
-<style scoped lang='scss'>
+<style scoped lang="scss">
 .home-product {
-  // margin-top: 40px;
-
-  .sub {
-    margin-bottom: 2px;
-
-    a {
-      padding: 2px 12px;
-      font-size: 16px;
-      border-radius: 4px;
-
-      &:hover {
-        background: $fs-base-color-light;
-        color: #fff;
-      }
-
-      &:last-child {
-        margin-right: 80px;
-      }
-    }
-  }
-
   .box {
-    height: 610px;
     display: flex;
-    column-gap: 15px;
+    gap: 15px;
+    height: 610px;
 
     .cover {
+      position: relative;
       width: 240px;
       height: 100%;
-      position: relative;
+      overflow: hidden;
+      transition: transform 0.3s ease;
+
+      &:hover {
+        transform: translateY(-5px);
+
+        .label {
+          opacity: 0.9;
+        }
+      }
 
       img {
         width: 100%;
         height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+      }
+
+      &:hover img {
+        transform: scale(1.03);
       }
 
       .label {
-        width: 100%;
-        height: 66px;
-        display: flex;
-        font-size: 18px;
-        color: #fff;
-        line-height: 66px;
-        font-weight: normal;
         position: absolute;
         left: 0;
         top: 50%;
-        transform: translate3d(0, -50%, 0);
+        transform: translateY(-50%);
+        width: 100%;
+        height: 66px;
+        display: flex;
+        align-items: center;
+        background: rgba(0, 0, 0, 0.85);
+        color: white;
+        font-size: 18px;
+        font-weight: 500;
+        opacity: 0.8;
+        transition: opacity 0.3s ease;
 
         span {
+          flex: 1;
           text-align: center;
-
-          &:first-child {
-            flex: 1;
-            background: rgba(0, 0, 0, 0.9);
-          }
-
-          &:last-child {
-            flex: 1;
-            background: rgba(0, 0, 0, 0.7);
-          }
+          padding: 0 10px;
         }
       }
     }
 
     .goods-list {
+      flex: 1;
       display: grid;
-      grid-template-columns: repeat(4, calc((100% - 45px) / 4));
-      // grid-template-columns: repeat(4, 240px);
-      grid-template-rows: repeat(2, calc((100% - 10px) / 2));
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: repeat(2, 1fr);
       gap: 15px;
-      width: calc(100% - 255px);
-      height: 100%;
-      // overflow: hidden;
 
       li {
-        width: 100%;
+        transition: transform 0.3s ease;
+
+        &:hover {
+          transform: translateY(-5px);
+        }
       }
     }
+  }
+}
+
+@media (max-width: 1200px) {
+  .home-product .box {
+    height: auto;
+    flex-direction: column;
+
+    .cover {
+      width: 100%;
+      height: 300px;
+    }
+
+    .goods-list {
+      width: 100%;
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .home-product .box .goods-list {
+    grid-template-columns: 1fr;
   }
 }
 </style>

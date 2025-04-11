@@ -48,7 +48,7 @@ const onClick = () => {
     column-gap: 10px;
     width: calc(100% - 340px);
     padding: 5px 20px;
-    // border: 1px solid $fs-base-color-dark;
+    // border: 1px solid $fs-primary-color;
     // border-radius: var(--el-border-radius-base);
     // background: rgba(255, 51, 153, 0.05);
   }

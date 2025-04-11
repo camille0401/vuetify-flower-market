@@ -87,7 +87,7 @@ const doRegister = async () => {
   .span {
     margin-left: 5px;
     font-size: 14px;
-    color: $fs-base-color-dark;
+    color: $fs-primary-color;
     font-weight: 500;
     cursor: pointer;
   }

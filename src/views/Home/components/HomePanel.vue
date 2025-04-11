@@ -1,14 +1,11 @@
 <template>
-  <div class="home-panel mb-10">
-    <v-sheet>
-      <div class="head ">
-        <h3>
-          {{ title }}<small>{{ subTitle }}送 · 让你怦然心动的人</small>
-        </h3>
-      </div>
-    </v-sheet>
-    <slot name="main"></slot>
-  </div>
+  <v-card class="mb-10" elevation="0">
+    <v-card-title class="text-h5 text-primary-darken-1 font-weight-bold">{{ title }}</v-card-title>
+    <v-card-subtitle>{{ subTitle }}送 · 让你怦然心动的人</v-card-subtitle>
+    <v-card-text>
+      <slot name="main"></slot>
+    </v-card-text>
+  </v-card>
 </template>
 
 <script setup name="HomePanel">
@@ -25,26 +22,4 @@ defineProps({
 
 </script>
 
-<style scoped lang='scss'>
-.home-panel {
-  .head {
-    padding: 20px 0;
-    margin: 20px auto;
-    text-align: left;
-
-    h3 {
-      height: 35px;
-      line-height: 35px;
-      font-size: 30px;
-      font-weight: normal;
-      color: #333;
-
-      small {
-        font-size: 16px;
-        color: #757575;
-        margin-left: 20px;
-      }
-    }
-  }
-}
-</style>
+<style scoped lang='scss'></style>

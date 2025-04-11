@@ -1,269 +1,240 @@
 <template>
   <div class="fs-cart-page">
-    <div class="container m-top-20">
-      <div class="cart">
-        <v-table>
-          <thead>
-            <tr>
-              <th width="120">
-                <v-checkbox color="primary" hide-details :model-value="cartStore.cartIsAll"
-                  @update:model-value="(e) => handleAllChange(e)"></v-checkbox>
-              </th>
-              <th width="400">商品信息</th>
-              <th width="220" style="text-align: center;">单价</th>
-              <th width="180" style="text-align: center;">数量</th>
-              <th width="180" style="text-align: center;">小计</th>
-              <th width="140" style="text-align: center;">操作</th>
-            </tr>
-          </thead>
-          <!-- 商品列表 -->
-          <tbody>
-            <tr v-for="cart in cartStore.cartList" :key="cart.goodsId">
-              <td>
-                <v-checkbox color="primary" hide-details :model-value="cart.selected ? true : false"
-                  @update:model-value="(e) => handleSingleChange(e, cart.goodsId)"></v-checkbox>
-              </td>
-              <td>
-                <div class="goods">
-                  <RouterLink to="/"><img :src="cart.picture" alt="" /></RouterLink>
-                  <div>
-                    <p class="name ellipsis">
-                      {{ cart.name }}
+    <div class="container pb-10">
+      <v-card elevation="2" rounded="lg">
+        <v-card-text class="pa-6">
+          <!-- 购物车标题 -->
+          <div class="d-flex align-center mb-6">
+            <v-icon color="primary" size="large" class="mr-2">mdi-cart</v-icon>
+            <h2 class="text-h5 font-weight-bold">我的购物车</h2>
+            <v-chip class="ml-4" color="primary" small>
+              共 {{ cartStore.cartAllCount }} 件商品
+            </v-chip>
+          </div>
+
+          <!-- 购物车表格 -->
+          <div class="cart-table">
+            <v-table class="elevation-1">
+              <thead>
+                <tr>
+                  <th width="60" class="pl-4">
+                    <v-checkbox color="primary" hide-details :model-value="cartStore.cartIsAll"
+                      @update:model-value="handleAllChange"></v-checkbox>
+                  </th>
+                  <th width="400">商品信息</th>
+                  <th width="180" class="text-center">单价</th>
+                  <th width="200" class="text-center">数量</th>
+                  <th width="180" class="text-center">小计</th>
+                  <th width="120" class="text-center">操作</th>
+                </tr>
+              </thead>
+
+              <!-- 商品列表 -->
+              <tbody>
+                <tr v-for="cart in cartStore.cartList" :key="cart.goodsId">
+                  <td class="pl-4">
+                    <v-checkbox color="primary" hide-details :model-value="cart.selected"
+                      @update:model-value="(e) => handleSingleChange(e, cart.goodsId)"></v-checkbox>
+                  </td>
+                  <td>
+                    <div class="d-flex align-center">
+                      <RouterLink :to="`/detail/${cart.goodsId}`" class="mr-4">
+                        <v-img :src="cart.picture" width="80" height="80" cover class="rounded-lg"></v-img>
+                      </RouterLink>
+                      <div>
+                        <p class="text-body-1 font-weight-medium mb-1">
+                          {{ cart.name }}
+                        </p>
+                        <p class="text-caption text-grey">
+                          库存: {{ cart.inventory }}件
+                        </p>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="text-center">
+                    <p class="text-body-1">¥{{ cart.price }}</p>
+                  </td>
+                  <td class="text-center">
+                    <FSBoundedNumInput v-model="cart.count" :min="1" :max="cart.inventory" :debounce="500" :data="cart"
+                      @change="handleCountChange" @out-of-range="handleOutOfRange" @store-count="handleCountStore"
+                      class="mx-auto" />
+                  </td>
+                  <td class="text-center">
+                    <p class="text-body-1 font-weight-bold text-error">
+                      ¥{{ calcGoodsTotalPrice(cart.price, cart.count) }}
                     </p>
-                  </div>
-                </div>
-              </td>
-              <td class="tc">
-                <p>&yen;{{ cart.price }}</p>
-              </td>
-              <td class="tc">
-                <FSBoundedNumInput v-model="cart.count" :min="1" :max="cart.inventory" :debounce="500" :data="cart"
-                  @change="handleCountChange" @out-of-range="handleOutOfRange" @store-count="handleCountStore" />
-              </td>
-              <td class="tc">
-                <p class="f16 red">&yen;{{ calcGoodsTotalPrice(cart.price, cart.count) }}</p>
-              </td>
-              <td class="tc">
-                <div>
-                  <v-btn size="small" icon color="error" class="ml-2" @click="handleDelCart(cart.goodsId)">
-                    <v-icon>mdi-delete-outline</v-icon>
-                  </v-btn>
-                </div>
-              </td>
-            </tr>
-            <tr v-if="cartStore.cartList.length === 0">
-              <td colspan="6">
-                <FSEmptyPanel title="购物车列表为空">
-                  <template #actions>
-                    <v-spacer></v-spacer>
-                    <v-btn color="primary" text="随便逛逛" @click="toHomePage"></v-btn>
-                    <v-spacer></v-spacer>
-                  </template>
-                </FSEmptyPanel>
-              </td>
-            </tr>
-          </tbody>
-        </v-table>
-      </div>
-      <!-- 操作栏 -->
-      <div class="action" v-if="cartStore.cartList.length !== 0">
-        <div class="batch">
-          共 {{ cartStore.cartAllCount }} 件商品，已选择 {{ cartStore.cartSelectedCount }} 件，商品合计：
-          <span class="red">¥ {{ cartStore.cartSelectedPrice }} </span>
-        </div>
-        <div class="total">
-          <v-btn v-show="cartSelectedRows?.length > 0" class="mr-4" color="error" size="large" variant="outlined"
-            @click="handleDelAllCart">删除</v-btn>
-          <v-btn color="primary" size="large" variant="flat" @click="toSettlementPage">下单结算</v-btn>
-        </div>
-      </div>
+                  </td>
+                  <td class="text-center">
+                    <v-btn icon size="small" variant="text" color="error" @click="handleDelCart(cart.goodsId)">
+                      <v-icon>mdi-delete-outline</v-icon>
+                    </v-btn>
+                  </td>
+                </tr>
+
+                <!-- 空状态 -->
+                <tr v-if="cartStore.cartList.length === 0">
+                  <td colspan="6" class="py-10">
+                    <FSEmptyPanel title="购物车空空如也">
+                      <template #actions>
+                        <v-btn color="primary" prepend-icon="mdi-shopping" @click="toHomePage">
+                          去逛逛
+                        </v-btn>
+                      </template>
+                    </FSEmptyPanel>
+                  </td>
+                </tr>
+              </tbody>
+            </v-table>
+          </div>
+
+          <!-- 结算栏 -->
+          <div class="checkout-bar mt-6" v-if="cartStore.cartList.length > 0">
+            <div class="d-flex align-center">
+              <v-checkbox color="primary" hide-details :model-value="cartStore.cartIsAll"
+                @update:model-value="handleAllChange" class="mr-4">
+                <template v-slot:label>
+                  <span class="text-body-1">全选</span>
+                </template>
+              </v-checkbox>
+
+              <v-btn variant="text" color="error" prepend-icon="mdi-delete-outline"
+                :disabled="cartStore.cartSelectedCount === 0" @click="handleDelAllCart">
+                删除选中
+              </v-btn>
+
+              <v-spacer></v-spacer>
+
+              <div class="d-flex align-center mr-6">
+                <span class="text-body-1 mr-2">已选 {{ cartStore.cartSelectedCount }} 件，合计：</span>
+                <span class="text-h6 font-weight-bold text-error">
+                  ¥{{ cartStore.cartSelectedPrice }}
+                </span>
+              </div>
+
+              <v-btn color="primary" size="large" :disabled="cartStore.cartSelectedCount === 0"
+                @click="toSettlementPage">
+                去结算
+              </v-btn>
+            </div>
+          </div>
+        </v-card-text>
+      </v-card>
     </div>
   </div>
 </template>
 
-<script setup name="CartList">
-import FSEmptyPanel from '@/components/FSEmptyPanel.vue';
-import FSBoundedNumInput from '@/components/FSBoundedNumInput.vue';
+<script setup>
+import { computed } from 'vue'
+import { useRouter } from 'vue-router'
+import { useToast } from 'vue-toastification'
 import Big from 'big.js'
-import { computed, ref } from 'vue';
-import { useCartStore } from '@/stores/cart';
-import { useRouter } from 'vue-router';
-import { useCartCount } from "@/composables/useCartCount";
-import { useToast } from 'vue-toastification';
+import { useCartStore } from '@/stores/cart'
+import { useCartCount } from "@/composables/useCartCount"
+import FSEmptyPanel from '@/components/FSEmptyPanel.vue'
+import FSBoundedNumInput from '@/components/FSBoundedNumInput.vue'
 
 const toast = useToast()
+const router = useRouter()
 const cartStore = useCartStore()
-const { handleCountChange, handleOutOfRange } = useCartCount();
+const { handleCountChange, handleOutOfRange } = useCartCount()
 
-const cartSelectedRows = computed(() => cartStore.cartList.filter(item => item.selected))
-
+// 计算商品总价
 const calcGoodsTotalPrice = (price, count) => {
-  const itemPrice = new Big(price)
-  const itemCount = new Big(count)
-  return itemPrice.times(itemCount)
+  return new Big(price).times(count).toString()
 }
 
-// 单个删除
+// 单个选择切换
+const handleSingleChange = (selected, goodsId) => {
+  cartStore.singleCheck(goodsId, selected)
+}
+
+// 全选/取消全选
+const handleAllChange = (selected) => {
+  cartStore.allCheck(selected)
+}
+
+// 删除单个商品
 const handleDelCart = (goodsId) => {
   cartStore.delCart(goodsId)
+  toast.success('已从购物车移除')
 }
 
-const handleSingleChange = (e, goodsId) => {
-  cartStore.singleCheck(goodsId, e)
-}
-
-const handleAllChange = (e) => {
-  cartStore.allCheck(e)
-}
-
-// 多个删除
+// 删除选中商品
 const handleDelAllCart = () => {
-  const goodsIds = cartStore.cartList.filter(item => item.selected).map(item => item.goodsId)
-  if (goodsIds.length !== 0) {
+  const goodsIds = cartStore.cartList
+    .filter(item => item.selected)
+    .map(item => item.goodsId)
+
+  if (goodsIds.length > 0) {
     cartStore.delAllCart(goodsIds)
+    toast.success(`已移除 ${goodsIds.length} 件商品`)
   }
 }
 
-// count-input-change
+// 数量变更存储
 const handleCountStore = (goods) => {
   cartStore.countChange(goods)
 }
 
-const router = useRouter();
-
+// 去结算
 const toSettlementPage = () => {
-  if (cartSelectedRows.value.length === 0) {
-    toast.warning('请先选择商品')
+  if (cartStore.cartSelectedCount === 0) {
+    toast.warning('请先选择要结算的商品')
     return
   }
   router.push({ path: '/settlement' })
 }
 
+// 返回首页
 const toHomePage = () => {
   router.push({ path: '/' })
 }
-
-
-
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .fs-cart-page {
-  margin-top: 20px;
+  W .cart-table {
+    border-radius: 8px;
+    overflow: hidden;
 
-  p {
-    padding: 0;
-    margin: 0;
-  }
+    :deep(.v-table__wrapper) {
+      border-radius: 8px;
+    }
 
-  .cart {
-    background: #fff;
-    color: #666;
-
-    table {
-      border-spacing: 0;
-      border-collapse: collapse;
-      line-height: 2.4rem;
-
-      th,
-      td {
-        padding: 10px;
-        border-bottom: 1px solid #f5f5f5;
-
-        &:first-child {
-          text-align: left;
-          padding-left: 30px;
-          color: #999;
-        }
-      }
-
-      th {
-        font-size: 16px;
-        font-weight: normal;
-        line-height: 50px;
-      }
+    tr:hover {
+      background-color: rgba(0, 0, 0, 0.02);
     }
   }
 
-  .tc {
-    text-align: center;
+  .checkout-bar {
+    background-color: #fafafa;
+    border-radius: 8px;
+    padding: 16px 24px;
 
-    a {
-      color: $fs-base-color-light;
-    }
-
-    .xtx-numbox {
-      margin: 0 auto;
-      width: 120px;
+    .v-btn {
+      height: 48px;
+      min-width: 120px;
     }
   }
 
-  .red {
-    color: $priceColor;
-  }
+  @media (max-width: 960px) {
+    .cart-table {
+      overflow-x: auto;
 
-  .green {
-    color: $fs-base-color-light;
-  }
-
-  .f16 {
-    font-size: 16px;
-  }
-
-  .goods {
-    display: flex;
-    align-items: center;
-
-    img {
-      width: 100px;
-      height: 100px;
-    }
-
-    >div {
-      width: 280px;
-      font-size: 16px;
-      padding-left: 10px;
-
-      .attr {
-        font-size: 14px;
-        color: #999;
-      }
-    }
-  }
-
-  .action {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 30px;
-    margin-top: 20px;
-    background: #fff;
-    height: 80px;
-    font-size: 16px;
-
-    .xtx-checkbox {
-      color: #999;
-    }
-
-    .batch {
-      a {
-        margin-left: 20px;
+      table {
+        min-width: 800px;
       }
     }
 
-    .red {
-      margin-right: 20px;
-      font-size: 18px;
-      font-weight: bold;
+    .checkout-bar {
+      flex-direction: column;
+      gap: 16px;
+      align-items: flex-end;
+
+      .v-btn {
+        width: 100%;
+      }
     }
   }
-
-  .tit {
-    color: #666;
-    font-size: 16px;
-    font-weight: normal;
-    line-height: 50px;
-  }
-
 }
 </style>

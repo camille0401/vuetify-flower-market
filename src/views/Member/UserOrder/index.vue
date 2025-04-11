@@ -207,7 +207,7 @@ const fomartPayState = (payState) => {
         width: 120px;
 
         .green {
-          color: $fs-base-color-dark;
+          color: $fs-primary-color;
         }
       }
 
@@ -226,7 +226,7 @@ const fomartPayState = (payState) => {
           display: block;
 
           &:hover {
-            color: $fs-base-color-dark;
+            color: $fs-primary-color;
           }
         }
       }

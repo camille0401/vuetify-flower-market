@@ -4,7 +4,7 @@
     <p class="text-subtitle-2	text-center mb-10" style="color: #757575;">Lovely to see you again!</p>
     <v-form ref="loginFormRef" @submit.prevent="doLogin">
       <EmailTextField v-model="loginForm" />
-      <PasswordTextField v-model="loginForm" />
+      <PasswordTextField v-model="loginForm" :showPassword="showPassword" />
       <div class="d-flex justify-space-between">
         <v-checkbox v-model="showPassword" color="primary" label="Show Password" hide-details></v-checkbox>
         <a href="javascript:void(0);" class="d-flex align-center span forget">忘记密码?</a>
@@ -82,7 +82,7 @@ const toRegister = () => {
   .span {
     margin-left: 5px;
     font-size: 14px;
-    color: $fs-base-color-dark;
+    color: $fs-primary-color;
     font-weight: 500;
     cursor: pointer;
   }

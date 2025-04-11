@@ -1,17 +1,14 @@
 <template>
-  <v-hover v-slot="{ isHovering, props }">
-    <v-card v-bind="props" :elevation="isHovering ? 5 : 2" color="background" style="height: 100%;">
-      <RouterLink :to="`/detail/${goods.id}`" class="goods-item">
-        <div class="img-box bg-accent">
-          <img v-img-lazy="goods.picture" alt="" />
-        </div>
-        <p class="name ellipsis">{{ goods.cname }}</p>
-        <!-- <p class="desc ellipsis">{{ goods.desc }}</p> -->
-        <p class="price">10.00</p>
-      </RouterLink>
-    </v-card>
-
-  </v-hover>
+  <v-sheet color="background" elevation="2" style="height: 100%;">
+    <RouterLink :to="`/detail/${goods.id}`" class="goods-item">
+      <div class="img-box bg-surface" style="height:imgHeight">
+        <img v-img-lazy="goods.picture" alt="" />
+      </div>
+      <p class="name ellipsis">{{ goods.cname }}</p>
+      <!-- <p class="desc ellipsis">{{ goods.desc }}</p> -->
+      <p class="price">1000</p>
+    </RouterLink>
+  </v-sheet>
 </template>
 
 <script setup name="FSGoodsItem">
@@ -19,6 +16,10 @@ defineProps({
   goods: {
     tppe: Object,
     default: () => { }
+  },
+  imgHeight: {
+    type: String,
+    default: '210px'
   }
 })
 </script>
@@ -37,13 +38,14 @@ defineProps({
     align-items: center;
     justify-content: center;
     width: 100%;
-    height: 210px;
+    min-height: 210px;
     margin-bottom: 10px;
   }
 
   img {
     width: 100%;
     height: 100%;
+    object-fit: cover;
   }
 
   p {

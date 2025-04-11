@@ -19,7 +19,7 @@ import FSCategoryNav from "@/components/FSCategoryNav.vue";
 .fs-layout-nav {
   .category-box {
     display: flex;
-    // background: $fs-base-color-dark;
+    // background: $fs-primary-color;
 
     .left-box {
       display: flex;
@@ -27,7 +27,7 @@ import FSCategoryNav from "@/components/FSCategoryNav.vue";
       justify-content: center;
       width: 250px;
       border-radius: 12px 12px 0 0;
-      background: $fs-base-color-dark;
+      background: $fs-primary-color;
       font-size: 18px;
       line-height: 52px;
       font-weight: bold;

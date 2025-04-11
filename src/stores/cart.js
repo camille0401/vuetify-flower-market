@@ -169,6 +169,9 @@ export const useCartStore = defineStore(
       }
     }
 
+    const clearCartList = () => {
+      cartList.value = []
+    }
     return {
       cartList,
       cartAllCount,
@@ -183,7 +186,8 @@ export const useCartStore = defineStore(
       singleCheck,
       allCheck,
       mergeCartList,
-      countChange
+      countChange,
+      clearCartList
     }
   },
   {

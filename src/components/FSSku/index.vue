@@ -152,7 +152,7 @@ export default {
   cursor: pointer;
 
   &.selected {
-    border-color: $fs-base-color-light;
+    border-color: $fs-primary-color;
   }
 
   &.disabled {

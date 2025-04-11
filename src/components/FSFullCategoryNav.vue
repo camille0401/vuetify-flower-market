@@ -1,23 +1,19 @@
 <template>
-  <v-sheet color="primary">
-    <div class="fs-full-category-nav-box">
-      <div class="container">
-        <v-sheet color="#004D40">
-          <RouterLink to="/allCategories" class="left-box" active-class="active">
-            <span>所有分类</span>
-          </RouterLink>
-        </v-sheet>
-        <v-sheet>
+  <v-sheet color="primary" class="category-nav-bar">
+    <div class="container category-nav-container">
+      <!-- 所有分类按钮 -->
+      <v-btn class="all-categories-btn" color="primary-darken-1" variant="flat" height="64" min-width="250" rounded="0"
+        :to="{ path: '/allCategories' }" active-class="active-category">
+        <span class="text-h6 font-weight-bold">所有分类</span>
+        <v-icon end>mdi-menu-down</v-icon>
+      </v-btn>
 
-        </v-sheet>
-        <ul class="right-box">
-          <!-- <li>
-            <RouterLink to="/">首页</RouterLink>
-          </li> -->
-          <li v-for="category in categoryStore.categoryList" :key="category.id">
-            <RouterLink active-class="active" :to="`/category/1/${category.id}`">{{ category.cname }}</RouterLink>
-          </li>
-        </ul>
+      <!-- 分类导航列表 -->
+      <div class="category-links">
+        <v-btn v-for="category in categoryStore.categoryList" :key="category.id" class="category-link" variant="text"
+          :to="`/category/1/${category.id}`" active-class="active-category">
+          {{ category.cname }}
+        </v-btn>
       </div>
     </div>
   </v-sheet>
@@ -26,62 +22,92 @@
 <script setup>
 import { useCategoryStore } from '@/stores/category'
 
-const categoryStore = useCategoryStore();
+const categoryStore = useCategoryStore()
 </script>
 
 <style lang="scss" scoped>
-// category
-.fs-full-category-nav-box {
-  width: 100%;
+.category-nav-bar {
+  height: 64px;
+  display: flex;
+  align-items: center;
+}
 
-  .container {
+.category-nav-container {
+  display: flex;
+  align-items: center;
+  height: 100%;
+
+  .all-categories-btn {
+    color: white;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background-color: var(--v-primary-darken2) !important;
+    }
+
+    &.active-category {
+      background-color: var(--v-primary-darken2) !important;
+    }
+  }
+
+  .category-links {
     display: flex;
+    flex: 1;
+    height: 100%;
+    overflow-x: auto;
+    scrollbar-width: none;
+    /* Firefox */
 
-    .left-box {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 250px;
-      font-size: 18px;
-      line-height: 52px;
-      font-weight: bold;
-      text-align: center;
-      color: #fff;
-
-      &.active {
-        color: #ffffff;
-      }
+    &::-webkit-scrollbar {
+      display: none;
+      /* Chrome/Safari */
     }
 
-    .right-box {
-      width: calc(100% - 250px);
+    .category-link {
+      color: white;
       height: 100%;
-      display: flex;
-      align-items: center;
-      flex-wrap: wrap;
-      flex-shrink: 0;
-      padding-left: 20px;
+      min-width: 120px;
+      font-size: 0.9375rem;
+      font-weight: 500;
+      letter-spacing: normal;
+      text-transform: none;
 
-
-      a {
-        display: inline-block;
-        font-size: 16px;
-        line-height: 32px;
-        color: inherit;
-        padding: 10px 25px;
-
-        &:hover {
-          background-color: $fs-secondary-color;
-        }
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.1) !important;
       }
 
-      .active {
-        background-color: $fs-secondary-color;
+      &.active-category {
+        background-color: rgba(255, 255, 255, 0.2) !important;
+        box-shadow: inset 0 -4px 0 white;
       }
+    }
+  }
+}
 
+// 响应式设计
+@media (max-width: 960px) {
+  .category-nav-container {
+    .all-categories-btn {
+      min-width: 180px;
     }
 
+    .category-link {
+      min-width: 100px !important;
+      font-size: 0.875rem !important;
+      padding: 0 12px !important;
+    }
+  }
+}
 
+@media (max-width: 600px) {
+  .category-nav-container {
+    .all-categories-btn {
+      min-width: 64px;
+
+      span {
+        display: none;
+      }
+    }
   }
 }
 </style>

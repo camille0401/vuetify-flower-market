@@ -1,6 +1,6 @@
 <template>
-  <v-text-field v-model="formData.username" :rules="EmailRules" variant="outlined" label="Email"
-    prepend-inner-icon="mdi-email-outline" class="mb-4">
+  <v-text-field class="mb-2" v-model="formData.username" :rules="EmailRules" variant="outlined" label="Email"
+    prepend-inner-icon="mdi-email-outline">
   </v-text-field>
 </template>
 
