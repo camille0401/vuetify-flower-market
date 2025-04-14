@@ -11,8 +11,11 @@
             <v-icon v-else size="80">mdi-account-circle</v-icon>
           </v-avatar>
 
-          <v-btn color="primary" variant="tonal" prepend-icon="mdi-camera" @click="openAvatarDialog">
+          <!-- <v-btn color="primary" variant="tonal" prepend-icon="mdi-camera" @click="openAvatarDialog">
             更换头像
+          </v-btn> -->
+          <v-btn color="primary" variant="tonal" prepend-icon="mdi-pencil-circle" @click="openPasswordDialog">
+            修改密码
           </v-btn>
         </div>
 
@@ -61,20 +64,21 @@
 
     <!-- 头像上传对话框 -->
     <!-- <v-dialog v-model="avatarDialog" max-width="500">
-      <AvatarUploader
-        :current-avatar="form.avatar"
-        @close="avatarDialog = false"
-        @uploaded="handleAvatarUploaded"
-      />
+      <AvatarUploader :current-avatar="form.avatar" @close="avatarDialog = false" @uploaded="handleAvatarUploaded" />
     </v-dialog> -->
+    <!-- 修改密码对话框 -->
+    <v-dialog v-model="passwordDialog" max-width="500">
+      <EditPassword @close="passwordDialog = false" />
+    </v-dialog>
   </v-card>
 </template>
 
 <script setup>
-import { ref, reactive, watch } from 'vue'
+import { ref, reactive, watch, nextTick } from 'vue'
 import { useUserStore } from '@/stores/user'
 import { useToast } from 'vue-toastification'
-// import AvatarUploader from '@/components/AvatarUploader.vue'
+// import AvatarUploader from './components/AvatarUploader.vue'
+import EditPassword from './components/EditPassword.vue'
 
 const toast = useToast()
 const userStore = useUserStore()
@@ -94,6 +98,7 @@ const form = reactive({
 // 表单状态
 const submitting = ref(false)
 const avatarDialog = ref(false)
+const passwordDialog = ref(false)
 
 // 表单验证规则
 const rules = {
@@ -134,6 +139,11 @@ const handleAvatarUploaded = (avatarUrl) => {
   form.avatar = avatarUrl
   avatarDialog.value = false
   toast.success('头像更新成功')
+}
+
+// 修改密码
+const openPasswordDialog = () => {
+  passwordDialog.value = true
 }
 
 // 提交表单

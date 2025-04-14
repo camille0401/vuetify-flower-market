@@ -10,7 +10,7 @@ const milkTeaTheme = {
   colors: {
     background: '#FFF8F5', // 乳白色带粉调
     surface: '#FFFFFF', // 纯白表面
-    'surface-variant': '#F5E6E0', // 奶茶色变体
+    'surface-variant': '#D99A9F', // 奶茶色变体
     primary: '#E8B4B8', // 奶茶中的粉色调
     'primary-darken-1': '#D99A9F',
     'primary-lighten-1': '#F0C8CA',

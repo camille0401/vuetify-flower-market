@@ -45,20 +45,30 @@ const router = createRouter({
           component: () => import('@/views/CartList/index.vue')
         },
         {
-          path: 'settlement',
-          name: 'settlement',
-          component: () => import('@/views/Settlement/index.vue')
+          path: 'order/create',
+          name: 'order/create',
+          component: () => import('@/views/Order/create.vue')
         },
         {
-          path: 'pay',
-          name: 'pay',
-          component: () => import('@/views/Pay/index.vue')
+          path: 'order/success',
+          name: 'order/success',
+          component: () => import('@/views/Order/success.vue')
         },
-        {
-          path: 'pay/result',
-          name: 'payResult',
-          component: () => import('@/views/Pay/PayResult.vue')
-        },
+        // {
+        //   path: 'settlement',
+        //   name: 'settlement',
+        //   component: () => import('@/views/Settlement/index.vue')
+        // },
+        // {
+        //   path: 'pay',
+        //   name: 'pay',
+        //   component: () => import('@/views/Pay/index.vue')
+        // },
+        // {
+        //   path: 'pay/result',
+        //   name: 'payResult',
+        //   component: () => import('@/views/Pay/PayResult.vue')
+        // },
         {
           path: 'member',
           name: 'member',

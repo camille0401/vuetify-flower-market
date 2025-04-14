@@ -50,7 +50,7 @@
                 <v-card-text>
                   <v-btn class="mr-4" color="primary" elevation="8" size="x-large" prepend-icon="mdi-cart-plus"
                     @click="handleAddCart">加入购物车</v-btn>
-                  <v-btn color="error" elevation="8" size="x-large" to="/settlement">立即购买</v-btn>
+                  <v-btn color="error" elevation="8" size="x-large" to="/createorder">立即购买</v-btn>
                 </v-card-text>
               </v-card-item>
             </v-card>

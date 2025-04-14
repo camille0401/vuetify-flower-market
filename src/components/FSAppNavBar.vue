@@ -48,7 +48,7 @@
       <v-card-actions class="pa-4">
         <v-spacer />
         <v-btn variant="text" @click="logoutDialog = false">取消</v-btn>
-        <v-btn color="error" @click="handleLogout">确认退出</v-btn>
+        <v-btn color="error" @click="confirmLogout">确认退出</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>

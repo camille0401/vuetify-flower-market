@@ -33,7 +33,7 @@
               <tbody>
                 <tr v-for="cart in cartStore.cartList" :key="cart.goodsId">
                   <td class="pl-4">
-                    <v-checkbox color="primary" hide-details :model-value="cart.selected"
+                    <v-checkbox color="primary" hide-details :model-value="cart.selected === 1 ? true : false"
                       @update:model-value="(e) => handleSingleChange(e, cart.goodsId)"></v-checkbox>
                   </td>
                   <td>
@@ -112,8 +112,8 @@
               </div>
 
               <v-btn color="primary" size="large" :disabled="cartStore.cartSelectedCount === 0"
-                @click="toSettlementPage">
-                去结算
+                @click="toCreateOrderPage">
+                生成订单
               </v-btn>
             </div>
           </div>
@@ -124,19 +124,26 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import Big from 'big.js'
+import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
-import Big from 'big.js'
 import { useCartStore } from '@/stores/cart'
+import { useUserStore } from '@/stores/user'
+import { useOrderStore } from '@/stores/order'
 import { useCartCount } from "@/composables/useCartCount"
 import FSEmptyPanel from '@/components/FSEmptyPanel.vue'
 import FSBoundedNumInput from '@/components/FSBoundedNumInput.vue'
 
 const toast = useToast()
 const router = useRouter()
+const userStore = useUserStore()
 const cartStore = useCartStore()
+const orderStore = useOrderStore()
 const { handleCountChange, handleOutOfRange } = useCartCount()
+
+// 组件状态
+const deliveryDate = ref('')
 
 // 计算商品总价
 const calcGoodsTotalPrice = (price, count) => {
@@ -145,11 +152,13 @@ const calcGoodsTotalPrice = (price, count) => {
 
 // 单个选择切换
 const handleSingleChange = (selected, goodsId) => {
+  console.log(selected)
   cartStore.singleCheck(goodsId, selected)
 }
 
 // 全选/取消全选
 const handleAllChange = (selected) => {
+  console.log(selected)
   cartStore.allCheck(selected)
 }
 
@@ -177,12 +186,35 @@ const handleCountStore = (goods) => {
 }
 
 // 去结算
-const toSettlementPage = () => {
-  if (cartStore.cartSelectedCount === 0) {
-    toast.warning('请先选择要结算的商品')
+const toCreateOrderPage = () => {
+  if (!userStore.token) {
+    toast.warning('请先登录')
+    router.push({ path: '/user/login' })
     return
   }
-  router.push({ path: '/settlement' })
+
+  // 生成订单，存储到orderStore
+  const goodsList = cartStore.cartList.filter(item => item.selected).map(item => {
+    return {
+      id: item.id,
+      goodsId: item.goodsId,
+      name: item.name,
+      // attrsText: item.
+      picture: item.picture,
+      price: item.price,
+      goodsCount: item.count,
+      totalAmount: calcGoodsTotalPrice(item.price, item.count),
+      totalPayAmount: calcGoodsTotalPrice(item.price, item.count),
+    }
+  })
+  orderStore.setGoodsList(goodsList)
+  orderStore.setSummary({
+    goodsCount: cartStore.cartSelectedCount,
+    postFee: '', //运费
+    totalAmount: cartStore.cartSelectedPrice,
+    totalPayAmount: cartStore.cartSelectedPrice
+  })
+  router.push({ path: '/order/create' })
 }
 
 // 返回首页

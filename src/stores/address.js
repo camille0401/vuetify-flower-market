@@ -16,6 +16,10 @@ export const useAddressStore = defineStore(
 
     const addressList = ref([])
 
+    const clearAddress = () => {
+      addressList.value = []
+    }
+
     // 获取地址列表
     const fetchAddresses = async () => {
       try {
@@ -78,6 +82,7 @@ export const useAddressStore = defineStore(
     }
     return {
       addressList,
+      clearAddress,
       fetchAddresses,
       createAddress,
       updateAddress,

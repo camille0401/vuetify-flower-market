@@ -147,6 +147,7 @@ export const useCartStore = defineStore(
 
     // cart-list-page single-checkbox
     const singleCheck = async (goodsId, selected) => {
+      console.log(goodsId, selected)
       const findObj = cartList.value.find((item) => item.goodsId === goodsId)
       findObj.selected = selected ? 1 : 0
       if (isLogin.value) {

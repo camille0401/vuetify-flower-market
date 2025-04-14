@@ -4,10 +4,11 @@ import request from '@/utils/request'
  * @description: checkinfo-detail-api
  * @return {*}
  */
-export const getCheckInfoAPI = () => {
+export const fetchOrderAPI = (params) => {
   return request({
-    url: '/member/order/pre',
+    url: '/flower/orders',
     method: 'GET',
+    params
   })
 }
 
@@ -17,9 +18,9 @@ export const getCheckInfoAPI = () => {
  */
 export const createOrderAPI = (data) => {
   return request({
-    url: '/member/order',
+    url: '/flower/orders',
     method: 'POST',
-    data,
+    data
   })
 }
 
@@ -30,7 +31,7 @@ export const createOrderAPI = (data) => {
 export const getOrderAPI = (id) => {
   console.log(id)
   return request({
-    url: `/member/order/${id}`,
+    url: `/member/order/${id}`
   })
 }
 
@@ -38,6 +39,6 @@ export const getUserOrderAPI = (params) => {
   return request({
     url: '/member/order',
     method: 'GET',
-    params,
+    params
   })
 }

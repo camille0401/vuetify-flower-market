@@ -71,7 +71,7 @@
                         @click="handleAddCart" :loading="addingToCart">
                         加入购物车
                       </v-btn>
-                      <v-btn color="error" size="x-large" to="/settlement" @click="handleBuyNow">
+                      <v-btn color="error" size="x-large" @click="handleBuyNow">
                         立即购买
                       </v-btn>
                     </div>
@@ -122,18 +122,22 @@
 </template>
 
 <script setup>
+import ImageView from './components/ImageView.vue'
+import FSBoundedNumInput from '@/components/FSBoundedNumInput.vue'
+import Big from 'big.js'
 import { ref, computed, onMounted } from 'vue'
-import { useRoute, onBeforeRouteUpdate } from 'vue-router'
+import { useRoute, onBeforeRouteUpdate, useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
 import { getDetailAPI } from '@/apis/detail'
 import { useCartStore } from '@/stores/cart'
 import { useCartCount } from "@/composables/useCartCount"
-import ImageView from './components/ImageView.vue'
-import FSBoundedNumInput from '@/components/FSBoundedNumInput.vue'
+import { useOrderStore } from '@/stores/order'
 
 const toast = useToast()
 const route = useRoute()
+const router = useRouter()
 const cartStore = useCartStore()
+const orderStore = useOrderStore()
 const { handleCountChange, handleOutOfRange } = useCartCount()
 
 // 数据状态
@@ -148,6 +152,11 @@ const breadcrumbItems = computed(() => [
   { title: '首页', disabled: false, href: '/' },
   { title: detailData.value?.cname || '商品详情', disabled: true }
 ])
+
+// 计算商品总价
+const calcGoodsTotalPrice = (price, count) => {
+  return new Big(price).times(count).toString()
+}
 
 // 获取商品详情
 const fetchDetailData = async (id = route.params.id) => {
@@ -172,7 +181,7 @@ const handleAddCart = async () => {
     await cartStore.addCart({
       ...detailData.value,
       count: count.value,
-      selected: true,
+      selected: 1,
       picture: detailData.value?.mainPictures?.[0],
       goodsId: detailData.value?.id
     })
@@ -191,7 +200,25 @@ const handleBuyNow = () => {
     toast.warning('请选择正确的商品数量')
     return
   }
+
   // 这里可以添加直接购买的逻辑
+  orderStore.setGoodsList([{
+    id: detailData.value.id,
+    goodsId: detailData.value.id,
+    name: detailData.value.name,
+    picture: detailData.value?.mainPictures?.[0],
+    price: detailData.value.price,
+    goodsCount: count.value,
+    totalAmount: calcGoodsTotalPrice(detailData.value.price, count.value),
+    totalPayAmount: calcGoodsTotalPrice(detailData.value.price, count.value),
+  }])
+  orderStore.setSummary({
+    goodsCount: count.value,
+    postFee: '', //运费
+    totalAmount: calcGoodsTotalPrice(detailData.value.price, count.value),
+    totalPayAmount: calcGoodsTotalPrice(detailData.value.price, count.value)
+  })
+  router.push({ path: '/order/create' })
 }
 
 // 生命周期钩子

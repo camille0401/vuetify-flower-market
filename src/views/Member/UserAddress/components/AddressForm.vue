@@ -1,15 +1,10 @@
 <template>
   <v-card>
-    <v-card-title class="d-flex align-center bg-primary">
-      <span class="text-white">
-        {{ formTitle }}
-      </span>
-      <v-spacer />
-      <v-btn icon @click="handleClose" variant="text">
-        <v-icon color="white">mdi-close</v-icon>
+    <v-toolbar color="primary" :title="formTitle" density="compact">
+      <v-btn icon @click="handleClose">
+        <v-icon>mdi-close</v-icon>
       </v-btn>
-    </v-card-title>
-
+    </v-toolbar>
     <v-card-text class="pa-4">
       <v-form ref="addressFormRef" class="pa-10 pt-0 pb-0">
         <!-- 收件人 -->
