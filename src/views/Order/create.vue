@@ -179,11 +179,9 @@ import { useAddressStore } from '@/stores/address'
 import { useOrderStore } from '@/stores/order'
 import { useCartStore } from '@/stores/cart'
 import { useAddressForm } from '@/composables/useAddressForm'
+import { createOrderAPI } from '@/apis/order'
 import dayjs from 'dayjs'
-import 'dayjs/locale/ja'
 
-// 日本語設定
-dayjs.locale('ja')
 
 const toast = useToast()
 const router = useRouter()
@@ -242,19 +240,17 @@ const submitOrder = async () => {
         goodsCount: item.goodsCount,
         goodsId: item.goodsId
       })),
-      // paymentMethod: paymentMethod.value,
       totalAmount: orderStore.summary?.totalAmount
     }
-
-    orderStore.setCurAddress({ ...activeAddress.value, fullAddress: fullAddress.value })
-    orderStore.setDeliveryTime(deliveryTime.value)
-
-    await orderStore.sumitOrder(params)
-    const goodsIds = orderStore.goodsList.map(item => item.goodsId)
-    await cartStore.delAllCart(goodsIds)
-    router.push('/order/success')
+    const res = await createOrderAPI(params)
+    if (res) {
+      // 查询购物车列表，更新购物车
+      await cartStore.getCartList()
+      // 跳转到订单详情界面
+      router.push('/order/detail/' + res)
+    }
   } catch (error) {
-    toast.error('注文の確定中にエラーが発生しました')
+    // toast.error('注文の確定中にエラーが発生しました')
     console.error('Order submission error:', error)
   }
 }

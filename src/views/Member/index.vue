@@ -1,21 +1,22 @@
 <template>
   <div class="fs-member-page">
     <div class="container pb-10">
-      <v-card elevation="2" rounded="lg">
+      <v-card elevation="2" rounded="lg" class="mb-6">
         <!-- 面包屑导航 -->
-        <v-card-title class="px-6 pt-6">
+        <v-card-title class="px-6">
           <v-breadcrumbs :items="breadcrumbs" divider="›" class="px-0">
             <template v-slot:divider>
               <v-icon icon="mdi-chevron-right" size="small" />
             </template>
           </v-breadcrumbs>
         </v-card-title>
-
-        <v-card-text class="px-6 pb-6">
-          <div class="member-content">
-            <v-row>
-              <!-- 左侧菜单 -->
-              <v-col cols="12" md="3" class="pr-md-4">
+      </v-card>
+      <div class="member-content">
+        <v-row>
+          <!-- 左侧菜单 -->
+          <v-col cols="12" md="3">
+            <v-card flat rounded="lg" elevation="2" min-height="500" height="100%">
+              <v-card-text>
                 <v-list>
                   <v-list-item>
                     <template v-slot:prepend>
@@ -42,20 +43,19 @@
                     <v-list-item-title v-text="item.text" />
                   </v-list-item>
                 </v-list>
-                <!-- <v-card flat rounded="lg" class="mb-4">
-                </v-card> -->
-              </v-col>
 
-              <!-- 右侧内容区 -->
-              <v-col cols="12" md="9" class="pl-md-4">
-                <RouterView />
-                <!-- <v-card flat rounded="lg" min-height="500">
-                </v-card> -->
-              </v-col>
-            </v-row>
-          </div>
-        </v-card-text>
-      </v-card>
+              </v-card-text>
+            </v-card>
+          </v-col>
+
+          <!-- 右侧内容区 -->
+          <v-col cols="12" md="9">
+            <v-card flat rounded="lg" elevation="2" min-height="500" height="100%">
+              <RouterView />
+            </v-card>
+          </v-col>
+        </v-row>
+      </div>
     </div>
   </div>
 </template>

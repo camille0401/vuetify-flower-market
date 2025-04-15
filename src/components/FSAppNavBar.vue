@@ -34,30 +34,15 @@
     </v-sheet>
   </nav>
   <!-- 确认退出对话框 -->
-  <v-dialog v-model="logoutDialog" max-width="400">
-    <v-card>
-      <v-card-title class="d-flex align-center bg-primary">
-        <v-icon icon="mdi-logout" class="mr-2" />
-        <span class="text-h6">确认退出</span>
-      </v-card-title>
-
-      <v-card-text class="pa-4">
-        确定要退出当前账号吗？退出后将需要重新登录才能访问会员内容。
-      </v-card-text>
-
-      <v-card-actions class="pa-4">
-        <v-spacer />
-        <v-btn variant="text" @click="logoutDialog = false">取消</v-btn>
-        <v-btn color="error" @click="confirmLogout">确认退出</v-btn>
-      </v-card-actions>
-    </v-card>
-  </v-dialog>
+  <FSConfirmationDialog v-model="logoutDialog" :title="`确认退出`" :content="`确定要退出当前账号吗？退出后将需要重新登录才能访问会员内容。`"
+    titleIcon="mdi-logout" contentIcon="" confirm-color="error" confirm-text="确认退出" @confirm="confirmLogout" />
 </template>
 
 <script setup>
 import { ref } from 'vue'
 import { useUserStore } from '@/stores/user'
 import { useRouter } from 'vue-router'
+import FSConfirmationDialog from '@/components/FSConfirmationDialog.vue'
 
 const userStore = useUserStore()
 const router = useRouter()
