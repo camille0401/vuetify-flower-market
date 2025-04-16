@@ -45,7 +45,7 @@
           </div>
 
           <div v-else class="empty-box py-10">
-            <FSEmptyPannel title="暂无商品数据" />
+            <FSEmptyPannel title="暂无相关商品" text="换个筛选条件试试吧~" />
           </div>
 
           <!-- 分页 -->
@@ -63,6 +63,7 @@ import { useRoute, onBeforeRouteUpdate } from 'vue-router'
 import { getCategoryAPI, getCategoryGoodsAPI } from "@/apis/category"
 import FSGoodsItem from "@/components/FSGoodsItem.vue"
 import FSEmptyPannel from "@/components/FSEmptyPanel.vue"
+
 
 const route = useRoute()
 
