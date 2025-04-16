@@ -48,14 +48,10 @@ const categoryStore = useCategoryStore()
       border-bottom: 1px dashed rgba(255, 255, 255, 0.2);
       transition: background 0.3s ease;
 
-      &:hover {
-        background: rgb(var(--v-theme-primary-darken-1));
-      }
-
       .main-menu {
         font-size: 16px;
         line-height: 50px;
-        color: #fff;
+        color: rgb(var(--v-theme-on-primary));
       }
 
       .sub-menu {
@@ -66,8 +62,12 @@ const categoryStore = useCategoryStore()
         a {
           font-size: 14px;
           line-height: 24px;
-          color: #fff;
+          color: rgb(var(--v-theme-on-primary));
         }
+      }
+
+      a:hover {
+        color: rgb(var(--v-theme-primary-darken-1));
       }
     }
   }

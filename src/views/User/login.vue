@@ -31,7 +31,7 @@ import { useI18n } from 'vue-i18n';  // Import useI18n to access translations
 import { useToast } from "vue-toastification";
 import EmailTextField from './components/EmailTextField.vue';
 import PasswordTextField from './components/PasswordTextField.vue';
-import SocialButtons from './components/SocialButtons.vue';
+// import SocialButtons from './components/SocialButtons.vue';
 
 // Initialize i18n
 const { t } = useI18n();  // Use `t` for translation
@@ -115,7 +115,7 @@ const toRegister = () => {
   .span {
     margin-left: 5px;
     font-size: 14px;
-    color: $fs-primary-color;
+    color: rgb(var(--v-theme-primary));
     font-weight: 500;
     cursor: pointer;
   }
