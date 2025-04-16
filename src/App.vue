@@ -11,7 +11,7 @@ onMounted(() => categoryStore.getCategory())
 </script>
 
 <template>
-  <v-app theme="light">
+  <v-app theme="milkTeaLight">
     <FSAppNavBar />
     <FSHeader />
     <v-main>

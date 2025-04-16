@@ -1,56 +1,63 @@
-import 'vuetify/styles'
-import '@mdi/font/css/materialdesignicons.css' // Ensure you are using css-loader
 import { createVuetify } from 'vuetify'
-// import { aliases, mdi } from 'vuetify/iconsets/mdi'
+import 'vuetify/styles'
+import '@mdi/font/css/materialdesignicons.css'
+import { zhHans, ja } from 'vuetify/locale'
+import i18n from '../i18n'
 import * as components from 'vuetify/components'
 import * as directives from 'vuetify/directives'
 
-const milkTeaTheme = {
+const milkTeaLight = {
   dark: false,
   colors: {
-    background: '#FFF8F5', // 乳白色带粉调
-    surface: '#FFFFFF', // 纯白表面
-    'surface-variant': '#D99A9F', // 奶茶色变体
-    primary: '#E8B4B8', // 奶茶中的粉色调
+    background: '#FFF8F5', // 乳白带粉背景
+    surface: '#FFFFFF',
+    primary: '#E8B4B8', // 奶茶粉主色
     'primary-darken-1': '#D99A9F',
     'primary-lighten-1': '#F0C8CA',
-    secondary: '#D9A79C', // 奶茶色
+    secondary: '#D9A79C', // 奶茶棕色
     'secondary-darken-1': '#C99588',
     'secondary-lighten-1': '#E3BCB3',
-    accent: '#C78283', // 深奶茶粉
+    accent: '#C78283', // 深粉点缀
     error: '#E57373',
     info: '#64B5F6',
     success: '#81C784',
     warning: '#FFB74D',
-    'on-primary': '#FFFFFF', // 主色上的文字颜色
-    'on-secondary': '#FFFFFF' // 辅助色上的文字颜色
+    'on-primary': '#FFFFFF', // 主色上的文字
+    'on-secondary': '#FFFFFF'
   }
-  // variables: {
-  //   'font-size-root': '12px'
-  // }
 }
 
-const milkTeaDarkTheme = {
+const milkTeaDark = {
   dark: true,
   colors: {
-    background: '#1E1715',
+    background: '#1E1715', // 深奶茶背景
     surface: '#2A211F',
-    'surface-variant': '#3A2E2B',
-    primary: '#D99A9F',
+    primary: '#D99A9F', // 更温柔的粉色
     secondary: '#C99588',
     accent: '#B57375',
     error: '#EF9A9A',
     info: '#90CAF9',
     success: '#A5D6A7',
-    warning: '#FFE082'
+    warning: '#FFE082',
+    'on-primary': '#FFFFFF',
+    'on-secondary': '#FFFFFF'
   }
 }
 
 export default createVuetify({
+  locale: {
+    locale: i18n.global.locale.value,
+    fallback: 'zhHans',
+    messages: {
+      zhHans,
+      ja
+    }
+  },
   theme: {
-    defaultTheme: 'light',
+    defaultTheme: 'milkTeaLight', // 默认亮色
     themes: {
-      light: milkTeaTheme
+      milkTeaLight,
+      milkTeaDark
     },
     variations: {
       colors: ['primary', 'secondary', 'accent'],

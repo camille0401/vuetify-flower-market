@@ -6,6 +6,9 @@ import App from './App.vue'
 import router from './router'
 import { lazyImgPlugin } from '@/plugins/lazyImg'
 
+// i18n
+import i18n from './i18n'
+
 // Vuetify
 import vuetify from './plugins/vuetify'
 import Toast from 'vue-toastification'
@@ -19,6 +22,7 @@ const app = createApp(App)
 app.use(createPinia().use(piniaPluginPersistedstate))
 app.use(router)
 app.use(lazyImgPlugin)
+app.use(i18n)
 app.use(vuetify)
 app.use(Toast, {})
 
