@@ -34,30 +34,15 @@
   </v-dialog>
 
   <!-- 删除确认对话框 -->
-  <!-- 确认退出对话框 -->
-  <v-dialog v-model="deleteDialog" max-width="400">
-    <v-card>
-      <v-card-title class="d-flex align-center bg-primary">
-        <v-icon icon="mdi-alert-circle-outline" class="mr-2" />
-        <span class="text-h6">确认删除？</span>
-      </v-card-title>
-
-      <v-card-text class="pa-4">
-        确定要删除这个地址吗？此操作不可撤销。
-      </v-card-text>
-
-      <v-card-actions class="pa-4">
-        <v-spacer />
-        <v-btn variant="text" @click="deleteDialog = false">取消</v-btn>
-        <v-btn color="error" @click="confirmDelete">确认删除</v-btn>
-      </v-card-actions>
-    </v-card>
-  </v-dialog>
+  <FSConfirmationDialog v-model="deleteDialog" title="确认删除？" content="确定要删除这个地址吗？此操作不可撤销。"
+    titleIcon="mdi-alert-circle-outline" contentIcon="" confirm-color="error" confirm-text="确认删除"
+    @confirm="confirmDelete" />
 
 </template>
 
 <script setup>
 import AddressForm from './components/AddressForm.vue'
+import FSConfirmationDialog from '@/components/FSConfirmationDialog.vue'
 import { onMounted, ref } from 'vue'
 import { useAddressStore } from '@/stores/address'
 import { useAddressForm } from '@/composables/useAddressForm'

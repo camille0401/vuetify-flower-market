@@ -48,7 +48,7 @@ const categoryStore = useCategoryStore()
       }
 
       &:hover {
-        background: $fs-primary-color;
+        background: rgb(var(--v-theme-primary-darken-1));
         transition: all .2s linear;
 
         a {

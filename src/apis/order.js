@@ -28,17 +28,16 @@ export const createOrderAPI = (data) => {
  * @description: create-order
  * @return {*}
  */
-export const getOrderAPI = (id) => {
-  console.log(id)
+export const getOrderDetailAPI = (id) => {
   return request({
-    url: `/member/order/${id}`
+    url: `/flower/orders/${id}`,
+    method: 'GET'
   })
 }
 
-export const getUserOrderAPI = (params) => {
+export const cancelOrderAPI = (id) => {
   return request({
-    url: '/member/order',
-    method: 'GET',
-    params
+    url: `/flower/orders/${id}`,
+    method: 'PUT'
   })
 }

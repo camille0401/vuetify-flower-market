@@ -13,8 +13,8 @@ export const useUserStore = defineStore(
     const orderStore = useOrderStore()
 
     const clearUserInfo = () => {
-      userInfo.value = {}
       token.value = ''
+      userInfo.value = {}
       cartStore.clearCartList()
       orderStore.clearOrderData()
     }

@@ -125,6 +125,8 @@
 
 <script setup>
 import Big from 'big.js'
+import FSEmptyPanel from '@/components/FSEmptyPanel.vue'
+import FSBoundedNumInput from '@/components/FSBoundedNumInput.vue'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
@@ -132,8 +134,6 @@ import { useCartStore } from '@/stores/cart'
 import { useUserStore } from '@/stores/user'
 import { useOrderStore } from '@/stores/order'
 import { useCartCount } from "@/composables/useCartCount"
-import FSEmptyPanel from '@/components/FSEmptyPanel.vue'
-import FSBoundedNumInput from '@/components/FSBoundedNumInput.vue'
 
 const toast = useToast()
 const router = useRouter()
@@ -142,8 +142,6 @@ const cartStore = useCartStore()
 const orderStore = useOrderStore()
 const { handleCountChange, handleOutOfRange } = useCartCount()
 
-// 组件状态
-const deliveryDate = ref('')
 
 // 计算商品总价
 const calcGoodsTotalPrice = (price, count) => {

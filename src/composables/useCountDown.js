@@ -1,6 +1,7 @@
 // 封装倒计时逻辑函数
 import { computed, onUnmounted, ref } from 'vue'
 import dayjs from 'dayjs'
+
 export const useCountDown = () => {
   // 1. 响应式的数据
   let timer = null
@@ -22,6 +23,6 @@ export const useCountDown = () => {
   })
   return {
     formatTime,
-    start,
+    start
   }
 }
