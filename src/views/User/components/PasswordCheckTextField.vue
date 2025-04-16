@@ -1,17 +1,23 @@
 <template>
   <v-text-field v-model="formData.checkPassword" :rules="checkPasswordRules" :type="showPassword ? 'text' : 'password'"
-    variant="outlined" label="Confirm Password" placeholder="Confirm password"
-    prepend-inner-icon="mdi-lock-check-outline" @click:append-inner=" showPassword = !showPassword">
+    variant="outlined" :label="$t('global.register.validation.checkPasswordLabel')"
+    prepend-inner-icon="mdi-lock-check-outline">
   </v-text-field>
 </template>
 
 <script setup>
 import { ref, computed } from 'vue';
+import { useI18n } from 'vue-i18n';  // 引入 vue-i18n
+
+// 获取 i18n 实例
+const { t } = useI18n();
 
 const props = defineProps({
   modelValue: { type: Object, required: true },
   showPassword: { type: Boolean, required: false }
 });
+
+const emit = defineEmits();
 
 const formData = computed({
   get: () => props.modelValue,
@@ -21,11 +27,11 @@ const formData = computed({
 // const showPassword = ref(false)
 
 const checkPasswordRules = ref([
-  v => !!v || 'Check Passrord is required',
+  v => !!v || t('global.register.validation.checkPasswordRequired'),
   v => {
     if (v === formData.value.password) return true
 
-    return '两次输入密码不一致'
+    return t('global.register.validation.passwordMismatch')
   },
 ])
 

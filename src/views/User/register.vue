@@ -1,21 +1,21 @@
 <template>
   <!-- 注册 -->
   <div class="form-box">
-    <h1 class="text-h5 text-center">Create An Account</h1>
-    <p class="text-subtitle-2	text-center mb-10" style="color: #757575;">Welcome to Flower Market</p>
+    <h1 class="text-h5 text-center">{{ $t('global.register.createAccount') }}</h1>
+    <p class="text-subtitle-2 text-center mb-10" style="color: #757575;">{{ $t('global.register.welcome') }}</p>
     <v-form ref="registerFormRef" @submit.prevent="doRegister">
       <EmailTextField v-model="registerForm" />
       <PasswordTextField v-model="registerForm" :showPassword="showPassword" />
       <PasswordCheckTextField v-model="registerForm" :showPassword="showPassword" />
-      <v-checkbox v-model="showPassword" color="primary" label="Show Password" hide-details></v-checkbox>
+      <v-checkbox v-model="showPassword" color="primary" :label="$t('global.register.showPassword')"
+        hide-details></v-checkbox>
       <br>
       <v-btn :loading="loading" color="primary" size="x-large" type="submit" variant="elevated" block>
-        注册
+        {{ $t('global.register.createAccount') }}
       </v-btn>
     </v-form>
-    <p class="p">Already have an acount <span class="span" @click="toLogin">去登录</span> </p>
-    <!-- <p class="p line">Or With</p> -->
-    <!-- <SocialButtons /> -->
+    <p class="p">{{ $t('global.register.alreadyHaveAccount') }} <span class="span" @click="toLogin">{{
+      $t('global.register.toLogin') }}</span> </p>
   </div>
 </template>
 
@@ -23,11 +23,15 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/user'
-import { useToast } from "vue-toastification";
-import EmailTextField from './components/EmailTextField.vue';
-import PasswordTextField from './components/PasswordTextField.vue';
-import PasswordCheckTextField from './components/PasswordCheckTextField.vue';
-import SocialButtons from './components/SocialButtons.vue';
+import { useToast } from "vue-toastification"
+import { useI18n } from 'vue-i18n' // Import useI18n to access translations
+import EmailTextField from './components/EmailTextField.vue'
+import PasswordTextField from './components/PasswordTextField.vue'
+import PasswordCheckTextField from './components/PasswordCheckTextField.vue'
+import SocialButtons from './components/SocialButtons.vue'
+
+// Initialize i18n
+const { t } = useI18n();  // Use `t` for translation
 
 const toast = useToast();
 const userStore = useUserStore();
@@ -42,30 +46,46 @@ const registerForm = ref({
   checkPassword: ""
 })
 
-
 const toLogin = () => {
   router.push("/user/login")
   registerFormRef.value.reset()
 }
 
 const doRegister = async () => {
+  // 验证表单有效性
   const { valid } = await registerFormRef.value.validate()
+
   if (valid) {
     const { username, password } = registerForm.value
     const nickname = username.split("@")[0]
-    const res = await userStore.register({ username, nickname, password })
-    console.log(res)
-    if (res) {
-      toast.success("注册成功,请登录", {
+    try {
+      // 发送注册请求
+      await userStore.register({ username, nickname, password })
+
+      // 提示用户注册成功
+      toast.success(t('global.register.successMessage'), {
         timeout: 2000
       });
-      toLogin();
+
+      // 跳转到登录页
+      router.push("/user/login")
+
+      // 登录成功后清空表单
+      registerFormRef.value.reset()
+
+    } catch (error) {
+      // 捕获并处理错误，显示登录失败提示
+      toast.error(t('global.register.failureMessage'), {
+        timeout: 2000
+      })
     }
+  } else {
+    // 如果表单无效，提示用户
+    toast.error(t('global.register.invalidFormMessage'), {
+      timeout: 2000
+    })
   }
 }
-
-
-
 </script>
 
 <style lang="scss" scoped>

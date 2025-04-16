@@ -7,7 +7,7 @@ const savedLang = localStorage.getItem('fmlang') || 'zhCN'
 const i18n = createI18n({
   legacy: false,
   globalInjection: true,
-  locale: savedLang, //默认语言
+  locale: 'zhCN', //默认语言
   fallbackLocale: 'ja', //备用语言
   messages: {
     zhCN,
