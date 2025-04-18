@@ -1,177 +1,147 @@
-import { defineStore } from 'pinia'
-import { computed, ref } from 'vue'
-import { useUserStore } from './user'
-import Big from 'big.js'
+import { defineStore } from 'pinia';
+import { ref, computed } from 'vue';
+import Big from 'big.js';
 import {
   getCartListAPI,
   insertCartAPI,
   deleteCartAPI,
   mergeCartAPI,
   updateCartAPI,
-  selectedCartAPI
-} from '@/apis/cart'
+  selectedCartAPI,
+} from '@/apis/cart';
+import { useUserStore } from './user';
 
 export const useCartStore = defineStore(
   'cart',
   () => {
-    const userStore = useUserStore()
-    const cartList = ref([])
-    const isLogin = computed(() => userStore.token)
+    const userStore = useUserStore();
+    const cartList = ref([]);
+    const isLogin = computed(() => !!userStore.token);
 
-    // 计算属性
-    // 1. 总的数量 所有项的count之和
-    const cartAllCount = computed(() => cartList.value.reduce((prev, cur) => prev + cur.count, 0))
-    // 2. 总价 所有项的count*price之和
-    const cartAllPrice = computed(() => {
-      return cartList.value.reduce((prev, cur) => {
-        const price = new Big(cur.price)
-        const count = new Big(cur.count)
-        return prev.plus(price.times(count))
-      }, new Big(0))
-    })
+    // ---------- 计算属性 ----------
+    const cartAllCount = computed(() => cartList.value.reduce((sum, item) => sum + item.count, 0));
 
-    // 3.是否全选
-    const cartIsAll = computed(() => {
-      if (cartList.value.length === 0) return false
-      return cartList.value.every((item) => item.selected)
-    })
+    const cartAllPrice = computed(() =>
+      cartList.value.reduce(
+        (sum, item) => sum.plus(new Big(item.price).times(item.count)),
+        new Big(0),
+      ),
+    );
 
-    // 4. 已选择数量
+    const cartIsAll = computed(
+      () => cartList.value.length > 0 && cartList.value.every((item) => item.selected),
+    );
+
     const cartSelectedCount = computed(() =>
-      cartList.value.filter((item) => item.selected).reduce((a, c) => a + c.count, 0)
-    )
+      cartList.value.filter((item) => item.selected).reduce((sum, item) => sum + item.count, 0),
+    );
 
-    // 5. 已选择商品价钱合计
-    const cartSelectedPrice = computed(() => {
-      return cartList.value
+    const cartSelectedPrice = computed(() =>
+      cartList.value
         .filter((item) => item.selected)
-        .reduce((prev, cur) => {
-          const itemTotal = new Big(cur.price).times(cur.count)
-          return prev.plus(itemTotal)
-        }, new Big(0))
-    })
+        .reduce((sum, item) => sum.plus(new Big(item.price).times(item.count)), new Big(0)),
+    );
 
-    // 查询购物车列表
+    // ---------- 工具函数 ----------
+    const normalizeCartItem = (item) => ({
+      ...item,
+      picture: item.mainPictures?.[0] || '',
+    });
+
+    const syncCartList = async () => {
+      const res = await getCartListAPI();
+      cartList.value = res.map(normalizeCartItem);
+    };
+
+    // ---------- 操作方法 ----------
     const getCartList = async () => {
-      const res = await getCartListAPI()
-      cartList.value = res.map((item) => {
-        return {
-          ...item,
-          picture: item.mainPictures?.[0] || ''
-        }
-      })
-    }
+      if (isLogin.value) await syncCartList();
+    };
 
-    // 合并购物车
     const mergeCartList = async () => {
-      if (cartList.value.length === 0) return
-      const mapdata = cartList.value.map((item) => {
-        return {
-          goodsId: item.goodsId,
-          selected: item.selected,
-          goodsCount: item.count
-        }
-      })
-      await mergeCartAPI(mapdata)
-      getCartList()
-    }
+      if (!cartList.value.length) return;
+      const data = cartList.value.map(({ goodsId, selected, count }) => ({
+        goodsId,
+        selected,
+        goodsCount: count,
+      }));
+      await mergeCartAPI(data);
+      await syncCartList();
+    };
 
-    // add-cart
-    // goods: goods-obj
     const addCart = async (goods) => {
-      // 添加购物车操作
-      // 已添加过 - count + 1
-      // 没有添加过 - 直接push
-      // 思路：通过匹配传递过来的商品对象中的id能不能在cartList中找到，找到了就是添加过
       if (isLogin.value) {
         await insertCartAPI({
           goodsId: goods.goodsId,
           goodsCount: goods.count,
-          selected: goods.selected
-        })
-        getCartList()
+          selected: goods.selected,
+        });
+        await syncCartList();
       } else {
-        const findObj = cartList.value.find((item) => item.goodsId === goods.goodsId)
-        if (findObj) {
-          findObj.count++
-        } else {
-          cartList.value.push(goods)
-        }
+        console.log(goods);
+        const existing = cartList.value.find((item) => item.goodsId === goods.goodsId);
+        console.log(existing);
+        existing ? existing.count++ : cartList.value.push(goods);
       }
-    }
+    };
 
-    // update-cart
     const updateCart = async (goods) => {
-      await updateCartAPI({
-        goodsId: goods.goodsId,
-        goodsCount: goods.count,
-        selected: goods.selected
-      })
-      getCartList()
-    }
+      if (isLogin.value) {
+        await updateCartAPI({
+          goodsId: goods.goodsId,
+          goodsCount: goods.count,
+          selected: goods.selected,
+        });
+        await syncCartList();
+      }
+    };
 
-    // selected-cart
     const selectedCart = async () => {
-      if (cartList.value.length === 0) return
-      const mapdata = cartList.value.map((item) => {
-        return {
-          goodsId: item.goodsId,
-          selected: item.selected,
-          goodsCount: item.count
-        }
-      })
-      await selectedCartAPI(mapdata)
-      getCartList()
-    }
+      if (!cartList.value.length) return;
+      const data = cartList.value.map(({ goodsId, selected, count }) => ({
+        goodsId,
+        selected,
+        goodsCount: count,
+      }));
+      await selectedCartAPI(data);
+      await syncCartList();
+    };
 
-    // delete-cart
     const delCart = async (goodsId) => {
       if (isLogin.value) {
-        await deleteCartAPI([goodsId])
-        getCartList()
+        await deleteCartAPI([goodsId]);
+        await syncCartList();
       } else {
-        const ind = cartList.value.findIndex((item) => item.goodsId === goodsId)
-        cartList.value.splice(ind, 1)
+        cartList.value = cartList.value.filter((item) => item.goodsId !== goodsId);
       }
-    }
+    };
 
-    // delete-all-cart
     const delAllCart = async (goodsIds) => {
       if (isLogin.value) {
-        await deleteCartAPI(goodsIds)
-        getCartList()
+        await deleteCartAPI(goodsIds);
+        await syncCartList();
       } else {
-        cartList.value = cartList.value.filter((item) => !goodsIds.includes(item.goodsId))
+        cartList.value = cartList.value.filter((item) => !goodsIds.includes(item.goodsId));
       }
-    }
+    };
 
-    // cart-list-page single-checkbox
-    const singleCheck = async (goodsId, selected) => {
-      const findObj = cartList.value.find((item) => item.goodsId === goodsId)
-      findObj.selected = selected ? 1 : 0
-      // if (isLogin.value) {
-      //   selectedCart()
-      // }
-    }
+    const singleCheck = (goodsId, selected) => {
+      const item = cartList.value.find((i) => i.goodsId === goodsId);
+      if (item) item.selected = selected ? 1 : 0;
+    };
 
-    // cart-list-page all-checkbox
     const allCheck = (selected) => {
-      cartList.value.forEach((item) => (item.selected = selected ? 1 : 0))
-      // if (isLogin.value) {
-      //   selectedCart()
-      // }
-    }
+      cartList.value.forEach((item) => (item.selected = selected ? 1 : 0));
+    };
 
-    // input-count-change
     const countChange = (goods) => {
-      // if (isLogin.value) {
-      //   updateCart(goods)
-      // }
-    }
+      if (isLogin.value) updateCart(goods);
+    };
 
     const clearCartList = () => {
-      cartList.value = []
-    }
+      cartList.value = [];
+    };
+
     return {
       cartList,
       cartAllCount,
@@ -180,17 +150,19 @@ export const useCartStore = defineStore(
       cartSelectedCount,
       cartSelectedPrice,
       getCartList,
+      mergeCartList,
       addCart,
+      updateCart,
+      selectedCart,
       delCart,
       delAllCart,
       singleCheck,
       allCheck,
-      mergeCartList,
       countChange,
-      clearCartList
-    }
+      clearCartList,
+    };
   },
   {
-    persist: true
-  }
-)
+    persist: true,
+  },
+);

@@ -6,36 +6,38 @@
           <li>
             <RouterLink to="/member/info">
               <v-icon class="mr-1">mdi-account</v-icon>
-              Welcome&nbsp;{{ userStore?.userInfo?.nickName }}
+              {{ $t('global.nav.user.welcome') }} {{ userStore?.userInfo?.nickName }}
             </RouterLink>
           </li>
           <li>
-            <a href="javascript:void(0)" @click="logoutDialog = true">退出登录</a>
+            <a href="javascript:void(0)" @click="logoutDialog = true">{{ $t('global.nav.user.logout') }}</a>
           </li>
           <li>
-            <RouterLink to="/member/order">我的订单</RouterLink>
+            <RouterLink to="/member/order">{{ $t('global.nav.user.myOrder') }}</RouterLink>
           </li>
           <li>
-            <RouterLink to="/member/info">会员中心</RouterLink>
+            <RouterLink to="/member/info">{{ $t('global.nav.user.memberCenter') }}</RouterLink>
           </li>
         </template>
         <template v-else>
           <li>
-            <RouterLink to="/user/login">请先登录</RouterLink>
+            <RouterLink to="/user/login">{{ $t('global.nav.user.login') }}</RouterLink>
           </li>
-          <li><a href="javascript:void(0)">帮助中心</a></li>
-          <li><a href="javascript:void(0)">关于我们</a></li>
+          <li><a href="javascript:void(0)">{{ $t('global.nav.user.helpCenter') }}</a></li>
+          <li><a href="javascript:void(0)">{{ $t('global.nav.user.aboutUs') }}</a></li>
         </template>
         <li>
-          <a href="javascript:void(0)"><v-icon class="mr-1">mdi-phone</v-icon>&nbsp;XXXXXXX</a>
+          <a href="javascript:void(0)"><v-icon class="mr-1">mdi-phone</v-icon>&nbsp;{{ $t('global.nav.contact.phone')
+          }}</a>
         </li>
       </ul>
-
     </v-sheet>
   </nav>
+
   <!-- 确认退出对话框 -->
-  <FSConfirmationDialog v-model="logoutDialog" :title="`确认退出`" :content="`确定要退出当前账号吗？退出后将需要重新登录才能访问会员内容。`"
-    titleIcon="mdi-logout" contentIcon="" confirm-color="error" confirm-text="确认退出" @confirm="confirmLogout" />
+  <FSConfirmationDialog v-model="logoutDialog" :title="$t('global.nav.confirm.title')"
+    :content="$t('global.nav.confirm.content')" titleIcon="mdi-logout" contentIcon=""
+    :confirm-text="$t('global.nav.confirm.confirmText')" @confirm="confirmLogout" />
 </template>
 
 <script setup>
@@ -51,49 +53,71 @@ const logoutDialog = ref(false)
 
 const confirmLogout = () => {
   logoutDialog.value = false;
-  userStore.clearUserInfo()
-  // 2.跳转到登录页
+  userStore.logout()
   router.push('/user/login')
 }
-
 </script>
 
 <style lang="scss" scoped>
 .fs-app-topnav {
+  background-color: #333;
+  /* 深色背景 */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 
   .v-btn {
     text-transform: none;
-  }
-
-  .nav-box {
-    display: flex;
-    justify-content: flex-end;
-    position: relative;
+    font-size: 14px;
+    /* 调整按钮文字大小 */
   }
 
   ul {
     display: flex;
-    height: 55px;
     justify-content: flex-end;
     align-items: center;
+    height: 55px;
+    list-style: none;
 
     li {
+      position: relative;
+      display: flex;
+      align-items: center;
+
       a {
-        display: flex;
-        align-items: center;
-        padding: 0 15px;
         color: #cdcdcd;
-        line-height: 1;
-        font-size: 12px;
+        font-size: 14px;
+        font-weight: 500;
+        transition: color 0.3s ease;
 
         &:hover {
-          color: $fs-primary-color;
+          color: rgb(var(--v-theme-primary-darken-1));
         }
       }
 
-      ~li {
-        border-left: 2px solid #666;
+      &~li {
+        a {
+          &::before {
+            content: "|";
+            display: inline-block;
+            color: #666;
+            margin: 0 15px;
+          }
+
+        }
       }
+    }
+  }
+
+  /* 添加响应式调整 */
+  @media (max-width: 768px) {
+    ul {
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 10px;
+    }
+
+    li {
+      padding: 10px 0;
+      border-left: none;
     }
   }
 }

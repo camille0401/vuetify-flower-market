@@ -24,7 +24,7 @@
   .large-box {
     height: 3em;
     width: 3em;
-    background-color: $fs-primary-color;
+    background-color: rgb(var(--v-theme-primary-darken-1));
     outline: 1px solid transparent;
   }
 

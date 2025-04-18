@@ -14,7 +14,7 @@
           <!-- 顶部分类快速导航 -->
           <div class="strain-box mt-4">
             <RouterLink v-for="item in categoryStore.categoryList" :key="item.id" :to="`/category/1/${item.id}`"
-              class="category-link" active-class="active-category">
+              class="category-link">
               {{ item.cname }}
             </RouterLink>
           </div>
@@ -83,21 +83,21 @@ const breadcrumbs = [
       font-weight: 500;
       text-align: center;
       line-height: 50px;
-      color: var(--v-primary-darken1);
+      color: rgb(var(--v-theme-primary-darken-1));
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       text-decoration: none;
 
       &:hover {
-        background-color: var(--v-primary-lighten5);
+        background-color: rgb(var(--v-theme-primary-lighten-5));
         transform: translateY(-2px);
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
       }
 
-      &.active-category {
-        background-color: var(--v-primary-base);
-        color: white;
-        border-color: var(--v-primary-base);
-      }
+      // &.active-category {
+      //   background-color: rgb(var(--v-theme-primary-base));
+      //   color: white;
+      //   border-color: rgb(var(--v-theme-primary-base));
+      // }
     }
   }
 
@@ -109,7 +109,7 @@ const breadcrumbs = [
       gap: 8px;
       font-size: 18px;
       font-weight: 600;
-      color: var(--v-primary-darken1);
+      color: rgb(var(--v-theme-primary-darken-1));
       margin-bottom: 8px;
     }
   }
@@ -150,7 +150,7 @@ const breadcrumbs = [
         }
 
         &:hover {
-          color: var(--v-primary-base);
+          color: rgb(var(--v-theme-primary-darken-1));
         }
       }
     }

@@ -27,7 +27,7 @@ import FSCategoryNav from "@/components/FSCategoryNav.vue";
       justify-content: center;
       width: 250px;
       border-radius: 12px 12px 0 0;
-      background: $fs-primary-color;
+      background: rgb(var(--v-theme-primary-darken-1));
       font-size: 18px;
       line-height: 52px;
       font-weight: bold;

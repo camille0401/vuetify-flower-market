@@ -1,77 +1,86 @@
 <template>
   <v-card class="mx-auto pa-4" rounded="l" elevation="0" style="height: 100%;">
-    <v-card-title class="d-flex justify-space-between	align-center">
-      <p class="text-h5 font-weight-bold">收货地址</p>
-      <v-btn color="primary" @click="openCreateDialog"><v-icon class="mr-2">mdi-pen-plus</v-icon>添加地址</v-btn>
+    <v-card-title class="d-flex justify-space-between align-center">
+      <p class="text-h5 font-weight-bold">{{ $t('member.address.title') }}</p>
+      <v-btn color="primary" @click="openCreateDialog">
+        <v-icon class="mr-2">mdi-pen-plus</v-icon>{{ $t('member.address.add') }}
+      </v-btn>
     </v-card-title>
 
-    <v-divider class="ma-4"></v-divider>
+    <v-divider class="ma-4" />
 
     <v-card-text>
-      <!-- 地址表格 -->
-      <v-data-table :headers="headers" :items="addressStore.addressList" hide-default-footer>
-        <template v-slot:item.isDefault="{ item }">
+      <v-data-table :headers="headers" :items="addressStore.addressList" item-value="id" hide-default-footer>
+        <!-- 默认地址开关 -->
+        <template #item.isDefault="{ item }">
           <v-switch :model-value="item.isDefault" color="primary" :true-value="1" :false-value="0" hide-details
-            @update:modelValue="toggleDefault(item.id, $event)"></v-switch>
+            @update:modelValue="toggleDefault(item.id, $event)" />
         </template>
+
         <!-- 操作列 -->
         <template #item.actions="{ item }">
           <v-btn size="x-small" icon color="primary" @click="openEditDialog(item)">
             <v-icon>mdi-pencil</v-icon>
           </v-btn>
-
           <v-btn size="x-small" icon color="error" class="ml-2" @click="openDeleteDialog(item.id)">
             <v-icon>mdi-delete</v-icon>
           </v-btn>
         </template>
       </v-data-table>
     </v-card-text>
-
   </v-card>
-  <!-- 编辑对话框 -->
+
+  <!-- 编辑或新增地址对话框 -->
   <v-dialog v-model="editDialog" max-width="600">
     <AddressForm :initial-data="selectedAddress" @submit="handleSubmit" @close="editDialog = false" />
   </v-dialog>
 
-  <!-- 删除确认对话框 -->
-  <FSConfirmationDialog v-model="deleteDialog" title="确认删除？" content="确定要删除这个地址吗？此操作不可撤销。"
-    titleIcon="mdi-alert-circle-outline" contentIcon="" confirm-color="error" confirm-text="确认删除"
-    @confirm="confirmDelete" />
-
+  <!-- 删除确认框 -->
+  <FSConfirmationDialog v-model="deleteDialog" :title="$t('member.address.confirmDeleteTitle')"
+    :content="$t('member.address.confirmDeleteContent')" title-icon="mdi-alert-circle-outline" confirm-color="error"
+    :confirm-text="$t('member.address.common.confirmDelete')" @confirm="confirmDelete" />
 </template>
 
 <script setup>
+import { onMounted, ref } from 'vue'
 import AddressForm from './components/AddressForm.vue'
 import FSConfirmationDialog from '@/components/FSConfirmationDialog.vue'
-import { onMounted, ref } from 'vue'
 import { useAddressStore } from '@/stores/address'
 import { useAddressForm } from '@/composables/useAddressForm'
+import { useI18n } from 'vue-i18n'
 
-
-// 表格列配置
-const headers = [
-  { title: '收货人', key: 'recipient', sortable: false },
-  { title: '联系方式', key: 'phone', sortable: false },
-  { title: '详细地址', key: 'address', value: (item) => `${item.prefecture} ${item.city} ${item.address}`, sortable: false },
-  { title: '默认地址', key: 'isDefault', sortable: false },
-  { title: '操作', key: 'actions', sortable: false }
-]
+const { t } = useI18n()
 
 const addressStore = useAddressStore()
 
-const { editDialog, selectedId, selectedAddress,
-  openCreateDialog, openEditDialog, handleSubmit } = useAddressForm();
+const {
+  editDialog,
+  selectedId,
+  selectedAddress,
+  openCreateDialog,
+  openEditDialog,
+  handleSubmit
+} = useAddressForm()
 
-// 组件状态
 const deleteDialog = ref(false)
 
+const headers = [
+  { title: t('member.address.columns.recipient'), key: 'recipient', sortable: false },
+  { title: t('member.address.columns.phone'), key: 'phone', sortable: false },
+  {
+    title: t('member.address.columns.fullAddress'),
+    key: 'address',
+    sortable: false,
+    value: (item) => `${item.prefecture} ${item.city} ${item.address}`
+  },
+  { title: t('member.address.columns.default'), key: 'isDefault', sortable: false },
+  { title: t('member.address.columns.actions'), key: 'actions', sortable: false }
+]
 
-// 生命周期钩子
 onMounted(() => {
   addressStore.fetchAddresses()
 })
 
-// 删除操作
 const openDeleteDialog = (id) => {
   selectedId.value = id
   deleteDialog.value = true
@@ -86,23 +95,13 @@ const confirmDelete = async () => {
   }
 }
 
-// 切换默认地址
 const toggleDefault = async (id, newValue) => {
   try {
     await addressStore.updateDefaultStatus(id, newValue)
   } catch (err) {
-    console.error('状态更新失败:', err)
+    console.error('切换默认地址失败:', err)
   }
 }
-
-
-
 </script>
 
-<style lang="scss" scoped>
-.member-add-actions {
-  display: flex;
-  align-items: center;
-  column-gap: 10px;
-}
-</style>
+<style scoped lang="scss"></style>

@@ -256,7 +256,7 @@ onMounted(() => {
 
     .empty-address-message {
       text-align: center;
-      color: var(--v-theme-text-secondary);
+      color: rgb(var(--v-theme-text-secondary));
     }
 
     .address-content {
@@ -295,7 +295,7 @@ onMounted(() => {
       width: 100%;
 
       .label {
-        color: var(--v-theme-text-secondary);
+        color: rgb(var(--v-theme-text-secondary));
       }
 
       .value {

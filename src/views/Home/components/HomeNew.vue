@@ -60,7 +60,7 @@ onMounted(() => getNew())
     }
 
     .price {
-      color: $priceColor;
+      color: rgb(var(--v-theme-error));
     }
   }
 

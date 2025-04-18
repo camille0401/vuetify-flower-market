@@ -23,7 +23,6 @@
               <!-- 商品规格 -->
               <div class="spec">
                 <v-card flat color="background" class="h-100">
-
                   <v-card-title class="text-h5 font-weight-bold">
                     {{ detailData.cname }}
                   </v-card-title>
@@ -33,46 +32,48 @@
 
                   <v-divider class="my-4" />
 
-                  <v-card-text class="d-flex flex-column ga-6	">
+                  <v-card-text class="d-flex flex-column ga-6">
                     <!-- 价格信息 -->
                     <div class="price-section">
                       <div class="d-flex align-center mb-2">
-                        <span class="text-body-1 mr-2">单价：</span>
+                        <span class="text-body-1 mr-2">{{ $t('detail.product.price') }}：</span>
                         <span class="text-h5 text-primary font-weight-bold">
                           {{ detailData.price || '0' }}
                         </span>
                       </div>
                       <div class="d-flex align-center">
-                        <span class="text-body-1 mr-2">总计：</span>
+                        <span class="text-body-1 mr-2">{{ $t('detail.product.total') }}：</span>
                         <span class="text-h5 text-error font-weight-bold">
                           {{ allPrice }}
                         </span>
                       </div>
                     </div>
+
                     <!-- 数量选择 -->
                     <div class="quantity-section">
                       <div class="d-flex align-center mb-4">
-                        <label class="text-body-1 mr-4">数量：</label>
-                        <FSBoundedNumInput v-model="count" :min="1" :max="detailData.inventory" :debounce="500"
+                        <label class="text-body-1 mr-4">{{ $t('detail.product.quantity') }}：</label>
+                        <FSBoundedNumInput v-model="count" :min="1" :max="detailData.inventory" :debounce="300"
                           @change="handleCountChange" @out-of-range="handleOutOfRange" />
                       </div>
                       <div class="stock-info">
                         <span class="text-caption text-grey mr-4">
-                          库存：{{ detailData.inventory || '0' }}件
+                          {{ $t('detail.product.stock') }}：{{ detailData.inventory || '0' }}
                         </span>
                         <span class="text-caption text-grey">
-                          已售：{{ detailData.salesCount || '0' }}件
+                          {{ $t('detail.product.sold') }}：{{ detailData.salesCount || '0' }}
                         </span>
                       </div>
                     </div>
+
                     <!-- 操作按钮 -->
                     <div class="action-buttons">
                       <v-btn color="primary-darken-1" size="x-large" class="mr-4" prepend-icon="mdi-cart-plus"
                         @click="handleAddCart" :loading="addingToCart">
-                        加入购物车
+                        {{ $t('detail.product.addToCart') }}
                       </v-btn>
                       <v-btn color="error" size="x-large" @click="handleBuyNow">
-                        立即购买
+                        {{ $t('detail.product.buyNow') }}
                       </v-btn>
                     </div>
                   </v-card-text>
@@ -83,28 +84,28 @@
             <!-- 商品详情 -->
             <div class="goods-detail-section mt-8">
               <v-tabs v-model="activeTab" color="primary" grow>
-                <v-tab value="details">商品详情</v-tab>
-                <v-tab value="specs">规格参数</v-tab>
-                <v-tab value="reviews">用户评价</v-tab>
+                <v-tab value="details">{{ $t('detail.product.details') }}</v-tab>
+                <v-tab value="specs">{{ $t('detail.product.specs') }}</v-tab>
+                <v-tab value="reviews">{{ $t('detail.product.reviews') }}</v-tab>
               </v-tabs>
 
               <v-window v-model="activeTab" class="mt-4">
                 <v-window-item value="details">
                   <div class="detail-images">
                     <img v-for="(img, index) in detailData.detailPictures" :src="img" :key="index"
-                      :alt="`商品详情图 ${index + 1}`" class="detail-image">
+                      :alt="`${$t('detail.product.detailImage')} ${index + 1}`" class="detail-image" />
                   </div>
                 </v-window-item>
 
                 <v-window-item value="specs">
                   <div class="specs-content pa-4">
-                    <p>规格参数内容待补充</p>
+                    <p>{{ $t('detail.product.specContent') }}</p>
                   </div>
                 </v-window-item>
 
                 <v-window-item value="reviews">
                   <div class="reviews-content pa-4">
-                    <p>用户评价内容待补充</p>
+                    <p>{{ $t('detail.product.reviewContent') }}</p>
                   </div>
                 </v-window-item>
               </v-window>
@@ -128,11 +129,13 @@ import Big from 'big.js'
 import { ref, computed, onMounted } from 'vue'
 import { useRoute, onBeforeRouteUpdate, useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
+import { useI18n } from 'vue-i18n'
 import { getDetailAPI } from '@/apis/detail'
 import { useCartStore } from '@/stores/cart'
-import { useCartCount } from "@/composables/useCartCount"
+import { useCartCount } from '@/composables/useCartCount'
 import { useOrderStore } from '@/stores/order'
 
+const { t } = useI18n()
 const toast = useToast()
 const route = useRoute()
 const router = useRouter()
@@ -140,41 +143,44 @@ const cartStore = useCartStore()
 const orderStore = useOrderStore()
 const { handleCountChange, handleOutOfRange } = useCartCount()
 
-// 数据状态
 const detailData = ref(null)
 const count = ref(1)
 const addingToCart = ref(false)
 const activeTab = ref('details')
 
-// 计算属性
-const allPrice = computed(() => (detailData.value?.price || 0) * count.value)
+
+// 面包屑导航
 const breadcrumbItems = computed(() => [
-  { title: '首页', disabled: false, href: '/' },
-  { title: detailData.value?.cname || '商品详情', disabled: true }
+  { title: t('detail.common.home'), disabled: false, href: '/' },
+  { title: detailData.value?.cname || t('detail.product.productList'), disabled: true }
 ])
 
-// 计算商品总价
 const calcGoodsTotalPrice = (price, count) => {
   return new Big(price).times(count).toString()
 }
 
-// 获取商品详情
+const allPrice = computed(() => calcGoodsTotalPrice(detailData.value?.price || 0, count.value))
+
 const fetchDetailData = async (id = route.params.id) => {
   try {
     const res = await getDetailAPI(id)
-    detailData.value = res || {}
+    detailData.value = res
   } catch (error) {
-    console.error('获取商品详情失败:', error)
-    toast.error('获取商品详情失败，请稍后重试')
+    console.error(t('detail.product.failedToLoad'), error)
+    // toast.error(t('detail.product.failedToLoad'))
   }
 }
 
-// 添加到购物车
-const handleAddCart = async () => {
+const checkQuantity = () => {
   if (count.value <= 0) {
-    toast.warning('请选择正确的商品数量')
-    return
+    toast.warning(t('detail.product.pleaseSelectQuantity'))
+    return false
   }
+  return true
+}
+
+const handleAddCart = async () => {
+  if (!checkQuantity()) return
 
   addingToCart.value = true
   try {
@@ -185,23 +191,17 @@ const handleAddCart = async () => {
       picture: detailData.value?.mainPictures?.[0],
       goodsId: detailData.value?.id
     })
-    toast.success('已添加到购物车')
+    toast.success(t('detail.product.addedToCart'))
   } catch (error) {
     console.error('添加到购物车失败:', error)
-    toast.error('添加到购物车失败，请稍后重试')
   } finally {
     addingToCart.value = false
   }
 }
 
-// 立即购买
 const handleBuyNow = () => {
-  if (count.value <= 0) {
-    toast.warning('请选择正确的商品数量')
-    return
-  }
+  if (!checkQuantity()) return
 
-  // 这里可以添加直接购买的逻辑
   orderStore.setGoodsList([{
     id: detailData.value.id,
     goodsId: detailData.value.id,
@@ -214,14 +214,13 @@ const handleBuyNow = () => {
   }])
   orderStore.setSummary({
     goodsCount: count.value,
-    postFee: '', //运费
+    postFee: '',
     totalAmount: calcGoodsTotalPrice(detailData.value.price, count.value),
     totalPayAmount: calcGoodsTotalPrice(detailData.value.price, count.value)
   })
   router.push({ path: '/order/create' })
 }
 
-// 生命周期钩子
 onMounted(() => fetchDetailData())
 onBeforeRouteUpdate((to) => {
   count.value = 1
@@ -238,7 +237,6 @@ onBeforeRouteUpdate((to) => {
     height: 300px;
   }
 
-  // 商品信息区域
   .goods-info {
     display: flex;
     gap: 30px;
@@ -251,39 +249,29 @@ onBeforeRouteUpdate((to) => {
 
     .media {
       width: 400px;
-      min-width: 0;
 
       .product-gallery {
         border-radius: 8px;
-        // overflow: hidden;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
       }
     }
 
     .spec {
       width: 500px;
-      min-width: 0;
     }
   }
 
-  // 价格区域
   .price-section {
-    .text-h5 {
-      &::before {
-        content: "¥";
-        font-size: 0.8em;
-      }
+    .text-h5::before {
+      content: '¥';
+      font-size: 0.8em;
     }
   }
 
-  // 数量选择区域
-  .quantity-section {
-    .stock-info {
-      margin-top: 8px;
-    }
+  .quantity-section .stock-info {
+    margin-top: 8px;
   }
 
-  // 操作按钮区域
   .action-buttons {
     display: flex;
     gap: 16px;
@@ -293,15 +281,12 @@ onBeforeRouteUpdate((to) => {
     }
   }
 
-  // 商品详情区域
   .goods-detail-section {
-    .detail-images {
-      .detail-image {
-        width: 100%;
-        margin-bottom: 16px;
-        border-radius: 8px;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-      }
+    .detail-images .detail-image {
+      width: 100%;
+      margin-bottom: 16px;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     }
   }
 }

@@ -1,9 +1,9 @@
 <template>
   <v-dialog :model-value="modelValue" :max-width="maxWidth" :persistent="persistent"
-    @update:model-value="handleDialogChange" role="dialog" :aria-labelledby="`dialog-title-${_uid}`">
+    @update:model-value="handleDialogChange" role="dialog">
     <v-card>
       <!-- 标题区 -->
-      <v-card-title class="d-flex align-center bg-primary" :id="`dialog-title-${_uid}`">
+      <v-card-title class="d-flex align-center bg-primary">
         <v-icon :icon="titleIcon" class="mr-2" />
         <span class="text-h6">{{ title }}</span>
       </v-card-title>

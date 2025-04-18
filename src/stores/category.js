@@ -1,20 +1,23 @@
-import { ref, computed } from 'vue'
-import { defineStore } from 'pinia'
-import { getHomeGoodsTypeAPI } from '@/apis/global'
+import { ref } from 'vue';
+import { defineStore } from 'pinia';
+import { getHomeGoodsTypeAPI } from '@/apis/global';
 
 export const useCategoryStore = defineStore('category', () => {
-  /**
-   *catogory list data
-   */
+  const categoryList = ref([]);
 
-  const categoryList = ref([])
+  // 获取分类数据
   const getCategory = async () => {
-    const res = await getHomeGoodsTypeAPI()
-    categoryList.value = res || []
-  }
+    try {
+      const res = await getHomeGoodsTypeAPI();
+      categoryList.value = res || [];
+    } catch (err) {
+      console.error('获取分类失败:', err);
+    } finally {
+    }
+  };
 
   return {
     categoryList,
     getCategory,
-  }
-})
+  };
+});

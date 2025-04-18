@@ -73,9 +73,10 @@ const doLogin = async () => {
 
     } catch (error) {
       // 捕获并处理错误，显示注册失败提示
-      toast.error(t('global.login.failureMessage'), {
-        timeout: 2000
-      })
+      // toast.error(t('global.login.failureMessage'), {
+      //   timeout: 2000
+      // })
+      console.log(error)
     }
   } else {
     // 如果表单无效，提示用户

@@ -1,10 +1,10 @@
-import { createVuetify } from 'vuetify'
-import 'vuetify/styles'
-import '@mdi/font/css/materialdesignicons.css'
-import { zhHans, ja } from 'vuetify/locale'
-import i18n from '../i18n'
-import * as components from 'vuetify/components'
-import * as directives from 'vuetify/directives'
+import { createVuetify } from 'vuetify';
+import 'vuetify/styles';
+import '@mdi/font/css/materialdesignicons.css';
+import { zhHans, ja } from 'vuetify/locale';
+// import i18n from '../i18n';
+import * as components from 'vuetify/components';
+import * as directives from 'vuetify/directives';
 
 const milkTeaLight = {
   dark: false,
@@ -23,9 +23,9 @@ const milkTeaLight = {
     success: '#81C784',
     warning: '#FFB74D',
     'on-primary': '#FFFFFF', // 主色上的文字
-    'on-secondary': '#FFFFFF'
-  }
-}
+    'on-secondary': '#FFFFFF',
+  },
+};
 
 const milkTeaDark = {
   dark: true,
@@ -40,34 +40,34 @@ const milkTeaDark = {
     success: '#A5D6A7',
     warning: '#FFE082',
     'on-primary': '#FFFFFF',
-    'on-secondary': '#FFFFFF'
-  }
-}
+    'on-secondary': '#FFFFFF',
+  },
+};
 
 export default createVuetify({
   locale: {
-    locale: i18n.global.locale.value,
+    locale: 'zhHans',
     fallback: 'zhHans',
     messages: {
       zhHans,
-      ja
-    }
+      ja,
+    },
   },
   theme: {
     defaultTheme: 'milkTeaLight', // 默认亮色
     themes: {
       milkTeaLight,
-      milkTeaDark
+      milkTeaDark,
     },
     variations: {
       colors: ['primary', 'secondary', 'accent'],
       lighten: 2,
-      darken: 2
-    }
+      darken: 2,
+    },
   },
   icons: {
-    defaultSet: 'mdi'
+    defaultSet: 'mdi',
   },
   components,
-  directives
-})
+  directives,
+});

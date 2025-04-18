@@ -32,5 +32,33 @@
       "checkPasswordRequired": "确认密码是必填项",
       "passwordMismatch": "两次密码不一致"
     }
-  }
+  },
+  "nav": {
+    "user": {
+      "welcome": "欢迎",
+      "logout": "退出登录",
+      "myOrder": "我的订单",
+      "memberCenter": "会员中心",
+      "helpCenter": "帮助中心",
+      "aboutUs": "关于我们",
+      "login": "您好，请登录"
+    },
+    "confirm": {
+      "title": "确认退出",
+      "content": "确定要退出当前账号吗？退出后将需要重新登录才能访问会员内容。",
+      "confirmText": "确认退出"
+    },
+    "contact": {
+      "phone": "XXXXXXX"
+    }
+  },
+  "header": {
+    "label": "商品关键词",
+    "searchBtn": "搜索",
+    "cartIconBtn": "去购物车结算",
+    "cartIconTotalItems": "共 {count} 件商品",
+    "cartIconTotalPrice": "¥{price}"
+  },
+  "allCategoriesText": "所有分类",
+  "homeProductSubTitle": "精选好物"
 }

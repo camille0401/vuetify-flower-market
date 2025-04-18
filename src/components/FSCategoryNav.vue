@@ -25,8 +25,6 @@ const showHome = computed(() => props.position === 'category' || props.position 
 </script>
 
 <style lang="scss" scoped>
-$--active-color: $fs-primary-color;
-
 .fs-category-nav-list {
   position: relative;
   display: flex;
@@ -48,14 +46,14 @@ $--active-color: $fs-primary-color;
       color: inherit;
 
       &:hover {
-        color: $--active-color;
-        border-bottom: 1px solid $--active-color;
+        color: rgb(var(--v-theme-primary-darken-1));
+        border-bottom: 1px solid rgb(var(--v-theme-primary-darken-1));
       }
     }
 
     .active {
-      color: $--active-color;
-      border-bottom: 1px solid $--active-color;
+      color: rgb(var(--v-theme-primary-darken-1));
+      border-bottom: 1px solid rgb(var(--v-theme-primary-darken-1));
     }
   }
 }

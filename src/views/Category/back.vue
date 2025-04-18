@@ -202,22 +202,32 @@ onUnmounted(() => {
 
         .subcategory-link {
           padding: 0 12px;
-          color: rgb(var(--v-theme-text-secondary));
+          color: var(--v-theme-text-secondary);
           font-size: 14px;
           font-weight: 400;
           text-decoration: none;
           transition: color 0.2s ease;
+          position: relative;
 
           &:hover {
-            color: rgb(var(--v-theme-primary-darken-1));
+            color: var(--v-primary-base);
           }
 
           &.active {
-            color: rgb(var(--v-theme-primary-darken-1));
+            color: var(--v-primary-base);
             font-weight: 500;
           }
 
-
+          &:not(:last-child)::after {
+            content: "";
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 1px;
+            height: 14px;
+            background-color: #e0e0e0;
+          }
         }
       }
     }

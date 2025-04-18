@@ -1,84 +1,99 @@
 <template>
-  <header class='fs-app-header'>
+  <header class="fs-app-header">
     <div class="container header-box">
       <FSLogo />
 
       <div class="search">
-        <v-text-field label="キーワードで検索する" type="text" variant="outlined" color="primary" prepend-inner-icon="mdi-magnify"
-          clearable hide-details>
-        </v-text-field>
-        <v-btn color="primary" size="x-large">検索</v-btn>
+        <v-text-field v-model="searchQuery" :label="$t('global.header.label')" type="text" variant="outlined"
+          color="primary" prepend-inner-icon="mdi-magnify" clearable hide-details />
+        <v-btn color="primary" size="x-large" @click="onSearch">
+          {{ $t('global.header.searchBtn') }}
+        </v-btn>
       </div>
+
       <CartIcon />
     </div>
   </header>
 </template>
 
-<script setup name="LayoutHeader">
-import FSLogo from "@/components/FSLogo.vue";
-import CartIcon from "@/views/CartList/components/CartIcon.vue";
+<script setup>
+import { ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 
-import { ref } from 'vue'
+import FSLogo from '@/components/FSLogo.vue';
+import CartIcon from '@/views/CartList/components/CartIcon.vue';
 
-const loaded = ref(false)
-const loading = ref(false)
+const { t } = useI18n();
+const searchQuery = ref('');
+
+const loaded = ref(false);
+const loading = ref(false);
 
 const onClick = () => {
-
-  loading.value = true
+  loading.value = true;
   setTimeout(() => {
-    loading.value = false
-    loaded.value = true
-  }, 2000)
-}
+    loading.value = false;
+    loaded.value = true;
+  }, 2000);
+};
+
+const onSearch = () => {
+  console.log('Search:', searchQuery.value);
+};
 </script>
 
-<style scoped lang='scss'>
+<style scoped lang="scss">
 .fs-app-header {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  border-bottom: 1px solid var(--v-theme-secondary-lighten-1);
+  background-color: var(--v-theme-background);
+
   .header-box {
     display: flex;
     align-items: center;
-    column-gap: 20px;
+    justify-content: space-between;
+    padding: 12px 20px;
+    max-width: 1280px;
+    margin: 0 auto;
   }
 
   .search {
-    position: relative;
     display: flex;
     align-items: center;
-    column-gap: 10px;
-    width: calc(100% - 340px);
-    padding: 5px 20px;
-    // border: 1px solid $fs-primary-color;
-    // border-radius: var(--el-border-radius-base);
-    // background: rgba(255, 51, 153, 0.05);
-  }
+    gap: 12px;
+    flex: 1;
+    padding: 0 20px;
 
-  .cart {
-    width: 50px;
+    .v-text-field {
+      flex: 1;
+      border-radius: 8px;
+      background-color: var(--v-theme-surface);
 
-    .curr {
-      height: 32px;
-      line-height: 32px;
-      text-align: center;
-      position: relative;
-      display: block;
-
-      .icon-cart {
-        font-size: 2.2rem;
+      input {
+        color: var(--v-theme-on-surface);
+        font-weight: 500;
       }
 
-      em {
-        position: absolute;
-        right: 0;
-        top: 0;
-        padding: 1px 6px;
-        background: $helpColor;
-        line-height: 1;
-        font-style: normal;
-        color: #fff;
-        font-size: 1.2rem;
-        border-radius: 10px;
-        font-family: Arial;
+      .v-label {
+        color: var(--v-theme-secondary-darken-1);
+      }
+
+      .v-field {
+        border-radius: 8px;
+      }
+    }
+
+    .v-btn {
+      border-radius: 8px;
+      color: var(--v-theme-on-primary);
+      background-color: var(--v-theme-primary);
+      text-transform: none;
+      font-weight: 600;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      transition: background-color 0.3s ease;
+
+      &:hover {
+        background-color: var(--v-theme-primary-darken-1);
       }
     }
   }

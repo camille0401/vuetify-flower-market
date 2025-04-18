@@ -6,9 +6,9 @@
           <!-- 购物车标题 -->
           <div class="d-flex align-center mb-6">
             <v-icon color="primary" size="large" class="mr-2">mdi-cart</v-icon>
-            <h2 class="text-h5 font-weight-bold">我的购物车</h2>
+            <h2 class="text-h5 font-weight-bold">{{ $t('cartlist.title') }}</h2>
             <v-chip class="ml-4" color="primary" small>
-              共 {{ cartStore.cartAllCount }} 件商品
+              {{ $t('cartlist.totalItems', { count: cartStore.cartAllCount }) }}
             </v-chip>
           </div>
 
@@ -21,11 +21,11 @@
                     <v-checkbox color="primary" hide-details :model-value="cartStore.cartIsAll"
                       @update:model-value="handleAllChange"></v-checkbox>
                   </th>
-                  <th width="400">商品信息</th>
-                  <th width="180" class="text-center">单价</th>
-                  <th width="200" class="text-center">数量</th>
-                  <th width="180" class="text-center">小计</th>
-                  <th width="120" class="text-center">操作</th>
+                  <th width="400">{{ $t('cartlist.table.product') }}</th>
+                  <th width="180" class="text-center">{{ $t('cartlist.table.price') }}</th>
+                  <th width="200" class="text-center">{{ $t('cartlist.table.quantity') }}</th>
+                  <th width="180" class="text-center">{{ $t('cartlist.table.subtotal') }}</th>
+                  <th width="120" class="text-center">{{ $t('cartlist.table.actions') }}</th>
                 </tr>
               </thead>
 
@@ -46,7 +46,7 @@
                           {{ cart.name }}
                         </p>
                         <p class="text-caption text-grey">
-                          库存: {{ cart.inventory }}件
+                          {{ $t('cartlist.table.itemsInventory', { inventory: cart.inventory }) }}
                         </p>
                       </div>
                     </div>
@@ -74,10 +74,10 @@
                 <!-- 空状态 -->
                 <tr v-if="cartStore.cartList.length === 0">
                   <td colspan="6" class="py-10">
-                    <FSEmptyPanel title="购物车空空如也">
+                    <FSEmptyPanel :title="$t('cartlist.empty')">
                       <template #actions>
                         <v-btn color="primary" prepend-icon="mdi-shopping" @click="toHomePage">
-                          去逛逛
+                          {{ $t('cartlist.goShopping') }}
                         </v-btn>
                       </template>
                     </FSEmptyPanel>
@@ -93,19 +93,21 @@
               <v-checkbox color="primary" hide-details :model-value="cartStore.cartIsAll"
                 @update:model-value="handleAllChange" class="mr-4">
                 <template v-slot:label>
-                  <span class="text-body-1">全选</span>
+                  <span class="text-body-1">{{ $t('cartlist.allSelect') }}</span>
                 </template>
               </v-checkbox>
 
               <v-btn variant="text" color="error" prepend-icon="mdi-delete-outline"
                 :disabled="cartStore.cartSelectedCount === 0" @click="handleDelAllCart">
-                删除选中
+                {{ $t('cartlist.deleteSelected') }}
               </v-btn>
 
               <v-spacer></v-spacer>
 
               <div class="d-flex align-center mr-6">
-                <span class="text-body-1 mr-2">已选 {{ cartStore.cartSelectedCount }} 件，合计：</span>
+                <span class="text-body-1 mr-2">
+                  {{ $t('cartlist.selectedInfo', { count: cartStore.cartSelectedCount }) }}
+                </span>
                 <span class="text-h6 font-weight-bold text-error">
                   ¥{{ cartStore.cartSelectedPrice }}
                 </span>
@@ -113,7 +115,7 @@
 
               <v-btn color="primary" size="large" :disabled="cartStore.cartSelectedCount === 0"
                 @click="toCreateOrderPage">
-                生成订单
+                {{ $t('cartlist.checkout') }}
               </v-btn>
             </div>
           </div>
@@ -127,14 +129,15 @@
 import Big from 'big.js'
 import FSEmptyPanel from '@/components/FSEmptyPanel.vue'
 import FSBoundedNumInput from '@/components/FSBoundedNumInput.vue'
-import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
 import { useCartStore } from '@/stores/cart'
 import { useUserStore } from '@/stores/user'
 import { useOrderStore } from '@/stores/order'
 import { useCartCount } from "@/composables/useCartCount"
+import { useI18n } from 'vue-i18n'
 
+const { t } = useI18n()
 const toast = useToast()
 const router = useRouter()
 const userStore = useUserStore()
@@ -163,7 +166,8 @@ const handleAllChange = (selected) => {
 // 删除单个商品
 const handleDelCart = (goodsId) => {
   cartStore.delCart(goodsId)
-  toast.success('已从购物车移除')
+  toast.success(t('cartlist.toast.delMessage'))
+
 }
 
 // 删除选中商品
@@ -174,7 +178,7 @@ const handleDelAllCart = () => {
 
   if (goodsIds.length > 0) {
     cartStore.delAllCart(goodsIds)
-    toast.success(`已移除 ${goodsIds.length} 件商品`)
+    toast.success(t('cartlist.toast.delSelectedMessage', { count: goodsIds.length }))
   }
 }
 
@@ -186,7 +190,7 @@ const handleCountStore = (goods) => {
 // 去结算
 const toCreateOrderPage = () => {
   if (!userStore.token) {
-    toast.warning('请先登录')
+    toast.warning(t('cartlist.toast.loginMessge'))
     router.push({ path: '/user/login' })
     return
   }

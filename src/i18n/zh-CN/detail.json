@@ -1,0 +1,25 @@
+{
+  "product": {
+    "productList": "商品详情",
+    "price": "单价",
+    "total": "总计",
+    "quantity": "数量",
+    "stock": "库存",
+    "sold": "已售",
+    "addToCart": "加入购物车",
+    "buyNow": "立即购买",
+    "details": "商品详情",
+    "specs": "规格参数",
+    "reviews": "用户评价",
+    "detailImage": "商品详情图",
+    "specContent": "规格参数内容待补充",
+    "reviewContent": "用户评价内容待补充",
+    "pleaseSelectQuantity": "请选择正确的商品数量",
+    "addedToCart": "已添加到购物车",
+    "failedToLoad": "加载商品详情失败"
+  },
+  "common": {
+    "home": "首页",
+    "networkError": "网络错误，请稍后再试"
+  }
+}

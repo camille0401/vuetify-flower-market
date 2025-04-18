@@ -90,8 +90,8 @@ const handleSubmit = () => {
 
       &.active,
       &:hover {
-        border-color: $fs-primary-color;
-        background: light($fs-primary-color, 50%);
+        border-color: rgb(var(--v-theme-primary));
+        background: light(rgb(var(--v-theme-primary)), 50%);
       }
     }
 

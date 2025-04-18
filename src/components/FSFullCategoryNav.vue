@@ -4,7 +4,7 @@
       <!-- 所有分类按钮 -->
       <v-btn class="all-categories-btn" color="primary-darken-1" variant="flat" height="64" min-width="250" rounded="0"
         :to="{ path: '/allCategories' }" active-class="active-category">
-        <span class="text-h6 font-weight-bold">所有分类</span>
+        <span class="text-h6 font-weight-bold">{{ $t('global.allCategoriesText') }}</span>
         <v-icon end>mdi-menu-down</v-icon>
       </v-btn>
 
@@ -19,17 +19,27 @@
   </v-sheet>
 </template>
 
+
 <script setup>
+import { onMounted } from 'vue'
 import { useCategoryStore } from '@/stores/category'
 
 const categoryStore = useCategoryStore()
+
+onMounted(() => {
+  if (!categoryStore.categoryList.length) {
+    categoryStore.getCategory()
+  }
+})
 </script>
+
 
 <style lang="scss" scoped>
 .category-nav-bar {
   height: 64px;
   display: flex;
   align-items: center;
+  background-color: rgb(var(--v-theme-primary));
 }
 
 .category-nav-container {
@@ -41,12 +51,9 @@ const categoryStore = useCategoryStore()
     color: white;
     transition: all 0.3s ease;
 
-    &:hover {
-      background-color: var(--v-primary-darken2) !important;
-    }
-
+    &:hover,
     &.active-category {
-      background-color: var(--v-primary-darken2) !important;
+      background-color: rgb(var(--v-theme-primary-darken-2)) !important;
     }
   }
 
@@ -56,11 +63,9 @@ const categoryStore = useCategoryStore()
     height: 100%;
     overflow-x: auto;
     scrollbar-width: none;
-    /* Firefox */
 
     &::-webkit-scrollbar {
       display: none;
-      /* Chrome/Safari */
     }
 
     .category-link {
@@ -69,8 +74,8 @@ const categoryStore = useCategoryStore()
       min-width: 120px;
       font-size: 0.9375rem;
       font-weight: 500;
-      letter-spacing: normal;
       text-transform: none;
+      white-space: nowrap;
 
       &:hover {
         background-color: rgba(255, 255, 255, 0.1) !important;
@@ -84,7 +89,6 @@ const categoryStore = useCategoryStore()
   }
 }
 
-// 响应式设计
 @media (max-width: 960px) {
   .category-nav-container {
     .all-categories-btn {
@@ -92,9 +96,9 @@ const categoryStore = useCategoryStore()
     }
 
     .category-link {
-      min-width: 100px !important;
-      font-size: 0.875rem !important;
-      padding: 0 12px !important;
+      min-width: 100px;
+      font-size: 0.875rem;
+      padding: 0 12px;
     }
   }
 }

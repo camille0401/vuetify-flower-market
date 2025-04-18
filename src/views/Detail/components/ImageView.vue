@@ -142,7 +142,7 @@ watch([elementX, elementY, isOutside], () => {
 
       &:hover,
       &.active {
-        border-color: $fs-primary-color;
+        border-color: rgb(var(--v-theme-primary));
       }
     }
 
