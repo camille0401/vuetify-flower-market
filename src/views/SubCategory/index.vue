@@ -32,7 +32,8 @@
             <FSGoodsItem v-for="goods in goodsList" :key="goods.id" :goods="goods" />
           </div>
           <div v-else class="empty-box">
-            <FSEmptyPannel title="暂无数据"></FSEmptyPannel>
+            <v-empty-state title="暂无数据"></v-empty-state>
+
           </div>
         </v-card-item>
       </v-card>
@@ -46,7 +47,6 @@
 import { getCategoryAPI, getCategoryGoodsAPI } from "@/apis/category"
 import { useCategory } from "@/composables/useCategory"
 import FSGoodsItem from "@/components/FSGoodsItem.vue"
-import FSEmptyPannel from "@/components/FSEmptyPanel.vue"
 
 const { categoryData,
   subCategoryList,

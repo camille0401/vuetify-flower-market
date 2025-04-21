@@ -76,10 +76,11 @@
                     </div>
                   </div>
                 </td>
-                <td class="text-center">{{ $t('order.checkout.table.priceTemplate', { price: item.price }) }}</td>
-                <td class="text-center">{{ 'X' + item.goodsCount }}</td>
+                <td class="text-center">{{ $t('global.moneyTemplate', { money: item.price }) }}</td>
+                <td class="text-center">{{ $t('global.countTemplate', { count: item.goodsCount })
+                  }}</td>
                 <td class="text-center text-error">
-                  {{ $t('order.checkout.table.amountTemplate', { amount: item.totalPayAmount }) }}
+                  {{ $t('global.moneyTemplate', { money: item.totalPayAmount }) }}
                 </td>
               </tr>
             </tbody>
@@ -107,13 +108,13 @@
           <div class="price-summary">
             <div class="price-item">
               <span class="label">{{ $t('order.checkout.goodsCount') }}</span>
-              <span class="value">{{ $t('order.checkout.goodsCountTemplate', { count: summary?.goodsCount }) }}</span>
+              <span class="value">{{ $t('global.countTemplate', { count: summary?.goodsCount }) }}</span>
 
             </div>
             <div class="price-item">
               <span class="label">{{ $t('order.checkout.totalAmount') }}</span>
               <span class="value">
-                {{ $t('order.checkout.totalAmountTemplate', { amount: summary?.totalAmount }) }}
+                {{ $t('global.moneyTemplate', { money: summary?.totalAmount }) }}
               </span>
             </div>
             <!-- <div class="price-item">
@@ -123,7 +124,7 @@
             <div class="price-item total">
               <span class="label">{{ $t('order.checkout.totalPayAmount') }}</span>
               <span class="value text-error">
-                {{ $t('order.checkout.totalPayAmountTemplate', { amount: summary?.totalPayAmount }) }}
+                {{ $t('global.moneyTemplate', { money: summary?.totalPayAmount }) }}
               </span>
             </div>
           </div>

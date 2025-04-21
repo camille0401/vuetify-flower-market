@@ -29,7 +29,7 @@
             <v-card flat class="mt-2">
               <ul class="list-box">
                 <li class="item-menu">
-                  <h4 class="title pa-3">分类</h4>
+                  <h4 class="title pa-3">{{ $t('allCategories.title') }}</h4>
                   <div class="list pa-3">
                     <RouterLink v-for="child in category.children" :key="child.id" :to="`/category/2/${child.id}`"
                       class="subcategory-link">
@@ -48,20 +48,24 @@
 
 <script setup>
 import { useCategoryStore } from '@/stores/category'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 const categoryStore = useCategoryStore()
 
 const breadcrumbs = [
   {
-    title: '首页',
+    title: t('allCategories.breadcrumbsHome'),
     disabled: false,
     href: '/',
   },
   {
-    title: '全部鲜花分类',
+    title: t('allCategories.breadcrumbsAllCate'),
     disabled: true,
   }
 ]
+
 </script>
 
 <style lang="scss" scoped>

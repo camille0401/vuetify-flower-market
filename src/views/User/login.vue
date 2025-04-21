@@ -9,7 +9,7 @@
         <v-checkbox v-model="showPassword" color="primary" :label="$t('global.login.showPassword')"
           hide-details></v-checkbox>
         <a href="javascript:void(0);" class="d-flex align-center span forget">{{ $t('global.login.forgotPassword')
-          }}</a>
+        }}</a>
       </div>
       <br>
       <v-btn :loading="loading" color="primary" size="x-large" type="submit" variant="elevated" block>
@@ -51,40 +51,36 @@ const loginForm = ref({
 })
 
 const doLogin = async () => {
-  // 验证表单有效性
-  const { valid } = await loginFormRef.value.validate()
+  // 先进行表单校验
+  const { valid } = await loginFormRef.value.validate();
+  if (!valid) {
+    toast.error(t('global.login.invalidFormMessage'), { timeout: 2000 });
+    return;
+  }
 
-  if (valid) {
-    const { username, password } = loginForm.value
+  loading.value = true;
+  const { username, password } = loginForm.value;
 
-    try {
-      // 发送登录请求
-      await userStore.login({ username, password })
+  try {
+    // 尝试登录
+    await userStore.login({ username, password });
 
-      // 提示用户登录成功
-      toast.success(t('global.login.successMessage'), {
-        timeout: 2000
-      })
+    toast.success(t('global.login.successMessage'), { timeout: 2000 });
 
-      // 登录成功后跳转回 redirect 页面 / 首页
-      const redirect = route.query.redirect || '/'
-      router.replace(redirect)
+    // 跳转页面
+    const redirect = route.query.redirect || '/';
+    router.replace(redirect);
 
-      // 登录成功后清空表单
-      loginForm.value = { username: "", password: "" }
-
-    } catch (error) {
-      // 捕获并处理错误，显示注册失败提示
-      // toast.error(t('global.login.failureMessage'), {
-      //   timeout: 2000
-      // })
-      console.log(error)
-    }
-  } else {
-    // 如果表单无效，提示用户
-    toast.error(t('global.login.invalidFormMessage'), {
-      timeout: 2000
-    })
+    // 重置表单
+    loginForm.value = { username: "", password: "" };
+  } catch (error) {
+    // 捕获并处理错误，显示注册失败提示
+    // toast.error(t('global.login.failureMessage'), {
+    //   timeout: 2000
+    // })
+    console.error('Login error:', error);
+  } finally {
+    loading.value = false;
   }
 }
 

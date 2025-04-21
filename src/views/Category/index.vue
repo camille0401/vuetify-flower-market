@@ -14,7 +14,7 @@
         <v-card-text class="px-6 pb-6">
           <!-- 子分类导航 -->
           <div class="category-type-box mb-6">
-            <div class="title text-subtitle-1 font-weight-bold">分类</div>
+            <div class="title text-subtitle-1 font-weight-bold">{{ $t('category.title') }}</div>
             <ul class="list">
               <li v-for="sub in subCategoryList" :key="sub.id">
                 <RouterLink active-class="active" :to="`/category/2/${sub.id}`" class="subcategory-link">
@@ -28,10 +28,10 @@
 
           <!-- 排序选项卡 -->
           <v-tabs color="primary-darken-1" v-model="reqData.orderBy" @update:modelValue="handleSortChange" class="mb-6">
-            <v-tab value="">综合</v-tab>
-            <v-tab value="publishTime">最新商品</v-tab>
-            <v-tab value="orderNum">最高人气</v-tab>
-            <v-tab value="evaluateNum">评论最多</v-tab>
+            <v-tab value="">{{ $t('category.tabs.tab0') }}</v-tab>
+            <v-tab value="publishTime">{{ $t('category.tabs.tab1') }}</v-tab>
+            <v-tab value="orderNum">{{ $t('category.tabs.tab2') }}</v-tab>
+            <v-tab value="evaluateNum">{{ $t('category.tabs.tab3') }}</v-tab>
           </v-tabs>
 
           <!-- 商品列表 -->
@@ -45,7 +45,8 @@
           </div>
 
           <div v-else class="empty-box py-10">
-            <FSEmptyPannel title="暂无相关商品" text="换个筛选条件试试吧~" />
+            <v-empty-state color="primary" size="40" icon="mdi-magnify" :text="$t('category.emptyText')"
+              :title="$t('category.emptyTitle')"></v-empty-state>
           </div>
 
           <!-- 分页 -->
@@ -58,12 +59,13 @@
 </template>
 
 <script setup>
+import FSGoodsItem from "@/components/FSGoodsItem.vue"
 import { ref, computed, watch, onUnmounted } from 'vue'
 import { useRoute, onBeforeRouteUpdate } from 'vue-router'
 import { getCategoryAPI, getCategoryGoodsAPI } from "@/apis/category"
-import FSGoodsItem from "@/components/FSGoodsItem.vue"
-import FSEmptyPannel from "@/components/FSEmptyPanel.vue"
+import { useI18n } from 'vue-i18n'
 
+const { t } = useI18n()
 
 const route = useRoute()
 
@@ -86,12 +88,12 @@ const reqData = ref({
 // 计算面包屑导航项
 const breadcrumbItems = computed(() => {
   const items = [
-    { title: '首页', disabled: false, href: '/' }
+    { title: t('category.breadcrumbsHome'), disabled: false, href: '/' }
   ]
 
   if (route.params.type === '1') {
     items.push({
-      title: categoryData.value.cname || '加载中...',
+      title: categoryData.value.cname,
       disabled: true
     })
   } else {
@@ -103,7 +105,7 @@ const breadcrumbItems = computed(() => {
       })
     }
     items.push({
-      title: subCategoryData.value.cname || '加载中...',
+      title: subCategoryData.value.cname,
       disabled: true
     })
   }

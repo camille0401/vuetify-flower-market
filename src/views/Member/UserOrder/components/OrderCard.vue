@@ -140,74 +140,102 @@ const formatTime = (time) => {
 
 <style lang="scss" scoped>
 .fs-order-card {
-  // 基础样式
-  transition: box-shadow 0.3s ease;
-  border-radius: 8px;
+  border-radius: 12px;
+  padding: 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   overflow: hidden;
-
-  // 状态背景色
-  &.status-0 {
-    background-color: rgba(var(--v-theme-info), 0.08);
-  }
-
-  // 待发货
-  &.status-1 {
-    background-color: rgba(var(--v-theme-warning), 0.08);
-  }
-
-  // 待支付
-  &.status-2 {
-    background-color: rgba(var(--v-theme-primary), 0.08);
-  }
-
-  // 已支付
-  &.status-3 {
-    background-color: rgba(var(--v-theme-success), 0.08);
-  }
-
-  // 已完成
-  &.status-4 {
-    background-color: rgba(var(--v-theme-error), 0.08);
-  }
-
-  // 已取消
-  &.status-5 {
-    background-color: rgba(var(--v-theme-deep-purple), 0.08);
-  }
-
-  // 退款/售后
+  transition: box-shadow 0.3s ease;
 
   &:hover {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
   }
 
+  &.status-0 {
+    background-color: rgba(var(--v-theme-info), 0.05);
+  }
+
+  &.status-1 {
+    background-color: rgba(var(--v-theme-warning), 0.05);
+  }
+
+  &.status-2 {
+    background-color: rgba(var(--v-theme-primary), 0.05);
+  }
+
+  &.status-3 {
+    background-color: rgba(var(--v-theme-success), 0.05);
+  }
+
+  &.status-4 {
+    background-color: rgba(var(--v-theme-error), 0.05);
+  }
+
+  &.status-5 {
+    background-color: rgba(var(--v-theme-deep-purple), 0.05);
+  }
 }
 
 .order-items-table {
   th {
     font-weight: 600;
-    background-color: rgba(0, 0, 0, 0.02);
+    font-size: 0.875rem;
+    background-color: #f9f9f9;
+    color: #555;
+    border-bottom: 1px solid #eee;
+  }
+
+  td {
+    font-size: 0.875rem;
+    vertical-align: middle;
+    padding: 12px 8px;
   }
 
   tr:not(:last-child) {
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    border-bottom: 1px solid #f0f0f0;
+  }
+
+  v-img {
+    border-radius: 8px;
+    object-fit: cover;
   }
 }
 
 .order-total {
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 500;
+
+  .text-error {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-left: 4px;
+  }
+}
+
+.v-card-actions {
+  flex-wrap: wrap;
+
+  .v-btn {
+    min-width: 120px;
+    margin: 4px 0;
+  }
 }
 
 @media (max-width: 960px) {
-  .order-items-table {
 
-    th,
-    td {
-      padding: 8px 4px;
-    }
+  .order-items-table th,
+  .order-items-table td {
+    padding: 6px 4px;
+    font-size: 0.8rem;
+  }
 
+  .fs-order-card {
+    border-radius: 8px;
+  }
 
+  .v-card-title {
+    flex-direction: column;
+    align-items: flex-start !important;
+    gap: 4px;
   }
 }
 </style>

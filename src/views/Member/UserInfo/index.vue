@@ -28,11 +28,11 @@
 
             <v-col cols="12" md="12">
               <v-text-field v-model="form.nickname" :label="$t('member.user.profile.nickname')" variant="outlined"
-                density="comfortable" :rules="[rules.required]" />
+                readonly density="comfortable" :rules="[rules.required]" />
             </v-col>
 
             <v-col cols="12" md="12">
-              <v-text-field v-model="form.email" :label="$t('member.user.profile.email')" variant="outlined"
+              <v-text-field v-model="form.email" :label="$t('member.user.profile.email')" variant="outlined" readonly
                 density="comfortable" :rules="[rules.required, rules.email]" />
             </v-col>
 
@@ -41,12 +41,12 @@
       </div>
     </v-card-text>
 
-    <v-card-actions class="px-0">
+    <!-- <v-card-actions class="px-0">
       <v-spacer />
       <v-btn color="primary" size="large" :loading="submitting" prepend-icon="mdi-content-save" @click="handleSubmit">
         {{ $t('member.user.common.saveBtn') }}
       </v-btn>
-    </v-card-actions>
+    </v-card-actions> -->
     <!-- 修改密码对话框 -->
     <v-dialog v-model="passwordDialog" max-width="500">
       <EditPassword @close="passwordDialog = false" />

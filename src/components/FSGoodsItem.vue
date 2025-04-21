@@ -7,7 +7,7 @@
       <div class="content pa-3">
         <p class="name text-subtitle-1 font-weight-medium mb-1">{{ goods.cname }}</p>
         <p class="price text-h6 text-primary-darken-2">
-          ¥{{ goods.price?.toFixed(2) || '0.00' }}
+          {{ $t('global.moneyTemplate', { money: goods.price?.toFixed(2) }) }}
         </p>
       </div>
     </RouterLink>

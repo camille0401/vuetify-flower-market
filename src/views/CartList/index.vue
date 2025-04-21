@@ -52,7 +52,7 @@
                     </div>
                   </td>
                   <td class="text-center">
-                    <p class="text-body-1">¥{{ cart.price }}</p>
+                    <p class="text-body-1">{{ $t('global.moneyTemplate', { money: cart.price }) }}</p>
                   </td>
                   <td class="text-center">
                     <FSBoundedNumInput v-model="cart.count" :min="1" :max="cart.inventory" :debounce="500" :data="cart"
@@ -61,7 +61,7 @@
                   </td>
                   <td class="text-center">
                     <p class="text-body-1 font-weight-bold text-error">
-                      ¥{{ calcGoodsTotalPrice(cart.price, cart.count) }}
+                      {{ $t('global.moneyTemplate', { money: calcGoodsTotalPrice(cart.price, cart.count) }) }}
                     </p>
                   </td>
                   <td class="text-center">
@@ -74,13 +74,13 @@
                 <!-- 空状态 -->
                 <tr v-if="cartStore.cartList.length === 0">
                   <td colspan="6" class="py-10">
-                    <FSEmptyPanel :title="$t('cartlist.empty')">
+                    <v-empty-state :title="$t('cartlist.empty')">
                       <template #actions>
                         <v-btn color="primary" prepend-icon="mdi-shopping" @click="toHomePage">
                           {{ $t('cartlist.goShopping') }}
                         </v-btn>
                       </template>
-                    </FSEmptyPanel>
+                    </v-empty-state>
                   </td>
                 </tr>
               </tbody>
@@ -127,7 +127,6 @@
 
 <script setup>
 import Big from 'big.js'
-import FSEmptyPanel from '@/components/FSEmptyPanel.vue'
 import FSBoundedNumInput from '@/components/FSBoundedNumInput.vue'
 import { useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'

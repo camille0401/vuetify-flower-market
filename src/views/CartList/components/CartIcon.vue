@@ -12,7 +12,9 @@
               <p class="item-name">{{ item.name }}</p>
             </div>
             <div class="item-meta">
-              <p class="item-price text-error">¥{{ formatPrice(item.price) }}</p>
+              <p class="item-price text-error">
+                {{ $t('global.moneyTemplate', { money: formatPrice(item.price) }) }}
+              </p>
               <p class="item-count">x{{ item.count }}</p>
             </div>
           </RouterLink>
@@ -51,7 +53,7 @@ const totalItemsText = computed(() =>
   t('global.header.cartIconTotalItems', { count: cartStore.cartAllCount })
 )
 const totalPriceText = computed(() =>
-  t('global.header.cartIconTotalPrice', { price: formatPrice(cartStore.cartAllPrice) })
+  t('global.moneyTemplate', { money: formatPrice(cartStore.cartAllPrice) })
 )
 
 

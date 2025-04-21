@@ -38,13 +38,13 @@
                       <div class="d-flex align-center mb-2">
                         <span class="text-body-1 mr-2">{{ $t('detail.product.price') }}：</span>
                         <span class="text-h5 text-primary font-weight-bold">
-                          {{ detailData.price || '0' }}
+                          {{ $t('global.moneyTemplate', { money: detailData.price || '0' }) }}
                         </span>
                       </div>
                       <div class="d-flex align-center">
                         <span class="text-body-1 mr-2">{{ $t('detail.product.total') }}：</span>
                         <span class="text-h5 text-error font-weight-bold">
-                          {{ allPrice }}
+                          {{ $t('global.moneyTemplate', { money: allPrice }) }}
                         </span>
                       </div>
                     </div>
@@ -135,6 +135,7 @@ import { useCartStore } from '@/stores/cart'
 import { useUserStore } from '@/stores/user'
 import { useCartCount } from '@/composables/useCartCount'
 import { useOrderDraft } from '@/composables/useOrderDraft'
+import { useDebounceFn } from '@vueuse/core'
 
 const { t } = useI18n()
 const toast = useToast()
@@ -182,9 +183,7 @@ const checkQuantity = () => {
   return true
 }
 
-const handleAddCart = async () => {
-  if (!checkQuantity()) return
-
+const addToCart = async () => {
   addingToCart.value = true
   try {
     await cartStore.addCart({
@@ -200,6 +199,13 @@ const handleAddCart = async () => {
   } finally {
     addingToCart.value = false
   }
+}
+
+const debouncedAddCart = useDebounceFn(addToCart, 500)
+
+const handleAddCart = async () => {
+  if (!checkQuantity()) return
+  debouncedAddCart()
 }
 
 const handleBuyNow = () => {
@@ -273,10 +279,10 @@ onBeforeRouteUpdate((to) => {
   }
 
   .price-section {
-    .text-h5::before {
-      content: '¥';
-      font-size: 0.8em;
-    }
+    // .text-h5::before {
+    //   content: '¥';
+    //   font-size: 0.8em;
+    // }
   }
 
   .quantity-section .stock-info {

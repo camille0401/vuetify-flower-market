@@ -38,6 +38,7 @@ const userStore = useUserStore();
 const router = useRouter();
 
 // 注册
+const loading = ref(false)
 const showPassword = ref(false)
 const registerFormRef = ref()
 const registerForm = ref({
@@ -54,36 +55,38 @@ const toLogin = () => {
 const doRegister = async () => {
   // 验证表单有效性
   const { valid } = await registerFormRef.value.validate()
-
-  if (valid) {
-    const { username, password } = registerForm.value
-    const nickname = username.split("@")[0]
-    try {
-      // 发送注册请求
-      await userStore.register({ username, nickname, password })
-
-      // 提示用户注册成功
-      toast.success(t('global.register.successMessage'), {
-        timeout: 2000
-      });
-
-      // 跳转到登录页
-      router.push("/user/login")
-
-      // 登录成功后清空表单
-      registerFormRef.value.reset()
-
-    } catch (error) {
-      // 捕获并处理错误，显示登录失败提示
-      toast.error(t('global.register.failureMessage'), {
-        timeout: 2000
-      })
-    }
-  } else {
-    // 如果表单无效，提示用户
+  if (!valid) {
     toast.error(t('global.register.invalidFormMessage'), {
       timeout: 2000
     })
+    return;
+  }
+
+  loading.value = true;
+  const { username, password } = registerForm.value
+  const nickname = username.split("@")[0]
+  try {
+    // 发送注册请求
+    await userStore.register({ username, nickname, password })
+
+    // 提示用户注册成功
+    toast.success(t('global.register.successMessage'), {
+      timeout: 2000
+    });
+
+    // 跳转到登录页
+    router.push("/user/login")
+
+    // 登录成功后清空表单
+    registerFormRef.value.reset()
+
+  } catch (error) {
+    // 捕获并处理错误，显示登录失败提示
+    toast.error(t('global.register.failureMessage'), {
+      timeout: 2000
+    })
+  } finally {
+    loading.value = false;
   }
 }
 </script>

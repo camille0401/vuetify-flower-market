@@ -92,11 +92,11 @@
                   </div>
                 </td>
                 <td class="text-right">
-                  {{ $t('order.detail.priceTmplate', { price: item.price }) }}
+                  {{ $t('global.moneyTemplate', { money: item.price }) }}
                 </td>
                 <td class="text-right">{{ 'X' + item.quantity }}</td>
                 <td class="text-right text-error">
-                  {{ $t('order.detail.subtotalTmplate', { subtotal: (item.price * item.quantity).toFixed(2) }) }}
+                  {{ $t('global.moneyTemplate', { money: (item.price * item.quantity).toFixed(2) }) }}
                 </td>
 
               </tr>
@@ -110,7 +110,7 @@
               <div class="total-grid">
                 <div class="total-item">
                   <span>{{ $t('order.detail.total') }}</span>
-                  <span>{{ $t('order.detail.totalTemplate', { total: orderDetail.totalAmount }) }}</span>
+                  <span>{{ $t('global.moneyTemplate', { money: orderDetail.totalAmount }) }}</span>
                 </div>
                 <!-- <div class="total-item">
                   <span>运费：</span>
@@ -124,7 +124,7 @@
                 <div class="total-item grand-total">
                   <span>{{ $t('order.detail.final') }}</span>
                   <span class="text-error text-h6">
-                    {{ $t('order.detail.finalTemplate', { final: orderDetail.totalAmount }) }}
+                    {{ $t('global.moneyTemplate', { money: orderDetail.totalAmount }) }}
                   </span>
 
                 </div>
