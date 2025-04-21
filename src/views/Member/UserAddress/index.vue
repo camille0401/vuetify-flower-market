@@ -37,8 +37,8 @@
 
   <!-- 删除确认框 -->
   <FSConfirmationDialog v-model="deleteDialog" :title="$t('member.address.confirmDeleteTitle')"
-    :content="$t('member.address.confirmDeleteContent')" title-icon="mdi-alert-circle-outline" confirm-color="error"
-    :confirm-text="$t('member.address.common.confirmDelete')" @confirm="confirmDelete" />
+    :content="$t('member.address.confirmDeleteContent')" titleIcon="mdi-alert-circle-outline" contentIcon=""
+    confirm-color="error" :confirm-text="$t('member.address.common.confirmDelete')" @confirm="confirmDelete" />
 </template>
 
 <script setup>

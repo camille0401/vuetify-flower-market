@@ -13,9 +13,10 @@
             <!-- 显示订单号和下单时间 -->
             <template v-slot:append>
               <div class="text-caption text-grey-darken-1">
-                <div>订单编号: {{ orderDetail.orderNo }}</div>
-                <div>下单时间: {{ formatTime(orderDetail.orderPaymentsDto?.createdAt) }}</div>
-                <div v-if="orderDetail.status === 4">取消时间: {{ formatTime(orderDetail.orderPaymentsDto?.updatedAt) }}
+                <div>{{ $t('order.detail.orderNo') }} {{ orderDetail.orderNo }}</div>
+                <div>{{ $t('order.detail.createdAt') }} {{ formatTime(orderDetail.orderPaymentsDto?.createdAt) }}</div>
+                <div v-if="orderDetail.status === 4">
+                  {{ $t('order.detail.cancelTime') }} {{ formatTime(orderDetail.orderPaymentsDto?.updatedAt) }}
                 </div>
               </div>
             </template>
@@ -24,31 +25,31 @@
           <!-- 配送信息 -->
           <div class="delivery-info">
             <h3 class="text-h6 mb-4 font-weight-bold">
-              <v-icon icon="mdi-truck-delivery" class="mr-2" />配送信息
+              <v-icon icon="mdi-truck-delivery" class="mr-2" />{{ $t('order.detail.delivery') }}
             </h3>
             <v-divider class="mb-4" />
             <v-row dense>
               <v-col cols="12" md="12">
                 <div class="info-item">
-                  <div class="text-caption text-grey">收货人</div>
+                  <div class="text-caption text-grey">{{ $t('order.detail.recipient') }}</div>
                   <div class="text-body-1">{{ orderDetail.memberAddress?.recipient }}</div>
                 </div>
               </v-col>
               <v-col cols="12" md="12">
                 <div class="info-item">
-                  <div class="text-caption text-grey">联系电话</div>
+                  <div class="text-caption text-grey">{{ $t('order.detail.phone') }}</div>
                   <div class="text-body-1">{{ orderDetail.memberAddress?.phone }}</div>
                 </div>
               </v-col>
               <v-col cols="12" md="12">
                 <div class="info-item">
-                  <div class="text-caption text-grey">配送地址</div>
+                  <div class="text-caption text-grey">{{ $t('order.detail.address') }}</div>
                   <div class="text-body-1">{{ fullAddress }}</div>
                 </div>
               </v-col>
               <v-col cols="12" md="12">
                 <div class="info-item">
-                  <div class="text-caption text-grey">预计送达</div>
+                  <div class="text-caption text-grey">{{ $t('order.detail.expectedTime') }}</div>
                   <div class="text-body-1 text-primary">{{ selectedDateDisplay }}</div>
                 </div>
               </v-col>
@@ -60,7 +61,7 @@
       <!-- 订单详情卡片 -->
       <v-card elevation="2" rounded="lg" class="mb-6">
         <v-card-title class="text-h6 font-weight-bold">
-          <v-icon icon="mdi-receipt-text" class="mr-2" />订单详情
+          <v-icon icon="mdi-receipt-text" class="mr-2" />{{ $t('order.detail.title') }}
         </v-card-title>
         <v-divider />
 
@@ -68,13 +69,16 @@
           <v-table class="order-table">
             <thead>
               <tr>
-                <th>商品信息</th>
-                <th class="text-right">单价</th>
-                <th class="text-right">数量</th>
-                <th class="text-right">小计</th>
+                <th>{{ $t('order.detail.goodsInfo') }}</th>
+                <th class="text-right">{{ $t('order.detail.price') }}</th>
+                <th class="text-right">{{ $t('order.detail.quantity') }}</th>
+                <th class="text-right">{{ $t('order.detail.subtotal') }}</th>
               </tr>
             </thead>
             <tbody>
+              <tr v-if="!orderDetail.itemsDtos?.length">
+                <td colspan="4" class="text-center">{{ $t('order.detail.emptyGoods') }}</td>
+              </tr>
               <tr v-for="item in orderDetail.itemsDtos" :key="item.id">
                 <td>
                   <div class="d-flex align-center">
@@ -87,9 +91,14 @@
                     </div>
                   </div>
                 </td>
-                <td class="text-right">¥{{ item.price }}</td>
-                <td class="text-right">×{{ item.quantity }}</td>
-                <td class="text-right text-error">¥{{ (item.price * item.quantity).toFixed(2) }}</td>
+                <td class="text-right">
+                  {{ $t('order.detail.priceTmplate', { price: item.price }) }}
+                </td>
+                <td class="text-right">{{ 'X' + item.quantity }}</td>
+                <td class="text-right text-error">
+                  {{ $t('order.detail.subtotalTmplate', { subtotal: (item.price * item.quantity).toFixed(2) }) }}
+                </td>
+
               </tr>
             </tbody>
           </v-table>
@@ -100,21 +109,24 @@
             <div class="d-flex justify-end">
               <div class="total-grid">
                 <div class="total-item">
-                  <span>商品总额：</span>
-                  <span>¥{{ orderDetail.totalAmount }}</span>
+                  <span>{{ $t('order.detail.total') }}</span>
+                  <span>{{ $t('order.detail.totalTemplate', { total: orderDetail.totalAmount }) }}</span>
                 </div>
                 <!-- <div class="total-item">
                   <span>运费：</span>
                   <span>¥0.00</span>
                 </div> -->
                 <div class="total-item">
-                  <span>支付方式：</span>
+                  <span>{{ $t('order.detail.payType') }}</span>
                   <span class="text-info">线下付款单</span>
                 </div>
                 <v-divider class="my-2" />
                 <div class="total-item grand-total">
-                  <span>实付款：</span>
-                  <span class="text-error text-h6">¥{{ orderDetail.totalAmount }}</span>
+                  <span>{{ $t('order.detail.final') }}</span>
+                  <span class="text-error text-h6">
+                    {{ $t('order.detail.finalTemplate', { final: orderDetail.totalAmount }) }}
+                  </span>
+
                 </div>
               </div>
             </div>
@@ -126,10 +138,10 @@
       <div class="action-buttons">
         <v-btn color="primary" variant="outlined" size="x-large" prepend-icon="mdi-arrow-left" to="/"
           class="flex-grow-1">
-          继续购物
+          {{ $t('order.detail.backToShop') }}
         </v-btn>
         <v-btn color="primary" size="x-large" prepend-icon="mdi-text-box-check" to="/member/order" class="flex-grow-1">
-          全部订单
+          {{ $t('order.detail.viewOrders') }}
         </v-btn>
       </div>
     </div>
@@ -141,7 +153,9 @@ import { ref, computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { getOrderDetailAPI } from '@/apis/order'
 import dayjs from 'dayjs'
+import { useI18n } from 'vue-i18n'
 
+const { t } = useI18n()
 const route = useRoute()
 const orderDetail = ref({})
 const loading = ref(true)
@@ -151,38 +165,38 @@ const ORDER_STATUS_CONFIG = {
   0: { // 待发货
     type: 'info',
     icon: 'mdi-truck-delivery-outline',
-    title: '订单已确认',
-    description: '商家正在准备商品，请耐心等待发货'
+    get title() { return t('order.detail.status.confirm.title') },
+    get description() { return t('order.detail.status.confirm.desc') }
   },
   1: { // 待支付
     type: 'warning',
     icon: 'mdi-credit-card-clock-outline',
-    title: '等待支付',
-    description: '请在30分钟内完成支付，超时订单将自动取消'
+    get title() { return t('order.detail.status.waitPay.title') },
+    get description() { return t('order.detail.status.waitPay.desc') }
   },
   2: { // 已支付
     type: 'success',
     icon: 'mdi-check-circle-outline',
-    title: '支付成功',
-    description: '我们已收到您的款项，正在准备商品'
+    get title() { return t('order.detail.status.success.title') },
+    get description() { return t('order.detail.status.success.desc') }
   },
   3: { // 已完成
     type: 'success',
     icon: 'mdi-package-variant-closed',
-    title: '订单已完成',
-    description: '感谢您的购买，期待再次光临'
+    get title() { return t('order.detail.status.complete.title') },
+    get description() { return t('order.detail.status.complete.desc') }
   },
   4: { // 已取消
     type: 'error',
     icon: 'mdi-close-circle-outline',
-    title: '订单已取消',
-    description: '该订单已被取消，如需帮助请联系客服'
+    get title() { return t('order.detail.status.cancel.title') },
+    get description() { return t('order.detail.status.cancel.desc') }
   },
   5: { // 已退款
     type: 'success',
     icon: 'mdi-cash-refund',
-    title: '退款成功',
-    description: '退款已处理，预计3-5个工作日到账'
+    get title() { return t('order.detail.status.refund.title') },
+    get description() { return t('order.detail.status.refund.desc') }
   }
 }
 
@@ -192,8 +206,8 @@ const statusConfig = computed(() => {
   return ORDER_STATUS_CONFIG[status] || {
     type: 'info',
     icon: 'mdi-help-circle-outline',
-    title: '未知状态',
-    description: '当前订单状态异常，请联系客服'
+    get title() { return t('order.detail.status.default.title') },
+    get description() { return t('order.detail.status.default.desc') }
   }
 })
 

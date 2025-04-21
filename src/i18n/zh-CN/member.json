@@ -71,6 +71,19 @@
         "zipInvalid": "请输入有效的邮政编码",
         "addInvalid": "详细地址至少需要5个字符"
       }
+    },
+    "swapDialog": {
+      "formTitle": "切换地址",
+      "list": {
+        "recipient": "收件人：",
+        "defaultChip": "默认",
+        "phone": "联系方式：",
+        "address": "收货地址："
+      },
+      "common": {
+        "cancel": "取消",
+        "save": "切换地址"
+      }
     }
   }
 }

@@ -12,7 +12,6 @@
 
 <script setup>
 import { defineAsyncComponent } from 'vue';
-// import HomeCategory from './components/HomeCategory.vue';
 
 const HomeCategory = defineAsyncComponent(() => import('./components/HomeCategory.vue'));
 const HomeProduct = defineAsyncComponent(() => import('./components/HomeProduct.vue'));

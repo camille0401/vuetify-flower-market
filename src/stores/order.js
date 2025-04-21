@@ -1,36 +1,36 @@
-import { defineStore } from 'pinia'
-import { ref } from 'vue'
+import { defineStore } from 'pinia';
+import { ref } from 'vue';
 
 export const useOrderStore = defineStore(
   'order',
   () => {
-    const curAddress = ref({})
-    const goodsList = ref([])
-    const deliveryTime = ref('')
-    const summary = ref({})
+    const curAddress = ref({});
+    const deliveryTime = ref('');
+    const goodsList = ref([]);
+    const summary = ref({});
 
     const setCurAddress = (data) => {
-      curAddress.value = data
-    }
-
-    const setGoodsList = (data) => {
-      goodsList.value = data
-    }
+      curAddress.value = data;
+    };
 
     const setDeliveryTime = (data) => {
-      deliveryTime.value = data
-    }
+      deliveryTime.value = data;
+    };
+
+    const setGoodsList = (data) => {
+      goodsList.value = data;
+    };
 
     const setSummary = (data) => {
-      summary.value = data
-    }
+      summary.value = data;
+    };
 
     const clearOrderData = () => {
-      curAddress.value = {}
-      goodsList.value = []
-      deliveryTime.value = ''
-      summary.value = {}
-    }
+      curAddress.value = {};
+      goodsList.value = [];
+      deliveryTime.value = '';
+      summary.value = {};
+    };
 
     return {
       goodsList,
@@ -41,10 +41,10 @@ export const useOrderStore = defineStore(
       setCurAddress,
       setGoodsList,
       setDeliveryTime,
-      setSummary
-    }
+      setSummary,
+    };
   },
   {
-    persist: true
-  }
-)
+    persist: true,
+  },
+);

@@ -1,7 +1,7 @@
 <template>
   <!-- 日付選択 -->
   <v-card class="mb-6" elevation="2">
-    <v-toolbar color="primary" title="配達日時を選択" density="compact">
+    <v-toolbar color="primary" :title="$t('order.checkout.deliveryDateDialog.formTitle')" density="compact">
       <v-btn icon @click="$emit('close')">
         <v-icon>mdi-close</v-icon>
       </v-btn>
@@ -25,9 +25,9 @@
     <!-- 確認ボタン -->
     <v-card-actions class="px-0">
       <v-spacer />
-      <v-btn variant="text" @click="$emit('close')">取消</v-btn>
+      <v-btn variant="text" @click="$emit('close')">{{ $t('order.checkout.deliveryDateDialog.cancelBtn') }}</v-btn>
       <v-btn color="primary" type="submit" prepend-icon="mdi-lock-reset" @click="confirmSelection">
-        選択内容を確認
+        {{ $t('order.checkout.deliveryDateDialog.saveBtn') }}
       </v-btn>
     </v-card-actions>
   </v-card>

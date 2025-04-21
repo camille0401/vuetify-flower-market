@@ -9,7 +9,7 @@
         <v-checkbox v-model="showPassword" color="primary" :label="$t('global.login.showPassword')"
           hide-details></v-checkbox>
         <a href="javascript:void(0);" class="d-flex align-center span forget">{{ $t('global.login.forgotPassword')
-        }}</a>
+          }}</a>
       </div>
       <br>
       <v-btn :loading="loading" color="primary" size="x-large" type="submit" variant="elevated" block>
@@ -25,7 +25,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import { useUserStore } from '@/stores/user'
 import { useI18n } from 'vue-i18n';  // Import useI18n to access translations
 import { useToast } from "vue-toastification";
@@ -39,6 +39,7 @@ const { t } = useI18n();  // Use `t` for translation
 const toast = useToast();
 const userStore = useUserStore();
 const router = useRouter();
+const route = useRoute();
 
 // 登录
 const showPassword = ref(false)
@@ -65,8 +66,9 @@ const doLogin = async () => {
         timeout: 2000
       })
 
-      // 跳转到首页
-      router.replace({ path: '/' })
+      // 登录成功后跳转回 redirect 页面 / 首页
+      const redirect = route.query.redirect || '/'
+      router.replace(redirect)
 
       // 登录成功后清空表单
       loginForm.value = { username: "", password: "" }

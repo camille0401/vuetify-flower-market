@@ -135,6 +135,7 @@ import { useCartStore } from '@/stores/cart'
 import { useUserStore } from '@/stores/user'
 import { useOrderStore } from '@/stores/order'
 import { useCartCount } from "@/composables/useCartCount"
+import { useOrderDraft } from '@/composables/useOrderDraft'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
@@ -143,7 +144,9 @@ const router = useRouter()
 const userStore = useUserStore()
 const cartStore = useCartStore()
 const orderStore = useOrderStore()
+
 const { handleCountChange, handleOutOfRange } = useCartCount()
+const { saveDraft } = useOrderDraft()
 
 
 // 计算商品总价
@@ -189,12 +192,6 @@ const handleCountStore = (goods) => {
 
 // 去结算
 const toCreateOrderPage = () => {
-  if (!userStore.token) {
-    toast.warning(t('cartlist.toast.loginMessge'))
-    router.push({ path: '/user/login' })
-    return
-  }
-
   // 生成订单，存储到orderStore
   const goodsList = cartStore.cartList.filter(item => item.selected).map(item => {
     return {
@@ -209,14 +206,23 @@ const toCreateOrderPage = () => {
       totalPayAmount: calcGoodsTotalPrice(item.price, item.count),
     }
   })
-  orderStore.setGoodsList(goodsList)
-  orderStore.setSummary({
+  const summary = {
     goodsCount: cartStore.cartSelectedCount,
     postFee: '', //运费
     totalAmount: cartStore.cartSelectedPrice,
     totalPayAmount: cartStore.cartSelectedPrice
-  })
-  router.push({ path: '/order/create' })
+  }
+  saveDraft({ goodsList, summary })
+  if (!userStore.token) {
+    toast.warning(t('cartlist.toast.loginMessge'))
+    router.push({
+      path: '/user/login',
+      query: { redirect: '/order/checkout' }
+    })
+  } else {
+    router.push({ path: '/order/checkout' })
+  }
+
 }
 
 // 返回首页

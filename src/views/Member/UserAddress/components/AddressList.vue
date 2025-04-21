@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <v-toolbar color="primary" title="切换地址" density="compact">
+    <v-toolbar color="primary" :title="$t('member.address.swapDialog.formTitle')" density="compact">
       <v-btn icon @click="handleClose">
         <v-icon color="white">mdi-close</v-icon>
       </v-btn>
@@ -10,11 +10,17 @@
         <div v-for="(item, i) in list" :key="item.id" class="text item" :class="{ active: item.id === selectedId }"
           @click="handleSwitch(item, i)">
           <ul>
-            <li><span>收<i />货<i />人：</span>{{ item.recipient }}
-              <v-chip v-if="item.isDefault" class="ml-4" color="red">默认</v-chip>
+            <li>
+              <span>{{ $t('member.address.swapDialog.list.recipient') }}</span>
+              {{ item.recipient }}
+              <v-chip v-if="item.isDefault" class="ml-4" color="red">
+                {{ $t('member.address.swapDialog.list.defaultChip') }}</v-chip>
             </li>
-            <li><span>联系方式：</span>{{ item.phone }}</li>
-            <li><span>收货地址：</span>{{ item.prefecture + item.city + item.address }}</li>
+            <li><span>{{ $t('member.address.swapDialog.list.phone') }}</span>{{ item.phone }}</li>
+            <li>
+              <span>{{ $t('member.address.swapDialog.list.address') }}</span>
+              {{ item.prefecture + item.city + item.address }}
+            </li>
           </ul>
 
         </div>
@@ -22,9 +28,9 @@
     </v-card-text>
     <v-card-actions class="pa-4 bg-grey-lighten-4">
       <v-spacer />
-      <v-btn @click="handleClose">取消</v-btn>
-      <v-btn color="primary" variant="flat" @click="handleSubmit">
-        切换地址
+      <v-btn @click="handleClose">{{ $t('member.address.swapDialog.common.cancel') }}</v-btn>
+      <v-btn color="primary" variant="flat" prepend-icon="mdi-home-switch" @click="handleSubmit">
+        {{ $t('member.address.swapDialog.common.save') }}
       </v-btn>
     </v-card-actions>
   </v-card>

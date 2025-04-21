@@ -1,0 +1,97 @@
+{
+  "checkout": {
+    "addressTitle": "收货地址",
+    "addAddressBtn": "添加地址",
+    "switchAddressBtn": "切换地址",
+    "emptyAddress": "请先设置收货地址以确认订单",
+    "defaultAddressChip": "默认地址",
+    "recipient": "收货人：",
+    "contact": "联系方式：",
+    "fullAddress": "收货地址：",
+    "productInfo": "商品信息",
+    "table": {
+      "product": "商品",
+      "price": "单价",
+      "count": "数量",
+      "amount": "小计",
+      "priceTemplate": "¥{price}",
+      "amountTemplate": "¥{amount}"
+    },
+    "deliveryDate": "配送日期",
+    "selectDeliveryDate": "请选择配送日期",
+    "totalDetail": "金额明细",
+    "goodsCount": "商品数量：",
+    "totalAmount": "商品总额：",
+    "totalPayAmount": "实付金额：",
+    "goodsCountTemplate": "{count}件",
+    "totalAmountTemplate": "¥{amount}",
+    "totalPayAmountTemplate": "¥{amount}",
+    "backBtn": "返回",
+    "submitOrderBtn": "提交订单",
+    "common": {
+      "deliveryTimeFailedMessage": "请选择配送日期",
+      "switchAddressMessage": "配送地址已变更",
+      "submitOrderNoAddMessage": "请先选择收货地址"
+    },
+    "deliveryDateDialog": {
+      "formTitle": "配送日期",
+      "cancelBtn": "取消",
+      "saveBtn": "确认日期"
+    }
+  },
+  "detail": {
+    "title": "订单详情",
+    "status": {
+      "confirm": {
+        "title": "订单已确认",
+        "desc": "商家正在准备商品，请耐心等待发货"
+      },
+      "waitPay": {
+        "title": "等待支付",
+        "desc": "请在30分钟内完成支付，超时订单将自动取消"
+      },
+      "success": {
+        "title": "支付成功",
+        "desc": "我们已收到您的款项，正在准备商品"
+      },
+      "complete": {
+        "title": "订单已完成",
+        "desc": "感谢您的购买，期待再次光临"
+      },
+      "cancel": {
+        "title": "订单已取消",
+        "desc": "该订单已被取消，如需帮助请联系客服"
+      },
+      "refund": {
+        "title": "退款成功",
+        "desc": "退款已处理，预计3-5个工作日到账"
+      },
+      "default": {
+        "title": "未知状态",
+        "desc": "当前订单状态异常，请联系客服"
+      }
+    },
+    "orderNo": "订单编号：",
+    "createdAt": "下单时间：",
+    "cancelTime": "取消时间：",
+    "delivery": "配送信息",
+    "recipient": "收货人",
+    "phone": "联系电话",
+    "address": "配送地址",
+    "expectedTime": "预计送达",
+    "goodsInfo": "商品信息",
+    "emptyGoods": "暂无商品信息",
+    "price": "单价",
+    "quantity": "数量",
+    "subtotal": "小计",
+    "priceTmplate": "¥{price}",
+    "subtotalTmplate": "¥{subtotal}",
+    "total": "商品总额：",
+    "payType": "支付方式：",
+    "final": "实付款：",
+    "totalTemplate": "¥{total}",
+    "finalTemplate": "¥{final}",
+    "backToShop": "继续购物",
+    "viewOrders": "全部订单"
+  }
+}
