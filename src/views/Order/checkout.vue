@@ -172,7 +172,6 @@ import { useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
 import { createOrderAPI } from '@/apis/order'
 import { useAddressStore } from '@/stores/address'
-import { useOrderStore } from '@/stores/order'
 import { useCartStore } from '@/stores/cart'
 import { useAddressForm } from '@/composables/useAddressForm'
 import { useOrderDraft } from '@/composables/useOrderDraft'
@@ -184,7 +183,6 @@ const { t } = useI18n()
 const toast = useToast()
 const router = useRouter()
 const addressStore = useAddressStore()
-const orderStore = useOrderStore()
 const cartStore = useCartStore()
 
 
@@ -197,11 +195,7 @@ const { goodsList, summary, loadDraft, clearDraft } = useOrderDraft()
 const switchDialog = ref(false)
 const deliveryTimeDialog = ref(false)
 const deliveryTime = ref(dayjs().add(2, 'day').format('YYYY-MM-DD')) // 默认2天后
-
-const activeAddress = computed(() =>
-  addressStore.addressList.find(item => item.isDefault === 1) || null
-)
-
+const activeAddress = ref(addressStore.addressList.find(item => item.isDefault === 1) || {})
 
 // 计算属性
 const fullAddress = computed(() => {

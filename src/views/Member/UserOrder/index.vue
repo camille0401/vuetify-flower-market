@@ -1,14 +1,14 @@
 <template>
   <div class="order-list-page">
     <v-card rounded="lg" flat class="pa-4">
-      <v-card-title class="text-h5 font-weight-bold mb-4">我的订单</v-card-title>
+      <v-card-title class="text-h5 font-weight-bold mb-4">{{ $t('member.order.title') }}</v-card-title>
       <v-divider class="mb-4" />
 
       <!-- 订单状态选项卡 -->
       <v-tabs v-model="activeTab" color="primary" grow @update:model-value="handleTabChange">
         <v-tab v-for="tab in orderTabs" :key="tab.value" :value="tab.value" class="text-capitalize">
-          <v-icon :icon="tab.icon" class="mr-2" />
-          {{ tab.label }}
+          <!-- <v-icon :icon="tab.icon" class="mr-2" /> -->
+          {{ $t(tab.label) }}
         </v-tab>
       </v-tabs>
 
@@ -19,16 +19,16 @@
       <template v-else>
         <!-- 空状态 -->
         <v-alert v-if="orders.length === 0" type="info" variant="tonal" class="my-6" icon="mdi-gift">
-          当前没有相关订单
+          {{ $t('member.order.empty') }}
           <template v-slot:append>
-            <v-btn color="primary" variant="text" to="/">去逛逛</v-btn>
+            <v-btn color="primary" variant="text" to="/">{{ $t('member.order.goShopping') }}</v-btn>
           </template>
         </v-alert>
 
         <!-- 订单列表 -->
         <template v-else>
-          <order-card v-for="order in orders" :key="order.id" :order="order" @cancel="handleCancelOrder"
-            @view-detail="toOrderDetailPage" class="my-4" />
+          <order-card v-for="order in orders" :key="order.id" :order="order" :orderTabs="orderTabs"
+            @cancel="handleCancelOrder" @view-detail="toOrderDetailPage" class="my-4" />
 
           <!-- 分页 -->
           <!-- <v-pagination v-model="pagination.page" :length="totalPages" :total-visible="7"
@@ -38,33 +38,36 @@
     </v-card>
 
     <!-- 取消订单确认对话框 -->
-    <FSConfirmationDialog v-model="cancelDialog.show" :title="`取消订单`" :content="`确定要取消此订单吗？此操作不可逆！`" contentIcon=""
-      confirm-color="error" confirm-text="确认取消" @confirm="confirmCancelOrder" />
+    <FSConfirmationDialog v-model="cancelDialog.show" :title="$t('member.order.cancelConfirmTitle')"
+      :content="$t('member.order.cancelConfirmContent')" contentIcon="" confirm-color="error"
+      :confirm-text="$t('member.order.cancelConfirmBtn')" @confirm="confirmCancelOrder" />
 
   </div>
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useToast } from 'vue-toastification'
 import { useRouter } from 'vue-router'
 import OrderCard from './components/OrderCard.vue'
 import FSConfirmationDialog from '@/components/FSConfirmationDialog.vue'
 import { fetchOrderAPI, cancelOrderAPI } from '@/apis/order'
 import { usePagination } from '@/composables/usePagination'
+import { useI18n } from 'vue-i18n'
 
+const { t } = useI18n()
 const toast = useToast()
 const router = useRouter()
 
 // 订单状态配置
 const orderTabs = [
-  { value: 'all', label: '全部订单', icon: 'mdi-package-variant' },
-  { value: 0, label: '待发货', icon: 'mdi-truck-delivery-outline' },
-  { value: 1, label: '待付款', icon: 'mdi-credit-card-clock-outline' },
-  { value: 2, label: '已支付', icon: 'mdi-package-variant-closed' },
-  { value: 3, label: '已完成', icon: 'mdi-check-circle-outline' },
-  { value: 4, label: '已取消', icon: 'mdi-close-circle-outline' },
-  { value: 5, label: '退款/售后', icon: 'mdi-cash-refund' }
+  { value: 'all', label: 'member.order.status.all', icon: 'mdi-package-variant', color: 'grey', },
+  { value: 0, label: 'member.order.status.pending', icon: 'mdi-truck-delivery-outline', color: 'info' },
+  { value: 1, label: 'member.order.status.waitingPayment', icon: 'mdi-credit-card-clock-outline', color: 'warning' },
+  { value: 2, label: 'member.order.status.paid', icon: 'mdi-package-variant-closed', color: 'primary' },
+  { value: 3, label: 'member.order.status.completed', icon: 'mdi-check-circle-outline', color: 'success' },
+  { value: 4, label: 'member.order.status.canceled', icon: 'mdi-close-circle-outline', color: 'error' },
+  { value: 5, label: 'member.order.status.refund', icon: 'mdi-cash-refund', color: 'deep-purple' }
 ]
 
 // 组件状态
@@ -104,7 +107,7 @@ const handleCancelOrder = (id) => {
 const confirmCancelOrder = async () => {
   try {
     await cancelOrderAPI(cancelDialog.value.id)
-    toast.success('订单取消成功')
+    toast.success(t('member.order.cancelSuccess'))
     fetchOrders()
   } catch (error) {
   } finally {

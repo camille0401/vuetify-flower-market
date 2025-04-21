@@ -1,4 +1,6 @@
 {
+  "moneyTemplate": "¥{money}",
+  "countTemplate": "X{count}",
   "login": {
     "welcomeBack": "欢迎回来",
     "seeYouAgain": "很高兴再次见到你！",

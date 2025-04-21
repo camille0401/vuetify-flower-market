@@ -85,5 +85,26 @@
         "save": "切换地址"
       }
     }
+  },
+  "order": {
+    "title": "我的订单",
+    "empty": "当前没有相关订单",
+    "goShopping": "去逛逛",
+    "cancelConfirmTitle": "取消订单",
+    "cancelConfirmContent": "确定要取消此订单吗？此操作不可逆！",
+    "cancelConfirmBtn": "确认取消",
+    "cancelSuccess": "订单取消成功",
+    "itemCancelBtn": "取消订单",
+    "itemDetailBtn": "订单详情",
+    "status": {
+      "pending": "待发货",
+      "waitingPayment": "待支付",
+      "paid": "已支付",
+      "completed": "已完成",
+      "canceled": "已取消",
+      "refund": "退款/售后",
+      "unknown": "未知状态",
+      "all": "全部订单"
+    }
   }
 }

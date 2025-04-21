@@ -133,7 +133,6 @@ import { useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
 import { useCartStore } from '@/stores/cart'
 import { useUserStore } from '@/stores/user'
-import { useOrderStore } from '@/stores/order'
 import { useCartCount } from "@/composables/useCartCount"
 import { useOrderDraft } from '@/composables/useOrderDraft'
 import { useI18n } from 'vue-i18n'
@@ -143,7 +142,6 @@ const toast = useToast()
 const router = useRouter()
 const userStore = useUserStore()
 const cartStore = useCartStore()
-const orderStore = useOrderStore()
 
 const { handleCountChange, handleOutOfRange } = useCartCount()
 const { saveDraft } = useOrderDraft()

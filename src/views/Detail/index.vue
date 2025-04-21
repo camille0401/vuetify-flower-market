@@ -132,7 +132,6 @@ import { useToast } from 'vue-toastification'
 import { useI18n } from 'vue-i18n'
 import { getDetailAPI } from '@/apis/detail'
 import { useCartStore } from '@/stores/cart'
-import { useOrderStore } from '@/stores/order'
 import { useUserStore } from '@/stores/user'
 import { useCartCount } from '@/composables/useCartCount'
 import { useOrderDraft } from '@/composables/useOrderDraft'
@@ -142,7 +141,6 @@ const toast = useToast()
 const route = useRoute()
 const router = useRouter()
 const cartStore = useCartStore()
-const orderStore = useOrderStore()
 const userStore = useUserStore()
 const { handleCountChange, handleOutOfRange } = useCartCount()
 const { saveDraft } = useOrderDraft()

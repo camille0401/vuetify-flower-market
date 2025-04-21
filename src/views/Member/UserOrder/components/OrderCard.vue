@@ -3,8 +3,10 @@
     <!-- 订单头部 -->
     <v-card-title class="d-flex align-center justify-space-between pa-4">
       <div class="d-flex flex-column flex-md-row gap-2 align-center">
-        <span class="text-body-1 font-weight-medium mr-2">订单号: {{ order.orderNo }}</span>
-        <span class="text-caption text-grey">下单时间: {{ formatTime(order.createdAt) }}</span>
+        <span class="text-body-1 font-weight-medium mr-2">
+          {{ $t('order.detail.orderNo') }} {{ order.orderNo }}</span>
+        <span class="text-caption text-grey">
+          {{ $t('order.detail.createdAt') }} {{ formatTime(order.createdAt) }}</span>
       </div>
       <v-chip :color="statusConfig.color" :prepend-icon="statusConfig.icon" size="small">
         {{ statusConfig.text }}
@@ -15,10 +17,10 @@
     <v-table density="compact" class="order-items-table bg-transparent px-2">
       <thead>
         <tr>
-          <th class="text-left">商品信息</th>
-          <th class="text-center">单价</th>
-          <th class="text-center">数量</th>
-          <th class="text-center">小计</th>
+          <th class="text-left">{{ $t('order.detail.goodsInfo') }}</th>
+          <th class="text-center">{{ $t('order.detail.price') }}</th>
+          <th class="text-center">{{ $t('order.detail.quantity') }}</th>
+          <th class="text-center">{{ $t('order.detail.subtotal') }}</th>
         </tr>
       </thead>
       <tbody>
@@ -34,9 +36,15 @@
               </div>
             </div>
           </td>
-          <td class="text-center">¥{{ item.price.toFixed(2) }}</td>
-          <td class="text-center">×{{ item.quantity }}</td>
-          <td class="text-center text-error">¥{{ (item.price * item.quantity).toFixed(2) }}</td>
+          <td class="text-center">
+            {{ $t('global.moneyTemplate', { money: item.price.toFixed(2) }) }}
+          </td>
+          <td class="text-center">
+            {{ $t('global.countTemplate', { count: item.quantity }) }}
+          </td>
+          <td class="text-center text-error">
+            {{ $t('global.moneyTemplate', { money: (item.price * item.quantity).toFixed(2) }) }}
+          </td>
         </tr>
       </tbody>
     </v-table>
@@ -45,13 +53,15 @@
     <v-divider />
     <v-card-actions class="d-flex flex-column flex-md-row justify-space-between align-center pa-4">
       <div class="order-total mb-2 mb-md-0">
-        实付款: <span class="text-error text-h6">¥{{ order.totalAmount.toFixed(2) }}</span>
+        {{ $t('order.detail.final') }}<span class="text-error text-h6">
+          {{ $t('global.moneyTemplate', { money: order.totalAmount.toFixed(2) }) }}
+        </span>
       </div>
 
       <div class="d-flex flex-wrap gap-2 justify-end">
         <template v-if="order.status === 0">
           <v-btn color="error" variant="text" prepend-icon="mdi-close" @click="$emit('cancel', order.id)">
-            取消订单
+            {{ $t('member.order.itemCancelBtn') }}
           </v-btn>
         </template>
 
@@ -62,7 +72,7 @@
         </template> -->
 
         <v-btn variant="text" prepend-icon="mdi-information-outline" @click="$emit('view-detail', order.id)">
-          订单详情
+          {{ $t('member.order.itemDetailBtn') }}
         </v-btn>
       </div>
     </v-card-actions>
@@ -72,6 +82,9 @@
 <script setup>
 import { computed } from 'vue'
 import dayjs from 'dayjs'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 const props = defineProps({
   order: {
@@ -86,48 +99,37 @@ const props = defineProps({
         'totalAmount'
       ].every(key => key in value)
     }
+  },
+  orderTabs: {
+    type: Array,
+    required: true
   }
 })
 
 const emit = defineEmits(['cancel', 'pay', 'confirm', 'view-detail'])
 
-// 订单状态配置
-const statusConfigMap = {
-  0: {
-    text: '待发货',
-    color: 'info',
-    icon: 'mdi-truck-delivery-outline'
-  },
-  1: {
-    text: '待支付',
-    color: 'warning',
-    icon: 'mdi-credit-card-clock-outline'
-  },
-  2: {
-    text: '已支付',
-    color: 'primary',
-    icon: 'mdi-package-variant-closed'
-  },
-  3: {
-    text: '已完成',
-    color: 'success',
-    icon: 'mdi-check-circle-outline'
-  },
-  4: {
-    text: '已取消',
-    color: 'error',
-    icon: 'mdi-close-circle-outline'
-  },
-  5: {
-    text: '退款/售后',
-    color: 'deep-purple',
-    icon: 'mdi-cash-refund'
-  }
+// 构建状态配置映射
+const statusConfigMap = computed(() => {
+  const map = {}
+  props.orderTabs.forEach(tab => {
+    map[tab.value] = {
+      text: t(tab.label), // 使用 i18n key
+      color: tab.color || 'info',
+      icon: tab.icon || 'mdi-alert-circle-outline'
+    }
+  })
+  return map
+})
+
+const defaultStatus = {
+  text: t('member.order.status.unknown'),
+  color: 'grey',
+  icon: 'mdi-alert-circle-outline'
 }
 
 // 当前订单状态配置
 const statusConfig = computed(() =>
-  statusConfigMap[props.order.status] || statusConfigMap.unpaid
+  statusConfigMap.value[props.order.status] || defaultStatus
 )
 
 // 时间格式化

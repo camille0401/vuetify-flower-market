@@ -152,8 +152,8 @@
 import { ref, computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { getOrderDetailAPI } from '@/apis/order'
-import dayjs from 'dayjs'
 import { useI18n } from 'vue-i18n'
+import dayjs from 'dayjs'
 
 const { t } = useI18n()
 const route = useRoute()
