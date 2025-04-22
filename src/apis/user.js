@@ -38,6 +38,23 @@ export const updateUserInfoAPI = (data) => {
   });
 };
 
+// EMAIL
+export const sendCodeAPI = (data) => {
+  return request({
+    url: '/auth/sendCode',
+    method: 'POST',
+    data,
+  });
+};
+
+export const forgetPwdAPI = (data) => {
+  return request({
+    url: '/auth/forgetPwd',
+    method: 'PUT',
+    data,
+  });
+};
+
 export const getLikeListAPI = ({ limit = 4 }) => {
   return request({
     url: '/goods/relevant',

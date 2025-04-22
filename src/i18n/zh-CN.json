@@ -30,11 +30,26 @@
       "successMessage": "注册成功，请登录",
       "failureMessage": "注册失败，请检查您的账号和密码",
       "invalidFormMessage": "请填写有效的邮箱和密码",
+      "verificationCode": "请输入邮箱验证码",
+      "sendCode": "发送验证码",
+      "codeSentMessage": "验证码已发送，请检查邮箱！",
+      "codeSendFailedMessage": "验证码发送失败，请稍后再试。",
+      "emailInvalidMessage": "请输入有效的邮箱地址。",
       "validation": {
         "checkPasswordLabel": "确认密码",
         "checkPasswordRequired": "确认密码是必填项",
-        "passwordMismatch": "两次密码不一致"
+        "passwordMismatch": "两次密码不一致",
+        "requiredField": "验证码是必填项"
       }
+    },
+    "forgotPassword": {
+      "title": "忘记密码",
+      "subtitle": "请输入您的电子邮件地址以重置密码。",
+      "resetPassword": "重置密码",
+      "backToLogin": "返回登录？",
+      "login": "去登录",
+      "emailInvalid": "请输入有效的电子邮件地址。",
+      "successMessage": "您的密码已成功重置。请重新登录"
     },
     "nav": {
       "user": {

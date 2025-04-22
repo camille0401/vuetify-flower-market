@@ -1,23 +1,25 @@
 <template>
-  <div class="form-box">
+  <div class="login-form-box">
     <h1 class="text-h5 text-center">{{ $t('global.login.welcomeBack') }}</h1>
     <p class="text-subtitle-2	text-center mb-10" style="color: #757575;">{{ $t('global.login.seeYouAgain') }}</p>
-    <v-form ref="loginFormRef" @submit.prevent="doLogin">
+    <v-form ref="loginFormRef" validate-on="submit" @submit.prevent="doLogin">
       <EmailTextField v-model="loginForm" />
       <PasswordTextField v-model="loginForm" :showPassword="showPassword" />
       <div class="d-flex justify-space-between">
         <v-checkbox v-model="showPassword" color="primary" :label="$t('global.login.showPassword')"
           hide-details></v-checkbox>
-        <a href="javascript:void(0);" class="d-flex align-center span forget">{{ $t('global.login.forgotPassword')
-        }}</a>
+        <!-- <a href="javascript:void(0);" class="d-flex align-center span forget">
+          {{ $t('global.login.forgotPassword') }}</a> -->
+        <v-btn class="span forget" variant="text" to="/user/forgot">{{ $t('global.login.forgotPassword') }}</v-btn>
       </div>
       <br>
       <v-btn :loading="loading" color="primary" size="x-large" type="submit" variant="elevated" block>
         {{ $t('global.login.login') }}
       </v-btn>
     </v-form>
-    <p class="p">{{ $t('global.login.noAccount') }}<span class="span" @click="toRegister">{{
-      $t('global.login.registerNow') }}</span> </p>
+    <p class="p">{{ $t('global.login.noAccount') }}<span class="span" @click="toRegister">
+        {{ $t('global.login.registerNow') }}</span>
+    </p>
     <!-- <p class="p line">Or With</p> -->
     <!-- <SocialButtons /> -->
   </div>
@@ -93,10 +95,12 @@ const toRegister = () => {
 }
 
 
+
+
 </script>
 
 <style lang="scss" scoped>
-.form-box {
+.login-form-box {
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -108,7 +112,8 @@ const toRegister = () => {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 
   .forget {
-    min-height: 56px;
+    height: 56px;
+    line-height: 56px;
   }
 
   .span {
