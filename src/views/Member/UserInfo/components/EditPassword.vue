@@ -7,7 +7,7 @@
     </v-toolbar>
 
     <v-card-text class="pt-6">
-      <v-form ref="form" @submit.prevent="handleSubmit">
+      <v-form ref="form">
         <!-- <v-text-field v-model="currentPassword" :type="showCurrentPassword ? 'text' : 'password'"
           :label="$t('member.user.editPwdDialog.password.current')" variant="outlined" density="comfortable"
           :rules="[rules.required]" :append-inner-icon="showCurrentPassword ? 'mdi-eye-off' : 'mdi-eye'"
@@ -28,15 +28,15 @@
           {{ errorMessage }}
         </v-alert> -->
 
-        <v-card-actions class="px-0">
-          <v-spacer />
-          <v-btn variant="text" @click="close">{{ $t('member.user.editPwdDialog.common.cancel') }}</v-btn>
-          <v-btn color="primary" type="submit" :loading="submitting" prepend-icon="mdi-lock-reset">
-            {{ $t('member.user.editPwdDialog.common.confirm') }}
-          </v-btn>
-        </v-card-actions>
       </v-form>
     </v-card-text>
+    <v-card-actions class="bg-grey-lighten-4">
+      <v-spacer />
+      <v-btn variant="text" @click="close">{{ $t('member.user.editPwdDialog.common.cancel') }}</v-btn>
+      <v-btn color="primary" :loading="submitting" prepend-icon="mdi-lock-reset" @click="handleSubmit">
+        {{ $t('member.user.editPwdDialog.common.confirm') }}
+      </v-btn>
+    </v-card-actions>
   </v-card>
 </template>
 

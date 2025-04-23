@@ -7,11 +7,10 @@
     </v-toolbar>
 
     <v-card-text class="pa-4">
-      <v-form ref="addressFormRef" class="pa-10 pt-0 pb-0">
+      <v-form ref="addressFormRef" class="pa-10 pt-0 pb-0" validate-on="submit">
         <!-- 收件人 -->
         <v-text-field v-model="addressForm.recipient" :label="$t('member.address.addDialog.addressForm.recipient')"
           variant="outlined" :rules="[requiredRule]" class="mb-2" bg-color="parimary"></v-text-field>
-
         <!-- 手机号码 -->
         <v-text-field v-model="addressForm.phone" :label="$t('member.address.addDialog.addressForm.phone')"
           variant="outlined" :rules="[requiredRule, mobileRule]" class="mb-2"></v-text-field>
@@ -108,20 +107,21 @@ const handleClose = () => {
 
 // 新增的提交逻辑
 const handleSubmit = async () => {
-  try {
-    const { valid } = await addressFormRef.value.validate()
-    if (!valid) {
-      toast.error(t('member.address.addDialog.common.submitError'))
-      return
-    }
+  const { valid } = await addressFormRef.value.validate()
+  if (!valid) {
+    toast.error(t('member.address.addDialog.common.submitError'))
+    return
+  }
 
-    loading.value = true
+  loading.value = true
+  try {
+
     // 触发父组件事件
     emit('submit', addressForm.value)
 
     addressFormRef.value.reset()
   } catch (error) {
-    toast.error(`${t('member.address.addDialog.common.submitFail')}: ${error.message}`)
+    // toast.error(`${t('member.address.addDialog.common.submitFail')}: ${error.message}`)
   } finally {
     loading.value = false
   }

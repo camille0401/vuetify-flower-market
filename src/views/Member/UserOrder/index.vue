@@ -12,29 +12,35 @@
         </v-tab>
       </v-tabs>
 
-      <!-- 加载状态 -->
-      <v-progress-linear v-if="isLoading" indeterminate color="primary" class="my-4" />
-
-      <!-- 订单列表内容 -->
-      <template v-else>
-        <!-- 空状态 -->
-        <v-alert v-if="orders.length === 0" type="info" variant="tonal" class="my-6" icon="mdi-gift">
-          {{ $t('member.order.empty') }}
-          <template v-slot:append>
-            <v-btn color="primary" variant="text" to="/">{{ $t('member.order.goShopping') }}</v-btn>
+      <v-tabs-window v-model="activeTab" touchless>
+        <v-tabs-window-item v-for="tab in orderTabs" :key="tab.value" :value="tab.value">
+          <template v-if="isLoading">
+            <!-- 加载状态 -->
+            <v-progress-linear v-if="isLoading" indeterminate color="primary" class="my-4" />
           </template>
-        </v-alert>
 
-        <!-- 订单列表 -->
-        <template v-else>
-          <order-card v-for="order in orders" :key="order.id" :order="order" :orderTabs="orderTabs"
-            @cancel="handleCancelOrder" @view-detail="toOrderDetailPage" class="my-4" />
+          <template v-else-if="orders.length === 0">
+            <!-- 空订单提示 -->
+            <v-alert type="info" variant="tonal" class="my-6" icon="mdi-gift">
+              {{ $t('member.order.empty') }}
+              <template v-slot:append>
+                <v-btn color="primary" variant="text" to="/">{{ $t('member.order.goShopping') }}</v-btn>
+              </template>
+            </v-alert>
+          </template>
 
-          <!-- 分页 -->
-          <!-- <v-pagination v-model="pagination.page" :length="totalPages" :total-visible="7"
-            @update:model-value="handlePageChange" class="mt-6" color="primary" /> -->
-        </template>
-      </template>
+          <template v-else>
+            <!-- 订单列表内容 -->
+            <order-card v-for="order in orders" :key="order.id" :order="order" :orderTabs="orderTabs"
+              @cancel="handleCancelOrder" @view-detail="toOrderDetailPage" class="my-4" />
+
+            <!-- 分页 -->
+            <!-- <v-pagination v-model="pagination.page" :length="totalPages" :total-visible="7"
+              @update:model-value="handlePageChange" class="mt-6" color="primary" /> -->
+          </template>
+        </v-tabs-window-item>
+      </v-tabs-window>
+
     </v-card>
 
     <!-- 取消订单确认对话框 -->

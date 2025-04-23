@@ -25,27 +25,25 @@
               <p class="text-body-1 mt-2">{{ $t('order.checkout.emptyAddress') }}</p>
             </div>
 
-            <template v-else>
-              <div class="address-content">
-                <div class="address-info">
-                  <div class="d-flex align-center mb-2">
-                    <span class="text-body-1 font-weight-medium mr-2">{{ $t('order.checkout.recipient') }}</span>
-                    <span class="text-body-1">{{ activeAddress.recipient }}</span>
-                    <v-chip v-if="activeAddress.isDefault" color="error" size="small" class="ml-2">
-                      {{ $t('order.checkout.defaultAddressChip') }}
-                    </v-chip>
-                  </div>
-                  <div class="text-body-1 mb-2">
-                    <span class="font-weight-medium mr-2">{{ $t('order.checkout.contact') }}</span>
-                    <span>{{ activeAddress.phone }}</span>
-                  </div>
-                  <div class="text-body-1">
-                    <span class="font-weight-medium mr-2">{{ $t('order.checkout.fullAddress') }}</span>
-                    <span>{{ fullAddress }}</span>
-                  </div>
+            <div v-else class="address-content">
+              <div class="address-info">
+                <div class="d-flex align-center mb-2">
+                  <span class="text-body-1 font-weight-medium mr-2">{{ $t('order.checkout.recipient') }}</span>
+                  <span class="text-body-1">{{ activeAddress?.recipient }}</span>
+                  <v-chip v-if="activeAddress?.isDefault" color="error" size="small" class="ml-2">
+                    {{ $t('order.checkout.defaultAddressChip') }}
+                  </v-chip>
+                </div>
+                <div class="text-body-1 mb-2">
+                  <span class="font-weight-medium mr-2">{{ $t('order.checkout.contact') }}</span>
+                  <span>{{ activeAddress?.phone }}</span>
+                </div>
+                <div class="text-body-1">
+                  <span class="font-weight-medium mr-2">{{ $t('order.checkout.fullAddress') }}</span>
+                  <span>{{ fullAddress }}</span>
                 </div>
               </div>
-            </template>
+            </div>
           </div>
         </v-card-item>
 
@@ -137,7 +135,7 @@
             <v-btn variant="text" size="x-large" @click="goBack">
               {{ $t('order.checkout.backBtn') }}
             </v-btn>
-            <v-btn color="primary-darken-1" size="x-large" prepend-icon="mdi-check" :disabled="!activeAddress"
+            <v-btn color="primary-darken-1" size="x-large" prepend-icon="mdi-check" :loading="loading"
               @click="submitOrder">
               {{ $t('order.checkout.submitOrderBtn') }}
             </v-btn>
@@ -168,7 +166,7 @@
 import AddressForm from '@/views/Member/UserAddress/components/AddressForm.vue'
 import AddressList from '@/views/Member/UserAddress/components/AddressList.vue'
 import DeliveryDate from './components/DeliveryDate.vue'
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
 import { createOrderAPI } from '@/apis/order'
@@ -176,10 +174,13 @@ import { useAddressStore } from '@/stores/address'
 import { useCartStore } from '@/stores/cart'
 import { useAddressForm } from '@/composables/useAddressForm'
 import { useOrderDraft } from '@/composables/useOrderDraft'
-import { useI18n } from 'vue-i18n'
 import dayjs from 'dayjs'
+import { useI18n } from 'vue-i18n'
 
-const { t } = useI18n()
+import 'dayjs/locale/ja'
+import 'dayjs/locale/zh-cn'
+
+const { t, locale } = useI18n()
 
 const toast = useToast()
 const router = useRouter()
@@ -193,22 +194,32 @@ const { editDialog, selectedAddress, openCreateDialog, handleSubmit } = useAddre
 const { goodsList, summary, loadDraft, clearDraft } = useOrderDraft()
 
 // 组件状态
+const loading = ref(false)
 const switchDialog = ref(false)
 const deliveryTimeDialog = ref(false)
 const deliveryTime = ref(dayjs().add(2, 'day').format('YYYY-MM-DD')) // 默认2天后
-const activeAddress = ref(addressStore.addressList.find(item => item.isDefault === 1) || {})
+const activeAddress = ref(null)
+
 
 // 计算属性
 const fullAddress = computed(() => {
   if (!activeAddress.value) return ''
-  const { prefecture, city, address } = activeAddress.value
+  const { prefecture = '', city = '', address = '' } = activeAddress.value
   return `${prefecture}${city}${address}`
 })
 
-// 表示用の選択日付
+// 配送日期
 const selectedDateDisplay = computed(() => {
   if (!deliveryTime.value) return t('order.checkout.common.deliveryTimeFailedMessage')
-  return dayjs(deliveryTime.value).format('YYYY年M月D日 (ddd)')
+
+  // 设置 dayjs 当前语言
+  const currentLocale = locale.value === 'zh-CN' ? 'zh-cn' : locale.value
+
+  dayjs.locale(currentLocale)
+
+  const formatString = currentLocale === 'ja' ? 'YYYY年M月D日 (ddd)' : 'YYYY年M月D日 dddd'
+
+  return dayjs(deliveryTime.value).format(formatString)
 })
 
 // 方法
@@ -219,35 +230,37 @@ const switchAddress = (address) => {
   toast.success(t('order.checkout.common.switchAddressMessage'))
 }
 
+const selectedDeliveryTime = (date) => {
+  deliveryTime.value = dayjs(date).format('YYYY-MM-DD')
+  deliveryTimeDialog.value = false
+}
+
 const submitOrder = async () => {
-  if (!activeAddress.value) {
+  if (!activeAddress.value?.id) {
     toast.warning(t('order.checkout.common.submitOrderNoAddMessage'))
     return
   }
 
+  loading.value = true
+
+  const params = {
+    addressId: activeAddress.value.id,
+    deliveryTime: deliveryTime.value,
+    items: goodsList.map(({ goodsCount, goodsId }) => ({ goodsCount, goodsId })),
+    totalAmount: summary?.totalAmount ?? 0
+  }
+
   try {
-    const params = {
-      addressId: activeAddress.value.id,
-      deliveryTime: deliveryTime.value,
-      items: goodsList.map(item => ({
-        goodsCount: item.goodsCount,
-        goodsId: item.goodsId
-      })),
-      totalAmount: summary?.totalAmount
-    }
     const res = await createOrderAPI(params)
     if (res) {
-      // 跳转到订单详情界面
-      router.push('/order/detail/' + res)
-      // 清空订单数据
+      router.push(`/order/detail/${res}`)
       clearDraft()
-      // 查询购物车列表，更新购物车
       await cartStore.getCartList()
-
     }
   } catch (error) {
-    // toast.error('注文の確定中にエラーが発生しました')
     console.error('Order submission error:', error)
+  } finally {
+    loading.value = false
   }
 }
 
@@ -255,10 +268,15 @@ const goBack = () => {
   router.go(-1)
 }
 
-const selectedDeliveryTime = (date) => {
-  deliveryTime.value = dayjs(date).format('YYYY-MM-DD')
-  deliveryTimeDialog.value = false
-}
+watch(
+  () => addressStore.addressList,
+  (newList) => {
+    const def = newList.find(item => item.isDefault === 1) || newList[0];
+    activeAddress.value = def;
+  },
+  { deep: true, immediate: true }
+);
+
 
 // 生命周期  地址
 onMounted(async () => {
@@ -266,6 +284,7 @@ onMounted(async () => {
     addressStore.fetchAddresses()
   }
 })
+
 
 // // 订单
 // onMounted(() => {

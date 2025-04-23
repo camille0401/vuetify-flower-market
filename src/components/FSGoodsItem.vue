@@ -34,7 +34,7 @@ const hover = ref(false)
 <style lang="scss" scoped>
 .goods-item {
   position: relative;
-  border-radius: 8px;
+
   overflow: hidden;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
@@ -46,6 +46,7 @@ const hover = ref(false)
     display: block;
     height: 100%;
     text-decoration: none;
+    border-radius: 8px;
   }
 
   .img-box {
@@ -59,6 +60,7 @@ const hover = ref(false)
 
   .content {
     background: rgba(var(--v-theme-background), 0.9);
+    border-radius: 8px;
     backdrop-filter: blur(4px);
   }
 

@@ -220,6 +220,7 @@
       },
       "swapDialog": {
         "formTitle": "切换地址",
+        "emptyTip": "暂无地址，请先添加地址",
         "list": {
           "recipient": "收件人：",
           "defaultChip": "默认",
@@ -244,8 +245,8 @@
       "itemDetailBtn": "订单详情",
       "status": {
         "pending": "待发货",
-        "waitingPayment": "待支付",
-        "paid": "已支付",
+        "waitingPayment": "待签收",
+        "paid": "待支付",
         "completed": "已完成",
         "canceled": "已取消",
         "refund": "退款/售后",
@@ -286,37 +287,44 @@
         "submitOrderNoAddMessage": "请先选择收货地址"
       },
       "deliveryDateDialog": {
-        "formTitle": "配送日期",
+        "formTitle": "选择配送日期",
         "cancelBtn": "取消",
-        "saveBtn": "确认日期"
+        "saveBtn": "保存",
+        "timeSlots": {
+          "morning": "上午 (9:00-12:00)",
+          "noon": "12:00-14:00",
+          "afternoon": "下午 (14:00-17:00)",
+          "evening": "晚上 (17:00-20:00)",
+          "night": "夜间 (19:00-21:00)"
+        }
       }
     },
     "detail": {
       "title": "订单详情",
       "status": {
         "confirm": {
-          "title": "订单已确认",
-          "desc": "商家正在准备商品，请耐心等待发货"
+          "title": "待发货",
+          "desc": "我们正在为您准备商品"
         },
         "waitPay": {
-          "title": "等待支付",
-          "desc": "请在30分钟内完成支付，超时订单将自动取消"
+          "title": "待签收",
+          "desc": "商品正在配送途中"
         },
         "success": {
-          "title": "支付成功",
-          "desc": "我们已收到您的款项，正在准备商品"
+          "title": "待支付",
+          "desc": "请尽快完成支付以处理订单"
         },
         "complete": {
-          "title": "订单已完成",
-          "desc": "感谢您的购买，期待再次光临"
+          "title": "已完成",
+          "desc": "订单已成功送达，感谢您的支持！"
         },
         "cancel": {
-          "title": "订单已取消",
-          "desc": "该订单已被取消，如需帮助请联系客服"
+          "title": "已取消",
+          "desc": "订单已被取消"
         },
         "refund": {
-          "title": "退款成功",
-          "desc": "退款已处理，预计3-5个工作日到账"
+          "title": "退款/售后",
+          "desc": "您的订单正在处理售后/退款"
         },
         "default": {
           "title": "未知状态",
@@ -340,7 +348,8 @@
       "payType": "支付方式：",
       "final": "实付款：",
       "backToShop": "继续购物",
-      "viewOrders": "全部订单"
+      "viewOrders": "全部订单",
+      "deliveryTimeFailedMessage": "等待商家确认发货时间"
     }
   }
 }

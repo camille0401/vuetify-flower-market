@@ -27,12 +27,12 @@
           <v-divider class="mb-4" />
 
           <!-- 排序选项卡 -->
-          <v-tabs color="primary-darken-1" v-model="reqData.orderBy" @update:modelValue="handleSortChange" class="mb-6">
+          <!-- <v-tabs color="primary-darken-1" v-model="reqData.orderBy" @update:modelValue="handleSortChange" class="mb-6">
             <v-tab value="">{{ $t('category.tabs.tab0') }}</v-tab>
             <v-tab value="publishTime">{{ $t('category.tabs.tab1') }}</v-tab>
             <v-tab value="orderNum">{{ $t('category.tabs.tab2') }}</v-tab>
             <v-tab value="evaluateNum">{{ $t('category.tabs.tab3') }}</v-tab>
-          </v-tabs>
+          </v-tabs> -->
 
           <!-- 商品列表 -->
           <div v-if="loading" class="text-center py-10">

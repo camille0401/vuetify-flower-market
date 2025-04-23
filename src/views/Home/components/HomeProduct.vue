@@ -13,7 +13,7 @@
           </RouterLink>
 
           <ul class="goods-list">
-            <li v-for="goods in cate.goods.slice(0, 6)" :key="goods.id" class="goods-item">
+            <li v-for="goods in cate.goods.slice(0, 8)" :key="goods.id" class="goods-item">
               <FSGoodsItem :goods="goods" :img-height="imgHeight" />
             </li>
           </ul>
@@ -32,7 +32,7 @@ import { getHomeGoodsAPI } from '@/apis/home'
 import { useDisplay } from 'vuetify'
 
 const { mdAndDown } = useDisplay()
-const imgHeight = computed(() => mdAndDown.value ? '180px' : '240px')
+const imgHeight = computed(() => mdAndDown.value ? '180px' : '200px')
 const goodsProduct = ref([])
 
 const getHomeGoods = async () => {
@@ -49,7 +49,6 @@ onMounted(() => {
   getHomeGoods()
 })
 
-// 其余代码保持不变...
 </script>
 
 <style scoped lang="scss">
@@ -132,7 +131,7 @@ onMounted(() => {
       flex: 1;
       display: grid;
       gap: var(--grid-gap);
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      grid-template-columns: repeat(4, 1fr); // 固定 4 列
       grid-auto-rows: 1fr;
 
       .goods-item {
@@ -144,6 +143,7 @@ onMounted(() => {
         }
       }
     }
+
   }
 }
 

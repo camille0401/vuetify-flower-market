@@ -9,8 +9,7 @@
         <!-- 左：头像区域 -->
         <div class="profile__avatar">
           <v-avatar color="primary-lighten-4" size="160" class="mb-4">
-            <v-img v-if="userStore.userInfo?.avatar" :src="userStore.userInfo.avatar" alt="用户头像" cover />
-            <v-icon v-else size="80">mdi-account-circle</v-icon>
+            <v-img :src="defaultAvatar" size="160" alt="默认的用户头像" cover />
           </v-avatar>
 
           <v-btn color="primary" variant="tonal" prepend-icon="mdi-pencil-circle" @click="openPasswordDialog">
@@ -59,6 +58,7 @@ import { ref, reactive, watch } from 'vue'
 import { useUserStore } from '@/stores/user'
 import { useToast } from 'vue-toastification'
 import EditPassword from './components/EditPassword.vue'
+import defaultAvatar from '@/assets/images/default-avatar.png'
 
 const toast = useToast()
 const userStore = useUserStore()

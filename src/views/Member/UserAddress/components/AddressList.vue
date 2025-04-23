@@ -6,7 +6,8 @@
       </v-btn>
     </v-toolbar>
     <v-card-text>
-      <div class="addressWrapper">
+      <v-empty-state v-if="list.length === 0" :title="$t('member.address.swapDialog.emptyTip')"></v-empty-state>
+      <div v-else class="addressWrapper">
         <div v-for="(item, i) in list" :key="item.id" class="text item" :class="{ active: item.id === selectedId }"
           @click="handleSwitch(item, i)">
           <ul>
@@ -29,7 +30,8 @@
     <v-card-actions class="pa-4 bg-grey-lighten-4">
       <v-spacer />
       <v-btn @click="handleClose">{{ $t('member.address.swapDialog.common.cancel') }}</v-btn>
-      <v-btn color="primary" variant="flat" prepend-icon="mdi-home-switch" @click="handleSubmit">
+      <v-btn color="primary" variant="flat" prepend-icon="mdi-home-switch" :disabled="list.length === 0"
+        @click="handleSubmit">
         {{ $t('member.address.swapDialog.common.save') }}
       </v-btn>
     </v-card-actions>
@@ -42,18 +44,18 @@ import { ref } from 'vue'
 const props = defineProps({
   list: {
     type: Array,
-    default: [],
+    default: () => []
   },
   activeAddress: {
     type: Object,
-    default: {}
+    default: () => ({})
   }
 })
 
 
 const emit = defineEmits(["close", "switch-address"])
 
-const selectedId = ref(props.activeAddress.id)
+const selectedId = ref(props.activeAddress?.id ?? '')
 const selectedRow = ref(props.activeAddress)
 
 const handleSwitch = (item, index) => {
@@ -76,6 +78,18 @@ const handleSubmit = () => {
   max-height: 500px;
   overflow-y: auto;
 
+  scrollbar-width: thin;
+  scrollbar-color: var(--v-theme-primary) #f5f5f5;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(var(--v-theme-primary), 0.3);
+    border-radius: 4px;
+  }
+
   .text {
     flex: 1;
     min-height: 90px;
@@ -96,8 +110,8 @@ const handleSubmit = () => {
 
       &.active,
       &:hover {
-        border-color: rgb(var(--v-theme-primary));
-        background: light(rgb(var(--v-theme-primary)), 50%);
+        border-color: var(--v-theme-primary);
+        background-color: rgba(var(--v-theme-primary), 0.05); // 提供 hover 高亮色
       }
     }
 

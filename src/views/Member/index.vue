@@ -20,9 +20,8 @@
                 <v-list>
                   <v-list-item>
                     <template v-slot:prepend>
-                      <v-avatar color="primary-lighten-4" size="48">
-                        <v-icon v-if="!userStore.userInfo?.avatar" icon="mdi-account-circle" size="32" />
-                        <v-img v-else :src="userStore.userInfo.avatar" />
+                      <v-avatar color="primary-lighten-4" size="50">
+                        <v-img :src="defaultAvatar" size="50" alt="默认的用户头像" cover />
                       </v-avatar>
                     </template>
                     <v-list-item-title class="font-weight-medium">
@@ -64,6 +63,7 @@
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { useUserStore } from '@/stores/user'
+import defaultAvatar from '@/assets/images/default-avatar.png'
 
 const route = useRoute()
 const userStore = useUserStore()
@@ -87,8 +87,8 @@ const menuItems = [
   { text: '个人信息', icon: 'mdi-account-cog', path: '/member/info' },
   { text: '收货地址', icon: 'mdi-map-marker-multiple', path: '/member/address' },
   { text: '我的订单', icon: 'mdi-clipboard-list', path: '/member/order' },
-  { text: '我的收藏', icon: 'mdi-heart', path: '/member/favorite' },
-  { text: '账户安全', icon: 'mdi-shield-lock', path: '/member/security' }
+  // { text: '我的收藏', icon: 'mdi-heart', path: '/member/favorite' },
+  // { text: '账户安全', icon: 'mdi-shield-lock', path: '/member/security' }
 ]
 
 // 检查当前路由是否激活

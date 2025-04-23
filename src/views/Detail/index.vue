@@ -1,7 +1,11 @@
 <template>
   <div class="fs-flower-goods-page">
-    <div class="container pb-10" v-if="detailData">
-      <v-card elevation="2" rounded="lg">
+    <!-- 加载状态 -->
+    <div class="container pb-10">
+      <div v-if="detailLoading" class="loading-container">
+        <v-progress-circular indeterminate size="64" color="primary" />
+      </div>
+      <v-card v-else elevation="2" rounded="lg">
         <!-- 面包屑导航 -->
         <v-card-title class="px-6 pt-6 pb-4">
           <v-breadcrumbs :items="breadcrumbItems" class="px-0">
@@ -17,7 +21,7 @@
             <div class="goods-info">
               <!-- 图片预览区 -->
               <div class="media">
-                <ImageView class="product-gallery" :image-list="detailData.mainPictures || []" />
+                <ImageView class="product-gallery" :image-list="detailData?.mainPictures || []" />
               </div>
 
               <!-- 商品规格 -->
@@ -69,7 +73,7 @@
                     <!-- 操作按钮 -->
                     <div class="action-buttons">
                       <v-btn color="primary-darken-1" size="x-large" class="mr-4" prepend-icon="mdi-cart-plus"
-                        @click="handleAddCart" :loading="addingToCart">
+                        :loading="addingToCartLoading" @click="handleAddCart">
                         {{ $t('detail.product.addToCart') }}
                       </v-btn>
                       <v-btn color="error" size="x-large" @click="handleBuyNow">
@@ -114,11 +118,6 @@
         </v-card-text>
       </v-card>
     </div>
-
-    <!-- 加载状态 -->
-    <div v-else class="loading-container">
-      <v-progress-circular indeterminate size="64" color="primary" />
-    </div>
   </div>
 </template>
 
@@ -149,9 +148,9 @@ const { saveDraft } = useOrderDraft()
 
 const detailData = ref(null)
 const count = ref(1)
-const addingToCart = ref(false)
+const addingToCartLoading = ref(false)
 const activeTab = ref('details')
-
+const detailLoading = ref(true)
 
 // 面包屑导航
 const breadcrumbItems = computed(() => [
@@ -171,7 +170,8 @@ const fetchDetailData = async (id = route.params.id) => {
     detailData.value = res
   } catch (error) {
     console.error(t('detail.product.failedToLoad'), error)
-    // toast.error(t('detail.product.failedToLoad'))
+  } finally {
+    detailLoading.value = false
   }
 }
 
@@ -184,7 +184,7 @@ const checkQuantity = () => {
 }
 
 const addToCart = async () => {
-  addingToCart.value = true
+  addingToCartLoading.value = true
   try {
     await cartStore.addCart({
       ...detailData.value,
@@ -197,7 +197,7 @@ const addToCart = async () => {
   } catch (error) {
     console.error('添加到购物车失败:', error)
   } finally {
-    addingToCart.value = false
+    addingToCartLoading.value = false
   }
 }
 
@@ -205,6 +205,7 @@ const debouncedAddCart = useDebounceFn(addToCart, 500)
 
 const handleAddCart = async () => {
   if (!checkQuantity()) return
+  if (addingToCartLoading.value) return // 防止重复点击
   debouncedAddCart()
 }
 
@@ -276,13 +277,6 @@ onBeforeRouteUpdate((to) => {
     .spec {
       width: 500px;
     }
-  }
-
-  .price-section {
-    // .text-h5::before {
-    //   content: '¥';
-    //   font-size: 0.8em;
-    // }
   }
 
   .quantity-section .stock-info {

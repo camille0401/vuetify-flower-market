@@ -1,5 +1,5 @@
 <template>
-  <v-card class="fs-order-card" :class="`status-${order.status}`" elevation="2" outlined>
+  <v-card class="fs-order-card" :class="`status-${order.status}`" outlined>
     <!-- 订单头部 -->
     <v-card-title class="d-flex align-center justify-space-between pa-4">
       <div class="d-flex flex-column flex-md-row gap-2 align-center">
@@ -90,19 +90,12 @@ const props = defineProps({
   order: {
     type: Object,
     required: true,
-    validator: (value) => {
-      return [
-        'id',
-        'status',
-        'createdAt',
-        'items',
-        'totalAmount'
-      ].every(key => key in value)
-    }
+    default: () => ({})
   },
   orderTabs: {
     type: Array,
-    required: true
+    required: true,
+    default: () => []
   }
 })
 
@@ -140,14 +133,15 @@ const formatTime = (time) => {
 
 <style lang="scss" scoped>
 .fs-order-card {
-  border-radius: 12px;
+  border-radius: 16px;
   padding: 0;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  overflow: hidden;
-  transition: box-shadow 0.3s ease;
+  border: 1px solid #eaeaea;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
 
   &:hover {
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
   }
 
   &.status-0 {
@@ -177,26 +171,21 @@ const formatTime = (time) => {
 
 .order-items-table {
   th {
-    font-weight: 600;
-    font-size: 0.875rem;
-    background-color: #f9f9f9;
-    color: #555;
-    border-bottom: 1px solid #eee;
+    // background-color: #fafafa;
+    color: #666;
+    border-bottom: 1px solid #eaeaea;
+    font-size: 0.85rem;
   }
 
   td {
-    font-size: 0.875rem;
-    vertical-align: middle;
-    padding: 12px 8px;
-  }
-
-  tr:not(:last-child) {
-    border-bottom: 1px solid #f0f0f0;
+    font-size: 0.85rem;
+    padding: 10px 6px;
   }
 
   v-img {
     border-radius: 8px;
     object-fit: cover;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
   }
 }
 

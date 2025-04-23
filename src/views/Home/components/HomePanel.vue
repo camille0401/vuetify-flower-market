@@ -1,5 +1,5 @@
 <template>
-  <v-card class="home-panel mb-8" elevation="0">
+  <v-card class="home-panel mb-8" elevation="0" color="background">
     <div class="panel-header">
       <v-card-title class="text-h4 font-weight-black text-primary-darken-2">
         {{ title }}
@@ -7,7 +7,7 @@
       </v-card-title>
       <v-divider class="my-4 border-opacity-50" />
     </div>
-    <v-card-text class="panel-content">
+    <v-card-text class="panel-content px-0">
       <slot name="main"></slot>
     </v-card-text>
   </v-card>
@@ -29,8 +29,12 @@ defineProps({
 
 <style scoped lang="scss">
 .home-panel {
+  border-radius: 16px;
+  overflow: hidden;
+
   .panel-header {
     position: relative;
+    padding-bottom: 0;
 
     &::after {
       content: '';

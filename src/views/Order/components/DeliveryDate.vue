@@ -7,7 +7,7 @@
       </v-btn>
     </v-toolbar>
     <v-card-text>
-      <v-date-picker v-model="selectedDate" width="100%" locale="ja" event-color="primary" :min="minDate" :max="maxDate"
+      <v-date-picker v-model="selectedDate" width="100%" event-color="primary" :min="minDate" :max="maxDate"
         :allowed-dates="allowedDates" :events="dateEvents" @update:modelValue="onDateSelected" :first-day-of-week="0">
       </v-date-picker>
 
@@ -49,14 +49,18 @@
 </template>
 
 <script setup>
-import { ref, computed, watch } from 'vue'
+import { ref, computed } from 'vue'
 import { useToast } from 'vue-toastification'
+import { useI18n } from 'vue-i18n'
 import dayjs from 'dayjs'
-import 'dayjs/locale/ja'
-import { isHolidayAt } from 'japanese-holidays'
+// import 'dayjs/locale/zh-cn'
+// import { isHolidayAt } from 'japanese-holidays'
 
-// 日本語設定
-dayjs.locale('ja')
+// 设置中文语言
+const { t, d, locale } = useI18n()
+dayjs.locale(locale.value)
+
+console.log('当前语言：', locale.value)
 
 const emit = defineEmits(['close', 'selected'])
 
@@ -65,61 +69,51 @@ const toast = useToast()
 // 日付選択
 const selectedDate = ref(null)
 const currentMonth = ref(dayjs())
-const minDate = dayjs().format('YYYY-MM-DD') // 今日以降
-const maxDate = dayjs().add(1, 'month').endOf('month').format('YYYY-MM-DD') // 1ヶ月後まで
+const minDate = dayjs().format('YYYY-MM-DD')
+const maxDate = dayjs().add(12, 'month').endOf('month').format('YYYY-MM-DD')
 
 // 時間帯選択
 const selectedTime = ref(null)
-const timeSlots = [
-  { label: '午前中 (9:00-12:00)', value: 'morning', available: true },
-  { label: '12:00-14:00', value: 'noon', available: true },
-  { label: '14:00-17:00', value: 'afternoon', available: true },
-  { label: '17:00-20:00', value: 'evening', available: false },
-  { label: '19:00-21:00', value: 'night', available: true }
-]
+const timeSlots = computed(() => [
+  { label: t('order.checkout.deliveryDateDialog.timeSlots.morning'), value: 'morning', available: true },
+  { label: t('order.checkout.deliveryDateDialog.timeSlots.noon'), value: 'noon', available: true },
+  { label: t('order.checkout.deliveryDateDialog.timeSlots.afternoon'), value: 'afternoon', available: true },
+  { label: t('order.checkout.deliveryDateDialog.timeSlots.evening'), value: 'evening', available: false },
+  { label: t('order.checkout.deliveryDateDialog.timeSlots.night'), value: 'night', available: true }
+])
 
 // 許可される日付の条件
 const allowedDates = (date) => {
   const d = dayjs(date)
-  // 日本の祝日チェック
-  const holidayInfo = isHolidayAt(d.toDate())
-  // 土日祝は配達不可
-  const isWeekend = d.day() === 0 || d.day() === 6 // 日曜(0) or 土曜(6)
-  const isHoliday = !!holidayInfo
-
+  const isWeekend = d.day() === 0 || d.day() === 6
+  // const isHoliday = !!isHolidayAt(d.toDate())
+  // return !isWeekend && !isHoliday
   return !isWeekend
 }
 
 // カレンダーに表示するイベント
 const dateEvents = computed(() => {
-  return (date) => {
-    return allowedDates(date) ? 'available' : undefined
-  }
-})
-
-// 利用可能な時間帯
-const availableTimeSlots = computed(() => {
-  if (!selectedDate.value) return []
-
-  // 特別な時間帯制限がないのでそのまま返す
-  return timeSlots
+  return (date) => allowedDates(date) ? 'available' : undefined
 })
 
 // 選択完了チェック
-const isSelectionComplete = computed(() => {
-  return selectedDate.value
-})
+const isSelectionComplete = computed(() => !!selectedDate.value)
 
-// 表示用の選択日付
+// 表示用の選択日付（i18n 対応）
 const selectedDateDisplay = computed(() => {
   if (!selectedDate.value) return ''
-  return dayjs(selectedDate.value).format('YYYY年M月D日 (ddd)')
+  return d(new Date(selectedDate.value), {
+    weekday: 'short',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  })
 })
 
 // 表示用の選択時間
 const selectedTimeDisplay = computed(() => {
   if (!selectedTime.value) return ''
-  return timeSlots.find(slot => slot.value === selectedTime.value)?.label || ''
+  return timeSlots.value.find(slot => slot.value === selectedTime.value)?.label || ''
 })
 
 // 日付選択時の処理
@@ -128,21 +122,13 @@ const onDateSelected = (date) => {
   selectedTime.value = null
 }
 
-// 曜日の略称を取得 (日, 月, 火, etc.)
-const getWeekdayAbbr = (date) => {
-  const weekdays = ['日', '月', '火', '水', '木', '金', '土']
-  return weekdays[dayjs(date).day()]
-}
-
 // 選択確定
 const confirmSelection = () => {
   if (!isSelectionComplete.value) return
-
-  // toast.success(`配達日時が確定しました: ${selectedDateDisplay.value} ${selectedTimeDisplay.value}`)
-  // ここでAPI呼び出しや親コンポーネントへのイベント発行
   emit('selected', selectedDate.value)
   emit('close')
 }
+
 
 
 </script>

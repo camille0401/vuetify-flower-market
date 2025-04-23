@@ -152,10 +152,13 @@
 import { ref, computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { getOrderDetailAPI } from '@/apis/order'
-import { useI18n } from 'vue-i18n'
 import dayjs from 'dayjs'
+import 'dayjs/locale/ja'
+import 'dayjs/locale/zh-cn'
+import { useI18n } from 'vue-i18n'
 
-const { t } = useI18n()
+const { t, locale } = useI18n()
+
 const route = useRoute()
 const orderDetail = ref({})
 const loading = ref(true)
@@ -168,13 +171,13 @@ const ORDER_STATUS_CONFIG = {
     get title() { return t('order.detail.status.confirm.title') },
     get description() { return t('order.detail.status.confirm.desc') }
   },
-  1: { // 待支付
+  1: { // 待签收
     type: 'warning',
     icon: 'mdi-credit-card-clock-outline',
     get title() { return t('order.detail.status.waitPay.title') },
     get description() { return t('order.detail.status.waitPay.desc') }
   },
-  2: { // 已支付
+  2: { // 待支付
     type: 'success',
     icon: 'mdi-check-circle-outline',
     get title() { return t('order.detail.status.success.title') },
@@ -192,7 +195,7 @@ const ORDER_STATUS_CONFIG = {
     get title() { return t('order.detail.status.cancel.title') },
     get description() { return t('order.detail.status.cancel.desc') }
   },
-  5: { // 已退款
+  5: { // 退款/售后
     type: 'success',
     icon: 'mdi-cash-refund',
     get title() { return t('order.detail.status.refund.title') },
@@ -212,9 +215,12 @@ const statusConfig = computed(() => {
 })
 
 const selectedDateDisplay = computed(() => {
-  return orderDetail.value?.deliveryTime
-    ? dayjs(orderDetail.value.deliveryTime).format('YYYY年MM月DD日 (dddd)')
-    : '等待商家确认发货时间'
+  if (!orderDetail.value?.deliveryTime) return t('order.detail.deliveryTimeFailedMessage')
+  // 设置 dayjs 当前语言
+  const currentLocale = locale.value === 'zh-CN' ? 'zh-cn' : locale.value
+  dayjs.locale(currentLocale)
+  const formatString = currentLocale === 'ja' ? 'YYYY年M月D日 (ddd)' : 'YYYY年M月D日 dddd'
+  return dayjs(orderDetail.value.deliveryTime).format(formatString)
 })
 
 const fullAddress = computed(() => {
