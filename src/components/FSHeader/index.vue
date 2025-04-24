@@ -4,7 +4,7 @@
       <v-row align="center" justify="space-between">
         <!-- Logo -->
         <v-col cols="12" md="auto">
-          <FSLogo />
+          <Logo />
         </v-col>
 
         <!-- 搜索区域 -->
@@ -20,7 +20,7 @@
 
         <!-- 购物车图标，隐藏在小屏 -->
         <v-col cols="12" md="auto" class="d-none d-md-flex">
-          <CartIcon />
+          <CartIcon class="d-none d-md-flex" />
         </v-col>
       </v-row>
     </v-container>
@@ -31,7 +31,7 @@
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-import FSLogo from '@/components/FSLogo.vue';
+import Logo from './Logo.vue';
 import CartIcon from '@/views/CartList/components/CartIcon.vue';
 
 const { t } = useI18n();
@@ -73,7 +73,17 @@ const onSearch = () => {
     display: flex;
     align-items: center;
     gap: 12px;
-    width: 100%;
+    flex: 1;
+    padding: 0 20px;
+
+    /* Stack search items on small screens */
+    @media (max-width: 768px) {
+      flex-direction: column;
+      gap: 8px;
+      padding: 0;
+      width: 100%;
+      /* Ensure the search field takes full width on small screens */
+    }
 
     .v-text-field {
       flex: 1;
@@ -92,6 +102,11 @@ const onSearch = () => {
       .v-field {
         border-radius: 8px;
       }
+
+      @media (max-width: 768px) {
+        width: 100%;
+        /* Ensure input takes full width on small screens */
+      }
     }
 
     .v-btn {
@@ -105,6 +120,11 @@ const onSearch = () => {
 
       &:hover {
         background-color: var(--v-theme-primary-darken-1);
+      }
+
+      @media (max-width: 768px) {
+        width: 100%;
+        /* Make button full width on small screens */
       }
     }
   }

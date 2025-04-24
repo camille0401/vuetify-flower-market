@@ -15,7 +15,6 @@
     align-items: center;
     justify-content: center;
     width: 100%;
-    height: 100px;
     font-size: 25px;
     line-height: 60px;
     font-weight: 700;
@@ -24,14 +23,10 @@
     // background: url('@/assets/images/logo.png') no-repeat center / contain;
 
     @media (max-width: 768px) {
-      /* Adjust for smaller screens */
-      height: 80px;
       font-size: 20px;
     }
 
     @media (max-width: 480px) {
-      /* Adjust for very small screens */
-      height: 70px;
       font-size: 18px;
     }
   }
