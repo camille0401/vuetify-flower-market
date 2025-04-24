@@ -105,7 +105,6 @@ const toRegister = () => {
   flex-direction: column;
   gap: 10px;
   width: 500px;
-  margin-right: 20px;
   padding: 30px;
   background-color: #ffffff;
   border-radius: 20px;
