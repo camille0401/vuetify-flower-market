@@ -1,6 +1,6 @@
 <template>
   <!-- 注册 -->
-  <div class="register-form-box">
+  <div class="register-form-box pa-8">
     <h1 class="text-h5 text-center">{{ $t('global.register.createAccount') }}</h1>
     <p class="text-subtitle-2 text-center mb-10" style="color: #757575;">{{ $t('global.register.welcome') }}</p>
     <v-form ref="registerFormRef" validate-on="blur" @submit.prevent="doRegister">
@@ -100,14 +100,14 @@ const doRegister = async () => {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  width: 500px;
-  padding: 30px;
   background-color: #ffffff;
   border-radius: 20px;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 
   .forget {
-    min-height: 56px;
+    height: 56px;
+    line-height: 56px;
   }
 
   .span {

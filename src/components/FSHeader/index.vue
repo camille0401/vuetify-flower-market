@@ -19,8 +19,8 @@
         </v-col>
 
         <!-- 购物车图标，隐藏在小屏 -->
-        <v-col cols="12" md="auto" class="d-none d-md-flex">
-          <CartIcon class="d-none d-md-flex" />
+        <v-col cols="12" md="auto" class="d-none d-md-none d-lg-flex">
+          <CartIcon />
         </v-col>
       </v-row>
     </v-container>
@@ -74,7 +74,6 @@ const onSearch = () => {
     align-items: center;
     gap: 12px;
     flex: 1;
-    padding: 0 20px;
 
     /* Stack search items on small screens */
     @media (max-width: 768px) {

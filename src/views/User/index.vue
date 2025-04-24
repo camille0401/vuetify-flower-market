@@ -1,76 +1,56 @@
 <template>
   <div class="fs-login-page">
     <section class="login-section">
-      <div class="container">
-        <router-view></router-view>
-      </div>
+      <v-container class="fill-height d-flex align-center">
+        <v-row class="w-100" align="center" justify="center" justify-lg="end">
+          <v-col cols="12" sm="8" md="7" lg="5">
+            <transition name="fade-slide">
+              <router-view />
+            </transition>
+          </v-col>
+        </v-row>
+      </v-container>
     </section>
   </div>
 </template>
+
+
 
 <script setup>
 
 
 </script>
 
-<style scoped lang='scss'>
-.fs-login-page {
-  background: #ffffff;
-  background-position: center;
-  background-size: cover;
-}
-
-.login-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.login-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 20vh;
-
-  p {
-    font-size: 14px;
-    color: #FFF;
-  }
-}
-
-
+<style scoped lang="scss">
 .login-section {
+  position: relative;
   width: 100%;
-  background: url("@/assets/images/login-bg.jpg");
-  background-position: center;
-  background-size: cover;
-  padding: 150px 0;
+  background: url("@/assets/images/login-bg.jpg") center/cover no-repeat;
+  padding: 60px 0; // 给上下适度空间
 
-  .container {
-    display: flex;
-    justify-content: flex-end;
+  @media (max-width: 768px) {
+    padding: 30px 0; // 小屏缩小上下间距
   }
 
-}
+  // &::before {
+  //   content: "";
+  //   position: absolute;
+  //   inset: 0;
+  //   background-color: rgba(0, 0, 0, 0.2);
+  //   z-index: 1;
+  // }
 
-.login-footer {
-  padding: 0 0 50px;
-  background: #fff;
+  .v-container {
+    position: relative;
+    z-index: 2;
 
-  p {
-    text-align: center;
-    color: #999;
-    padding-top: 20px;
+    .fade-slide-enter-active {
+      transition: all 0.4s ease;
+    }
 
-    a {
-      line-height: 1;
-      padding: 0 10px;
-      color: #999;
-      display: inline-block;
-
-      ~a {
-        border-left: 1px solid #ccc;
-      }
+    .fade-slide-enter-from {
+      opacity: 0;
+      transform: translateY(10px);
     }
   }
 }

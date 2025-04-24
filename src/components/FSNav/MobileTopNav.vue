@@ -6,7 +6,7 @@
     <v-btn v-if="!userStore.token" variant="text" @click="goLogin">
       {{ $t('global.nav.user.login') }}
     </v-btn>
-    <CartIcon class="d-none d-md-none d-sm-flex" />
+    <CartIcon />
     <v-icon v-if="userStore.token" class="mr-2"></v-icon>
     <v-icon v-if="userStore.token" icon="mdi-logout" @click="$emit('logout')" />
   </v-app-bar>

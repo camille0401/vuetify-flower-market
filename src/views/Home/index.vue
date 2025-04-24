@@ -38,9 +38,9 @@ const HomeProduct = defineAsyncComponent(() => import('./components/HomeProduct.
 .home-banner {
   width: 1240px;
   height: 500px;
-  position: absolute;
-  left: 0;
-  top: 0;
+  // position: absolute;
+  // left: 0;
+  // top: 0;
 }
 
 .category-skeleton {

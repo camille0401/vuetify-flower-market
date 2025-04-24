@@ -1,6 +1,6 @@
 <!-- 忘记密码 -->
 <template>
-  <div class="forgot-form-box">
+  <div class="forgot-form-box pa-8">
     <h1 class="text-h5 text-center">{{ $t('global.forgotPassword.title') }}</h1>
     <p class="text-subtitle-2 text-center mb-10" style="color: #757575;">{{ $t('global.forgotPassword.subtitle') }}</p>
     <v-form ref="forgotFormRef" validate-on="blur" @submit.prevent="doRestPassword">
@@ -99,11 +99,10 @@ const doRestPassword = async () => {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  width: 500px;
-  padding: 30px;
   background-color: #ffffff;
   border-radius: 20px;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 
   .span {
     margin-left: 5px;
