@@ -1,7 +1,7 @@
 <template>
   <v-text-field class="mb-2" v-model="formData.password" :rules="PasswordRules"
-    :type="showPassword ? 'text' : 'password'" variant="outlined" :label="$t('global.login.validation.passwordLabel')"
-    prepend-inner-icon="mdi-lock-outline">
+    :type="showPassword ? 'text' : 'password'" density="comfortable" variant="outlined"
+    :label="$t('global.login.validation.passwordLabel')" prepend-inner-icon="mdi-lock-outline">
   </v-text-field>
 </template>
 

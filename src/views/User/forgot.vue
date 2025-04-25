@@ -1,39 +1,38 @@
 <!-- 忘记密码 -->
 <template>
-  <div class="forgot-form-box pa-8">
-    <h1 class="text-h5 text-center">{{ $t('global.forgotPassword.title') }}</h1>
-    <p class="text-subtitle-2 text-center mb-10" style="color: #757575;">{{ $t('global.forgotPassword.subtitle') }}</p>
-    <v-form ref="forgotFormRef" validate-on="blur" @submit.prevent="doRestPassword">
-      <EmailTextField v-model="forgotForm" />
-      <EmailVerificationCode :email="forgotForm.username" v-model="forgotForm.code" :type="1" />
-      <PasswordTextField v-model="forgotForm" :showPassword="showPassword" />
-      <!-- <PasswordCheckTextField v-model="forgotForm" :showPassword="showPassword" /> -->
-      <v-checkbox v-model="showPassword" color="primary" :label="$t('global.register.showPassword')"
-        hide-details></v-checkbox>
-      <br>
+  <FormPanel :title="$t('global.forgotPassword.title')" :subTitle="$t('global.forgotPassword.subtitle')"
+    :footTitle="$t('global.forgotPassword.backToLogin')" :footBtnText="$t('global.forgotPassword.login')"
+    @on-foot-btn="toLogin">
 
-      <v-btn :loading="loading" color="primary" size="x-large" type="submit" variant="elevated" block>
-        {{ $t('global.forgotPassword.resetPassword') }}
-      </v-btn>
-    </v-form>
-    <p class="p">
-      {{ $t('global.forgotPassword.backToLogin') }}
-      <span class="span" @click="toLogin">{{ $t('global.forgotPassword.login') }}</span>
-    </p>
-  </div>
+    <template #main>
+      <v-form ref="forgotFormRef" validate-on="blur" @submit.prevent="doRestPassword">
+        <EmailTextField v-model="forgotForm" />
+        <EmailVerificationCode :email="forgotForm.username" v-model="forgotForm.code" :type="1" />
+        <PasswordTextField v-model="forgotForm" :showPassword="showPassword" />
+        <v-checkbox v-model="showPassword" color="primary" :label="$t('global.register.showPassword')"
+          hide-details></v-checkbox>
+        <br>
+        <v-btn :loading="loading" color="primary" size="x-large" type="submit" variant="elevated" block>
+          {{ $t('global.forgotPassword.resetPassword') }}
+        </v-btn>
+      </v-form>
+    </template>
+
+  </FormPanel>
 </template>
 
 <script setup>
+import FormPanel from './components/FormPanel.vue'
+import EmailTextField from './components/EmailTextField.vue'
+import PasswordTextField from './components/PasswordTextField.vue'
+import PasswordCheckTextField from './components/PasswordCheckTextField.vue'
+import EmailVerificationCode from './components/EmailVerificationCode.vue'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/user'
 import { useToast } from "vue-toastification"
 import { useI18n } from 'vue-i18n' // Import useI18n to access translations
 import { forgetPwdAPI } from '@/apis/user'
-import EmailTextField from './components/EmailTextField.vue'
-import PasswordTextField from './components/PasswordTextField.vue'
-import PasswordCheckTextField from './components/PasswordCheckTextField.vue'
-import EmailVerificationCode from './components/EmailVerificationCode.vue'
 
 // Initialize i18n
 const { t } = useI18n();  // Use `t` for translation
@@ -94,29 +93,4 @@ const doRestPassword = async () => {
 }
 </script>
 
-<style lang="scss" scoped>
-.forgot-form-box {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  background-color: #ffffff;
-  border-radius: 20px;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-
-  .span {
-    margin-left: 5px;
-    font-size: 14px;
-    color: rgb(var(--v-theme-primary));
-    font-weight: 500;
-    cursor: pointer;
-  }
-
-  .p {
-    text-align: center;
-    color: black;
-    font-size: 14px;
-    margin: 5px 0;
-  }
-}
-</style>
+<style lang="scss" scoped></style>

@@ -1,15 +1,15 @@
 <template>
   <v-row no-gutters class="mb-2">
     <!-- 验证码输入框 -->
-    <v-col cols="7" class="pr-2">
+    <v-col cols="8" class="pr-2">
       <v-text-field v-model="codeValue" :label="$t('global.register.verificationCode')" :rules="CodeRules"
-        variant="outlined" prepend-inner-icon="mdi-shield-key-outline" dense />
+        density="comfortable" variant="outlined" prepend-inner-icon="mdi-shield-key-outline" dense />
     </v-col>
 
     <!-- 发送按钮 -->
-    <v-col cols="5">
+    <v-col cols="4">
       <v-btn color="primary" :loading="sending" :disabled="countdown > 0" @click="handleSend" block
-        style="height: 56px; line-height: 56px;">
+        style="height: 48px; line-height: 48px;">
         {{ countdown > 0 ? `${countdown}s` : $t('global.register.sendCode') }}
       </v-btn>
     </v-col>

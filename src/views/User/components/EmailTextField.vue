@@ -1,5 +1,5 @@
 <template>
-  <v-text-field class="mb-2" v-model="formData.username" :rules="EmailRules" variant="outlined"
+  <v-text-field class="mb-2" v-model="formData.username" :rules="EmailRules" density="comfortable" variant="outlined"
     :label="$t('global.login.validation.emailLabel')" prepend-inner-icon="mdi-email-outline">
   </v-text-field>
 </template>
@@ -7,6 +7,7 @@
 <script setup>
 import { ref, computed } from 'vue';
 import { useI18n } from 'vue-i18n';  // 引入 vue-i18n
+
 
 // 获取 i18n 实例
 const { t } = useI18n();

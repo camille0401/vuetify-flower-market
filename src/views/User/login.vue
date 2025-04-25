@@ -1,38 +1,37 @@
 <template>
-  <div class="login-form-box pa-8">
-    <h1 class="text-h5 text-center">{{ $t('global.login.welcomeBack') }}</h1>
-    <p class="text-subtitle-2 text-center mb-10" style="color: #757575;">
-      {{ $t('global.login.seeYouAgain') }}
-    </p>
-    <v-form ref="loginFormRef" validate-on="submit" @submit.prevent="doLogin">
-      <EmailTextField v-model="loginForm" />
-      <PasswordTextField v-model="loginForm" :showPassword="showPassword" />
-      <div class="d-flex justify-space-between">
-        <v-checkbox v-model="showPassword" color="primary" :label="$t('global.login.showPassword')" hide-details />
-        <v-btn class="span forget" variant="text" to="/user/forgot">{{ $t('global.login.forgotPassword') }}</v-btn>
-      </div>
-      <br>
-      <v-btn :loading="loading" color="primary" size="x-large" type="submit" variant="elevated" block>
-        {{ $t('global.login.login') }}
-      </v-btn>
-    </v-form>
-    <p class="p">
-      {{ $t('global.login.noAccount') }}
-      <span class="span" @click="toRegister">{{ $t('global.login.registerNow') }}</span>
-    </p>
-  </div>
+  <FormPanel :title="$t('global.login.welcomeBack')" :subTitle="$t('global.login.seeYouAgain')"
+    :footTitle="$t('global.login.noAccount')" :footBtnText="$t('global.login.registerNow')" @on-foot-btn="toRegister">
 
+    <template #main>
+      <v-form ref="loginFormRef" validate-on="submit" @submit.prevent="doLogin">
+        <EmailTextField v-model="loginForm" />
+        <PasswordTextField v-model="loginForm" :showPassword="showPassword" />
+        <div class="d-flex justify-space-between">
+          <v-checkbox v-model="showPassword" color="primary" :label="$t('global.login.showPassword')" hide-details />
+          <v-btn class="forget " color="primary" variant="text" to="/user/forgot">{{
+            $t('global.login.forgotPassword') }}</v-btn>
+        </div>
+        <br>
+
+        <v-btn :loading="loading" color="primary" size="x-large" type="submit" variant="elevated" block>
+          {{ $t('global.login.login') }}
+        </v-btn>
+      </v-form>
+    </template>
+
+  </FormPanel>
 </template>
 
 <script setup>
+import FormPanel from './components/FormPanel.vue'
+import EmailTextField from './components/EmailTextField.vue';
+import PasswordTextField from './components/PasswordTextField.vue';
 import { ref } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useUserStore } from '@/stores/user'
 import { useI18n } from 'vue-i18n';  // Import useI18n to access translations
 import { useToast } from "vue-toastification";
-import EmailTextField from './components/EmailTextField.vue';
-import PasswordTextField from './components/PasswordTextField.vue';
-// import SocialButtons from './components/SocialButtons.vue';
+
 
 // Initialize i18n
 const { t } = useI18n();  // Use `t` for translation
@@ -93,38 +92,19 @@ const toRegister = () => {
   loginFormRef.value.reset()
 }
 
-
-
-
 </script>
+
 <style scoped lang="scss">
-.login-form-box {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  background-color: #ffffff;
-  border-radius: 20px;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+.forget {
+  height: 56px;
+  line-height: 56px;
+}
 
-  .forget {
-    height: 56px;
-    line-height: 56px;
-  }
-
-  .span {
-    margin-left: 5px;
-    font-size: 14px;
-    color: rgb(var(--v-theme-primary));
-    font-weight: 500;
-    cursor: pointer;
-  }
-
-  .p {
-    text-align: center;
-    color: black;
-    font-size: 14px;
-    margin: 5px 0;
-  }
+.span {
+  margin-left: 5px;
+  font-size: 14px;
+  color: rgb(var(--v-theme-primary));
+  font-weight: 500;
+  cursor: pointer;
 }
 </style>
