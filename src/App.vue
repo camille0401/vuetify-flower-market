@@ -1,6 +1,6 @@
 <script setup>
 // import FSAppNavBar from './components/FSAppNavBar.vue';
-import FSNav from '@/components/FSNav/index.vue'
+import FSNav from '@/components/FSNav2/index.vue'
 // import FSHeader from './components/FSHeader.vue';
 import FSHeader from '@/components/FSHeader/index.vue';
 import FSFooter from './components/FSFooter.vue';
@@ -16,7 +16,7 @@ onMounted(() => categoryStore.getCategory())
   <v-app theme="milkTeaLight">
     <FSNav />
     <v-main>
-      <FSHeader />
+      <!-- <FSHeader /> -->
       <router-view v-slot="{ Component }">
         <v-fade-transition hide-on-leave>
           <component :is="Component" />
