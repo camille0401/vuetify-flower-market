@@ -1,17 +1,25 @@
 <template>
   <v-app-bar color="background">
     <template v-slot:prepend>
+      <!-- <div class="d-flex align-center ga-2 pl-4">
+        <v-btn v-for="cate in categoryStore.categoryList" :key="cate.id" variant="text" :to="`/category/1/${cate.id}`"
+          class="cate-item">
+          {{ cate.cname }}
+        </v-btn>
+      </div> -->
+      <v-app-bar-title class="pl-4">
+        <RouterLink class="text-h5 font-weight-bold	" to="/">
+          <span>Flower Market</span>
+        </RouterLink>
+      </v-app-bar-title>
+    </template>
+    <v-app-bar-title>
       <div class="d-flex align-center ga-2 pl-4">
         <v-btn v-for="cate in categoryStore.categoryList" :key="cate.id" variant="text" :to="`/category/1/${cate.id}`"
           class="cate-item">
           {{ cate.cname }}
         </v-btn>
       </div>
-    </template>
-    <v-app-bar-title>
-      <RouterLink class="text-h5 font-weight-bold	" to="/">
-        <span>Flower Market</span>
-      </RouterLink>
     </v-app-bar-title>
 
     <template v-slot:append>

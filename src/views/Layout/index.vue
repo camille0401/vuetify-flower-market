@@ -1,7 +1,7 @@
 <template>
   <div>
-    <LayoutHeaderFixed v-show="!mobile" />
-    <FSFullCategoryNav />
+    <!-- <LayoutHeaderFixed v-show="!mobile" /> -->
+    <!-- <FSFullCategoryNav /> -->
     <RouterView />
   </div>
 </template>
