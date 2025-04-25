@@ -1,23 +1,30 @@
 <template>
-  <v-sheet color="primary" class="category-nav-bar">
-    <div class="container category-nav-container">
-      <!-- 所有分类按钮 -->
-      <v-btn class="all-categories-btn" color="primary-darken-1" variant="flat" height="64" min-width="250" rounded="0"
-        :to="{ path: '/allCategories' }" active-class="active-category">
-        <span class="text-h6 font-weight-bold">{{ $t('global.allCategoriesText') }}</span>
-        <v-icon end>mdi-menu-down</v-icon>
-      </v-btn>
+  <section class="category-nav-bar" elevation="0">
+    <v-container class="mx-auto">
+      <v-row align="center" justify="start" class="g-2">
+        <!-- 所有分类按钮 -->
+        <v-col cols="12" sm="4" md="3" lg="2">
+          <v-btn class="all-categories-btn" color="primary-darken-1" variant="flat" height="48" block rounded
+            :to="{ path: '/allCategories' }" active-class="active-category">
+            <v-icon start>mdi-menu</v-icon>
+            <span class="font-weight-medium">{{ $t('global.allCategoriesText') }}</span>
+          </v-btn>
+        </v-col>
 
-      <!-- 分类导航列表 -->
-      <div class="category-links">
-        <v-btn v-for="category in categoryStore.categoryList" :key="category.id" class="category-link" variant="text"
-          :to="`/category/1/${category.id}`" active-class="active-category">
-          {{ category.cname }}
-        </v-btn>
-      </div>
-    </div>
-  </v-sheet>
+        <!-- 分类按钮 -->
+        <v-col v-for="category in categoryStore.categoryList" :key="category.id" cols="6" sm="4" md="3" lg="2">
+          <v-btn class="category-btn" variant="tonal" color="primary" height="40" block rounded
+            :to="`/category/1/${category.id}`" active-class="active-category">
+            {{ category.cname }}
+          </v-btn>
+        </v-col>
+      </v-row>
+    </v-container>
+  </section>
 </template>
+
+
+
 
 
 <script setup>
@@ -36,81 +43,31 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 .category-nav-bar {
-  height: 64px;
-  display: flex;
-  align-items: center;
-  background-color: rgb(var(--v-theme-primary));
-}
-
-.category-nav-container {
-  display: flex;
-  align-items: center;
-  height: 100%;
+  // background-color: #fff0f5; // 浅粉背景
+  // border-radius: 12px;
+  // padding: 12px 0;
 
   .all-categories-btn {
-    color: white;
-    transition: all 0.3s ease;
+    // background-color: #f48fb1 !important;
+    // color: white !important;
+    // font-weight: 500;
 
     &:hover,
     &.active-category {
-      background-color: rgb(var(--v-theme-primary-darken-2)) !important;
+      background-color: rgba(var(--v-theme-primary-darken-2, 0.3)) !important;
     }
   }
 
-  .category-links {
-    display: flex;
-    flex: 1;
-    height: 100%;
-    overflow-x: auto;
-    scrollbar-width: none;
+  .category-btn {
+    text-transform: none;
+    font-weight: 500;
+    color: #880e4f !important;
+    background-color: rgba(244, 143, 177, 0.15); // 粉色调柔和背景
 
-    &::-webkit-scrollbar {
-      display: none;
-    }
-
-    .category-link {
-      color: white;
-      height: 100%;
-      min-width: 120px;
-      font-size: 0.9375rem;
-      font-weight: 500;
-      text-transform: none;
-      white-space: nowrap;
-
-      &:hover {
-        background-color: rgba(255, 255, 255, 0.1) !important;
-      }
-
-      &.active-category {
-        background-color: rgba(255, 255, 255, 0.2) !important;
-        box-shadow: inset 0 -4px 0 white;
-      }
-    }
-  }
-}
-
-@media (max-width: 960px) {
-  .category-nav-container {
-    .all-categories-btn {
-      min-width: 180px;
-    }
-
-    .category-link {
-      min-width: 100px;
-      font-size: 0.875rem;
-      padding: 0 12px;
-    }
-  }
-}
-
-@media (max-width: 600px) {
-  .category-nav-container {
-    .all-categories-btn {
-      min-width: 64px;
-
-      span {
-        display: none;
-      }
+    &.active-category {
+      background-color: #f06292 !important;
+      color: white !important;
+      box-shadow: inset 0 -3px 0 white !important;
     }
   }
 }

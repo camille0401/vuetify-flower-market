@@ -1,6 +1,6 @@
 <template>
   <div class="fs-category-page">
-    <div class="container pb-10">
+    <v-container class="mx-auto pb-10">
       <v-card elevation="2" rounded="lg">
         <!-- 面包屑导航 -->
         <v-card-title class="px-6 pt-6 pb-4">
@@ -14,12 +14,15 @@
         <v-card-text class="px-6 pb-6">
           <!-- 子分类导航 -->
           <div class="category-type-box mb-6">
-            <div class="title text-subtitle-1 font-weight-bold">{{ $t('category.title') }}</div>
+            <!-- <div class="title text-subtitle-1 font-weight-bold">{{ $t('category.title') }}</div> -->
             <ul class="list">
               <li v-for="sub in subCategoryList" :key="sub.id">
-                <RouterLink active-class="active" :to="`/category/2/${sub.id}`" class="subcategory-link">
+                <!-- <RouterLink active-class="active" :to="`/category/2/${sub.id}`" class="subcategory-link">
                   {{ sub.cname }}
-                </RouterLink>
+                </RouterLink> -->
+                <v-btn active-class="active" :to="`/category/2/${sub.id}`" variant="text" size="small">
+                  {{ sub.cname }}
+                </v-btn>
               </li>
             </ul>
           </div>
@@ -39,10 +42,13 @@
             <v-progress-circular indeterminate color="primary" />
           </div>
 
-          <div v-else-if="goodsList.length > 0" class="category-goods-list">
-            <FSGoodsItem v-for="goods in goodsList" :key="goods.id" :goods="goods" imgHeight="250px"
-              class="goods-item" />
-          </div>
+          <!-- 商品列表 -->
+          <v-row v-else-if="goodsList.length > 0" class="category-goods-list pa-0">
+            <v-col v-for="goods in goodsList" :key="goods.id" cols="12" sm="6" md="4" lg="3" class="goods-item">
+              <FSGoodsItem :goods="goods" :img-height="imgHeight" />
+            </v-col>
+          </v-row>
+
 
           <div v-else class="empty-box py-10">
             <v-empty-state color="primary" size="40" icon="mdi-magnify" :text="$t('category.emptyText')"
@@ -54,7 +60,8 @@
             @update:modelValue="handlePageChange" class="mt-6" color="primary" />
         </v-card-text>
       </v-card>
-    </div>
+
+    </v-container>
   </div>
 </template>
 
@@ -64,10 +71,21 @@ import { ref, computed, watch, onUnmounted } from 'vue'
 import { useRoute, onBeforeRouteUpdate } from 'vue-router'
 import { getCategoryAPI, getCategoryGoodsAPI } from "@/apis/category"
 import { useI18n } from 'vue-i18n'
+import { useDisplay } from 'vuetify'
+
+
 
 const { t } = useI18n()
 
 const route = useRoute()
+
+const { xs, sm, md, lg } = useDisplay()
+const imgHeight = computed(() => {
+  if (xs.value) return '160px'      // 超小屏
+  if (sm.value) return '200px'      // 移动端
+  if (md.value) return '220px'      // 平板
+  return '250px'                    // PC
+})
 
 // 数据状态
 const categoryData = ref({})
@@ -196,7 +214,7 @@ onUnmounted(() => {
     .list {
       display: flex;
       flex-wrap: wrap;
-      gap: 4px 0;
+      gap: 4px;
 
       li {
         display: flex;
@@ -225,21 +243,25 @@ onUnmounted(() => {
     }
   }
 
-  // 商品列表
   .category-goods-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 20px;
-    padding: 0 10px;
 
     .goods-item {
-      transition: transform 0.3s ease;
+      // padding: 8px;
 
-      &:hover {
-        transform: translateY(-5px);
+      .v-card {
+        border-radius: 12px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+        &:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+        }
       }
     }
   }
+
+
+
 
   // 空状态
   .empty-box {
@@ -247,31 +269,6 @@ onUnmounted(() => {
     display: flex;
     align-items: center;
     justify-content: center;
-  }
-}
-
-// 响应式设计
-@media (max-width: 960px) {
-  .fs-category-page {
-    .category-goods-list {
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 15px;
-    }
-  }
-}
-
-@media (max-width: 600px) {
-  .fs-category-page {
-    .category-type-box {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 12px;
-    }
-
-    .category-goods-list {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
-    }
   }
 }
 </style>

@@ -1,23 +1,30 @@
 <template>
   <div class="app-header-sticky" :class="{ show: y > 98 }">
     <v-sheet color="background" elevation="4">
-      <div class="container header-sticky-box">
-        <FSLogo />
-        <!-- 导航区域 -->
-        <div class="right-box">
-          <FSCategoryNav position="fixed" />
-        </div>
-      </div>
+      <v-container class="mx-auto ">
+        <v-row align="center" class="py-4">
+          <!-- 左侧 Logo -->
+          <v-col cols="12" sm="4" md="3" class="d-flex align-center">
+            <Logo />
+          </v-col>
+
+          <!-- 右侧分类导航 -->
+          <v-col cols="12" sm="8" md="9" class="d-flex justify-end align-center right-box">
+            <FSCategoryNav position="fixed" />
+          </v-col>
+        </v-row>
+      </v-container>
     </v-sheet>
   </div>
 </template>
 
-<script setup name="LayoutHeaderFixed">
-import FSLogo from "@/components/FSLogo.vue";
-import FSCategoryNav from "@/components/FSCategoryNav.vue";
-import { useScroll } from '@vueuse/core';
 
-const { y } = useScroll(window);
+<script setup name="LayoutHeaderFixed">
+import Logo from "@/components/FSHeader/Logo.vue"
+import FSCategoryNav from "@/components/FSCategoryNav.vue"
+import { useScroll } from '@vueuse/core'
+
+const { y } = useScroll(window)
 
 </script>
 <style scoped lang='scss'>
@@ -36,9 +43,12 @@ const { y } = useScroll(window);
   transform: translateY(-100%);
   opacity: 0;
 
+  transform: translateY(-100%);
+  opacity: 0;
+  transition: all 0.3s linear;
+
   // 状态二：移除平移 + 完全不透明
   &.show {
-    transition: all 0.3s linear;
     transform: none;
     opacity: 1;
   }
@@ -47,12 +57,16 @@ const { y } = useScroll(window);
     display: flex;
     align-items: center;
 
-    .right-box {
-      display: flex;
-      align-items: center;
-      width: calc(100% - 250px);
-    }
 
+  }
+
+  .right-box {
+    gap: 8px;
+
+    @media (max-width: 600px) {
+      justify-content: center;
+      margin-top: 8px;
+    }
   }
 
 }

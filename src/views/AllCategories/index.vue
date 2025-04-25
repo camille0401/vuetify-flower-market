@@ -1,6 +1,6 @@
 <template>
   <div class="fs-all-categories-page">
-    <div class="container m-top-20 pb-10">
+    <v-container class="mx-auto pb-10">
       <v-card elevation="2" rounded="lg">
         <v-card-title class="text-h6 px-6 pt-6 pb-4">
           <v-breadcrumbs :items="breadcrumbs" class="px-0">
@@ -13,10 +13,9 @@
         <v-card-text class="px-6 pb-6">
           <!-- 顶部分类快速导航 -->
           <div class="strain-box mt-4">
-            <RouterLink v-for="item in categoryStore.categoryList" :key="item.id" :to="`/category/1/${item.id}`"
-              class="category-link">
-              {{ item.cname }}
-            </RouterLink>
+            <v-btn v-for="item in categoryStore.categoryList" :key="item.id" :to="`/category/1/${item.id}`"
+              color="primary-darken-2" variant="outlined" height="50" class="category-link">
+              {{ item.cname }}</v-btn>
           </div>
 
           <!-- 详细分类列表 -->
@@ -31,10 +30,9 @@
                 <li class="item-menu">
                   <h4 class="title pa-3">{{ $t('allCategories.title') }}</h4>
                   <div class="list pa-3">
-                    <RouterLink v-for="child in category.children" :key="child.id" :to="`/category/2/${child.id}`"
-                      class="subcategory-link">
-                      {{ child.cname }}
-                    </RouterLink>
+                    <v-btn v-for="child in category.children" :key="child.id" :to="`/category/2/${child.id}`"
+                      variant="text">
+                      {{ child.cname }}</v-btn>
                   </div>
                 </li>
               </ul>
@@ -42,7 +40,7 @@
           </div>
         </v-card-text>
       </v-card>
-    </div>
+    </v-container>
   </div>
 </template>
 
@@ -79,29 +77,16 @@ const breadcrumbs = [
     margin-bottom: 24px;
 
     .category-link {
-      height: 50px;
-      background: #f8f9fa;
-      border: 1px solid #e9ecef;
-      border-radius: 8px;
+      text-transform: none; // 取消默认大写
       font-size: 14px;
       font-weight: 500;
-      text-align: center;
-      line-height: 50px;
-      color: rgb(var(--v-theme-primary-darken-1));
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      text-decoration: none;
+      border-radius: 8px;
 
       &:hover {
-        background-color: rgb(var(--v-theme-primary-lighten-5));
+        background-color: rgb(var(--v-theme-primary-lighten-5)) !important;
         transform: translateY(-2px);
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
       }
-
-      // &.active-category {
-      //   background-color: rgb(var(--v-theme-primary-base));
-      //   color: white;
-      //   border-color: rgb(var(--v-theme-primary-base));
-      // }
     }
   }
 
@@ -164,6 +149,12 @@ const breadcrumbs = [
 // 响应式设计
 @media (max-width: 768px) {
   .fs-all-categories-page {
+    padding: 0 16px;
+
+    .strain-name {
+      font-size: 16px;
+    }
+
     .strain-box {
       grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
       gap: 12px;

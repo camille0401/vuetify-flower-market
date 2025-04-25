@@ -1,7 +1,7 @@
 <template>
   <header class="fs-app-header">
     <v-container class="mx-auto">
-      <v-row align="center" justify="space-between">
+      <v-row align="center" justify="space-between" class="py-4">
         <!-- Logo -->
         <v-col cols="12" md="auto">
           <Logo />
@@ -60,7 +60,6 @@ const onSearch = () => {
   background-color: var(--v-theme-background);
 
   .v-row {
-    padding: 12px 20px;
 
     /* Ensure responsive design on mobile */
     @media (max-width: 768px) {

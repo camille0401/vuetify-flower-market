@@ -1,5 +1,5 @@
 <template>
-  <div class="home-product py-10">
+  <div class="home-product py-6">
     <HomePanel v-for="cate in goodsProduct" :key="cate.id" :title="cate.cname"
       :sub-title="$t('global.homeProductSubTitle')">
       <template #main>
@@ -161,7 +161,7 @@ onMounted(() => {
       }
 
       .goods-list {
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(2, 1fr);
       }
     }
   }

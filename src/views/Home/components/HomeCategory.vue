@@ -28,9 +28,11 @@ const categoryStore = useCategoryStore()
 
 <style scoped lang="scss">
 .home-category {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 250px;
   height: 500px;
-  position: relative;
   z-index: 99;
 
   .menu {

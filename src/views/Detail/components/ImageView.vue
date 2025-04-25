@@ -2,9 +2,10 @@
   <div class="fs-goods-image">
     <!-- 左侧大图-->
     <div class="middle" ref="target">
-      <img :src="imageList[activeIndex]" alt="" width="100%" height="100%" />
+      <!-- <img :src="imageList[activeIndex]" alt="" width="100%" height="100%" /> -->
+      <v-img :aspect-ratio="1" class="bg-white" :src="imageList[activeIndex]" width="100%" cover></v-img>
       <!-- 蒙层小滑块 -->
-      <div v-show="!isOutside" class="layer" :style="{ left: `${left}px`, top: `${top}px` }"></div>
+      <!-- <div v-show="!isOutside" class="layer" :style="{ left: `${left}px`, top: `${top}px` }"></div> -->
     </div>
     <!-- 小图列表 -->
     <!-- <ul class="small">
@@ -24,19 +25,22 @@
       </v-slide-group>
     </div>
     <!-- 放大镜大图 -->
-    <div class="large" :style="[
+    <!-- <div class="large" :style="[
       {
         backgroundImage: `url(${imageList[activeIndex]})`,
         backgroundPositionX: `${positionX}px`,
         backgroundPositionY: `${positionY}px`,
       },
-    ]" v-show="!isOutside"></div>
+    ]" v-show="!mobile && !isOutside"></div> -->
   </div>
 </template>
 
 <script setup>
 import { ref, watch } from 'vue'
 import { useMouseInElement } from '@vueuse/core'
+import { useDisplay } from 'vuetify'
+
+const { mobile } = useDisplay()
 
 defineProps({
   imageList: {
@@ -94,27 +98,27 @@ watch([elementX, elementY, isOutside], () => {
 
 <style scoped lang="scss">
 .fs-goods-image {
-  width: 400px;
-  min-height: 400px;
+  width: 100%;
+  // min-height: 400px;
   position: relative;
 
   .middle {
-    width: 400px;
-    height: 400px;
+    width: 100%;
+    // height: 400px;
     background: #f5f5f5;
 
-    img {
-      width: 100%;
-      height: 100%;
-    }
+    // img {
+    //   width: 100%;
+    //   height: 100%;
+    // }
   }
 
   .large {
     position: absolute;
     top: 0;
     left: 412px;
-    width: 400px;
-    height: 400px;
+    width: 100%;
+    // height: 400px;
     z-index: 500;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     background-repeat: no-repeat;
@@ -134,7 +138,7 @@ watch([elementX, elementY, isOutside], () => {
   }
 
   .small-img-box {
-    width: 400px;
+    width: 100%;
     min-height: 68px;
 
     img {

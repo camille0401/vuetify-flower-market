@@ -13,6 +13,7 @@ const milkTeaLight = {
     surface: '#FFFFFF',
     primary: '#E8B4B8', // 奶茶粉主色
     'primary-darken-1': '#D99A9F',
+    'primary-darken-2': '#C1858C',
     'primary-lighten-1': '#F0C8CA',
     secondary: '#D9A79C', // 奶茶棕色
     'secondary-darken-1': '#C99588',

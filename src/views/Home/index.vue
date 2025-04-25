@@ -1,18 +1,21 @@
 <template>
-  <div class="fs-home-page pb-10">
-    <div class='container home-content'>
+  <section class="fs-home-page pb-10">
+    <v-container class="mx-auto position-relative pa-0">
+      <!-- 首页横幅 -->
       <div class="home-banner">
-        <img src="@/assets/images/login-bg.jpg" width="100%" height="500" alt="">
+        <v-img width="100%" height="100%" aspect-ratio="16/9" cover :src="bannerImg"></v-img>
       </div>
+
       <!-- 分类骨架屏 -->
       <Suspense>
         <template #default>
-          <HomeCategory />
+          <HomeCategory v-show="!mobile" />
         </template>
         <template #fallback>
-          <v-skeleton-loader type="article" height="500px" class="my-6" color="rgba(0, 0, 0, 0.4)" />
+          <v-skeleton-loader v-show="!mobile" type="article" height="500px" class="my-6" color="rgba(0, 0, 0, 0.4)" />
         </template>
       </Suspense>
+
       <!-- 商品骨架屏 -->
       <Suspense>
         <template #default>
@@ -22,25 +25,30 @@
           <v-skeleton-loader type="image, text" height="400px" class="my-6" />
         </template>
       </Suspense>
-    </div>
-  </div>
+    </v-container>
+  </section>
 </template>
 
 <script setup>
 import { defineAsyncComponent, Suspense } from 'vue';
+import { useDisplay } from 'vuetify';
+import bannerImg from '@/assets/images/login-bg.jpg';
+
+const { mobile } = useDisplay();
 
 const HomeCategory = defineAsyncComponent(() => import('./components/HomeCategory.vue'));
 const HomeProduct = defineAsyncComponent(() => import('./components/HomeProduct.vue'));
-
 </script>
 
 <style scoped lang="scss">
 .home-banner {
-  width: 1240px;
+  width: 100%;
   height: 500px;
-  // position: absolute;
-  // left: 0;
-  // top: 0;
+
+  /* 响应式调整 */
+  @media (max-width: 960px) {
+    height: 350px;
+  }
 }
 
 .category-skeleton {
@@ -48,5 +56,10 @@ const HomeProduct = defineAsyncComponent(() => import('./components/HomeProduct.
   height: 500px;
   position: relative;
   z-index: 99;
+}
+
+.my-6 {
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
 }
 </style>

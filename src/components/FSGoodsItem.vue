@@ -19,14 +19,15 @@ import { ref } from 'vue'
 
 defineProps({
   goods: {
-    tppe: Object,
-    default: () => { }
+    type: Object,
+    default: () => ({})
   },
   imgHeight: {
     type: String,
     default: ''
   }
 })
+
 const hover = ref(false)
 
 </script>
@@ -34,7 +35,6 @@ const hover = ref(false)
 <style lang="scss" scoped>
 .goods-item {
   position: relative;
-
   overflow: hidden;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
@@ -62,16 +62,31 @@ const hover = ref(false)
     background: rgba(var(--v-theme-background), 0.9);
     border-radius: 8px;
     backdrop-filter: blur(4px);
+    padding: 1rem;
+
+    @media (max-width: 600px) {
+      padding: 0.75rem;
+    }
   }
 
   .name {
     color: rgba(var(--v-theme-on-background), 0.9);
     min-height: 2.5em;
     line-height: 1.3;
+    font-size: 1rem;
+
+    @media (max-width: 600px) {
+      font-size: 0.95rem;
+    }
   }
 
   .price {
     letter-spacing: -0.5px;
+    font-size: 1.125rem;
+
+    @media (max-width: 600px) {
+      font-size: 1rem;
+    }
   }
 }
 </style>
