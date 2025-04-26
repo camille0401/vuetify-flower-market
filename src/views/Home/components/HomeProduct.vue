@@ -12,11 +12,13 @@
             </div>
           </RouterLink>
 
-          <ul class="goods-list">
-            <li v-for="goods in cate.goods.slice(0, 8)" :key="goods.id" class="goods-item">
-              <FSGoodsItem :goods="goods" :img-height="imgHeight" />
-            </li>
-          </ul>
+          <v-row class="goods-list" dense>
+            <v-col v-for="goods in cate.goods.slice(0, 8)" :key="goods.id" cols="6" sm="4" lg="3" class="goods-item">
+              <v-fade-transition>
+                <FSGoodsItem :goods="goods" :img-height="imgHeight" :aspect-ratio="imgAspectRatio" />
+              </v-fade-transition>
+            </v-col>
+          </v-row>
         </div>
       </template>
     </HomePanel>
@@ -31,8 +33,22 @@ import FSGoodsItem from '@/components/FSGoodsItem.vue'
 import { getHomeGoodsAPI } from '@/apis/home'
 import { useDisplay } from 'vuetify'
 
-const { mdAndDown } = useDisplay()
-const imgHeight = computed(() => mdAndDown.value ? '180px' : '200px')
+const { mdAndDown, smAndDown } = useDisplay()
+
+// 计算图片高度
+const imgHeight = computed(() => {
+  if (smAndDown.value) return '160px'    // 手机
+  if (mdAndDown.value) return '200px'     // 平板
+  return '220px'                          // PC
+})
+
+// 计算图片宽高比
+const imgAspectRatio = computed(() => {
+  if (smAndDown.value) return '3 / 4'     // 手机
+  if (mdAndDown.value) return '4 / 5'     // 平板
+  return '1 / 1'                          // PC
+})
+
 const goodsProduct = ref([])
 
 const getHomeGoods = async () => {
@@ -48,7 +64,6 @@ const getHomeGoods = async () => {
 onMounted(() => {
   getHomeGoods()
 })
-
 </script>
 
 <style scoped lang="scss">
@@ -97,7 +112,7 @@ onMounted(() => {
       .label {
         position: absolute;
         left: 0;
-        bottom: 20px; // 从底部上移留出呼吸空间
+        bottom: 20px;
         width: 100%;
         padding: 14px 16px;
         opacity: 0.9;
@@ -110,29 +125,24 @@ onMounted(() => {
         border: 1px solid rgba(255, 255, 255, 0.15);
         backdrop-filter: blur(4px);
 
-        // 文字部分
         span {
           color: #fff;
           font-size: clamp(1.25rem, 2.5vw, 1.75rem);
         }
 
-        // 箭头图标
         .v-icon {
           color: rgba(255, 255, 255, 0.9);
           font-size: 1.8em;
           opacity: 1;
         }
       }
-
-
     }
 
     .goods-list {
-      flex: 1;
-      display: grid;
-      gap: var(--grid-gap);
-      grid-template-columns: repeat(4, 1fr); // 固定 4 列
-      grid-auto-rows: 1fr;
+      // flex: 1;
+      // display: flex;
+      // flex-wrap: wrap;
+      // gap: var(--grid-gap);
 
       .goods-item {
         transition: transform 0.3s ease;
@@ -143,10 +153,10 @@ onMounted(() => {
         }
       }
     }
-
   }
 }
 
+/* 响应式调整 */
 @media (max-width: 1200px) {
   .home-product {
     --cover-width: 100%;
@@ -159,32 +169,25 @@ onMounted(() => {
       .cover {
         height: 400px;
       }
-
-      .goods-list {
-        grid-template-columns: repeat(2, 1fr);
-      }
     }
   }
 }
 
 @media (max-width: 768px) {
-  .home-product .box .goods-list {
-    grid-template-columns: repeat(2, 1fr);
+  .home-product .box .cover {
+    height: 300px;
   }
 
-  // 响应式调整
-  @media (max-width: 768px) {
-    .label {
-      bottom: 12px;
-      padding: 10px 12px;
+  .home-product .label {
+    bottom: 12px;
+    padding: 10px 12px;
 
-      span {
-        font-size: 1.1rem;
-      }
+    span {
+      font-size: 1.1rem;
+    }
 
-      .v-icon {
-        font-size: 1.4em;
-      }
+    .v-icon {
+      font-size: 1.4em;
     }
   }
 }
@@ -200,10 +203,6 @@ onMounted(() => {
         .label span {
           font-size: 1.1rem;
         }
-      }
-
-      .goods-list {
-        grid-template-columns: 1fr;
       }
     }
   }

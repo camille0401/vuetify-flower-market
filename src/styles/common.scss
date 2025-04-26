@@ -129,3 +129,11 @@ body {
   -webkit-line-clamp: 2;
   overflow: hidden;
 }
+
+.fs-box-shadow-card {
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 0.5rem 1.5rem;
+  border-radius: 0.5rem;
+  border-width: 0.1rem;
+  border-style: solid;
+  border-color: rgba(0, 0, 0, 0.1);
+}

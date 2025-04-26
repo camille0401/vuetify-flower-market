@@ -1,53 +1,47 @@
 <template>
   <v-app-bar color="background">
     <template v-slot:prepend>
-      <!-- <div class="d-flex align-center ga-2 pl-4">
-        <v-btn v-for="cate in categoryStore.categoryList" :key="cate.id" variant="text" :to="`/category/1/${cate.id}`"
-          class="cate-item">
-          {{ cate.cname }}
-        </v-btn>
-      </div> -->
-      <v-app-bar-title class="pl-4">
-        <RouterLink class="text-h5 font-weight-bold	" to="/">
-          <span>Flower Market</span>
-        </RouterLink>
-      </v-app-bar-title>
+      <RouterLink class="pl-4 text-h5 font-weight-bold" to="/">
+        <span>Flower Market</span>
+      </RouterLink>
     </template>
-    <v-app-bar-title>
-      <div class="d-flex align-center ga-2 pl-4">
-        <v-btn v-for="cate in categoryStore.categoryList" :key="cate.id" variant="text" :to="`/category/1/${cate.id}`"
-          class="cate-item">
+
+    <v-container class="mx-auto">
+      <div class="d-flex align-center justify-center ga-2 pl-4">
+        <v-btn to="/allCategories" active-color="primary-darken-1" variant="text">所有分类</v-btn>
+        <v-btn v-for="cate in categoryStore.categoryList" :key="cate.id" active-color="primary-darken-1" variant="text"
+          :to="`/category/1/${cate.id}`" class="cate-item">
           {{ cate.cname }}
         </v-btn>
       </div>
-    </v-app-bar-title>
+    </v-container>
 
     <template v-slot:append>
       <div class="d-flex align-center ga-2 pr-4">
 
-        <RouterLink to="/member/order" class="nav-item px-4 ga-1 ">
-          <v-icon icon="mdi mdi-shopping-search"></v-icon>
-          <span>搜索</span>
+        <RouterLink to="/member/order" class="nav-item px-4 ga-1">
+          <v-icon icon="mdi-shopping-search"></v-icon>
+          <span>{{ $t('global.nav.user.search') }}</span>
         </RouterLink>
 
-        <RouterLink to="/member/order" class="nav-item px-4 ga-1 ">
-          <v-icon icon="mdi mdi-flower-poppy"></v-icon>
-          <span>我的订单</span>
+        <RouterLink to="/member/order" class="nav-item px-4 ga-1">
+          <v-icon icon="mdi-flower-poppy"></v-icon>
+          <span>{{ $t('global.nav.user.myOrder') }}</span>
         </RouterLink>
 
-        <RouterLink to="/member/info" class="nav-item px-4 ga-1 ">
-          <v-icon icon="mdi mdi-account"></v-icon>
-          <span>我的账户</span>
+        <RouterLink to="/member/info" class="nav-item px-4 ga-1">
+          <v-icon icon="mdi-account"></v-icon>
+          <span>{{ $t('global.nav.user.myAccount') }}</span>
         </RouterLink>
 
-        <RouterLink to="/cartlist" class="nav-item px-4 ga-1 ">
-          <v-icon icon="mdi mdi-cart"></v-icon>
-          <span>购物车</span>
+        <RouterLink to="/cartlist" class="nav-item px-4 ga-1">
+          <v-icon icon="mdi-cart"></v-icon>
+          <span>{{ $t('global.nav.user.cart') }}</span>
         </RouterLink>
 
-        <RouterLink v-if="userStore?.token" to="/cartlist" class="nav-item px-4 ga-1 ">
-          <v-icon icon="mdi mdi-logout"></v-icon>
-          <span>退出</span>
+        <RouterLink v-if="userStore?.token" class="nav-item px-4 ga-1" to="" @click="$emit('logout')">
+          <v-icon icon="mdi-logout"></v-icon>
+          <span> {{ $t('global.nav.user.logout') }}</span>
         </RouterLink>
       </div>
     </template>
@@ -60,6 +54,10 @@ import { useCategoryStore } from '@/stores/category'
 
 const userStore = useUserStore()
 const categoryStore = useCategoryStore()
+
+const emit = defineEmits(['logout'])
+
+
 </script>
 
 <style scoped lang="scss">

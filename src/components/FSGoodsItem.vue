@@ -1,66 +1,69 @@
 <template>
-  <v-sheet class="goods-item" :elevation="hover ? 4 : 2" :class="{ 'is-hover': hover }">
-    <RouterLink :to="`/detail/${goods.id}`" class="goods-link" @mouseover="hover = true" @mouseleave="hover = false">
-      <div class="img-box" :style="{ height: imgHeight, '--scale': hover ? 1.05 : 1 }">
-        <v-img :src="goods.picture" :alt="goods.cname" cover transition="scale-transition" />
-      </div>
-      <div class="content pa-3">
-        <p class="name text-subtitle-1 font-weight-medium mb-1">{{ goods.cname }}</p>
-        <p class="price text-h6 text-primary-darken-2">
-          {{ $t('global.moneyTemplate', { money: goods.price?.toFixed(2) }) }}
-        </p>
-      </div>
-    </RouterLink>
-  </v-sheet>
+  <RouterLink :to="`/detail/${goods.id}`" class="goods-link">
+    <div class="img-box">
+      <v-img :src="goods.picture" :alt="goods.cname" cover transition="scale-transition"
+        :aspect-ratio="aspectRatio || '1 / 1'" :height="aspectRatio ? undefined : imgHeight" class="goods-img" />
+    </div>
+    <div class="content pa-3">
+      <p class="name text-subtitle-1 font-weight-medium mb-1">{{ goods.cname }}</p>
+      <p class="price text-h6 text-primary-darken-2">
+        {{ $t('global.moneyTemplate', { money: goods.price?.toFixed(2) }) }}
+      </p>
+    </div>
+  </RouterLink>
 </template>
 
 <script setup>
-import { ref } from 'vue'
 
 defineProps({
   goods: {
     type: Object,
-    default: () => ({})
+    default: () => ({}),
   },
   imgHeight: {
     type: String,
-    default: ''
-  }
+    default: '200px', // 默认图片高度可以设定为 200px
+  },
+  aspectRatio: {
+    type: String,
+    default: '1 / 1', // 默认方形
+  },
 })
-
-const hover = ref(false)
 
 </script>
 
 <style lang="scss" scoped>
-.goods-item {
-  position: relative;
-  overflow: hidden;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+.goods-link {
+  display: block;
+  height: 100%;
+  text-decoration: none;
+  transition: transform 0.3s ease;
+  background: #FFFFFF;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 0.5rem 1.5rem;
+  border-radius: 0.5rem;
+  border-width: 0.1rem;
+  border-style: solid;
+  border-color: rgba(0, 0, 0, 0.1);
 
-  &.is-hover {
-    transform: translateY(-4px);
-  }
-
-  .goods-link {
-    display: block;
-    height: 100%;
-    text-decoration: none;
-    border-radius: 8px;
+  &:hover {
+    transform: translateY(-5px);
+    z-index: 2;
   }
 
   .img-box {
-    overflow: hidden;
+    width: 100%;
+    background: #fafafa;
+    overflow: visible;
+    /* 防止图片阴影被裁剪 */
+    border-radius: 0.5rem;
 
     :deep(.v-img) {
-      transform: scale(var(--scale));
       transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     }
   }
 
   .content {
-    background: rgba(var(--v-theme-background), 0.9);
-    border-radius: 8px;
+    border-radius: 0.5rem;
     backdrop-filter: blur(4px);
     padding: 1rem;
 
@@ -71,7 +74,7 @@ const hover = ref(false)
 
   .name {
     color: rgba(var(--v-theme-on-background), 0.9);
-    min-height: 2.5em;
+    // min-height: 2.5em;
     line-height: 1.3;
     font-size: 1rem;
 

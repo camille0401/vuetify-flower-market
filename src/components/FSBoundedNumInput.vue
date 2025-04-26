@@ -1,6 +1,7 @@
 <template>
-  <v-number-input ref="inputRef" v-model="internalValue" :min="props.min" :max="props.max" v-bind="$attrs"
-    @update:model-value="handleInputChange" width="200" variant="outlined" hide-details control-variant="split">
+  <v-number-input ref="inputRef" class="fs-number-input" v-model="internalValue" :min="props.min" :max="props.max"
+    v-bind="$attrs" @update:model-value="handleInputChange" width="200" variant="outlined" hide-details
+    control-variant="split">
     <template v-for="(_, slot) in $slots" #[slot]="props">
       <slot :name="slot" v-bind="props" />
     </template>
@@ -76,3 +77,9 @@ defineExpose({
   blur: () => inputRef.value?.blur()
 })
 </script>
+
+<style scoped>
+.fs-number-input {
+  min-width: 120px;
+}
+</style>

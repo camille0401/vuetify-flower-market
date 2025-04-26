@@ -25,13 +25,13 @@
       </v-slide-group>
     </div>
     <!-- 放大镜大图 -->
-    <!-- <div class="large" :style="[
+    <div class="large" :style="[
       {
         backgroundImage: `url(${imageList[activeIndex]})`,
         backgroundPositionX: `${positionX}px`,
         backgroundPositionY: `${positionY}px`,
       },
-    ]" v-show="!mobile && !isOutside"></div> -->
+    ]" v-show="!mobile && !isOutside"></div>
   </div>
 </template>
 
@@ -98,27 +98,27 @@ watch([elementX, elementY, isOutside], () => {
 
 <style scoped lang="scss">
 .fs-goods-image {
-  width: 100%;
-  // min-height: 400px;
+  width: 400px;
+  min-height: 400px;
   position: relative;
 
   .middle {
     width: 100%;
-    // height: 400px;
+    height: 400px;
     background: #f5f5f5;
 
-    // img {
-    //   width: 100%;
-    //   height: 100%;
-    // }
+    img {
+      width: 100%;
+      height: 100%;
+    }
   }
 
   .large {
     position: absolute;
     top: 0;
     left: 412px;
-    width: 100%;
-    // height: 400px;
+    width: 400px;
+    height: 400px;
     z-index: 500;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     background-repeat: no-repeat;

@@ -1,7 +1,7 @@
 <template>
   <section class="fs-home-page pb-10">
+    <!-- 首页横幅 -->
     <v-container class="mx-auto position-relative pa-0">
-      <!-- 首页横幅 -->
       <div class="home-banner">
         <v-img width="100%" height="100%" aspect-ratio="16/9" cover :src="bannerImg"></v-img>
       </div>

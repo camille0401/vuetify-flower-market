@@ -1,17 +1,17 @@
 <template>
-  <div class="fs-category-page">
+  <section class="fs-category-page">
     <v-container class="mx-auto pb-10">
-      <v-card elevation="2" rounded="lg">
+      <v-card elevation="0" rounded="lg" color="background" class="overflow-visible">
         <!-- 面包屑导航 -->
-        <v-card-title class="px-6 pt-6 pb-4">
-          <v-breadcrumbs :items="breadcrumbItems" class="px-0">
+        <v-card-title class="px-2 py-0">
+          <v-breadcrumbs :items="breadcrumbItems" class="px-0 text-body-2">
             <template v-slot:divider>
               <v-icon size="small">mdi-chevron-right</v-icon>
             </template>
           </v-breadcrumbs>
         </v-card-title>
 
-        <v-card-text class="px-6 pb-6">
+        <v-card-text class="px-0 pb-6">
           <!-- 子分类导航 -->
           <div class="category-type-box mb-6">
             <!-- <div class="title text-subtitle-1 font-weight-bold">{{ $t('category.title') }}</div> -->
@@ -20,7 +20,7 @@
                 <!-- <RouterLink active-class="active" :to="`/category/2/${sub.id}`" class="subcategory-link">
                   {{ sub.cname }}
                 </RouterLink> -->
-                <v-btn active-class="active" :to="`/category/2/${sub.id}`" variant="text" size="small">
+                <v-btn active-class="active" :to="`/category/2/${sub.id}`" variant="text">
                   {{ sub.cname }}
                 </v-btn>
               </li>
@@ -37,18 +37,18 @@
             <v-tab value="evaluateNum">{{ $t('category.tabs.tab3') }}</v-tab>
           </v-tabs> -->
 
-          <!-- 商品列表 -->
           <div v-if="loading" class="text-center py-10">
             <v-progress-circular indeterminate color="primary" />
           </div>
 
           <!-- 商品列表 -->
-          <v-row v-else-if="goodsList.length > 0" class="category-goods-list pa-0">
-            <v-col v-for="goods in goodsList" :key="goods.id" cols="12" sm="6" md="4" lg="3" class="goods-item">
-              <FSGoodsItem :goods="goods" :img-height="imgHeight" />
+          <v-row v-else-if="goodsList.length > 0" class="goods-list" dense>
+            <v-col v-for="goods in goodsList" :key="goods.id" cols="6" sm="4" lg="3" class="goods-item">
+              <v-fade-transition>
+                <FSGoodsItem :goods="goods" :img-height="imgHeight" :aspect-ratio="imgAspectRatio" />
+              </v-fade-transition>
             </v-col>
           </v-row>
-
 
           <div v-else class="empty-box py-10">
             <v-empty-state color="primary" size="40" icon="mdi-magnify" :text="$t('category.emptyText')"
@@ -62,7 +62,7 @@
       </v-card>
 
     </v-container>
-  </div>
+  </section>
 </template>
 
 <script setup>
@@ -79,13 +79,22 @@ const { t } = useI18n()
 
 const route = useRoute()
 
-const { xs, sm, md, lg } = useDisplay()
+const { mdAndDown, smAndDown } = useDisplay()
+
+// 计算图片高度
 const imgHeight = computed(() => {
-  if (xs.value) return '160px'      // 超小屏
-  if (sm.value) return '200px'      // 移动端
-  if (md.value) return '220px'      // 平板
-  return '250px'                    // PC
+  if (smAndDown.value) return '160px'    // 手机
+  if (mdAndDown.value) return '200px'     // 平板
+  return '220px'                          // PC
 })
+
+// 计算图片宽高比
+const imgAspectRatio = computed(() => {
+  if (smAndDown.value) return '3 / 4'     // 手机
+  if (mdAndDown.value) return '4 / 5'     // 平板
+  return '1 / 1'                          // PC
+})
+
 
 // 数据状态
 const categoryData = ref({})
@@ -243,25 +252,15 @@ onUnmounted(() => {
     }
   }
 
-  .category-goods-list {
+  .goods-item {
+    transition: transform 0.3s ease;
 
-    .goods-item {
-      // padding: 8px;
-
-      .v-card {
-        border-radius: 12px;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-
-        &:hover {
-          transform: translateY(-5px);
-          box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-        }
-      }
+    /* 改为 visible 让阴影不被裁剪 */
+    &:hover {
+      transform: translateY(-5px);
+      z-index: 2;
     }
   }
-
-
-
 
   // 空状态
   .empty-box {

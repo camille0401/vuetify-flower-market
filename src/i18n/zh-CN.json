@@ -54,12 +54,15 @@
     "nav": {
       "user": {
         "welcome": "欢迎",
-        "logout": "退出登录",
+        "logout": "退出",
         "myOrder": "我的订单",
         "memberCenter": "会员中心",
         "helpCenter": "帮助中心",
         "aboutUs": "关于我们",
-        "login": "您好，请登录"
+        "login": "您好，请登录",
+        "cart": "购物车",
+        "myAccount": "我的账户",
+        "search": "搜索"
       },
       "confirm": {
         "title": "确认退出",

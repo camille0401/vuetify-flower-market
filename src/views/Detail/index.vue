@@ -5,117 +5,125 @@
       <div v-if="detailLoading" class="loading-container">
         <v-progress-circular indeterminate size="64" color="primary" />
       </div>
-      <v-card v-else elevation="2" rounded="lg">
+      <v-sheet v-else color="background">
         <!-- 面包屑导航 -->
-        <v-card-title class="px-6 pt-6 pb-4">
-          <v-breadcrumbs :items="breadcrumbItems" class="px-0">
-            <template v-slot:divider>
-              <v-icon size="small">mdi-chevron-right</v-icon>
-            </template>
-          </v-breadcrumbs>
-        </v-card-title>
+        <v-breadcrumbs :items="breadcrumbItems" class="text-body-2">
+          <template v-slot:divider>
+            <v-icon size="small">mdi-chevron-right</v-icon>
+          </template>
+        </v-breadcrumbs>
 
-        <v-card-text class="pb-6">
-          <v-row justify="center" class="bg-background mb-10">
-            <v-col cols="12" md="6">
-              <div class="media">
-                <ImageView class="product-gallery" :image-list="detailData?.mainPictures || []" />
+        <v-row justify="center" no-gutters class="bg-surface pa-4 mb-4 fs-box-shadow-card">
+          <v-col cols="12" md="6">
+            <div class="media">
+              <!-- <ImageView class="product-gallery" :image-list="detailData?.mainPictures || []" /> -->
+              <v-img :aspect-ratio="1" class="bg-white" :src="activeImg" width="100%" cover></v-img>
+            </div>
+          </v-col>
+          <v-col cols="12" md="6">
+            <v-sheet class="d-flex flex-column ga-6 px-4">
+              <p class="text-h5 my-2">{{ detailData.cname }}</p>
+              <!-- <p class="text-subtitle-1 text-grey-darken-1">{{ detailData.describes }}</p> -->
+              <div class="small-img-box">
+                <v-slide-group show-arrows>
+                  <v-slide-group-item v-for="(img, n) in detailData?.mainPictures ?? []" :key="n"
+                    v-slot="{ isSelected, toggle }">
+                    <v-sheet class="mr-2" @click="toggle">
+                      <img :class="isSelected ? 'active' : ''" width="68px" height="68px" :src="img"
+                        @click="handleOnSmallImg(n)" />
+                    </v-sheet>
+                  </v-slide-group-item>
+                </v-slide-group>
+              </div>=
+              <v-row class="align-center" no-gutters>
+                <v-col cols="12" class="mr-2 mb-2">
+                  <span class="text-body-1 mr-2">{{ $t('detail.product.price') }}：</span>
+                  <span class="text-h5 text-primary font-weight-bold">
+                    {{ $t('global.moneyTemplate', { money: detailData.price || '0' }) }}
+                  </span>
+                </v-col>
+                <v-col cols="12">
+                  <span class="text-body-1 mr-2">{{ $t('detail.product.total') }}：</span>
+                  <span class="text-h5 text-error font-weight-bold">
+                    {{ $t('global.moneyTemplate', { money: allPrice }) }}
+                  </span>
+                </v-col>
+              </v-row>
+
+              <!-- 数量选择 -->
+              <!-- <div class="d-flex align-center">
+                <label class="text-body-1 mr-2">{{ $t('detail.product.quantity') }}：</label>
+                <FSBoundedNumInput v-model="count" :min="1" :max="detailData.inventory" :debounce="300"
+                  @change="handleCountChange" @out-of-range="handleOutOfRange" />
+              </div> -->
+
+              <v-row class="align-center" no-gutters>
+                <v-col cols="auto" class="mr-2">
+                  <label class="text-body-1">{{ $t('detail.product.quantity') }}：</label>
+                </v-col>
+                <v-col cols="auto">
+                  <FSBoundedNumInput v-model="count" :min="1" :max="detailData.inventory" :debounce="300"
+                    @change="handleCountChange" @out-of-range="handleOutOfRange" />
+                </v-col>
+              </v-row>
+
+
+              <div class="d-flex">
+                <span class="text-caption text-grey mr-2">
+                  {{ $t('detail.product.stock') }}：{{ detailData.inventory || '0' }}
+                </span>
+                <span class="text-caption text-grey">
+                  {{ $t('detail.product.sold') }}：{{ detailData.salesCount || '0' }}
+                </span>
               </div>
-            </v-col>
-            <v-col cols="12" md="6">
-              <!-- 商品规格 -->
-              <v-card flat color="background">
-                <v-card-title class="text-h5 font-weight-bold mb-2">
-                  {{ detailData.cname }}
-                </v-card-title>
-                <v-card-subtitle class="text-subtitle-1 text-grey-darken-1">
-                  {{ detailData.describes }}
-                </v-card-subtitle>
+              <v-row class="g-2 g-sm-0">
+                <v-col cols="12" sm="6">
+                  <v-btn color="primary-darken-1" size="x-large" block prepend-icon="mdi-cart-plus"
+                    :loading="addingToCartLoading" @click="handleAddCart">
+                    {{ $t('detail.product.addToCart') }}
+                  </v-btn>
+                </v-col>
+                <v-col cols="12" sm="6">
+                  <v-btn color="error" size="x-large" block @click="handleBuyNow">
+                    {{ $t('detail.product.buyNow') }}
+                  </v-btn>
+                </v-col>
+              </v-row>
+            </v-sheet>
 
-                <v-divider class="my-4" />
+          </v-col>
+        </v-row>
 
-                <v-card-text class="d-flex flex-column ga-6">
-                  <!-- 价格信息 -->
-                  <div class="price-section">
-                    <div class="d-flex align-center mb-2">
-                      <span class="text-body-1 mr-2">{{ $t('detail.product.price') }}：</span>
-                      <span class="text-h5 text-primary font-weight-bold">
-                        {{ $t('global.moneyTemplate', { money: detailData.price || '0' }) }}
-                      </span>
-                    </div>
-                    <div class="d-flex align-center">
-                      <span class="text-body-1 mr-2">{{ $t('detail.product.total') }}：</span>
-                      <span class="text-h5 text-error font-weight-bold">
-                        {{ $t('global.moneyTemplate', { money: allPrice }) }}
-                      </span>
-                    </div>
-                  </div>
+        <!-- 商品详情 -->
+        <div class="goods-detail-section">
+          <v-tabs v-model="activeTab" color="primary" grow>
+            <v-tab value="details">{{ $t('detail.product.details') }}</v-tab>
+            <v-tab value="specs">{{ $t('detail.product.specs') }}</v-tab>
+            <v-tab value="reviews">{{ $t('detail.product.reviews') }}</v-tab>
+          </v-tabs>
 
-                  <!-- 数量选择 -->
-                  <div class="d-flex align-center">
-                    <label class="text-body-1 mr-2">{{ $t('detail.product.quantity') }}：</label>
-                    <FSBoundedNumInput v-model="count" :min="1" :max="detailData.inventory" :debounce="300"
-                      @change="handleCountChange" @out-of-range="handleOutOfRange" />
-                  </div>
+          <v-window v-model="activeTab" class="mt-4">
+            <v-window-item value="details">
+              <div class="detail-images">
+                <img v-for="(img, index) in detailData.detailPictures" :src="img" :key="index"
+                  :alt="`${$t('detail.product.detailImage')} ${index + 1}`" class="detail-image" />
+              </div>
+            </v-window-item>
 
-                  <div class="d-flex">
-                    <span class="text-caption text-grey mr-2">
-                      {{ $t('detail.product.stock') }}：{{ detailData.inventory || '0' }}
-                    </span>
-                    <span class="text-caption text-grey">
-                      {{ $t('detail.product.sold') }}：{{ detailData.salesCount || '0' }}
-                    </span>
-                  </div>
-                  <!-- 操作按钮 -->
-                  <v-row>
-                    <v-col cols="12" sm="7" md="6" lg="6">
-                      <v-btn color="primary-darken-1" size="x-large" block prepend-icon="mdi-cart-plus"
-                        :loading="addingToCartLoading" @click="handleAddCart">
-                        {{ $t('detail.product.addToCart') }}
-                      </v-btn>
-                    </v-col>
-                    <v-col cols="12" sm="5" md="6" lg="6">
-                      <v-btn color="error" size="x-large" block @click="handleBuyNow">
-                        {{ $t('detail.product.buyNow') }}
-                      </v-btn>
-                    </v-col>
-                  </v-row>
-                </v-card-text>
-              </v-card>
-            </v-col>
-          </v-row>
+            <v-window-item value="specs">
+              <div class="specs-content pa-4">
+                <p>{{ $t('detail.product.specContent') }}</p>
+              </div>
+            </v-window-item>
 
-          <!-- 商品详情 -->
-          <div class="goods-detail-section">
-            <v-tabs v-model="activeTab" color="primary" grow>
-              <v-tab value="details">{{ $t('detail.product.details') }}</v-tab>
-              <v-tab value="specs">{{ $t('detail.product.specs') }}</v-tab>
-              <v-tab value="reviews">{{ $t('detail.product.reviews') }}</v-tab>
-            </v-tabs>
-
-            <v-window v-model="activeTab" class="mt-4">
-              <v-window-item value="details">
-                <div class="detail-images">
-                  <img v-for="(img, index) in detailData.detailPictures" :src="img" :key="index"
-                    :alt="`${$t('detail.product.detailImage')} ${index + 1}`" class="detail-image" />
-                </div>
-              </v-window-item>
-
-              <v-window-item value="specs">
-                <div class="specs-content pa-4">
-                  <p>{{ $t('detail.product.specContent') }}</p>
-                </div>
-              </v-window-item>
-
-              <v-window-item value="reviews">
-                <div class="reviews-content pa-4">
-                  <p>{{ $t('detail.product.reviewContent') }}</p>
-                </div>
-              </v-window-item>
-            </v-window>
-          </div>
-        </v-card-text>
-      </v-card>
+            <v-window-item value="reviews">
+              <div class="reviews-content pa-4">
+                <p>{{ $t('detail.product.reviewContent') }}</p>
+              </div>
+            </v-window-item>
+          </v-window>
+        </div>
+      </v-sheet>
     </v-container>
   </section>
 </template>
@@ -150,6 +158,8 @@ const count = ref(1)
 const addingToCartLoading = ref(false)
 const activeTab = ref('details')
 const detailLoading = ref(true)
+const activeImgIndex = ref(0)
+
 
 // 面包屑导航
 const breadcrumbItems = computed(() => [
@@ -162,6 +172,15 @@ const calcGoodsTotalPrice = (price, count) => {
 }
 
 const allPrice = computed(() => calcGoodsTotalPrice(detailData.value?.price || 0, count.value))
+
+const activeImg = computed(() => {
+  if (!detailData.value?.mainPictures) return ""
+  return detailData.value?.mainPictures[activeImgIndex.value]
+})
+
+const handleOnSmallImg = (ind) => {
+  activeImgIndex.value = ind
+}
 
 const fetchDetailData = async (id = route.params.id) => {
   try {
@@ -254,6 +273,27 @@ onBeforeRouteUpdate((to) => {
     height: 300px;
   }
 
+  .media {
+    border: 1px solid rgba(0, 0, 0, .2);
+  }
+
+  .small-img-box {
+    width: 100%;
+    min-height: 68px;
+
+    img {
+      border: 1px solid rgba(0, 0, 0, .2);
+      transition: border-color .5s ease-in;
+
+      &:hover,
+      &.active {
+        border-color: rgb(var(--v-theme-primary));
+      }
+    }
+
+
+  }
+
   .goods-detail-section {
     .detail-images .detail-image {
       width: 100%;
@@ -261,6 +301,8 @@ onBeforeRouteUpdate((to) => {
       border-radius: 8px;
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     }
+
+
   }
 }
 </style>
