@@ -1,7 +1,7 @@
 <template>
   <v-number-input ref="inputRef" class="fs-number-input" v-model="internalValue" :min="props.min" :max="props.max"
-    v-bind="$attrs" @update:model-value="handleInputChange" width="200" variant="outlined" hide-details
-    control-variant="split">
+    v-bind="$attrs" @update:model-value="handleInputChange" inset variant="outlined" hide-details controlVariant="split"
+    density="compact">
     <template v-for="(_, slot) in $slots" #[slot]="props">
       <slot :name="slot" v-bind="props" />
     </template>

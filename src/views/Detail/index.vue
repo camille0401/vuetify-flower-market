@@ -13,14 +13,14 @@
           </template>
         </v-breadcrumbs>
 
-        <v-row justify="center" no-gutters class="bg-surface pa-4 mb-4 fs-box-shadow-card">
+        <v-row justify="center" no-gutters class="pa-4 mb-4 ">
           <v-col cols="12" md="6">
             <div class="media">
               <!-- <ImageView class="product-gallery" :image-list="detailData?.mainPictures || []" /> -->
               <v-img :aspect-ratio="1" class="bg-white" :src="activeImg" width="100%" cover></v-img>
             </div>
           </v-col>
-          <v-col cols="12" md="6">
+          <v-col cols="12" md="6" class="bg-white pb-4">
             <v-sheet class="d-flex flex-column ga-6 px-4">
               <p class="text-h5 my-2">{{ detailData.cname }}</p>
               <!-- <p class="text-subtitle-1 text-grey-darken-1">{{ detailData.describes }}</p> -->
@@ -34,7 +34,7 @@
                     </v-sheet>
                   </v-slide-group-item>
                 </v-slide-group>
-              </div>=
+              </div>
               <v-row class="align-center" no-gutters>
                 <v-col cols="12" class="mr-2 mb-2">
                   <span class="text-body-1 mr-2">{{ $t('detail.product.price') }}：</span>

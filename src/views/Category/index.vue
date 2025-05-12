@@ -3,7 +3,7 @@
     <v-container class="mx-auto pb-10">
       <v-card elevation="0" rounded="lg" color="background" class="overflow-visible">
         <!-- 面包屑导航 -->
-        <v-card-title class="px-2 py-0">
+        <v-card-title class="py-0">
           <v-breadcrumbs :items="breadcrumbItems" class="px-0 text-body-2">
             <template v-slot:divider>
               <v-icon size="small">mdi-chevron-right</v-icon>
@@ -11,7 +11,7 @@
           </v-breadcrumbs>
         </v-card-title>
 
-        <v-card-text class="px-0 pb-6">
+        <v-card-text class="pb-6">
           <!-- 子分类导航 -->
           <div class="category-type-box mb-6">
             <!-- <div class="title text-subtitle-1 font-weight-bold">{{ $t('category.title') }}</div> -->

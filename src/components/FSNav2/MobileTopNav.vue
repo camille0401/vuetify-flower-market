@@ -1,23 +1,25 @@
 <template>
   <v-app-bar color="background">
     <v-app-bar-nav-icon @click="$emit('toggle-drawer')" />
-    <v-app-bar-title class=" font-weight-bold">Flower Market</v-app-bar-title>
-    <v-spacer />
+    <v-app-bar-title class="font-weight-bold">
+      <RouterLink to="/">
+        <span>Flower Market</span>
+      </RouterLink>
+    </v-app-bar-title>
 
     <v-btn icon="mdi-shopping-search"></v-btn>
-    <v-btn icon="mdi-cart" to="/cartlist"></v-btn>
+    <v-btn icon="mdi-cart" to="/cartlist">
+      <v-badge :content="cartStore.cartList.length || 0" color="error">
+        <v-icon icon="mdi-cart"></v-icon>
+      </v-badge>
+    </v-btn>
   </v-app-bar>
 </template>
 
 <script setup>
-import { useUserStore } from '@/stores/user'
-import { useRouter } from 'vue-router'
-import CartIcon from '@/views/CartList/components/CartIcon.vue'
+import { useCartStore } from '@/stores/cart'
 
-const userStore = useUserStore()
-const router = useRouter()
+const cartStore = useCartStore()
 
-const goLogin = () => {
-  router.push('/user/login')
-}
+
 </script>

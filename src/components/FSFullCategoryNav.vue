@@ -23,10 +23,6 @@
   </section>
 </template>
 
-
-
-
-
 <script setup>
 import { onMounted } from 'vue'
 import { useCategoryStore } from '@/stores/category'
