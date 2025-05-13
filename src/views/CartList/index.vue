@@ -64,7 +64,7 @@
                 </td>
                 <td class="text-center">
                   <v-btn icon size="small" variant="text" color="error" @click="handleDelCart(cart.goodsId)">
-                    <v-icon>mdi-delete-outline</v-icon>
+                    <v-icon>mdi-trash-can</v-icon>
                   </v-btn>
                 </td>
               </tr>
@@ -87,46 +87,60 @@
 
         <!-- 移动端 -->
         <div class="cart-card" v-else>
-          <v-card class="cart-item mb-4" v-for="cart in cartStore.cartList" :key="cart.goodsId" elevation="1">
-            <v-card-text>
-              <v-row>
-                <!-- 商品图片 -->
-                <v-col cols="4">
-                  <v-img :src="cart.picture" aspect-ratio="1" class="rounded"></v-img>
-                </v-col>
-
-                <!-- 商品信息 -->
-                <v-col cols="8" class="d-flex flex-column ga-2 pl-4 ">
-                  <div class="text-body-1 font-weight-medium mb-1">{{ cart.name }}</div>
-                  <div class="text-grey ">
-                    {{ $t('cartlist.table.itemsInventory', { inventory: cart.inventory }) }}
-                  </div>
-                  <div class="font-weight-bold text-error">
-                    {{ $t('global.moneyTemplate', { money: cart.price }) }}
-                  </div>
-                </v-col>
-              </v-row>
-              <v-row>
-                <v-col cols="12" class="d-flex align-center">
-                  <div class="mr-2 text-grey">{{ $t('cartlist.table.quantity') }}</div>
+          <v-card class="cart-item mb-4" flat v-for="cart in cartStore.cartList" :key="cart.goodsId">
+            <v-card-text class="d-flex align-center">
+              <div style="width: 64px; height: 64px;" class="mr-4 rounded-lg">
+                <v-img :src="cart.picture" width="64" height="64" cover class="rounded" />
+              </div>
+              <div class="flex-grow-1 d-flex flex-column ga-1">
+                <div class="text-body-2 font-weight-medium">
+                  {{ cart.name }}
+                </div>
+                <div class="text-caption text-grey">
+                  {{ $t('cartlist.table.itemsInventory', { inventory: cart.inventory }) }}
+                </div>
+                <div class="text-caption">
+                  {{ $t('order.detail.price') }}：
+                  {{ $t('global.moneyTemplate', { money: cart.price }) }}
+                </div>
+                <!-- 商品数量 -->
+                <div class="d-flex align-center">
+                  <div class="mr-2 text-caption text-grey">{{ $t('cartlist.table.quantity') }}</div>
                   <FSBoundedNumInput style="max-width: max-content;" v-model="cart.count" :min="1" :max="cart.inventory"
                     :debounce="500" :data="cart" @change="handleCountChange" @out-of-range="handleOutOfRange"
                     @store-count="handleCountStore" density="compact" />
-                </v-col>
-                <v-col cols="12" class="d-flex align-center">
-                  <div class="mr-2 text-grey">{{ $t('cartlist.table.subtotal') }}</div>
+                </div>
+                <!-- 商品小计 -->
+                <div class="d-flex align-center">
+                  <div class="mr-2 text-caption text-grey">{{ $t('cartlist.table.subtotal') }}</div>
                   <div class="font-weight-bold text-error">
                     {{ $t('global.moneyTemplate', {
                       money: calcGoodsTotalPrice(cart.price, cart.count)
                     }) }}
                   </div>
-                </v-col>
-                <v-col cols="12" class="d-flex justify-end align-center">
-                  <v-icon color="error" @click="handleDelCart(cart.goodsId)">mdi-delete-outline</v-icon>
-                  <v-checkbox color="primary" hide-details :model-value="cart.selected === 1 ? true : false"
-                    @update:model-value="(e) => handleSingleChange(e, cart.goodsId)" class="mr-2"></v-checkbox>
-                </v-col>
-              </v-row>
+                </div>
+                <!-- 删除 & 勾选 -->
+                <div class="d-flex justify-end align-center">
+                  <v-btn icon size="small" variant="text" color="error" @click="handleDelCart(cart.goodsId)">
+                    <v-icon>mdi-trash-can</v-icon>
+                  </v-btn>
+                  <v-checkbox color="primary" hide-details :model-value="cart.selected === 1"
+                    @update:model-value="(e) => handleSingleChange(e, cart.goodsId)" />
+                </div>
+
+              </div>
+            </v-card-text>
+          </v-card>
+          <!-- 空状态 -->
+          <v-card v-if="cartStore.cartList.length === 0" class="cart-item" flat>
+            <v-card-text>
+              <v-empty-state :title="$t('cartlist.empty')">
+                <template #actions>
+                  <v-btn color="primary" prepend-icon="mdi-shopping" @click="toHomePage">
+                    {{ $t('cartlist.goShopping') }}
+                  </v-btn>
+                </template>
+              </v-empty-state>
             </v-card-text>
           </v-card>
         </div>
@@ -180,7 +194,7 @@ import { useOrderDraft } from '@/composables/useOrderDraft'
 import { useI18n } from 'vue-i18n'
 import { useDisplay } from 'vuetify'
 
-const { mobile } = useDisplay() // 使用Vuetify官方断点检测
+const { mobile, smAndDown } = useDisplay() // 使用Vuetify官方断点检测
 const { t } = useI18n()
 const toast = useToast()
 const router = useRouter()
@@ -288,13 +302,6 @@ const toHomePage = () => {
     }
   }
 
-  .cart-item {
-
-    &:not(:last-child) {
-      // border-bottom: 1px solid red;
-    }
-  }
-
   .checkout-bar {
     background-color: #fafafa;
     border-radius: 8px;
@@ -322,6 +329,34 @@ const toHomePage = () => {
         font-size: 1.125rem; // 18px
       }
     }
+  }
+
+  .cart-item {
+    transition: box-shadow 0.3s ease;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    transition: all 0.2s ease;
+    background-color: #f0f0f0; // 默认或通用灰
+  }
+
+
+  @media (min-width: 600px) and (max-width: 960px) {
+    .v-img {
+      border-radius: 8px;
+    }
+
+    .fs-cart-info {
+      padding-left: 16px;
+    }
+  }
+
+  .v-img {
+    object-fit: cover;
+    border-radius: 8px;
+  }
+
+  .text-error {
+    font-size: 16px;
   }
 }
 </style>

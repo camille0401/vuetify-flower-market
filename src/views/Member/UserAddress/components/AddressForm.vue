@@ -1,5 +1,6 @@
 <template>
-  <v-card>
+  <v-card :class="mobile ? 'rounded-0' : 'rounded-lg elevation-2'">
+    <!-- 顶部 toolbar -->
     <v-toolbar color="primary" :title="$t(formTitle)" density="compact">
       <v-btn icon @click="handleClose">
         <v-icon>mdi-close</v-icon>
@@ -7,33 +8,38 @@
     </v-toolbar>
 
     <v-card-text class="pa-4">
-      <v-form ref="addressFormRef" class="pa-10 pt-0 pb-0" validate-on="submit">
+      <v-form ref="addressFormRef" class="pa-4 pt-0 pb-0" validate-on="submit">
         <!-- 收件人 -->
         <v-text-field v-model="addressForm.recipient" :label="$t('member.address.addDialog.addressForm.recipient')"
-          variant="outlined" :rules="[requiredRule]" class="mb-2" bg-color="parimary"></v-text-field>
+          variant="outlined" :density="mobile && 'comfortable'" :rules="[requiredRule]" class="mb-2"></v-text-field>
         <!-- 手机号码 -->
         <v-text-field v-model="addressForm.phone" :label="$t('member.address.addDialog.addressForm.phone')"
-          variant="outlined" :rules="[requiredRule, mobileRule]" class="mb-2"></v-text-field>
+          variant="outlined" :density="mobile && 'comfortable'" type="tel" inputmode="tel"
+          :rules="[requiredRule, mobileRule]" class="mb-2"></v-text-field>
 
         <v-text-field v-model="addressForm.prefecture" :label="$t('member.address.addDialog.addressForm.prefecture')"
-          variant="outlined" :rules="[requiredRule]" class="mb-2"></v-text-field>
+          variant="outlined" :density="mobile && 'comfortable'" :rules="[requiredRule]" class="mb-2"></v-text-field>
         <v-text-field v-model="addressForm.city" :label="$t('member.address.addDialog.addressForm.city')"
-          variant="outlined" :rules="[requiredRule]" class="mb-2"></v-text-field>
+          variant="outlined" :density="mobile && 'comfortable'" :rules="[requiredRule]" class="mb-2"></v-text-field>
         <!-- 详细地址 -->
         <v-text-field v-model="addressForm.address" :label="$t('member.address.addDialog.addressForm.address')"
-          variant="outlined" :rules="[requiredRule]" class="mb-2"></v-text-field>
+          variant="outlined" :density="mobile && 'comfortable'" :rules="[requiredRule]" class="mb-2"></v-text-field>
         <!-- 邮编 -->
         <v-text-field v-model="addressForm.postalCode" :label="$t('member.address.addDialog.addressForm.postalCode')"
-          variant="outlined" :rules="[requiredRule, zipcodeRule]" class="mb-2"></v-text-field>
+          variant="outlined" :density="mobile && 'comfortable'" :rules="[requiredRule, zipcodeRule]"
+          class="mb-2"></v-text-field>
         <!-- 默认地址开关 -->
         <v-switch v-model="addressForm.isDefault" :label="$t('member.address.addDialog.addressForm.defaultAddress')"
-          color="primary" :true-value="1" :false-value="0"></v-switch>
+          color="primary" :density="mobile && 'comfortable'" :true-value="1" :false-value="0"></v-switch>
       </v-form>
     </v-card-text>
 
-    <v-card-actions class="pa-4 bg-grey-lighten-4">
+    <!-- 底部按钮：移动端吸底，PC常规 -->
+    <v-card-actions class="bg-grey-lighten-4" :class="mobile ? 'position-sticky bottom-0' : ''">
       <v-spacer />
-      <v-btn @click="handleClose">{{ $t('member.address.addDialog.common.cancel') }}</v-btn>
+      <v-btn @click="handleClose">
+        {{ $t('member.address.addDialog.common.cancel') }}
+      </v-btn>
       <v-btn color="primary" variant="flat" prepend-icon="mdi-content-save" @click="handleSubmit" :loading="loading">
         {{ $t('member.address.addDialog.common.save') }}
       </v-btn>
@@ -45,7 +51,9 @@
 import { ref, computed, watchEffect } from 'vue'
 import { useToast } from 'vue-toastification'
 import { useI18n } from 'vue-i18n'
+import { useDisplay } from 'vuetify'
 
+const { mobile } = useDisplay()
 const { t } = useI18n()
 const toast = useToast()
 const props = defineProps({

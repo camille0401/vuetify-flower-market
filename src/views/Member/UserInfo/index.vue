@@ -47,19 +47,21 @@
       </v-btn>
     </v-card-actions> -->
     <!-- 修改密码对话框 -->
-    <v-dialog v-model="passwordDialog" max-width="500">
+    <v-dialog v-model="passwordDialog" max-width="600" :fullscreen="mobile" persistent>
       <EditPassword @close="passwordDialog = false" />
     </v-dialog>
   </v-card>
 </template>
 
 <script setup>
+import EditPassword from './components/EditPassword.vue'
+import defaultAvatar from '@/assets/images/default-avatar.png'
 import { ref, reactive, watch } from 'vue'
 import { useUserStore } from '@/stores/user'
 import { useToast } from 'vue-toastification'
-import EditPassword from './components/EditPassword.vue'
-import defaultAvatar from '@/assets/images/default-avatar.png'
+import { useDisplay } from "vuetify"
 
+const { mobile } = useDisplay()
 const toast = useToast()
 const userStore = useUserStore()
 const formRef = ref(null)

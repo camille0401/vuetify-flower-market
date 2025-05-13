@@ -1,36 +1,74 @@
 <template>
   <v-navigation-drawer v-model="drawerValue" temporary location="left" color="grey-darken-4">
-    <v-list>
-      <v-list-subheader class="text-primary text-h6">分类</v-list-subheader>
-      <v-list :items="items" color="primary"></v-list>
-      <v-divider></v-divider>
-      <v-list-item title="我的订单">
-        <template v-slot:prepend>
-          <v-icon icon="mdi-flower-poppy"></v-icon>
-        </template>
-      </v-list-item>
-      <v-list-item title="我的账户">
-        <template v-slot:prepend>
-          <v-icon icon="mdi-account"></v-icon>
-        </template>
-      </v-list-item>
-      <v-list-item title="购物车">
-        <template v-slot:prepend>
-          <v-icon icon="mdi-cart"></v-icon>
-        </template>
-      </v-list-item>
-      <v-list-item title="退出账户" @click="handleLogout">
-        <template v-slot:prepend>
-          <v-icon icon="mdi-logout"></v-icon>
-        </template>
-      </v-list-item>
-      <v-divider></v-divider>
-      <v-list-item class="text-no-wrap text-break" title="售后客服热线：400-670-1853">
-        <template v-slot:prepend>
-          <v-icon icon="mdi-phone"></v-icon>
-        </template>
+    <v-list nav density="comfortable" color="primary">
+
+      <v-list density="comfortable" nav>
+        <v-list-item :title="$t('global.allCategoriesText')" link to="/allCategories"></v-list-item>
+        <!-- 一级菜单 -->
+        <v-list-group v-for="(category, index) in categoryStore.categoryList" :key="index" :value="category.id">
+          <template #activator="{ props }">
+            <v-list-item v-bind="props">
+              <v-list-item-title>{{ category.cname }}</v-list-item-title>
+            </v-list-item>
+          </template>
+
+          <!-- 二级菜单 -->
+          <v-list-item link v-for="(subItem, i) in category.children" :key="i" :active="activeItem === subItem.id"
+            @click="setActive(subItem.id)" :to="`/category/2/${subItem.id}`">
+            <v-list-item-content>
+              <v-list-item-title>{{ subItem.cname }}</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list-group>
+      </v-list>
+      <v-divider class="mb-4"></v-divider>
+      <template v-if="userStore.token">
+        <v-list-subheader class="text-primary text-h6">
+          {{ $t('global.nav.user.welcome') }} {{ userStore?.userInfo?.nickName }}
+        </v-list-subheader>
+        <v-list-item :title="$t('global.nav.user.myAccount')" link to="/member/info">
+          <template v-slot:prepend>
+            <v-icon icon="mdi-account"></v-icon>
+          </template>
+        </v-list-item>
+        <v-list-item :title="$t('global.nav.user.myOrder')" link to="/member/order">
+          <template v-slot:prepend>
+            <v-icon icon="mdi-flower-poppy"></v-icon>
+          </template>
+        </v-list-item>
+        <v-list-item :title="$t('global.nav.user.myAddress')" link to="/member/address">
+          <template v-slot:prepend>
+            <v-icon icon="mdi-map-marker-multiple"></v-icon>
+          </template>
+        </v-list-item>
+        <v-list-item :title="$t('global.nav.user.cart')" link to="/cartlist">
+          <template v-slot:prepend>
+            <v-icon icon="mdi-cart"></v-icon>
+          </template>
+        </v-list-item>
+        <v-list-item :title="$t('global.nav.user.logout')" @click="handleLogout">
+          <template v-slot:prepend>
+            <v-icon icon="mdi-logout"></v-icon>
+          </template>
+        </v-list-item>
+      </template>
+      <template v-else>
+        <v-list-item :title="$t('global.nav.user.login')" to="/user/login">
+          <template v-slot:prepend>
+            <v-icon icon="mdi-login"></v-icon>
+          </template>
+        </v-list-item>
+        <v-list-item :title="$t('global.nav.user.register')" to="/user/register">
+          <template v-slot:prepend>
+            <v-icon icon="mdi-account-plus"></v-icon>
+          </template>
+        </v-list-item>
+      </template>
+      <v-divider class="my-4"></v-divider>
+      <v-list-item class="text-no-wrap text-break"
+        :title="$t('global.nav.contact.title') + $t('global.nav.contact.phone')">
         <template v-slot:subtitle>
-          <div v-html="'(周一至周五 9:00-18:00 国定假日休息)'"></div>
+          <div>{{ $t('global.nav.contact.subtitle') }}</div>
         </template>
       </v-list-item>
     </v-list>
@@ -38,27 +76,23 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { computed, onBeforeMount, onMounted, onUnmounted, ref } from 'vue'
 import { useUserStore } from '@/stores/user'
+import { useCategoryStore } from '@/stores/category'
 
-const items = [
-  {
-    title: 'Item #1',
-    value: 1,
-  },
-  {
-    title: 'Item #2',
-    value: 2,
-  },
-  {
-    title: 'Item #3',
-    value: 3,
-  },
-]
+const categoryStore = useCategoryStore()
+const userStore = useUserStore()
 
+// 当前激活的子项名称
+const activeItem = ref('')
+// 设置激活项
+const setActive = (id) => {
+  activeItem.value = id
+}
 const props = defineProps({
   modelValue: Boolean,
 })
+
 const emit = defineEmits(['update:modelValue', 'logout'])
 
 const drawerValue = computed({
@@ -66,11 +100,20 @@ const drawerValue = computed({
   set: (val) => emit('update:modelValue', val),
 })
 
-const userStore = useUserStore()
 
 const handleLogout = () => {
   emit('logout')
 }
+onMounted(() => {
+  if (!categoryStore.categoryList.length) {
+    categoryStore.getCategory()
+
+  }
+})
+
+// onBeforeMount(() => {
+//   activeItem.value = ''
+// })
 </script>
 
 <style scoped lang="scss">

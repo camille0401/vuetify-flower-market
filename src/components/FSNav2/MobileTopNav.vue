@@ -8,7 +8,7 @@
     </v-app-bar-title>
 
     <v-btn icon="mdi-shopping-search"></v-btn>
-    <v-btn icon="mdi-cart" to="/cartlist">
+    <v-btn icon="mdi-cart" to="/cartlist" class="mr-2">
       <v-badge :content="cartStore.cartList.length || 0" color="error">
         <v-icon icon="mdi-cart"></v-icon>
       </v-badge>

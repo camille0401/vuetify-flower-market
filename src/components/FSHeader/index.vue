@@ -32,7 +32,7 @@ import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import Logo from './Logo.vue';
-import CartIcon from '@/views/CartList/components/CartIcon.vue';
+import CartIcon from '@/components/FSNav2/CartIcon.vue';
 
 const { t } = useI18n();
 const searchQuery = ref('');

@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card :class="mobile ? 'rounded-0' : 'rounded-lg elevation-2'">
     <v-toolbar color="primary" :title="$t('member.address.swapDialog.formTitle')" density="compact">
       <v-btn icon @click="handleClose">
         <v-icon color="white">mdi-close</v-icon>
@@ -27,7 +27,7 @@
         </div>
       </div>
     </v-card-text>
-    <v-card-actions class="pa-4 bg-grey-lighten-4">
+    <v-card-actions class="pa-4 bg-grey-lighten-4" :class="mobile ? 'position-sticky bottom-0' : ''">
       <v-spacer />
       <v-btn @click="handleClose">{{ $t('member.address.swapDialog.common.cancel') }}</v-btn>
       <v-btn color="primary" variant="flat" prepend-icon="mdi-home-switch" :disabled="list.length === 0"
@@ -40,6 +40,9 @@
 
 <script setup>
 import { ref } from 'vue'
+import { useDisplay } from 'vuetify'
+
+const { mobile } = useDisplay()
 
 const props = defineProps({
   list: {

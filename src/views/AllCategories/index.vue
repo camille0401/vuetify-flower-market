@@ -1,9 +1,9 @@
 <template>
   <div class="fs-all-categories-page">
     <v-container class="mx-auto pb-10">
-      <v-card elevation="2" rounded="lg">
-        <v-card-title class="text-h6 px-6 pt-6 pb-4">
-          <v-breadcrumbs :items="breadcrumbs" class="px-0">
+      <v-card elevation="0" rounded="0">
+        <v-card-title class="py-0">
+          <v-breadcrumbs :items="breadcrumbs" class="px-0 text-body-2">
             <template v-slot:divider>
               <v-icon>mdi-chevron-right</v-icon>
             </template>

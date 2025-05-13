@@ -1,7 +1,7 @@
 {
   "global": {
     "moneyTemplate": "¥{money}",
-    "countTemplate": "X{count}",
+    "countTemplate": "x{count}",
     "login": {
       "welcomeBack": "欢迎回来",
       "seeYouAgain": "很高兴再次见到你！",
@@ -55,13 +55,15 @@
       "user": {
         "welcome": "欢迎",
         "logout": "退出",
-        "myOrder": "我的订单",
         "memberCenter": "会员中心",
         "helpCenter": "帮助中心",
         "aboutUs": "关于我们",
-        "login": "您好，请登录",
+        "login": "登录",
+        "register": "注册",
         "cart": "购物车",
+        "myOrder": "我的订单",
         "myAccount": "我的账户",
+        "myAddress": "收货地址",
         "search": "搜索"
       },
       "confirm": {
@@ -70,7 +72,9 @@
         "confirmText": "确认退出"
       },
       "contact": {
-        "phone": "XXXXXXX"
+        "phone": "XXXXXXX",
+        "title": "售后客服热线：",
+        "subtitle": "(周一至周五 9:00-18:00 国定假日休息)"
       }
     },
     "header": {

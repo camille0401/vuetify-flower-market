@@ -105,9 +105,9 @@ body {
 
 .v-container {
   max-width: 1240px;
-  padding-left: 16px;
-  padding-right: 16px;
-  border: 1px solid red;
+  padding-left: 0;
+  padding-right: 0;
+  // border: 1px solid red;
 
   @media (max-width: 768px) {
     padding-left: 0;

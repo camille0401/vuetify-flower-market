@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card :class="smAndDown ? 'rounded-0' : 'rounded-lg elevation-2'">
     <v-toolbar color="primary" :title="$t('member.user.editPwdDialog.password.title')" density="compact">
       <v-btn icon @click="close">
         <v-icon>mdi-close</v-icon>
@@ -30,7 +30,7 @@
 
       </v-form>
     </v-card-text>
-    <v-card-actions class="bg-grey-lighten-4">
+    <v-card-actions class="bg-grey-lighten-4" :class="smAndDown ? 'position-sticky bottom-0' : ''">
       <v-spacer />
       <v-btn variant="text" @click="close">{{ $t('member.user.editPwdDialog.common.cancel') }}</v-btn>
       <v-btn color="primary" :loading="submitting" prepend-icon="mdi-lock-reset" @click="handleSubmit">
@@ -46,7 +46,9 @@ import { useUserStore } from '@/stores/user'
 import { useToast } from 'vue-toastification'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
+import { useDisplay } from 'vuetify'
 
+const { smAndDown } = useDisplay()
 const { t } = useI18n()
 const router = useRouter()
 const emit = defineEmits(['close'])

@@ -15,7 +15,7 @@
 <script setup>
 import { useUserStore } from '@/stores/user'
 import { useRouter } from 'vue-router'
-import CartIcon from '@/views/CartList/components/CartIcon.vue'
+import CartIcon from '@/components/FSNav2/CartIcon.vue'
 
 const userStore = useUserStore()
 const router = useRouter()

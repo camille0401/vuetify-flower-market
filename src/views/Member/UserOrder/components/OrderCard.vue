@@ -1,5 +1,5 @@
 <template>
-  <v-card class="fs-order-card" :class="`status-${order.status}`" outlined>
+  <v-card class="fs-order-card" outlined>
     <!-- 订单头部 -->
     <v-card-title class="d-flex align-center justify-space-between pa-4">
       <div class="d-flex flex-column flex-md-row gap-2 align-center">
@@ -8,7 +8,7 @@
         <span class="text-caption text-grey">
           {{ $t('order.detail.createdAt') }} {{ formatTime(order.createdAt) }}</span>
       </div>
-      <v-chip :color="statusConfig.color" :prepend-icon="statusConfig.icon" size="small">
+      <v-chip :color="statusConfig.color" :prepend-icon="statusConfig.icon" size="small" variant="flat">
         {{ statusConfig.text }}
       </v-chip>
     </v-card-title>
@@ -136,36 +136,14 @@ const formatTime = (time) => {
   border-radius: 16px;
   padding: 0;
   border: 1px solid #eaeaea;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
   transition: box-shadow 0.3s ease, transform 0.2s ease;
+  background-color: #f0f0f0; // 默认或通用灰
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); // 轻投影
+  border-radius: 12px;
 
   &:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-  }
-
-  &.status-0 {
-    background-color: rgba(var(--v-theme-info), 0.05);
-  }
-
-  &.status-1 {
-    background-color: rgba(var(--v-theme-warning), 0.05);
-  }
-
-  &.status-2 {
-    background-color: rgba(var(--v-theme-primary), 0.05);
-  }
-
-  &.status-3 {
-    background-color: rgba(var(--v-theme-success), 0.05);
-  }
-
-  &.status-4 {
-    background-color: rgba(var(--v-theme-error), 0.05);
-  }
-
-  &.status-5 {
-    background-color: rgba(var(--v-theme-deep-purple), 0.05);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   }
 }
 

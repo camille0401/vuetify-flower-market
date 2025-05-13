@@ -1,7 +1,7 @@
 <template>
   <section class="fs-category-page">
     <v-container class="mx-auto pb-10">
-      <v-card elevation="0" rounded="lg" color="background" class="overflow-visible">
+      <v-card elevation="0" rounded="0">
         <!-- 面包屑导航 -->
         <v-card-title class="py-0">
           <v-breadcrumbs :items="breadcrumbItems" class="px-0 text-body-2">

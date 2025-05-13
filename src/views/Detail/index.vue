@@ -5,7 +5,7 @@
       <div v-if="detailLoading" class="loading-container">
         <v-progress-circular indeterminate size="64" color="primary" />
       </div>
-      <v-sheet v-else color="background">
+      <v-sheet v-else color="#FFF">
         <!-- 面包屑导航 -->
         <v-breadcrumbs :items="breadcrumbItems" class="text-body-2">
           <template v-slot:divider>

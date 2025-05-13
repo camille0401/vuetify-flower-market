@@ -12,11 +12,11 @@
         </v-tab>
       </v-tabs>
 
-      <v-tabs-window v-model="activeTab" touchless>
+      <v-tabs-window v-model="activeTab">
         <v-tabs-window-item v-for="tab in orderTabs" :key="tab.value" :value="tab.value">
           <template v-if="isLoading">
             <!-- 加载状态 -->
-            <v-progress-linear v-if="isLoading" indeterminate color="primary" class="my-4" />
+            <v-progress-circular v-if="isLoading" indeterminate color="primary" class="my-4" />
           </template>
 
           <template v-else-if="orders.length === 0">
@@ -31,8 +31,14 @@
 
           <template v-else>
             <!-- 订单列表内容 -->
-            <order-card v-for="order in orders" :key="order.id" :order="order" :orderTabs="orderTabs"
-              @cancel="handleCancelOrder" @view-detail="toOrderDetailPage" class="my-4" />
+            <template v-if="mobile">
+              <MobileOrder v-for="order in orders" :key="order.id" :order="order" :orderTabs="orderTabs"
+                @cancel="handleCancelOrder" @view-detail="toOrderDetailPage" class="my-6" />
+            </template>
+            <template v-else>
+              <order-card v-for="order in orders" :key="order.id" :order="order" :orderTabs="orderTabs"
+                @cancel="handleCancelOrder" @view-detail="toOrderDetailPage" class="my-6" />
+            </template>
 
             <!-- 分页 -->
             <!-- <v-pagination v-model="pagination.page" :length="totalPages" :total-visible="7"
@@ -56,11 +62,14 @@ import { ref, onMounted } from 'vue'
 import { useToast } from 'vue-toastification'
 import { useRouter } from 'vue-router'
 import OrderCard from './components/OrderCard.vue'
+import MobileOrder from './components/MobileOrder.vue'
 import FSConfirmationDialog from '@/components/FSConfirmationDialog.vue'
 import { fetchOrderAPI, cancelOrderAPI } from '@/apis/order'
 import { usePagination } from '@/composables/usePagination'
 import { useI18n } from 'vue-i18n'
+import { useDisplay } from 'vuetify'
 
+const { mobile } = useDisplay()
 const { t } = useI18n()
 const toast = useToast()
 const router = useRouter()

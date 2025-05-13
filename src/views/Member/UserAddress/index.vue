@@ -9,7 +9,7 @@
 
     <v-divider class="ma-4" />
 
-    <v-card-text>
+    <v-card-text v-if="!mobile">
       <v-data-table :headers="headers" :items="addressStore.addressList" item-value="id" hide-default-footer>
         <!-- 默认地址开关 -->
         <template #item.isDefault="{ item }">
@@ -28,10 +28,32 @@
         </template>
       </v-data-table>
     </v-card-text>
+
+    <v-card-text v-else class="pa-0">
+      <v-list lines="two" density="comfortable">
+        <v-list-item v-for="item in addressStore.addressList" :key="item.id" class="mb-2">
+          <v-list-item-title class="mb-2">{{ item.recipient }}</v-list-item-title>
+          <v-list-item-subtitle class="mb-2">{{ item.phone }}</v-list-item-subtitle>
+          <v-list-item-subtitle class="mb-2">
+            <v-chip v-if="item.isDefault === 1" class="mr-1" color="error" density="comfortable" size="small">
+              {{ $t('member.address.columns.default') }}
+            </v-chip>
+            {{ `${item.prefecture} ${item.city} ${item.address} ${item.prefecture} ${item.city} ${item.address}` }}
+          </v-list-item-subtitle>
+          <template v-slot:append>
+            <div class="d-flex flex-column ga-2 pl-2">
+              <v-icon color="primary" @click="openEditDialog(item)">mdi-pencil</v-icon>
+              <v-icon color="error" @click="openDeleteDialog(item.id)">mdi-trash-can</v-icon>
+            </div>
+          </template>
+        </v-list-item>
+        <v-divider></v-divider>
+      </v-list>
+    </v-card-text>
   </v-card>
 
   <!-- 编辑或新增地址对话框 -->
-  <v-dialog v-model="editDialog" max-width="600">
+  <v-dialog v-model="editDialog" max-width="600" :fullscreen="mobile" persistent>
     <AddressForm :initial-data="selectedAddress" @submit="handleSubmit" @close="editDialog = false" />
   </v-dialog>
 
@@ -42,13 +64,15 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue'
 import AddressForm from './components/AddressForm.vue'
 import FSConfirmationDialog from '@/components/FSConfirmationDialog.vue'
+import { onMounted, ref } from 'vue'
 import { useAddressStore } from '@/stores/address'
 import { useAddressForm } from '@/composables/useAddressForm'
 import { useI18n } from 'vue-i18n'
+import { useDisplay } from "vuetify"
 
+const { mobile } = useDisplay()
 const { t } = useI18n()
 
 const addressStore = useAddressStore()
