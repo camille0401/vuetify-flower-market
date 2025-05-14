@@ -1,5 +1,5 @@
 <template>
-  <v-card class="fs-order-card-mobile mb-4">
+  <v-card class="fs-order-card-mobile mb-2">
     <!-- 订单头部 -->
     <v-card-title class="d-flex justify-space-between align-center px-3 py-2">
       <div class="text-subtitle-2 font-weight-medium">
@@ -18,8 +18,8 @@
     <!-- 商品简要信息（只显示第一件）-->
     <v-card-text class="px-3 pt-2 pb-0">
       <div v-for="item in order.itemsDtos" :key="item.id" class="d-flex align-center py-4 item-order">
-        <div style="width: 64px; height: 64px;" class="mr-4 rounded-lg">
-          <v-img :src="item.goodsPic" width="64" height="64" cover class="rounded" />
+        <div style="width: 120px; height: 120px;" class="mr-2 rounded-lg">
+          <v-img :src="item.goodsPic" width="120" height="120" cover aspect-ratio="1" />
         </div>
         <div class="flex-grow-1">
           <div class="text-body-2 font-weight-medium">
@@ -48,7 +48,7 @@
     </v-card-text>
 
     <!-- 操作按钮 -->
-    <v-card-actions class="d-flex justify-end px-3 pt-2 pb-3 flex-wrap gap-2">
+    <v-card-actions class="d-flex justify-end px-3 pt-2 pb-2 flex-wrap gap-2">
       <template v-if="order.status === 0">
         <v-btn color="error" variant="text" size="small" prepend-icon="mdi-close" @click="$emit('cancel', order.id)">
           {{ $t('member.order.itemCancelBtn') }}

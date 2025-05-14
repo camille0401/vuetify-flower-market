@@ -1,6 +1,6 @@
 <template>
   <!-- 日付選択 -->
-  <v-card class="mb-6" elevation="2">
+  <v-card :class="mobile ? 'rounded-0' : 'rounded-lg elevation-2'">
     <v-toolbar color="primary" :title="$t('order.checkout.deliveryDateDialog.formTitle')" density="compact">
       <v-btn icon @click="$emit('close')">
         <v-icon>mdi-close</v-icon>
@@ -8,7 +8,8 @@
     </v-toolbar>
     <v-card-text>
       <v-date-picker v-model="selectedDate" width="100%" event-color="primary" :min="minDate" :max="maxDate"
-        :allowed-dates="allowedDates" :events="dateEvents" @update:modelValue="onDateSelected" :first-day-of-week="0">
+        :density="mobile && 'comfortable'" :allowed-dates="allowedDates" :events="dateEvents"
+        @update:modelValue="onDateSelected" :first-day-of-week="0">
       </v-date-picker>
 
       <!-- 選択内容表示 -->
@@ -23,7 +24,7 @@
     </v-card-text>
 
     <!-- 確認ボタン -->
-    <v-card-actions class="px-0">
+    <v-card-actions class="bg-grey-lighten-4" :class="mobile ? 'position-sticky bottom-0' : ''">
       <v-spacer />
       <v-btn variant="text" @click="$emit('close')">{{ $t('order.checkout.deliveryDateDialog.cancelBtn') }}</v-btn>
       <v-btn color="primary" type="submit" prepend-icon="mdi-lock-reset" @click="confirmSelection">
@@ -55,7 +56,9 @@ import { useI18n } from 'vue-i18n'
 import dayjs from 'dayjs'
 // import 'dayjs/locale/zh-cn'
 // import { isHolidayAt } from 'japanese-holidays'
+import { useDisplay } from 'vuetify'
 
+const { mobile } = useDisplay()
 // 设置中文语言
 const { t, d, locale } = useI18n()
 dayjs.locale(locale.value)

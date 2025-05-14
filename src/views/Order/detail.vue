@@ -1,78 +1,75 @@
 <template>
-  <div class="fs-order-detail-page">
-    <div class="container pb-10">
+  <section class="fs-order-detail-page">
+    <v-container class="mx-auto pb-10">
       <!-- 成功提示卡片 -->
-      <v-card elevation="2" rounded="lg" class="mb-6">
-        <v-card-text class="pa-6">
-          <v-alert :type="statusConfig.type" variant="tonal" :title="statusConfig.title"
-            :text="statusConfig.description" class="mb-4">
-            <template v-slot:prepend>
-              <v-icon :color="statusConfig.type" :icon="statusConfig.icon" size="40" />
-            </template>
-
-            <!-- 显示订单号和下单时间 -->
-            <template v-slot:append>
-              <div class="text-caption text-grey-darken-1">
-                <div>{{ $t('order.detail.orderNo') }} {{ orderDetail.orderNo }}</div>
-                <div>{{ $t('order.detail.createdAt') }} {{ formatTime(orderDetail.orderPaymentsDto?.createdAt) }}</div>
-                <div v-if="orderDetail.status === 4">
-                  {{ $t('order.detail.cancelTime') }} {{ formatTime(orderDetail.orderPaymentsDto?.updatedAt) }}
-                </div>
+      <v-sheet color="surface" class="pa-4 mb-4" elevation="2">
+        <v-alert :type="statusConfig.type" variant="tonal" :title="statusConfig.title" :text="statusConfig.description"
+          class="mb-4 responsive-alert">
+          <template #prepend>
+            <v-icon :color="statusConfig.type" :icon="statusConfig.icon" size="40" />
+          </template>
+          <v-spacer />
+          <template #append>
+            <div class="text-caption text-grey-darken-1">
+              <div>{{ $t('order.detail.orderNo') }} {{ orderDetail.orderNo }}</div>
+              <div>{{ $t('order.detail.createdAt') }} {{ formatTime(orderDetail.orderPaymentsDto?.createdAt) }}</div>
+              <div v-if="orderDetail.status === 4">
+                {{ $t('order.detail.cancelTime') }} {{ formatTime(orderDetail.orderPaymentsDto?.updatedAt) }}
               </div>
-            </template>
-          </v-alert>
+            </div>
+          </template>
+        </v-alert>
 
-          <!-- 配送信息 -->
-          <div class="delivery-info">
-            <h3 class="text-h6 mb-4 font-weight-bold">
-              <v-icon icon="mdi-truck-delivery" class="mr-2" />{{ $t('order.detail.delivery') }}
-            </h3>
-            <v-divider class="mb-4" />
-            <v-row dense>
-              <v-col cols="12" md="12">
-                <div class="info-item">
-                  <div class="text-caption text-grey">{{ $t('order.detail.recipient') }}</div>
-                  <div class="text-body-1">{{ orderDetail.memberAddress?.recipient }}</div>
-                </div>
-              </v-col>
-              <v-col cols="12" md="12">
-                <div class="info-item">
-                  <div class="text-caption text-grey">{{ $t('order.detail.phone') }}</div>
-                  <div class="text-body-1">{{ orderDetail.memberAddress?.phone }}</div>
-                </div>
-              </v-col>
-              <v-col cols="12" md="12">
-                <div class="info-item">
-                  <div class="text-caption text-grey">{{ $t('order.detail.address') }}</div>
-                  <div class="text-body-1">{{ fullAddress }}</div>
-                </div>
-              </v-col>
-              <v-col cols="12" md="12">
-                <div class="info-item">
-                  <div class="text-caption text-grey">{{ $t('order.detail.expectedTime') }}</div>
-                  <div class="text-body-1 text-primary">{{ selectedDateDisplay }}</div>
-                </div>
-              </v-col>
-            </v-row>
-          </div>
-        </v-card-text>
-      </v-card>
+        <!-- 配送信息 -->
+        <div class="delivery-info">
+          <h3 class="text-h6 mb-4 font-weight-bold">
+            <v-icon icon="mdi-truck-delivery" class="mr-2" />{{ $t('order.detail.delivery') }}
+          </h3>
+          <v-divider class="mb-4" />
+          <v-row dense>
+            <v-col cols="12" md="12">
+              <div class="info-item">
+                <div class="text-caption text-grey">{{ $t('order.detail.recipient') }}</div>
+                <div class="text-body-1">{{ orderDetail.memberAddress?.recipient }}</div>
+              </div>
+            </v-col>
+            <v-col cols="12" md="12">
+              <div class="info-item">
+                <div class="text-caption text-grey">{{ $t('order.detail.phone') }}</div>
+                <div class="text-body-1">{{ orderDetail.memberAddress?.phone }}</div>
+              </div>
+            </v-col>
+            <v-col cols="12" md="12">
+              <div class="info-item">
+                <div class="text-caption text-grey">{{ $t('order.detail.address') }}</div>
+                <div class="text-body-1">{{ fullAddress }}</div>
+              </div>
+            </v-col>
+            <v-col cols="12" md="12">
+              <div class="info-item">
+                <div class="text-caption text-grey">{{ $t('order.detail.expectedTime') }}</div>
+                <div class="text-body-1 text-primary">{{ selectedDateDisplay }}</div>
+              </div>
+            </v-col>
+          </v-row>
+        </div>
+      </v-sheet>
 
       <!-- 订单详情卡片 -->
-      <v-card elevation="2" rounded="lg" class="mb-6">
+      <v-card elevation="2" rounded="0" class="mb-4">
         <v-card-title class="text-h6 font-weight-bold">
           <v-icon icon="mdi-receipt-text" class="mr-2" />{{ $t('order.detail.title') }}
         </v-card-title>
         <v-divider />
 
-        <v-card-text>
+        <v-card-text class="pa-4">
           <v-table class="order-table">
             <thead>
               <tr>
-                <th>{{ $t('order.detail.goodsInfo') }}</th>
-                <th class="text-right">{{ $t('order.detail.price') }}</th>
-                <th class="text-right">{{ $t('order.detail.quantity') }}</th>
-                <th class="text-right">{{ $t('order.detail.subtotal') }}</th>
+                <th class="text-left">{{ $t('order.detail.goodsInfo') }}</th>
+                <th class="text-center">{{ $t('order.detail.price') }}</th>
+                <th class="text-center">{{ $t('order.detail.quantity') }}</th>
+                <th class="text-center">{{ $t('order.detail.subtotal') }}</th>
               </tr>
             </thead>
             <tbody>
@@ -83,19 +80,18 @@
                 <td>
                   <div class="d-flex align-center">
                     <div class="mr-4 rounded-lg" style="width: 80px; height: 80px;">
-                      <v-img :src="item.goodsPic" width="80" height="80" cover class="mr-4 rounded-lg" />
+                      <v-img :src="item.goodsPic" width="80" height="80" cover />
                     </div>
                     <div>
                       <div class="text-body-1 font-weight-medium">{{ item.goodsName }}</div>
-                      <!-- <div class="text-caption text-grey">SKU: {{ item.skuId }}</div> -->
                     </div>
                   </div>
                 </td>
-                <td class="text-right">
+                <td class="text-center">
                   {{ $t('global.moneyTemplate', { money: item.price }) }}
                 </td>
-                <td class="text-right">{{ 'X' + item.quantity }}</td>
-                <td class="text-right text-error">
+                <td class="text-center">{{ 'X' + item.quantity }}</td>
+                <td class="text-center text-error">
                   {{ $t('global.moneyTemplate', { money: (item.price * item.quantity).toFixed(2) }) }}
                 </td>
 
@@ -131,21 +127,21 @@
               </div>
             </div>
           </div>
+          <v-divider class="my-4" />
+          <div class="action-buttons">
+            <v-btn class="flex-grow-1" color="primary" variant="outlined" size="large" prepend-icon="mdi-arrow-right"
+              to="/">
+              {{ $t('order.detail.backToShop') }}
+            </v-btn>
+            <v-btn class="flex-grow-1" color="primary" size="large" prepend-icon="mdi-text-box-check"
+              to="/member/order">
+              {{ $t('order.detail.viewOrders') }}
+            </v-btn>
+          </div>
         </v-card-text>
       </v-card>
-
-      <!-- 操作按钮 -->
-      <div class="action-buttons">
-        <v-btn color="primary" variant="outlined" size="x-large" prepend-icon="mdi-arrow-left" to="/"
-          class="flex-grow-1">
-          {{ $t('order.detail.backToShop') }}
-        </v-btn>
-        <v-btn color="primary" size="x-large" prepend-icon="mdi-text-box-check" to="/member/order" class="flex-grow-1">
-          {{ $t('order.detail.viewOrders') }}
-        </v-btn>
-      </div>
-    </div>
-  </div>
+    </v-container>
+  </section>
 </template>
 
 <script setup>
@@ -251,13 +247,18 @@ onMounted(() => fetchOrderDetail())
 <style lang="scss" scoped>
 .fs-order-detail-page {
   .order-table {
-    th {
+    :deep(thead tr th) {
       font-weight: 600;
       background-color: rgba(0, 0, 0, 0.02);
     }
 
-    tr:hover {
+    :deep(tbody tr:hover) {
       background-color: rgba(0, 0, 0, 0.01);
+    }
+
+    :deep(td),
+    :deep(th) {
+      padding: 12px 8px;
     }
   }
 
@@ -281,10 +282,6 @@ onMounted(() => fetchOrderDetail())
     display: grid;
     gap: 16px;
     grid-template-columns: repeat(2, 1fr);
-
-    @media (max-width: 600px) {
-      grid-template-columns: 1fr;
-    }
   }
 
   .info-item {
@@ -301,29 +298,33 @@ onMounted(() => fetchOrderDetail())
     }
   }
 
-  /* 调整警告框文字间距 */
-  .v-alert__content {
-    line-height: 1.6;
-
-    .v-alert__title {
-      font-size: 1.1rem;
-      margin-bottom: 0.5rem;
-    }
-  }
-
   /* 响应式调整 */
   @media (max-width: 600px) {
-    .v-alert {
+    .order-table {
+
+      th,
+      td {
+        font-size: 14px;
+      }
+
+      td>.d-flex {
+        flex-direction: column;
+        align-items: flex-start !important;
+
+        .v-img {
+          margin-bottom: 6px;
+        }
+      }
+    }
+
+    .action-buttons {
+      grid-template-columns: 1fr;
+    }
+
+    .responsive-alert {
+      display: flex;
       flex-direction: column;
-
-      &__prepend {
-        margin-right: 0;
-        margin-bottom: 1rem;
-      }
-
-      &__append {
-        margin-top: 1rem;
-      }
+      row-gap: 10px;
     }
   }
 

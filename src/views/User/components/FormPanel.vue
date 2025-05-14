@@ -42,5 +42,11 @@ defineProps({
   border-radius: 20px;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+
+  // 📱 小屏幕优化
+  @media (max-width: 600px) {
+    border-radius: 0;
+    padding: 20px !important;
+  }
 }
 </style>

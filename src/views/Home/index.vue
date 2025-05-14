@@ -5,26 +5,8 @@
       <div class="home-banner">
         <v-img width="100%" height="100%" aspect-ratio="16/9" cover :src="bannerImg"></v-img>
       </div>
-
-      <!-- 分类骨架屏 -->
-      <Suspense>
-        <template #default>
-          <HomeCategory v-show="!mobile" />
-        </template>
-        <template #fallback>
-          <v-skeleton-loader v-show="!mobile" type="article" height="500px" class="my-6" color="rgba(0, 0, 0, 0.4)" />
-        </template>
-      </Suspense>
-
-      <!-- 商品骨架屏 -->
-      <Suspense>
-        <template #default>
-          <HomeProduct />
-        </template>
-        <template #fallback>
-          <v-skeleton-loader type="image, text" height="400px" class="my-6" />
-        </template>
-      </Suspense>
+      <HomeCategory v-if="!mobile" />
+      <HomeProduct />
     </v-container>
   </section>
 </template>

@@ -1,56 +1,47 @@
 <template>
-  <v-card class="mx-auto pa-4" rounded="l" elevation="0" style="height: 100%;">
-    <v-card-title class="d-flex justify-space-between align-center">
-      <p class="text-h5 font-weight-bold">{{ $t('member.address.title') }}</p>
-      <v-btn color="primary" @click="openCreateDialog">
-        <v-icon class="mr-2">mdi-pen-plus</v-icon>{{ $t('member.address.add') }}
-      </v-btn>
-    </v-card-title>
-
-    <v-divider class="ma-4" />
-
-    <v-card-text v-if="!mobile">
-      <v-data-table :headers="headers" :items="addressStore.addressList" item-value="id" hide-default-footer>
-        <!-- 默认地址开关 -->
-        <template #item.isDefault="{ item }">
-          <v-switch :model-value="item.isDefault" color="primary" :true-value="1" :false-value="0" hide-details
-            @update:modelValue="toggleDefault(item.id, $event)" />
+  <v-sheet color="surface" class="pa-4">
+    <FSTitlePanel :title="$t('member.address.title')">
+      <template #action>
+        <v-btn color="primary" @click="openCreateDialog">
+          <v-icon class="mr-2">mdi-pen-plus</v-icon>{{ $t('member.address.add') }}
+        </v-btn>
+      </template>
+    </FSTitlePanel>
+    <v-data-table v-if="!mobile" :headers="headers" :items="addressStore.addressList" item-value="id"
+      hide-default-footer>
+      <template #item.isDefault="{ item }">
+        <v-switch :model-value="item.isDefault" color="primary" :true-value="1" :false-value="0" hide-details
+          @update:modelValue="toggleDefault(item.id, $event)" />
+      </template>
+      <template #item.actions="{ item }">
+        <v-btn size="x-small" icon color="primary" @click="openEditDialog(item)">
+          <v-icon>mdi-pencil</v-icon>
+        </v-btn>
+        <v-btn size="x-small" icon color="error" class="ml-2" @click="openDeleteDialog(item.id)">
+          <v-icon>mdi-delete</v-icon>
+        </v-btn>
+      </template>
+    </v-data-table>
+    <v-list v-else lines="two" density="comfortable">
+      <v-list-item v-for="item in addressStore.addressList" :key="item.id" class="mb-2">
+        <v-list-item-title class="mb-2">{{ item.recipient }}</v-list-item-title>
+        <v-list-item-subtitle class="mb-2">{{ item.phone }}</v-list-item-subtitle>
+        <v-list-item-subtitle class="mb-2">
+          <v-chip v-if="item.isDefault === 1" class="mr-1" color="error" density="comfortable" size="small">
+            {{ $t('member.address.columns.default') }}
+          </v-chip>
+          {{ `${item.prefecture} ${item.city} ${item.address} ${item.prefecture} ${item.city} ${item.address}` }}
+        </v-list-item-subtitle>
+        <template v-slot:append>
+          <div class="d-flex flex-column ga-2 pl-2">
+            <v-icon color="primary" @click="openEditDialog(item)">mdi-pencil</v-icon>
+            <v-icon color="error" @click="openDeleteDialog(item.id)">mdi-trash-can</v-icon>
+          </div>
         </template>
-
-        <!-- 操作列 -->
-        <template #item.actions="{ item }">
-          <v-btn size="x-small" icon color="primary" @click="openEditDialog(item)">
-            <v-icon>mdi-pencil</v-icon>
-          </v-btn>
-          <v-btn size="x-small" icon color="error" class="ml-2" @click="openDeleteDialog(item.id)">
-            <v-icon>mdi-delete</v-icon>
-          </v-btn>
-        </template>
-      </v-data-table>
-    </v-card-text>
-
-    <v-card-text v-else class="pa-0">
-      <v-list lines="two" density="comfortable">
-        <v-list-item v-for="item in addressStore.addressList" :key="item.id" class="mb-2">
-          <v-list-item-title class="mb-2">{{ item.recipient }}</v-list-item-title>
-          <v-list-item-subtitle class="mb-2">{{ item.phone }}</v-list-item-subtitle>
-          <v-list-item-subtitle class="mb-2">
-            <v-chip v-if="item.isDefault === 1" class="mr-1" color="error" density="comfortable" size="small">
-              {{ $t('member.address.columns.default') }}
-            </v-chip>
-            {{ `${item.prefecture} ${item.city} ${item.address} ${item.prefecture} ${item.city} ${item.address}` }}
-          </v-list-item-subtitle>
-          <template v-slot:append>
-            <div class="d-flex flex-column ga-2 pl-2">
-              <v-icon color="primary" @click="openEditDialog(item)">mdi-pencil</v-icon>
-              <v-icon color="error" @click="openDeleteDialog(item.id)">mdi-trash-can</v-icon>
-            </div>
-          </template>
-        </v-list-item>
-        <v-divider></v-divider>
-      </v-list>
-    </v-card-text>
-  </v-card>
+      </v-list-item>
+      <v-divider></v-divider>
+    </v-list>
+  </v-sheet>
 
   <!-- 编辑或新增地址对话框 -->
   <v-dialog v-model="editDialog" max-width="600" :fullscreen="mobile" persistent>
@@ -64,6 +55,7 @@
 </template>
 
 <script setup>
+import FSTitlePanel from '@/components/FSTitlePanel/index.vue'
 import AddressForm from './components/AddressForm.vue'
 import FSConfirmationDialog from '@/components/FSConfirmationDialog.vue'
 import { onMounted, ref } from 'vue'

@@ -1,6 +1,6 @@
 <template>
   <div class="fs-settlement-page">
-    <div class="container pb-10">
+    <v-container class="mx-auto pb-10">
       <!-- 主卡片区域 -->
       <v-card elevation="2" rounded="lg">
         <!-- 收货地址部分 -->
@@ -148,7 +148,7 @@
           </div>
         </v-card-item>
       </v-card>
-    </div>
+    </v-container>
 
     <!-- 添加地址对话框 -->
     <v-dialog v-model="editDialog" max-width="600">

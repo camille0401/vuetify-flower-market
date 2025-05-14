@@ -1,12 +1,10 @@
 <template>
-  <div class="fs-checkout-page">
-    <div class="container pb-10">
+  <section class="fs-checkout-page">
+    <v-container class="mx-auto pb-10">
       <!-- 主卡片区域 -->
-      <v-card elevation="2" rounded="lg">
-        <!-- 收货地址部分 -->
-        <v-card-item class="pa-6">
-          <div class="d-flex justify-space-between align-center mb-4">
-            <h3 class="text-h6 font-weight-bold">{{ $t('order.checkout.addressTitle') }}</h3>
+      <v-sheet color="surface" class="pa-4 mb-4" elevation="2">
+        <FSTitlePanel :title="$t('order.checkout.addressTitle')">
+          <template #action>
             <div class="d-flex ga-4">
               <v-btn color="primary-darken-1" prepend-icon="mdi-pen-plus" @click="openCreateDialog">
                 {{ $t('order.checkout.addAddressBtn') }}
@@ -15,157 +13,143 @@
                 {{ $t('order.checkout.switchAddressBtn') }}
               </v-btn>
             </div>
+          </template>
+        </FSTitlePanel>
+        <div class="address-card mb-6" :class="{ 'empty-address': !activeAddress }">
+          <div v-if="!activeAddress" class="empty-address-message">
+            <v-icon size="large" color="grey-lighten-1">mdi-map-marker-off</v-icon>
+            <p class="text-body-1 mt-2">{{ $t('order.checkout.emptyAddress') }}</p>
           </div>
 
-          <v-divider class="mb-4" />
-
-          <div class="address-card" :class="{ 'empty-address': !activeAddress }">
-            <div v-if="!activeAddress" class="empty-address-message">
-              <v-icon size="large" color="grey-lighten-1">mdi-map-marker-off</v-icon>
-              <p class="text-body-1 mt-2">{{ $t('order.checkout.emptyAddress') }}</p>
-            </div>
-
-            <div v-else class="address-content">
-              <div class="address-info">
-                <div class="d-flex align-center mb-2">
-                  <span class="text-body-1 font-weight-medium mr-2">{{ $t('order.checkout.recipient') }}</span>
-                  <span class="text-body-1">{{ activeAddress?.recipient }}</span>
-                  <v-chip v-if="activeAddress?.isDefault" color="error" size="small" class="ml-2">
-                    {{ $t('order.checkout.defaultAddressChip') }}
-                  </v-chip>
-                </div>
-                <div class="text-body-1 mb-2">
-                  <span class="font-weight-medium mr-2">{{ $t('order.checkout.contact') }}</span>
-                  <span>{{ activeAddress?.phone }}</span>
-                </div>
-                <div class="text-body-1">
-                  <span class="font-weight-medium mr-2">{{ $t('order.checkout.fullAddress') }}</span>
-                  <span>{{ fullAddress }}</span>
-                </div>
+          <div v-else class="address-content">
+            <div class="address-info">
+              <div class="d-flex align-center mb-2">
+                <span class="text-body-1 font-weight-medium mr-2">{{ $t('order.checkout.recipient') }}</span>
+                <span class="text-body-1">{{ activeAddress?.recipient }}</span>
+                <v-chip v-if="activeAddress?.isDefault" color="error" size="small" class="ml-2">
+                  {{ $t('order.checkout.defaultAddressChip') }}
+                </v-chip>
+              </div>
+              <div class="text-body-1 mb-2">
+                <span class="font-weight-medium mr-2">{{ $t('order.checkout.contact') }}</span>
+                <span>{{ activeAddress?.phone }}</span>
+              </div>
+              <div class="text-body-1">
+                <span class="font-weight-medium mr-2">{{ $t('order.checkout.fullAddress') }}</span>
+                <span>{{ fullAddress }}</span>
               </div>
             </div>
           </div>
-        </v-card-item>
+        </div>
 
         <!-- 商品信息部分 -->
-        <v-card-item class="pa-6">
-          <h3 class="text-h6 font-weight-bold mb-4">{{ $t('order.checkout.productInfo') }}</h3>
-          <v-divider class="mb-4" />
-
-          <v-table class="product-table">
-            <thead>
-              <tr>
-                <th class="text-left">{{ $t('order.checkout.table.product') }}</th>
-                <th class="text-center">{{ $t('order.checkout.table.price') }}</th>
-                <th class="text-center">{{ $t('order.checkout.table.count') }}</th>
-                <th class="text-center">{{ $t('order.checkout.table.amount') }}</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="item in goodsList" :key="item.id">
-                <td>
-                  <div class="d-flex align-center">
-                    <div style="width: 80px; height: 80px;" class="mr-4 rounded-lg">
-                      <v-img :src="item.picture" width="80" height="80" cover />
-                    </div>
-                    <div>
-                      <p class="text-body-1 font-weight-medium">{{ item.name }}</p>
-                      <p class="text-caption text-grey">{{ item.attrsText }}</p>
-                    </div>
+        <FSTitlePanel :title="$t('order.checkout.productInfo')" />
+        <v-table class="product-table mb-6">
+          <thead>
+            <tr>
+              <th class="text-left">{{ $t('order.checkout.table.product') }}</th>
+              <th class="text-center">{{ $t('order.checkout.table.price') }}</th>
+              <th class="text-center">{{ $t('order.checkout.table.count') }}</th>
+              <th class="text-center">{{ $t('order.checkout.table.amount') }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="item in goodsList" :key="item.id">
+              <td>
+                <div class="d-flex align-center">
+                  <div style="width: 80px; height: 80px;" class="mr-4 rounded-lg">
+                    <v-img :src="item.picture" width="80" height="80" cover />
                   </div>
-                </td>
-                <td class="text-center">{{ $t('global.moneyTemplate', { money: item.price }) }}</td>
-                <td class="text-center">{{ $t('global.countTemplate', { count: item.goodsCount })
-                  }}</td>
-                <td class="text-center text-error">
-                  {{ $t('global.moneyTemplate', { money: item.totalPayAmount }) }}
-                </td>
-              </tr>
-            </tbody>
-          </v-table>
-        </v-card-item>
+                  <div>
+                    <p class="text-body-1 font-weight-medium">{{ item.name }}</p>
+                    <p class="text-caption text-grey">{{ item.attrsText }}</p>
+                  </div>
+                </div>
+              </td>
+              <td class="text-center">{{ $t('global.moneyTemplate', { money: item.price }) }}</td>
+              <td class="text-center">{{ $t('global.countTemplate', { count: item.goodsCount })
+                }}</td>
+              <td class="text-center text-error">
+                {{ $t('global.moneyTemplate', { money: item.totalPayAmount }) }}
+              </td>
+            </tr>
+          </tbody>
+        </v-table>
 
         <!-- 配送时间部分 -->
-        <v-card-item class="pa-6">
-          <h3 class="text-h6 font-weight-bold mb-4">{{ $t('order.checkout.deliveryDate') }}</h3>
-          <v-divider class="mb-4" />
-
-          <div class="cursor-pointer" @click="deliveryTimeDialog = true">
-            <div class="selected-info">
-              <v-icon color="primary" class="mr-2">mdi-calendar-check</v-icon>
-              <span>{{ selectedDateDisplay }}</span>
-            </div>
+        <FSTitlePanel :title="$t('order.checkout.deliveryDate')" />
+        <div class="cursor-pointer mb-6" @click="deliveryTimeDialog = true">
+          <div class="selected-info">
+            <v-icon color="primary" class="mr-2">mdi-calendar-check</v-icon>
+            <span>{{ selectedDateDisplay }}</span>
           </div>
-        </v-card-item>
+        </div>
 
         <!-- 金额明细部分 -->
-        <v-card-item class="pa-6">
-          <h3 class="text-h6 font-weight-bold mb-4">{{ $t('order.checkout.totalDetail') }}</h3>
-          <v-divider class="mb-4" />
+        <FSTitlePanel :title="$t('order.checkout.totalDetail')" />
+        <div class="price-summary mb-6">
+          <div class="price-item">
+            <span class="label">{{ $t('order.checkout.goodsCount') }}</span>
+            <span class="value">{{ $t('global.countTemplate', { count: summary?.goodsCount }) }}</span>
 
-          <div class="price-summary">
-            <div class="price-item">
-              <span class="label">{{ $t('order.checkout.goodsCount') }}</span>
-              <span class="value">{{ $t('global.countTemplate', { count: summary?.goodsCount }) }}</span>
-
-            </div>
-            <div class="price-item">
-              <span class="label">{{ $t('order.checkout.totalAmount') }}</span>
-              <span class="value">
-                {{ $t('global.moneyTemplate', { money: summary?.totalAmount }) }}
-              </span>
-            </div>
-            <!-- <div class="price-item">
-              <span class="label">配送料：</span>
-              <span class="value">¥{{ summary?.postFee }}</span>
-            </div> -->
-            <div class="price-item total">
-              <span class="label">{{ $t('order.checkout.totalPayAmount') }}</span>
-              <span class="value text-error">
-                {{ $t('global.moneyTemplate', { money: summary?.totalPayAmount }) }}
-              </span>
-            </div>
           </div>
-        </v-card-item>
-
-        <!-- 操作按钮 -->
-        <v-divider />
-        <v-card-item class="pa-6">
-          <div class="d-flex justify-end ga-4">
-            <v-btn variant="text" size="x-large" @click="goBack">
-              {{ $t('order.checkout.backBtn') }}
-            </v-btn>
-            <v-btn color="primary-darken-1" size="x-large" prepend-icon="mdi-check" :loading="loading"
-              @click="submitOrder">
-              {{ $t('order.checkout.submitOrderBtn') }}
-            </v-btn>
+          <div class="price-item">
+            <span class="label">{{ $t('order.checkout.totalAmount') }}</span>
+            <span class="value">
+              {{ $t('global.moneyTemplate', { money: summary?.totalAmount }) }}
+            </span>
           </div>
-        </v-card-item>
-      </v-card>
-    </div>
+          <!-- <div class="price-item">
+            <span class="label">配送料：</span>
+            <span class="value">¥{{ summary?.postFee }}</span>
+          </div> -->
+          <div class="price-item total">
+            <span class="label">{{ $t('order.checkout.totalPayAmount') }}</span>
+            <span class="value text-error">
+              {{ $t('global.moneyTemplate', { money: summary?.totalPayAmount }) }}
+            </span>
+          </div>
+        </div>
+        <v-divider class="my-4" />
+        <div class="action-buttons">
+          <v-btn class="flex-grow-1" color="primary" variant="outlined" size="large" prepend-icon="mdi-arrow-left"
+            @click="goBack">
+            {{ $t('order.checkout.backBtn') }}
+          </v-btn>
+          <v-btn class="flex-grow-1" color="primary" size="large" prepend-icon="mdi-check" :loading="loading"
+            @click="submitOrder">
+            {{ $t('order.checkout.submitOrderBtn') }}
+          </v-btn>
+        </div>
+      </v-sheet>
+    </v-container>
 
     <!-- 添加地址对话框 -->
-    <v-dialog v-model="editDialog" max-width="600">
+    <v-dialog v-model="editDialog" max-width="600" :fullscreen="mobile" persistent>
       <AddressForm :initial-data="selectedAddress" @submit="handleSubmit" @close="editDialog = false" />
     </v-dialog>
 
     <!-- 切换地址对话框 -->
-    <v-dialog v-model="switchDialog" max-width="600">
+    <v-dialog v-model="switchDialog" max-width="600" :fullscreen="mobile" persistent>
       <AddressList :list="addressStore.addressList" :active-address="activeAddress" @switch-address="switchAddress"
         @close="switchDialog = false" />
     </v-dialog>
 
     <!-- 配送日期对话框 -->
-    <v-dialog v-model="deliveryTimeDialog" max-width="600">
+    <v-dialog v-model="deliveryTimeDialog" max-width="600" :fullscreen="mobile" persistent>
       <DeliveryDate :initial-date="deliveryTime" @close="deliveryTimeDialog = false" @selected="selectedDeliveryTime" />
     </v-dialog>
-  </div>
+  </section>
 </template>
 
 <script setup>
+import FSTitlePanel from '@/components/FSTitlePanel/index.vue'
 import AddressForm from '@/views/Member/UserAddress/components/AddressForm.vue'
 import AddressList from '@/views/Member/UserAddress/components/AddressList.vue'
 import DeliveryDate from './components/DeliveryDate.vue'
+import dayjs from 'dayjs'
+import 'dayjs/locale/ja'
+import 'dayjs/locale/zh-cn'
 import { ref, computed, onMounted, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
@@ -174,12 +158,10 @@ import { useAddressStore } from '@/stores/address'
 import { useCartStore } from '@/stores/cart'
 import { useAddressForm } from '@/composables/useAddressForm'
 import { useOrderDraft } from '@/composables/useOrderDraft'
-import dayjs from 'dayjs'
 import { useI18n } from 'vue-i18n'
+import { useDisplay } from "vuetify"
 
-import 'dayjs/locale/ja'
-import 'dayjs/locale/zh-cn'
-
+const { mobile } = useDisplay()
 const { t, locale } = useI18n()
 
 const toast = useToast()
@@ -395,26 +377,44 @@ onMounted(async () => {
     }
   }
 
-  @media (max-width: 960px) {
-    .address-card {
-      .address-content {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 16px;
-      }
-    }
+  .action-buttons {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: repeat(2, 1fr);
+  }
 
+  // 📱 小屏幕优化
+  @media (max-width: 600px) {
     .product-table {
-      overflow-x: auto;
 
-      table {
-        min-width: 600px;
+      th,
+      td {
+        font-size: 14px;
+      }
+
+      td>.d-flex {
+        flex-direction: column;
+        align-items: flex-start !important;
+
+        .v-img {
+          margin-bottom: 6px;
+        }
       }
     }
 
-    .price-summary {
-      max-width: 100%;
+    .selected-info {
+      font-size: 14px;
+      align-items: center;
+    }
+
+    .price-summary .price-item.total {
+      font-size: 16px;
+    }
+
+    .action-buttons {
+      grid-template-columns: 1fr;
     }
   }
+
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="fs-login-page">
+  <div style="height: 100%;">
     <section class="login-section">
       <v-container class="fill-height d-flex align-center">
         <v-row class="w-100" align="center" justify="center" justify-lg="end">
@@ -25,6 +25,7 @@
 .login-section {
   position: relative;
   width: 100%;
+  height: 100%;
   background: url("@/assets/images/login-bg.jpg") center/cover no-repeat;
   padding: 60px 0; // 给上下适度空间
 

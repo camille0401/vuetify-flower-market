@@ -1,59 +1,48 @@
 <template>
-  <v-card class="pa-6" rounded="lg" flat style="height: 100%;">
-    <v-card-title class="text-h5 font-weight-bold mb-6">
-      {{ $t('member.user.profile.title') }}
-    </v-card-title>
+  <v-sheet color="surface" class="pa-4">
+    <FSTitlePanel :title="$t('member.user.profile.title')" />
+    <div class="profile">
+      <!-- 左：头像区域 -->
+      <div class="profile__avatar">
+        <v-avatar color="primary-lighten-4" size="160" class="mb-4">
+          <v-img :src="defaultAvatar" size="160" alt="默认的用户头像" cover />
+        </v-avatar>
 
-    <v-card-text>
-      <div class="profile">
-        <!-- 左：头像区域 -->
-        <div class="profile__avatar">
-          <v-avatar color="primary-lighten-4" size="160" class="mb-4">
-            <v-img :src="defaultAvatar" size="160" alt="默认的用户头像" cover />
-          </v-avatar>
-
-          <v-btn color="primary" variant="tonal" prepend-icon="mdi-pencil-circle" @click="openPasswordDialog">
-            {{ $t('member.user.profile.changePasswordBtn') }}
-          </v-btn>
-        </div>
-
-        <!-- 右：表单区域 -->
-        <v-form ref="formRef" class="profile__form">
-          <v-row>
-            <v-col cols="12" md="12">
-              <v-text-field v-model="form.username" :label="$t('member.user.profile.username')" variant="outlined"
-                readonly density="comfortable" />
-            </v-col>
-
-            <v-col cols="12" md="12">
-              <v-text-field v-model="form.nickname" :label="$t('member.user.profile.nickname')" variant="outlined"
-                readonly density="comfortable" :rules="[rules.required]" />
-            </v-col>
-
-            <v-col cols="12" md="12">
-              <v-text-field v-model="form.email" :label="$t('member.user.profile.email')" variant="outlined" readonly
-                density="comfortable" :rules="[rules.required, rules.email]" />
-            </v-col>
-
-          </v-row>
-        </v-form>
+        <v-btn color="primary" variant="tonal" prepend-icon="mdi-pencil-circle" @click="openPasswordDialog">
+          {{ $t('member.user.profile.changePasswordBtn') }}
+        </v-btn>
       </div>
-    </v-card-text>
 
-    <!-- <v-card-actions class="px-0">
-      <v-spacer />
-      <v-btn color="primary" size="large" :loading="submitting" prepend-icon="mdi-content-save" @click="handleSubmit">
-        {{ $t('member.user.common.saveBtn') }}
-      </v-btn>
-    </v-card-actions> -->
+      <!-- 右：表单区域 -->
+      <v-form ref="formRef" class="profile__form">
+        <v-row>
+          <v-col cols="12" md="12">
+            <v-text-field v-model="form.username" :label="$t('member.user.profile.username')" variant="outlined"
+              readonly density="comfortable" />
+          </v-col>
+
+          <v-col cols="12" md="12">
+            <v-text-field v-model="form.nickname" :label="$t('member.user.profile.nickname')" variant="outlined"
+              readonly density="comfortable" :rules="[rules.required]" />
+          </v-col>
+
+          <v-col cols="12" md="12">
+            <v-text-field v-model="form.email" :label="$t('member.user.profile.email')" variant="outlined" readonly
+              density="comfortable" :rules="[rules.required, rules.email]" />
+          </v-col>
+
+        </v-row>
+      </v-form>
+    </div>
     <!-- 修改密码对话框 -->
     <v-dialog v-model="passwordDialog" max-width="600" :fullscreen="mobile" persistent>
       <EditPassword @close="passwordDialog = false" />
     </v-dialog>
-  </v-card>
+  </v-sheet>
 </template>
 
 <script setup>
+import FSTitlePanel from '@/components/FSTitlePanel/index.vue'
 import EditPassword from './components/EditPassword.vue'
 import defaultAvatar from '@/assets/images/default-avatar.png'
 import { ref, reactive, watch } from 'vue'

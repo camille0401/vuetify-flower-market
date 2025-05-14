@@ -1,15 +1,12 @@
 <template>
-  <div class="fs-cart-page">
+  <section class="fs-cart-page">
     <v-container class="mx-auto pb-10">
-      <v-sheet color="#FFFFFF" class="pa-4">
-        <!-- 购物车标题 -->
-        <div class="d-flex align-center mb-6">
-          <h2 class="text-h5 font-weight-bold">{{ $t('cartlist.title') }}</h2>
-          <v-chip class="ml-4" color="primary" small>
-            {{ $t('cartlist.totalItems', { count: cartStore.cartAllCount }) }}
-          </v-chip>
-        </div>
-
+      <v-sheet color="surface" class="pa-4">
+        <FSTitlePanel :title="$t('cartlist.title')">
+        </FSTitlePanel>
+        <v-alert border="start" border-color="info" class="mb-2">
+          {{ $t('cartlist.totalItems', { count: cartStore.cartAllCount }) }}
+        </v-alert>
         <!-- 购物车表格（仅桌面端显示） -->
         <div class="cart-table" v-if="!mobile">
           <v-table class="elevation-1">
@@ -44,7 +41,7 @@
                         {{ cart.name }}
                       </p>
                       <p class="text-caption text-grey">
-                        {{ $t('cartlist.table.itemsInventory', { inventory: cart.inventory }) }}
+                        {{ $t('cartlist.table.itemsInventory', { inventory: cart.stock }) }}
                       </p>
                     </div>
                   </div>
@@ -53,7 +50,7 @@
                   <p class="text-body-1">{{ $t('global.moneyTemplate', { money: cart.price }) }}</p>
                 </td>
                 <td class="text-center">
-                  <FSBoundedNumInput v-model="cart.count" :min="1" :max="cart.inventory" :debounce="500" :data="cart"
+                  <FSBoundedNumInput :min="1" :max="cart.stock" v-model="cart.count" :debounce="500" :data="cart"
                     @change="handleCountChange" @out-of-range="handleOutOfRange" @store-count="handleCountStore"
                     class="mx-auto" />
                 </td>
@@ -87,28 +84,37 @@
 
         <!-- 移动端 -->
         <div class="cart-card" v-else>
-          <v-card class="cart-item mb-4" flat v-for="cart in cartStore.cartList" :key="cart.goodsId">
-            <v-card-text class="d-flex align-center">
-              <div style="width: 64px; height: 64px;" class="mr-4 rounded-lg">
-                <v-img :src="cart.picture" width="64" height="64" cover class="rounded" />
+          <v-card class="cart-item mb-2" flat v-for="cart in cartStore.cartList" :key="cart.goodsId">
+            <v-card-text class="d-flex align-start pa-3">
+              <div class="mobile-img-wrapper mr-2">
+                <v-img width="150" height="150" :src="cart.picture" aspect-ratio="1" cover>
+                </v-img>
               </div>
               <div class="flex-grow-1 d-flex flex-column ga-1">
-                <div class="text-body-2 font-weight-medium">
+                <div class="text-caption font-weight-medium line-clamp-2">
                   {{ cart.name }}
                 </div>
                 <div class="text-caption text-grey">
-                  {{ $t('cartlist.table.itemsInventory', { inventory: cart.inventory }) }}
+                  {{ $t('cartlist.table.itemsInventory', { inventory: cart.stock }) }}
                 </div>
-                <div class="text-caption">
-                  {{ $t('order.detail.price') }}：
-                  {{ $t('global.moneyTemplate', { money: cart.price }) }}
+                <div class="d-flex align-center flex-wrap">
+                  <div class="text-caption text-grey-darken-1 mr-2">
+                    {{ $t('order.detail.price') }}
+                  </div>
+                  <div class="text-caption font-weight-bold text-primary">
+                    {{ $t('global.moneyTemplate', { money: cart.price }) }}
+                  </div>
                 </div>
                 <!-- 商品数量 -->
                 <div class="d-flex align-center">
-                  <div class="mr-2 text-caption text-grey">{{ $t('cartlist.table.quantity') }}</div>
-                  <FSBoundedNumInput style="max-width: max-content;" v-model="cart.count" :min="1" :max="cart.inventory"
-                    :debounce="500" :data="cart" @change="handleCountChange" @out-of-range="handleOutOfRange"
-                    @store-count="handleCountStore" density="compact" />
+                  <div class="mr-2 text-caption text-grey" style="min-width: max-content;">
+                    {{ $t('cartlist.table.quantity') }}
+                  </div>
+                  <div style="min-width: 90px;">
+                    <FSBoundedNumInput density="compact" :min="1" :max="cart.stock" v-model="cart.count" :debounce="500"
+                      :data="cart" @change="handleCountChange" @out-of-range="handleOutOfRange"
+                      @store-count="handleCountStore" />
+                  </div>
                 </div>
                 <!-- 商品小计 -->
                 <div class="d-flex align-center">
@@ -120,11 +126,12 @@
                   </div>
                 </div>
                 <!-- 删除 & 勾选 -->
-                <div class="d-flex justify-end align-center">
-                  <v-btn icon size="small" variant="text" color="error" @click="handleDelCart(cart.goodsId)">
-                    <v-icon>mdi-trash-can</v-icon>
+                <div class="d-flex justify-space-between align-center mt-1">
+                  <v-btn icon size="x-small" variant="text" color="error" @click.stop="handleDelCart(cart.goodsId)"
+                    class="mr-1">
+                    <v-icon size="20">mdi-delete-outline</v-icon>
                   </v-btn>
-                  <v-checkbox color="primary" hide-details :model-value="cart.selected === 1"
+                  <v-checkbox color="primary" hide-details density="compact" :model-value="cart.selected === 1"
                     @update:model-value="(e) => handleSingleChange(e, cart.goodsId)" />
                 </div>
 
@@ -179,12 +186,13 @@
 
 
     </v-container>
-  </div>
+  </section>
 </template>
 
 <script setup>
-import Big from 'big.js'
+import FSTitlePanel from '@/components/FSTitlePanel/index.vue'
 import FSBoundedNumInput from '@/components/FSBoundedNumInput.vue'
+import Big from 'big.js'
 import { useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
 import { useCartStore } from '@/stores/cart'
@@ -194,7 +202,7 @@ import { useOrderDraft } from '@/composables/useOrderDraft'
 import { useI18n } from 'vue-i18n'
 import { useDisplay } from 'vuetify'
 
-const { mobile, smAndDown } = useDisplay() // 使用Vuetify官方断点检测
+const { mobile } = useDisplay() // 使用Vuetify官方断点检测
 const { t } = useI18n()
 const toast = useToast()
 const router = useRouter()
@@ -331,13 +339,26 @@ const toHomePage = () => {
     }
   }
 
+  /* 移动端图片容器 */
   .cart-item {
     transition: box-shadow 0.3s ease;
     border-radius: 12px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
     transition: all 0.2s ease;
     background-color: #f0f0f0; // 默认或通用灰
+
   }
+
+  /* 移动端图片容器 */
+  .mobile-img-wrapper {
+    width: 150px;
+    height: 150px;
+    border-radius: 6px;
+    overflow: hidden;
+    position: relative;
+    background: #f5f5f5;
+  }
+
 
 
   @media (min-width: 600px) and (max-width: 960px) {

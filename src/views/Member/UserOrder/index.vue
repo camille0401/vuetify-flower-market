@@ -1,9 +1,7 @@
 <template>
   <div class="order-list-page">
-    <v-card rounded="lg" flat class="pa-4">
-      <v-card-title class="text-h5 font-weight-bold mb-4">{{ $t('member.order.title') }}</v-card-title>
-      <v-divider class="mb-4" />
-
+    <v-sheet color="surface" class="pa-4">
+      <FSTitlePanel :title="$t('member.order.title')" />
       <!-- 订单状态选项卡 -->
       <v-tabs v-model="activeTab" color="primary" grow @update:model-value="handleTabChange">
         <v-tab v-for="tab in orderTabs" :key="tab.value" :value="tab.value" class="text-capitalize">
@@ -46,8 +44,7 @@
           </template>
         </v-tabs-window-item>
       </v-tabs-window>
-
-    </v-card>
+    </v-sheet>
 
     <!-- 取消订单确认对话框 -->
     <FSConfirmationDialog v-model="cancelDialog.show" :title="$t('member.order.cancelConfirmTitle')"
@@ -58,12 +55,13 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
-import { useToast } from 'vue-toastification'
-import { useRouter } from 'vue-router'
+import FSTitlePanel from '@/components/FSTitlePanel/index.vue'
 import OrderCard from './components/OrderCard.vue'
 import MobileOrder from './components/MobileOrder.vue'
 import FSConfirmationDialog from '@/components/FSConfirmationDialog.vue'
+import { ref, onMounted } from 'vue'
+import { useToast } from 'vue-toastification'
+import { useRouter } from 'vue-router'
 import { fetchOrderAPI, cancelOrderAPI } from '@/apis/order'
 import { usePagination } from '@/composables/usePagination'
 import { useI18n } from 'vue-i18n'
