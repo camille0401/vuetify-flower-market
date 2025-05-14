@@ -1,7 +1,7 @@
 <template>
   <section class="fs-cart-page">
     <v-container class="mx-auto pb-10">
-      <v-sheet color="surface" class="pa-4">
+      <v-sheet color="surface" class="pa-4" elevation="2">
         <FSTitlePanel :title="$t('cartlist.title')">
         </FSTitlePanel>
         <v-alert border="start" border-color="info" class="mb-2">
@@ -339,7 +339,7 @@ const toHomePage = () => {
     }
   }
 
-  /* 移动端图片容器 */
+  /* 移动端卡片容器 */
   .cart-item {
     transition: box-shadow 0.3s ease;
     border-radius: 12px;

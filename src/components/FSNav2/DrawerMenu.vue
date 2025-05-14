@@ -64,13 +64,6 @@
           </template>
         </v-list-item>
       </template>
-      <v-divider class="my-4"></v-divider>
-      <v-list-item class="text-no-wrap text-break"
-        :title="$t('global.nav.contact.title') + $t('global.nav.contact.phone')">
-        <template v-slot:subtitle>
-          <div>{{ $t('global.nav.contact.subtitle') }}</div>
-        </template>
-      </v-list-item>
     </v-list>
   </v-navigation-drawer>
 </template>

@@ -37,25 +37,27 @@ defineProps({
   display: block;
   height: 100%;
   text-decoration: none;
-  transition: transform 0.3s ease;
-  background: #FFFFFF;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 0.5rem 1.5rem;
-  border-radius: 0.5rem;
-  border-width: 0.1rem;
-  border-style: solid;
-  border-color: rgba(0, 0, 0, 0.1);
+  background: #f0f0f0;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 0.5rem 1rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 
   &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+  }
+
+  &:hover {
+    border-width: 0.1rem;
+    border-style: solid;
+    border-color: rgba(0, 0, 0, 0.1);
     transform: translateY(-5px);
     z-index: 2;
   }
 
   .img-box {
     width: 100%;
-    background: #fafafa;
+    background: #ffffff;
     overflow: visible;
-    /* 防止图片阴影被裁剪 */
-    border-radius: 0.5rem;
 
     :deep(.v-img) {
       transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);

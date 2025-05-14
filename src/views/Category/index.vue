@@ -1,7 +1,7 @@
 <template>
   <section class="fs-category-page">
     <v-container class="mx-auto pb-10">
-      <v-card elevation="0" rounded="0">
+      <v-card elevation="2" rounded="0">
         <!-- 面包屑导航 -->
         <v-card-title class="py-0">
           <v-breadcrumbs :items="breadcrumbItems" class="px-0 text-body-2">
@@ -42,10 +42,10 @@
           </div>
 
           <!-- 商品列表 -->
-          <v-row v-else-if="goodsList.length > 0" class="goods-list" dense>
-            <v-col v-for="goods in goodsList" :key="goods.id" cols="6" sm="4" lg="3" class="goods-item">
+          <v-row v-else-if="goodsList.length > 0" class="goods-list" :dense="xs">
+            <v-col v-for="goods in goodsList" :key="goods.id" cols="6" sm="4" md="3" lg="3" class="goods-item">
               <v-fade-transition>
-                <FSGoodsItem :goods="goods" :img-height="imgHeight" :aspect-ratio="imgAspectRatio" />
+                <FSGoodsItem :goods="goods" />
               </v-fade-transition>
             </v-col>
           </v-row>
@@ -73,28 +73,9 @@ import { getCategoryAPI, getCategoryGoodsAPI } from "@/apis/category"
 import { useI18n } from 'vue-i18n'
 import { useDisplay } from 'vuetify'
 
-
-
+const { xs } = useDisplay()
 const { t } = useI18n()
-
 const route = useRoute()
-
-const { mdAndDown, smAndDown } = useDisplay()
-
-// 计算图片高度
-const imgHeight = computed(() => {
-  if (smAndDown.value) return '160px'    // 手机
-  if (mdAndDown.value) return '200px'     // 平板
-  return '220px'                          // PC
-})
-
-// 计算图片宽高比
-const imgAspectRatio = computed(() => {
-  if (smAndDown.value) return '3 / 4'     // 手机
-  if (mdAndDown.value) return '4 / 5'     // 平板
-  return '1 / 1'                          // PC
-})
-
 
 // 数据状态
 const categoryData = ref({})

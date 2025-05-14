@@ -129,7 +129,7 @@
           </div>
           <v-divider class="my-4" />
           <div class="action-buttons">
-            <v-btn class="flex-grow-1" color="primary" variant="outlined" size="large" prepend-icon="mdi-arrow-right"
+            <v-btn class="flex-grow-1" color="primary" variant="outlined" size="large" prepend-icon="mdi-shopping"
               to="/">
               {{ $t('order.detail.backToShop') }}
             </v-btn>

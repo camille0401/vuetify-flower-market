@@ -5,7 +5,7 @@
       <div v-if="detailLoading" class="loading-container">
         <v-progress-circular indeterminate size="64" color="primary" />
       </div>
-      <v-sheet v-else color="#FFF">
+      <v-sheet v-else color="surface" elevation="2">
         <!-- 面包屑导航 -->
         <v-breadcrumbs :items="breadcrumbItems" class="text-body-2">
           <template v-slot:divider>
@@ -21,7 +21,7 @@
             </div>
           </v-col>
           <v-col cols="12" md="6" class="bg-white pb-4">
-            <v-sheet class="d-flex flex-column ga-6 px-4">
+            <v-sheet class="d-flex flex-column ga-6 px-md-4">
               <p class="text-h5 my-2">{{ detailData.cname }}</p>
               <!-- <p class="text-subtitle-1 text-grey-darken-1">{{ detailData.describes }}</p> -->
               <div class="small-img-box">
@@ -67,7 +67,6 @@
                 </v-col>
               </v-row>
 
-
               <div class="d-flex">
                 <span class="text-caption text-grey mr-2">
                   {{ $t('detail.product.stock') }}：{{ detailData.inventory || '0' }}
@@ -76,19 +75,16 @@
                   {{ $t('detail.product.sold') }}：{{ detailData.salesCount || '0' }}
                 </span>
               </div>
-              <v-row class="g-2 g-sm-0">
-                <v-col cols="12" sm="6">
-                  <v-btn color="primary-darken-1" size="x-large" block prepend-icon="mdi-cart-plus"
-                    :loading="addingToCartLoading" @click="handleAddCart">
-                    {{ $t('detail.product.addToCart') }}
-                  </v-btn>
-                </v-col>
-                <v-col cols="12" sm="6">
-                  <v-btn color="error" size="x-large" block @click="handleBuyNow">
-                    {{ $t('detail.product.buyNow') }}
-                  </v-btn>
-                </v-col>
-              </v-row>
+
+              <div class="action-buttons">
+                <v-btn class="flex-grow-1" color="primary-darken-1" size="large" prepend-icon="mdi-cart-plus"
+                  :loading="addingToCartLoading" @click="handleAddCart">
+                  {{ $t('detail.product.addToCart') }}
+                </v-btn>
+                <v-btn class="flex-grow-1" color="error" size="large" @click="handleBuyNow">
+                  {{ $t('detail.product.buyNow') }}
+                </v-btn>
+              </div>
             </v-sheet>
 
           </v-col>
@@ -303,6 +299,20 @@ onBeforeRouteUpdate((to) => {
     }
 
 
+  }
+
+  .action-buttons {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  // 📱 小屏幕优化
+  @media (max-width: 600px) {
+
+    .action-buttons {
+      grid-template-columns: 1fr;
+    }
   }
 }
 </style>

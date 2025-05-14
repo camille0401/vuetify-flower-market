@@ -7,7 +7,7 @@
       </v-card-title>
       <v-divider class="my-4 border-opacity-50" />
     </div>
-    <v-card-text class="panel-content">
+    <v-card-text class="panel-content pa-2">
       <slot name="main"></slot>
     </v-card-text>
   </v-card>

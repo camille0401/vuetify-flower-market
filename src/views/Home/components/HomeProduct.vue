@@ -12,10 +12,11 @@
             </div>
           </RouterLink>
 
-          <v-row class="goods-list" dense>
-            <v-col v-for="goods in cate.goods.slice(0, 8)" :key="goods.id" cols="6" sm="4" lg="3" class="goods-item">
+          <v-row class="goods-list" :dense="xs">
+            <v-col v-for="goods in cate.goods.slice(0, 8)" :key="goods.id" cols="6" sm="4" md="3" lg="3"
+              class="goods-item">
               <v-fade-transition>
-                <FSGoodsItem :goods="goods" :img-height="imgHeight" :aspect-ratio="imgAspectRatio" />
+                <FSGoodsItem :goods="goods" />
               </v-fade-transition>
             </v-col>
           </v-row>
@@ -26,28 +27,14 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from 'vue'
-import { RouterLink } from 'vue-router'
 import HomePanel from './HomePanel.vue'
 import FSGoodsItem from '@/components/FSGoodsItem.vue'
+import { ref, onMounted, computed } from 'vue'
+import { RouterLink } from 'vue-router'
 import { getHomeGoodsAPI } from '@/apis/home'
 import { useDisplay } from 'vuetify'
 
-const { mdAndDown, smAndDown } = useDisplay()
-
-// 计算图片高度
-const imgHeight = computed(() => {
-  if (smAndDown.value) return '160px'    // 手机
-  if (mdAndDown.value) return '200px'     // 平板
-  return '220px'                          // PC
-})
-
-// 计算图片宽高比
-const imgAspectRatio = computed(() => {
-  if (smAndDown.value) return '3 / 4'     // 手机
-  if (mdAndDown.value) return '4 / 5'     // 平板
-  return '1 / 1'                          // PC
-})
+const { xs } = useDisplay()
 
 const goodsProduct = ref([])
 
@@ -139,11 +126,6 @@ onMounted(() => {
     }
 
     .goods-list {
-      // flex: 1;
-      // display: flex;
-      // flex-wrap: wrap;
-      // gap: var(--grid-gap);
-
       .goods-item {
         transition: transform 0.3s ease;
 

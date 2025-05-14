@@ -176,7 +176,6 @@ const toCartListPage = () => {
   display: flex;
   align-items: center;
   text-decoration: none;
-  color: inherit;
 }
 
 .item-image {

@@ -14,7 +14,10 @@
         <v-tabs-window-item v-for="tab in orderTabs" :key="tab.value" :value="tab.value">
           <template v-if="isLoading">
             <!-- 加载状态 -->
-            <v-progress-circular v-if="isLoading" indeterminate color="primary" class="my-4" />
+            <div v-if="isLoading" class="text-center py-10">
+              <v-progress-circular indeterminate color="primary" />
+            </div>
+
           </template>
 
           <template v-else-if="orders.length === 0">
