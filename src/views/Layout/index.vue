@@ -1,9 +1,9 @@
 <template>
-  <div>
+  <section>
     <LayoutHeaderFixed v-show="!mobile" />
     <FSMenu v-show="!mobile" />
     <RouterView />
-  </div>
+  </section>
 </template>
 
 <script setup>

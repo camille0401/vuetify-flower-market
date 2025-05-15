@@ -2,13 +2,13 @@
   <section class="fs-menu-bar">
     <v-container class="mx-auto py-0">
       <!-- 主菜单 -->
-      <ul class="d-flex flex-wrap align-center ga-8">
+      <ul v-if="categoryStore.categoryList.length > 0" class="d-flex flex-wrap align-center ga-8">
         <!-- 所有分类按钮 -->
         <li>
           <v-btn class="px-4" width="250" height="60" block to="/allCategories" color="primary" rounded="0"
             active-color="primary-darken-1">
             <v-icon class="mr-2">mdi-view-list</v-icon>
-            所有分类
+            {{ $t('global.allCategoriesText') }}
           </v-btn>
         </li>
 
@@ -19,7 +19,6 @@
           </v-btn>
         </li>
       </ul>
-
       <!-- 折叠菜单过渡动画 -->
       <transition name="menu-layer">
         <div v-show="showLayer" class="menu-layer">
@@ -39,24 +38,18 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref } from 'vue'
 import { useCategoryStore } from '@/stores/category'
 
 const categoryStore = useCategoryStore()
 const showLayer = ref(false)
 
-onMounted(() => {
-  if (!categoryStore.categoryList.length) {
-    categoryStore.getCategory()
-  }
-})
 </script>
 
 <style lang="scss" scoped>
 .fs-menu-bar {
   background: linear-gradient(to bottom, #f8f9fa, #ffffff);
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-  position: relative;
 
   .v-container {
     position: relative;

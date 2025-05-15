@@ -29,28 +29,43 @@
 <script setup>
 import HomePanel from './HomePanel.vue'
 import FSGoodsItem from '@/components/FSGoodsItem.vue'
-import { ref, onMounted, computed } from 'vue'
-import { RouterLink } from 'vue-router'
+import { ref, onMounted } from 'vue'
 import { getHomeGoodsAPI } from '@/apis/home'
 import { useDisplay } from 'vuetify'
 
 const { xs } = useDisplay()
 
-const goodsProduct = ref([])
-
-const getHomeGoods = async () => {
-  try {
-    const res = await getHomeGoodsAPI()
-    goodsProduct.value = res || []
-  } catch (error) {
-    console.error('获取商品数据失败:', error)
-    goodsProduct.value = []
+defineProps({
+  goodsProduct: {
+    type: Array,
+    default: [],
   }
-}
-
-onMounted(() => {
-  getHomeGoods()
 })
+
+// const loading = ref(true)
+// const error = ref(false)
+// const goodsProduct = ref([])
+
+
+
+// const getHomeGoods = async () => {
+//   loading.value = true
+//   error.value = false
+//   try {
+//     const res = await getHomeGoodsAPI()
+//     goodsProduct.value = res || []
+//   } catch (error) {
+//     console.error('获取商品数据失败:', error)
+//     goodsProduct.value = []
+//     error.value = true
+//   } finally {
+//     loading.value = false
+//   }
+// }
+
+// onMounted(() => {
+//   getHomeGoods()
+// })
 </script>
 
 <style scoped lang="scss">

@@ -1,9 +1,9 @@
 <template>
   <v-container color="background" class="d-flex justify-space-between align-center">
-    <RouterLink to="/" class="text-h5 font-weight-bold">
+    <!-- <RouterLink to="/" class="text-h5 font-weight-bold">
       <span>Flower Market</span>
-    </RouterLink>
-
+    </RouterLink> -->
+    <FSLogo />
     <div class="d-flex align-center ga-2">
       <!-- 是否登录 -->
       <template v-if="userStore?.token">
@@ -50,6 +50,7 @@
 </template>
 
 <script setup>
+import FSLogo from '@/components/FSLogo.vue'
 import CartIcon from '@/components/FSNav2/CartIcon.vue'
 import { useUserStore } from '@/stores/user'
 
@@ -61,12 +62,6 @@ const emit = defineEmits(['logout'])
 </script>
 
 <style scoped lang="scss">
-.cate-item {
-  &:hover {
-    color: rgb(var(--v-theme-primary));
-  }
-}
-
 .nav-item {
   display: flex;
   flex-direction: column;

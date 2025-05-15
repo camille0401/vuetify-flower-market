@@ -1,25 +1,43 @@
 <template>
-  <section class="fs-home-page pb-10">
-    <!-- 首页横幅 -->
-    <v-container class="mx-auto position-relative pa-0">
-      <div class="home-banner">
-        <v-img width="100%" height="100%" aspect-ratio="16/9" cover :src="bannerImg"></v-img>
-      </div>
-      <HomeCategory v-if="!mobile" />
-      <HomeProduct />
-    </v-container>
-  </section>
+  <FSPageLoader :fetch="fetchHomeData">
+    <template #default="{ data }">
+      <section class="fs-home-page pb-10">
+        <!-- 首页横幅 -->
+        <v-container class="mx-auto position-relative pa-0">
+          <div class="home-banner">
+            <v-img width="100%" height="100%" aspect-ratio="16/9" cover :src="bannerImg"></v-img>
+          </div>
+          <HomeCategory v-if="!mobile" />
+          <HomeProduct :goodsProduct="data?.products ?? []" />
+        </v-container>
+      </section>
+    </template>
+  </FSPageLoader>
 </template>
 
 <script setup>
-import { defineAsyncComponent, Suspense } from 'vue';
-import { useDisplay } from 'vuetify';
-import bannerImg from '@/assets/images/login-bg.jpg';
+import FSPageLoader from '@/components/FSPageLoader.vue'
+import bannerImg from '@/assets/images/login-bg.jpg'
+import HomeCategory from './components/HomeCategory.vue'
+import HomeProduct from './components/HomeProduct.vue'
+import { useDisplay } from 'vuetify'
+import { getHomeGoodsAPI } from '@/apis/home'
+import { useCategoryStore } from '@/stores/category'
 
+const categoryStore = useCategoryStore()
 const { mobile } = useDisplay();
 
-const HomeCategory = defineAsyncComponent(() => import('./components/HomeCategory.vue'));
-const HomeProduct = defineAsyncComponent(() => import('./components/HomeProduct.vue'));
+const fetchHomeData = async () => {
+  const [_, productRes] = await Promise.all([
+    categoryStore.getCategory(),
+    getHomeGoodsAPI()
+  ])
+
+  return {
+    products: productRes,
+  }
+}
+
 </script>
 
 <style scoped lang="scss">

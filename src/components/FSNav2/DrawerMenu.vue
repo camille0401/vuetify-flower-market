@@ -97,12 +97,7 @@ const drawerValue = computed({
 const handleLogout = () => {
   emit('logout')
 }
-onMounted(() => {
-  if (!categoryStore.categoryList.length) {
-    categoryStore.getCategory()
 
-  }
-})
 
 // onBeforeMount(() => {
 //   activeItem.value = ''

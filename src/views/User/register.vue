@@ -33,6 +33,7 @@ import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/user'
 import { useToast } from "vue-toastification"
 import { useI18n } from 'vue-i18n' // Import useI18n to access translations
+import { useInviteCode } from '@/composables/useInviteCode'
 
 
 // Initialize i18n
@@ -68,22 +69,27 @@ const doRegister = async () => {
     return;
   }
 
+  const { getInviteCode, clearInviteCode } = useInviteCode()
   loading.value = true;
   const { username, password, code } = registerForm.value
   const nickname = username.split("@")[0]
+  const inviteCode = getInviteCode()
   try {
     // 发送注册请求
-    await userStore.register({ username, nickname, password, code })
+    await userStore.register({ username, nickname, password, code, inviteCode })
 
     // 提示用户注册成功
     toast.success(t('global.register.successMessage'), {
       timeout: 2000
     });
 
+    // 清除邀请码
+    clearInviteCode()
+
     // 跳转到登录页
     router.push("/user/login")
 
-    // 登录成功后清空表单
+    // 注册成功后清空表单
     registerFormRef.value.reset()
 
   } catch (error) {
