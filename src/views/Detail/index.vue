@@ -13,14 +13,11 @@
           </template>
         </v-breadcrumbs>
 
-        <v-row justify="center" no-gutters class="pa-4 mb-4 ">
-          <v-col cols="12" md="6">
-            <div class="media">
-              <!-- <ImageView class="product-gallery" :image-list="detailData?.mainPictures || []" /> -->
-              <v-img :aspect-ratio="1" class="bg-white" :src="activeImg" width="100%" cover></v-img>
-            </div>
+        <v-row justify="center" class="pa-4 mb-4 ">
+          <v-col cols="12" sm="6" md="6" class="d-flex justify-center">
+            <v-img class="bg-white" :src="activeImg" max-height="500px"></v-img>
           </v-col>
-          <v-col cols="12" md="6" class="bg-white pb-4">
+          <v-col cols="12" sm="6" md="6" class="bg-white pb-4">
             <v-sheet class="d-flex flex-column ga-6 px-md-4">
               <p class="text-h5 my-2">{{ detailData.cname }}</p>
               <!-- <p class="text-subtitle-1 text-grey-darken-1">{{ detailData.describes }}</p> -->
@@ -101,19 +98,19 @@
           <v-window v-model="activeTab" class="mt-4">
             <v-window-item value="details">
               <div class="detail-images">
-                <img v-for="(img, index) in detailData.detailPictures" :src="img" :key="index"
+                <v-img v-for="(img, index) in detailData.detailPictures" :src="img" :key="index"
                   :alt="`${$t('detail.product.detailImage')} ${index + 1}`" class="detail-image" />
               </div>
             </v-window-item>
 
             <v-window-item value="specs">
-              <div class="specs-content pa-4">
+              <div class="specs-content text-center pa-10">
                 <p>{{ $t('detail.product.specContent') }}</p>
               </div>
             </v-window-item>
 
             <v-window-item value="reviews">
-              <div class="reviews-content pa-4">
+              <div class="reviews-content text-center pa-10">
                 <p>{{ $t('detail.product.reviewContent') }}</p>
               </div>
             </v-window-item>
@@ -125,7 +122,8 @@
 </template>
 
 <script setup>
-import ImageView from './components/ImageView.vue'
+// import ImageView from './components/ImageView.vue'
+// import noData from '@/assets/svgs/no-data.svg'
 import FSBoundedNumInput from '@/components/FSBoundedNumInput.vue'
 import Big from 'big.js'
 import { ref, computed, onMounted } from 'vue'
@@ -270,7 +268,7 @@ onBeforeRouteUpdate((to) => {
   }
 
   .media {
-    border: 1px solid rgba(0, 0, 0, .2);
+    border: 1px solid #f7f7f7;
   }
 
   .small-img-box {
@@ -292,9 +290,6 @@ onBeforeRouteUpdate((to) => {
 
   .goods-detail-section {
     .detail-images .detail-image {
-      width: 100%;
-      margin-bottom: 16px;
-      border-radius: 8px;
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     }
 

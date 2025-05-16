@@ -14,20 +14,20 @@
         <v-tabs-window-item v-for="tab in orderTabs" :key="tab.value" :value="tab.value">
           <template v-if="isLoading">
             <!-- 加载状态 -->
-            <div v-if="isLoading" class="text-center py-10">
+            <div v-if="isLoading" class="text-center my-10">
               <v-progress-circular indeterminate color="primary" />
             </div>
 
           </template>
 
           <template v-else-if="orders.length === 0">
-            <!-- 空订单提示 -->
-            <v-alert type="info" variant="tonal" class="my-6" icon="mdi-gift">
-              {{ $t('member.order.empty') }}
-              <template v-slot:append>
-                <v-btn color="primary" variant="text" to="/">{{ $t('member.order.goShopping') }}</v-btn>
+            <v-empty-state :text="$t('member.order.empty')" class="my-6">
+              <template #actions>
+                <v-btn color="primary" prepend-icon="mdi-shopping" to="/">
+                  {{ $t('cartlist.goShopping') }}
+                </v-btn>
               </template>
-            </v-alert>
+            </v-empty-state>
           </template>
 
           <template v-else>

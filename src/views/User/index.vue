@@ -26,7 +26,7 @@
   position: relative;
   width: 100%;
   height: 100%;
-  background: url("@/assets/images/login-bg.jpg") center/cover no-repeat;
+  // background: url("@/assets/images/login-bg.jpg") center/cover no-repeat;
   padding: 60px 0; // 给上下适度空间
 
   @media (max-width: 768px) {

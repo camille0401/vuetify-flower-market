@@ -1,45 +1,39 @@
 <template>
   <div class="fs-all-categories-page">
     <v-container class="mx-auto pb-10">
-      <v-card elevation="0" rounded="0">
-        <v-card-title class="py-0">
-          <v-breadcrumbs :items="breadcrumbs" class="px-0 text-body-2">
-            <template v-slot:divider>
-              <v-icon>mdi-chevron-right</v-icon>
-            </template>
-          </v-breadcrumbs>
-        </v-card-title>
+      <v-sheet color="surface" class="pa-4" elevation="2">
+        <v-breadcrumbs :items="breadcrumbs" class="px-0 text-body-2">
+          <template v-slot:divider>
+            <v-icon>mdi-chevron-right</v-icon>
+          </template>
+        </v-breadcrumbs>
 
-        <v-card-text class="px-6 pb-6">
-          <!-- 顶部分类快速导航 -->
-          <div class="strain-box mt-4">
-            <v-btn v-for="item in categoryStore.categoryList" :key="item.id" :to="`/category/1/${item.id}`"
-              color="primary-darken-2" variant="outlined" height="50" class="category-link">
-              {{ item.cname }}</v-btn>
-          </div>
+        <!-- 顶部分类快速导航 -->
+        <div class="strain-box mt-4">
+          <v-btn v-for="item in categoryStore.categoryList" :key="item.id" :to="`/category/1/${item.id}`"
+            color="primary-darken-2" variant="outlined" height="50" class="category-link">
+            {{ item.cname }}</v-btn>
+        </div>
 
-          <!-- 详细分类列表 -->
-          <div class="menu-box mb-8" v-for="category in categoryStore.categoryList" :key="category.id">
-            <h3 class="strain-name">
-              <v-icon start color="primary" size="20">mdi-flower-poppy</v-icon>
-              <span>{{ category.cname }}</span>
-            </h3>
+        <!-- 详细分类列表 -->
+        <div class="menu-box mb-8" v-for="category in categoryStore.categoryList" :key="category.id">
+          <h3 class="strain-name mb-2">
+            <v-icon start color="primary" size="20">mdi-flower-poppy</v-icon>
+            <span>{{ category.cname }}</span>
+          </h3>
 
-            <v-card flat class="mt-2">
-              <ul class="list-box">
-                <li class="item-menu">
-                  <h4 class="title pa-3">{{ $t('allCategories.title') }}</h4>
-                  <div class="list pa-3">
-                    <v-btn v-for="child in category.children" :key="child.id" :to="`/category/2/${child.id}`"
-                      variant="text">
-                      {{ child.cname }}</v-btn>
-                  </div>
-                </li>
-              </ul>
-            </v-card>
-          </div>
-        </v-card-text>
-      </v-card>
+          <ul class="list-box">
+            <li class="item-menu">
+              <h4 class="title pa-3">{{ $t('allCategories.title') }}</h4>
+              <div class="list pa-3">
+                <v-btn v-for="child in category.children" :key="child.id" :to="`/category/2/${child.id}`"
+                  variant="text">
+                  {{ child.cname }}</v-btn>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </v-sheet>
     </v-container>
   </div>
 </template>

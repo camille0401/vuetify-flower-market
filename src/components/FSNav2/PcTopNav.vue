@@ -10,10 +10,9 @@
         <div class="px-4 ga-1 font-weight-bold">
           <span>{{ $t('nav.user.welcome') }} {{ userStore?.userInfo?.nickName }}</span>
         </div>
-        <RouterLink v-if="userStore?.token" class="nav-item px-4 ga-1" to="" @click="$emit('logout')">
-          <v-icon icon="mdi-logout"></v-icon>
-          <span> {{ $t('nav.user.logout') }}</span>
-        </RouterLink>
+        <v-btn class="px-4 ga-1" variant="text" active-color="primary" @click="$emit('logout')">
+          <span>{{ $t('nav.user.logout') }}</span>
+        </v-btn>
       </template>
       <template v-else>
         <v-btn class="px-4 ga-1" variant="text" active-color="primary" to="/user/login">

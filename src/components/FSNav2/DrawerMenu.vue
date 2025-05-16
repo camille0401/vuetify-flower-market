@@ -52,7 +52,7 @@
           </template>
         </v-list-item>
       </template>
-      <template v-else>
+      <!-- <template v-else>
         <v-list-item :title="$t('nav.user.login')" to="/user/login">
           <template v-slot:prepend>
             <v-icon icon="mdi-login"></v-icon>
@@ -63,7 +63,7 @@
             <v-icon icon="mdi-account-plus"></v-icon>
           </template>
         </v-list-item>
-      </template>
+      </template> -->
     </v-list>
   </v-navigation-drawer>
 </template>

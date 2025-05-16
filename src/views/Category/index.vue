@@ -1,65 +1,56 @@
 <template>
   <section class="fs-category-page">
     <v-container class="mx-auto pb-10">
-      <v-card elevation="2" rounded="0">
+      <v-sheet color="surface" class="pa-4" elevation="2">
         <!-- 面包屑导航 -->
-        <v-card-title class="py-0">
-          <v-breadcrumbs :items="breadcrumbItems" class="px-0 text-body-2">
-            <template v-slot:divider>
-              <v-icon size="small">mdi-chevron-right</v-icon>
-            </template>
-          </v-breadcrumbs>
-        </v-card-title>
+        <v-breadcrumbs :items="breadcrumbItems" class="px-0 text-body-2">
+          <template v-slot:divider>
+            <v-icon size="small">mdi-chevron-right</v-icon>
+          </template>
+        </v-breadcrumbs>
 
-        <v-card-text class="pb-6">
-          <!-- 子分类导航 -->
-          <div class="category-type-box mb-6">
-            <!-- <div class="title text-subtitle-1 font-weight-bold">{{ $t('category.title') }}</div> -->
-            <ul class="list">
-              <li v-for="sub in subCategoryList" :key="sub.id">
-                <!-- <RouterLink active-class="active" :to="`/category/2/${sub.id}`" class="subcategory-link">
-                  {{ sub.cname }}
-                </RouterLink> -->
-                <v-btn active-class="active" :to="`/category/2/${sub.id}`" variant="text">
-                  {{ sub.cname }}
-                </v-btn>
-              </li>
-            </ul>
-          </div>
+        <!-- 子分类导航 -->
+        <ul class="category-list mb-6">
+          <li v-for="sub in subCategoryList" :key="sub.id">
+            <v-btn active-class="active" :to="`/category/2/${sub.id}`" variant="text">
+              {{ sub.cname }}
+            </v-btn>
+          </li>
+        </ul>
 
-          <v-divider class="mb-4" />
+        <!-- 排序选项卡 -->
+        <!-- <v-tabs color="primary-darken-1" v-model="reqData.orderBy" @update:modelValue="handleSortChange" class="mb-6">
+          <v-tab value="">{{ $t('category.tabs.tab0') }}</v-tab>
+          <v-tab value="publishTime">{{ $t('category.tabs.tab1') }}</v-tab>
+          <v-tab value="orderNum">{{ $t('category.tabs.tab2') }}</v-tab>
+          <v-tab value="evaluateNum">{{ $t('category.tabs.tab3') }}</v-tab>
+        </v-tabs> -->
 
-          <!-- 排序选项卡 -->
-          <!-- <v-tabs color="primary-darken-1" v-model="reqData.orderBy" @update:modelValue="handleSortChange" class="mb-6">
-            <v-tab value="">{{ $t('category.tabs.tab0') }}</v-tab>
-            <v-tab value="publishTime">{{ $t('category.tabs.tab1') }}</v-tab>
-            <v-tab value="orderNum">{{ $t('category.tabs.tab2') }}</v-tab>
-            <v-tab value="evaluateNum">{{ $t('category.tabs.tab3') }}</v-tab>
-          </v-tabs> -->
+        <div v-if="loading" class="text-center py-10">
+          <v-progress-circular indeterminate color="primary" />
+        </div>
 
-          <div v-if="loading" class="text-center py-10">
-            <v-progress-circular indeterminate color="primary" />
-          </div>
+        <!-- 商品列表 -->
+        <v-row v-else-if="goodsList.length > 0" class="goods-list" :dense="xs">
+          <v-col v-for="goods in goodsList" :key="goods.id" cols="6" sm="4" md="3" lg="3" class="goods-item">
+            <v-fade-transition>
+              <FSGoodsItem :goods="goods" />
+            </v-fade-transition>
+          </v-col>
+        </v-row>
 
-          <!-- 商品列表 -->
-          <v-row v-else-if="goodsList.length > 0" class="goods-list" :dense="xs">
-            <v-col v-for="goods in goodsList" :key="goods.id" cols="6" sm="4" md="3" lg="3" class="goods-item">
-              <v-fade-transition>
-                <FSGoodsItem :goods="goods" />
-              </v-fade-transition>
-            </v-col>
-          </v-row>
+        <div v-else class="empty-box py-10">
+          <v-empty-state color="primary" size="40" icon="mdi-magnify" :text="$t('category.emptyText')"
+            :title="$t('category.emptyTitle')">
+          </v-empty-state>
+        </div>
 
-          <div v-else class="empty-box py-10">
-            <v-empty-state color="primary" size="40" icon="mdi-magnify" :text="$t('category.emptyText')"
-              :title="$t('category.emptyTitle')"></v-empty-state>
-          </div>
-
-          <!-- 分页 -->
-          <v-pagination v-if="totalPages > 1" v-model="reqData.page" :length="totalPages"
-            @update:modelValue="handlePageChange" class="mt-6" color="primary" />
-        </v-card-text>
-      </v-card>
+        <!-- 分页 -->
+        <v-pagination v-if="totalPages > 1" v-model="reqData.page" :length="totalPages"
+          @update:modelValue="handlePageChange" class="mt-6" color="primary" />
+        <!-- <v-card-text class="pb-6">
+        </v-card-text> -->
+      </v-sheet>
 
     </v-container>
   </section>
@@ -191,45 +182,33 @@ onUnmounted(() => {
 <style lang="scss" scoped>
 .fs-category-page {
 
-  // 子分类导航
-  .category-type-box {
+  .category-list {
     display: flex;
-    align-items: center;
-    gap: 20px;
+    flex-wrap: wrap;
+    gap: 4px;
 
-    .title {
-      min-width: max-content;
-      color: var(--v-primary-darken1);
-    }
-
-    .list {
+    li {
       display: flex;
-      flex-wrap: wrap;
-      gap: 4px;
+      align-items: center;
 
-      li {
-        display: flex;
-        align-items: center;
+      .subcategory-link {
+        padding: 0 12px;
+        color: rgb(var(--v-theme-text-secondary));
+        font-size: 14px;
+        font-weight: 400;
+        text-decoration: none;
+        transition: color 0.2s ease;
 
-        .subcategory-link {
-          padding: 0 12px;
-          color: rgb(var(--v-theme-text-secondary));
-          font-size: 14px;
-          font-weight: 400;
-          text-decoration: none;
-          transition: color 0.2s ease;
-
-          &:hover {
-            color: rgb(var(--v-theme-primary-darken-1));
-          }
-
-          &.active {
-            color: rgb(var(--v-theme-primary-darken-1));
-            font-weight: 500;
-          }
-
-
+        &:hover {
+          color: rgb(var(--v-theme-primary-darken-1));
         }
+
+        &.active {
+          color: rgb(var(--v-theme-primary-darken-1));
+          font-weight: 500;
+        }
+
+
       }
     }
   }

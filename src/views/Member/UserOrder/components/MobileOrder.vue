@@ -2,7 +2,7 @@
   <v-card class="fs-order-card-mobile mb-2">
     <!-- 订单头部 -->
     <v-card-title class="d-flex justify-space-between align-center px-3 py-2">
-      <div class="text-subtitle-2 font-weight-medium">
+      <div class="text-subtitle-1 text-break font-weight-medium">
         {{ $t('order.detail.orderNo') }} {{ order.orderNo }}
       </div>
       <v-chip :color="statusConfig.color" :prepend-icon="statusConfig.icon" size="x-small" variant="flat">
@@ -22,13 +22,13 @@
           <v-img :src="item.goodsPic" width="120" height="120" cover aspect-ratio="1" />
         </div>
         <div class="flex-grow-1">
-          <div class="text-body-2 font-weight-medium">
+          <div class="text-body-1 font-weight-medium">
             {{ item.goodsName }}
           </div>
-          <div class="text-caption text-grey">
+          <!-- <div class="text-caption text-grey">
             {{ item.goodsCnname }}
-          </div>
-          <div class="mt-1 text-caption">
+          </div> -->
+          <div class="mt-1">
             {{ $t('order.detail.price') }}：
             {{ $t('global.moneyTemplate', { money: item.price.toFixed(2) }) }}
             {{ $t('global.countTemplate', { count: item.quantity }) }}

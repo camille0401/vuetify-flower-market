@@ -13,7 +13,9 @@
       <!-- 错误提示 + 重试按钮 -->
       <slot name="error">
         <v-container class="text-center py-10">
-          <v-img :src="errorImg" max-width="300" class="mx-auto mb-4" :alt="$t('pageLoader.errorImgAlt')" />
+          <v-img v-if="mobile" :src="errorMobile" max-width="50%" cover class="mx-auto mb-4"
+            :alt="$t('pageLoader.errorImgAlt')" />
+          <v-img v-else :src="errorPc" max-width="300" class="mx-auto mb-4" :alt="$t('pageLoader.errorImgAlt')" />
           <h2 class="text-h6 mb-2">{{ $t('pageLoader.errorTitle') }}</h2>
           <p class="text-body-2 mb-4">{{ $t('pageLoader.errorDescription') }}</p>
           <!-- <v-btn color="primary" variant="elevated" @click="reload" class="px-6">
@@ -31,8 +33,12 @@
 </template>
 
 <script setup>
+import errorPc from '@/assets/svgs/error.svg'
+import errorMobile from '@/assets/svgs/error-mobile.svg'
 import { ref, onMounted } from 'vue'
-import errorImg from '@/assets/images/error.svg'
+import { useDisplay } from 'vuetify'
+
+const { mobile } = useDisplay()
 const props = defineProps({
   fetch: {
     type: Function,

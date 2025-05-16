@@ -1,12 +1,12 @@
 <template>
-  <section class="fs-cart-page">
+  <section class="fs-cartlist-page">
     <v-container class="mx-auto pb-10">
       <v-sheet color="surface" class="pa-4" elevation="2">
-        <FSTitlePanel :title="$t('cartlist.title')">
-        </FSTitlePanel>
-        <v-alert border="start" border-color="info" class="mb-2">
+        <FSTitlePanel :title="$t('cartlist.title')" />
+        <!-- <v-alert border="start" border-color="info" class="mb-2">
           {{ $t('cartlist.totalItems', { count: cartStore.cartAllCount }) }}
-        </v-alert>
+        </v-alert> -->
+
         <!-- 购物车表格（仅桌面端显示） -->
         <div class="cart-table" v-if="!mobile">
           <v-table class="elevation-1">
@@ -69,9 +69,9 @@
               <!-- 空状态 -->
               <tr v-if="cartStore.cartList.length === 0">
                 <td colspan="6" class="py-10">
-                  <v-empty-state :title="$t('cartlist.empty')">
+                  <v-empty-state :text="$t('cartlist.empty')">
                     <template #actions>
-                      <v-btn color="primary" prepend-icon="mdi-shopping" @click="toHomePage">
+                      <v-btn color="primary" prepend-icon="mdi-shopping" to="/">
                         {{ $t('cartlist.goShopping') }}
                       </v-btn>
                     </template>
@@ -84,66 +84,71 @@
 
         <!-- 移动端 -->
         <div class="cart-card" v-else>
-          <v-card class="cart-item mb-2" flat v-for="cart in cartStore.cartList" :key="cart.goodsId">
-            <v-card-text class="d-flex align-start pa-3">
-              <div class="mobile-img-wrapper mr-2">
-                <v-img width="150" height="150" :src="cart.picture" aspect-ratio="1" cover>
-                </v-img>
-              </div>
-              <div class="flex-grow-1 d-flex flex-column ga-1">
-                <div class="text-caption font-weight-medium line-clamp-2">
-                  {{ cart.name }}
-                </div>
-                <div class="text-caption text-grey">
-                  {{ $t('cartlist.table.itemsInventory', { inventory: cart.stock }) }}
-                </div>
-                <div class="d-flex align-center flex-wrap">
-                  <div class="text-caption text-grey-darken-1 mr-2">
-                    {{ $t('order.detail.price') }}
+          <v-card class="cart-item mb-4" flat v-for="cart in cartStore.cartList" :key="cart.goodsId">
+            <v-card-text class="pa-3">
+              <v-row>
+                <v-col cols="4">
+                  <div class="mr-2">
+                    <v-img width="100%" height="100%" :src="cart.picture" aspect-ratio="1">
+                    </v-img>
                   </div>
-                  <div class="text-caption font-weight-bold text-primary">
-                    {{ $t('global.moneyTemplate', { money: cart.price }) }}
-                  </div>
-                </div>
-                <!-- 商品数量 -->
-                <div class="d-flex align-center">
-                  <div class="mr-2 text-caption text-grey" style="min-width: max-content;">
-                    {{ $t('cartlist.table.quantity') }}
-                  </div>
-                  <div style="min-width: 90px;">
-                    <FSBoundedNumInput density="compact" :min="1" :max="cart.stock" v-model="cart.count" :debounce="500"
-                      :data="cart" @change="handleCountChange" @out-of-range="handleOutOfRange"
-                      @store-count="handleCountStore" />
-                  </div>
-                </div>
-                <!-- 商品小计 -->
-                <div class="d-flex align-center">
-                  <div class="mr-2 text-caption text-grey">{{ $t('cartlist.table.subtotal') }}</div>
-                  <div class="font-weight-bold text-error">
-                    {{ $t('global.moneyTemplate', {
-                      money: calcGoodsTotalPrice(cart.price, cart.count)
-                    }) }}
-                  </div>
-                </div>
-                <!-- 删除 & 勾选 -->
-                <div class="d-flex justify-space-between align-center mt-1">
-                  <v-btn icon size="x-small" variant="text" color="error" @click.stop="handleDelCart(cart.goodsId)"
-                    class="mr-1">
-                    <v-icon size="20">mdi-delete-outline</v-icon>
-                  </v-btn>
-                  <v-checkbox color="primary" hide-details density="compact" :model-value="cart.selected === 1"
-                    @update:model-value="(e) => handleSingleChange(e, cart.goodsId)" />
-                </div>
+                </v-col>
+                <v-col cols="8">
+                  <div class="d-flex flex-column ga-1">
 
+                    <div class="font-weight-medium line-clamp-2">
+                      {{ cart.name }}
+                    </div>
+                    <div class="text-grey">
+                      {{ $t('cartlist.table.itemsInventory', { inventory: cart.stock }) }}
+                    </div>
+                    <div class="d-flex align-center flex-wrap">
+                      <div class="text-grey-darken-1 mr-2">
+                        {{ $t('order.detail.price') }}
+                      </div>
+                      <div class="font-weight-bold text-primary">
+                        {{ $t('global.moneyTemplate', { money: cart.price }) }}
+                      </div>
+                    </div>
+                    <!-- 商品数量 -->
+                    <div class="d-flex align-center">
+                      <div class="mr-2  text-grey" style="min-width: max-content;">
+                        {{ $t('cartlist.table.quantity') }}
+                      </div>
+                      <div style="min-width: 100px;">
+                        <FSBoundedNumInput density="compact" :min="1" :max="cart.stock" v-model="cart.count"
+                          :debounce="500" :data="cart" @change="handleCountChange" @out-of-range="handleOutOfRange"
+                          @store-count="handleCountStore" />
+                      </div>
+                    </div>
+                    <!-- 商品小计 -->
+                    <div class="d-flex align-center">
+                      <div class="mr-2 text-grey">{{ $t('cartlist.table.subtotal') }}</div>
+                      <div class="font-weight-bold text-error">
+                        {{ $t('global.moneyTemplate', {
+                          money: calcGoodsTotalPrice(cart.price, cart.count)
+                        }) }}
+                      </div>
+                    </div>
+                  </div>
+                </v-col>
+              </v-row>
+              <!-- 删除 & 勾选 -->
+              <div class="d-flex justify-end align-center">
+                <v-checkbox color="primary" hide-details density="compact" :model-value="cart.selected === 1"
+                  @update:model-value="(e) => handleSingleChange(e, cart.goodsId)" class="mr-4" />
+                <v-btn icon variant="text" color="error" @click.stop="handleDelCart(cart.goodsId)">
+                  <v-icon size="20">mdi-trash-can</v-icon>
+                </v-btn>
               </div>
             </v-card-text>
           </v-card>
           <!-- 空状态 -->
           <v-card v-if="cartStore.cartList.length === 0" class="cart-item" flat>
             <v-card-text>
-              <v-empty-state :title="$t('cartlist.empty')">
+              <v-empty-state :text="$t('cartlist.empty')">
                 <template #actions>
-                  <v-btn color="primary" prepend-icon="mdi-shopping" @click="toHomePage">
+                  <v-btn color="primary" prepend-icon="mdi-shopping" to="/">
                     {{ $t('cartlist.goShopping') }}
                   </v-btn>
                 </template>
@@ -153,7 +158,7 @@
         </div>
 
         <!-- 结算栏 -->
-        <div class="checkout-bar mt-6" v-if="cartStore.cartList.length > 0">
+        <div class="checkout-bar mt-4" v-if="cartStore.cartList.length > 0">
           <v-checkbox color="primary" hide-details :model-value="cartStore.cartIsAll"
             @update:model-value="handleAllChange" class="mr-4">
             <template v-slot:label>
@@ -161,7 +166,7 @@
             </template>
           </v-checkbox>
 
-          <v-btn :variant="mobile ? 'outlined' : 'text'" color="error" prepend-icon="mdi-delete-outline"
+          <v-btn variant="outlined" color="error" prepend-icon="mdi-trash-can" size="large"
             :disabled="cartStore.cartSelectedCount === 0" @click="handleDelAllCart">
             {{ $t('cartlist.deleteSelected') }}
           </v-btn>
@@ -289,14 +294,10 @@ const toCreateOrderPage = () => {
 
 }
 
-// 返回首页
-const toHomePage = () => {
-  router.push({ path: '/' })
-}
 </script>
 
 <style lang="scss" scoped>
-.fs-cart-page {
+.fs-cartlist-page {
   .cart-table {
     border-radius: 8px;
     overflow: hidden;
@@ -313,25 +314,16 @@ const toHomePage = () => {
   .checkout-bar {
     background-color: #fafafa;
     border-radius: 8px;
-    padding: 16px 24px;
+    padding: 16px;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 16px;
-
-    .v-btn {
-      height: 48px;
-      min-width: 120px;
-    }
+    gap: 10px;
 
     @media (max-width: 600px) {
       flex-direction: column;
       align-items: stretch;
       justify-content: flex-start;
-
-      .v-btn {
-        width: 100%;
-      }
 
       .text-h6 {
         font-size: 1.125rem; // 18px
@@ -347,28 +339,6 @@ const toHomePage = () => {
     transition: all 0.2s ease;
     background-color: #f0f0f0; // 默认或通用灰
 
-  }
-
-  /* 移动端图片容器 */
-  .mobile-img-wrapper {
-    width: 150px;
-    height: 150px;
-    border-radius: 6px;
-    overflow: hidden;
-    position: relative;
-    background: #f5f5f5;
-  }
-
-
-
-  @media (min-width: 600px) and (max-width: 960px) {
-    .v-img {
-      border-radius: 8px;
-    }
-
-    .fs-cart-info {
-      padding-left: 16px;
-    }
   }
 
   .v-img {

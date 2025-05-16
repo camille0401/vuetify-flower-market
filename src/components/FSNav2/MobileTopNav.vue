@@ -7,7 +7,13 @@
       </RouterLink>
     </v-app-bar-title>
 
-    <v-btn icon="mdi-shopping-search"></v-btn>
+    <!-- <v-btn icon="mdi-shopping-search"></v-btn> -->
+    <v-btn variant="text" active-color="primary" size="small" to="/user/login">
+      <span>{{ $t('nav.user.login') }}</span>
+    </v-btn>
+    <!-- <v-btn variant="text" active-color="primary" size="small" to="/user/register">
+      <span>{{ $t('nav.user.register') }}</span>
+    </v-btn> -->
     <v-btn icon="mdi-cart" to="/cartlist" class="mr-2">
       <v-badge :content="cartStore.cartList.length || 0" color="error">
         <v-icon icon="mdi-cart"></v-icon>

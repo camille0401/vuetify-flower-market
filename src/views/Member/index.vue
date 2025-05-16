@@ -87,9 +87,9 @@ const breadcrumbs = computed(() => [
 
 // 菜单项
 const menuItems = [
-  { text: t('global.nav.user.myAccount'), icon: 'mdi-account-cog', path: '/member/info' },
-  { text: t('global.nav.user.myAddress'), icon: 'mdi-map-marker-multiple', path: '/member/address' },
-  { text: t('global.nav.user.myOrder'), icon: 'mdi-clipboard-list', path: '/member/order' },
+  { text: t('nav.user.myAccount'), icon: 'mdi-account-cog', path: '/member/info' },
+  { text: t('nav.user.myAddress'), icon: 'mdi-map-marker-multiple', path: '/member/address' },
+  { text: t('nav.user.myOrder'), icon: 'mdi-clipboard-list', path: '/member/order' },
   // { text: '我的收藏', icon: 'mdi-heart', path: '/member/favorite' },
   // { text: '账户安全', icon: 'mdi-shield-lock', path: '/member/security' }
 ]
