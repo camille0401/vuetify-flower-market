@@ -2,7 +2,7 @@
   <v-row no-gutters class="mb-2">
     <!-- 验证码输入框 -->
     <v-col cols="8" class="pr-2">
-      <v-text-field v-model="codeValue" :label="$t('global.register.verificationCode')" :rules="CodeRules"
+      <v-text-field v-model="codeValue" :label="$t('register.verificationCode')" :rules="CodeRules"
         density="comfortable" variant="outlined" prepend-inner-icon="mdi-shield-key-outline" dense />
     </v-col>
 
@@ -10,7 +10,7 @@
     <v-col cols="4">
       <v-btn color="primary" :loading="sending" :disabled="countdown > 0" @click="handleSend" block
         style="height: 48px; line-height: 48px;">
-        {{ countdown > 0 ? `${countdown}s` : $t('global.register.sendCode') }}
+        {{ countdown > 0 ? `${countdown}s` : $t('register.sendCode') }}
       </v-btn>
     </v-col>
   </v-row>
@@ -46,13 +46,13 @@ let timer = null
 
 // 校验规则
 const CodeRules = ref([
-  value => !!value || t('global.register.validation.requiredField')
+  value => !!value || t('register.validation.requiredField')
 ]);
 
 // 点击发送验证码
 const handleSend = async () => {
   if (!props.email || !props.email.includes('@')) {
-    toast.error(t('global.register.emailInvalidMessage'))
+    toast.error(t('register.emailInvalidMessage'))
     return
   }
 
@@ -60,14 +60,14 @@ const handleSend = async () => {
 
   try {
     await sendCodeAPI({ email: '2964196727@qq.com', isCheck: props.type })
-    toast.success(t('global.register.codeSentMessage'))
+    toast.success(t('register.codeSentMessage'))
     countdown.value = 60
     timer = setInterval(() => {
       countdown.value--
       if (countdown.value <= 0) clearInterval(timer)
     }, 1000)
   } catch (err) {
-    toast.error(t('global.register.codeSendFailedMessage'))
+    toast.error(t('register.codeSendFailedMessage'))
   } finally {
     sending.value = false
   }

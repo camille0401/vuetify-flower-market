@@ -7,10 +7,10 @@
     <v-divider class="my-2" thickness="2" width="50"></v-divider>
 
     <div class="font-weight-regular">
-      {{ $t('global.nav.contact.title') + $t('global.nav.contact.phone') }}
+      {{ $t('nav.contact.title') + $t('nav.contact.phone') }}
     </div>
     <div class="font-weight-regular text-grey">
-      {{ $t('global.nav.contact.subtitle') }}
+      {{ $t('nav.contact.subtitle') }}
     </div>
     <v-divider></v-divider>
 

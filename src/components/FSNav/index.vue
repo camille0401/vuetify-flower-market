@@ -4,9 +4,8 @@
     <PcTopNav v-else @logout="logoutDialog = true" />
     <DrawerMenu v-if="mobile" v-model="drawer" @logout="logoutDialog = true" />
 
-    <FSConfirmationDialog v-model="logoutDialog" :title="$t('global.nav.confirm.title')"
-      :content="$t('global.nav.confirm.content')" titleIcon="mdi-logout" contentIcon=""
-      :confirm-text="$t('global.nav.confirm.confirmText')" @confirm="confirmLogout" />
+    <FSConfirmationDialog v-model="logoutDialog" :title="$t('nav.confirm.title')" :content="$t('nav.confirm.content')"
+      titleIcon="mdi-logout" contentIcon="" :confirm-text="$t('nav.confirm.confirmText')" @confirm="confirmLogout" />
   </nav>
 </template>
 

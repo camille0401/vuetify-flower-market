@@ -1,6 +1,6 @@
 <template>
   <v-text-field class="mb-2" v-model="formData.username" :rules="EmailRules" density="comfortable" variant="outlined"
-    :label="$t('global.login.validation.emailLabel')" prepend-inner-icon="mdi-email-outline">
+    :label="$t('login.validation.emailLabel')" prepend-inner-icon="mdi-email-outline">
   </v-text-field>
 </template>
 
@@ -26,8 +26,8 @@ const formData = computed({
 
 // 定义验证规则
 const EmailRules = ref([
-  value => !!value || t('global.login.validation.emailRequired'),  // 使用 i18n 提示消息
-  value => /.+@.+\..+/.test(value) || t('global.login.validation.emailValid')  // 使用 i18n 提示消息
+  value => !!value || t('login.validation.emailRequired'),  // 使用 i18n 提示消息
+  value => /.+@.+\..+/.test(value) || t('login.validation.emailValid')  // 使用 i18n 提示消息
 ]);
 
 </script>

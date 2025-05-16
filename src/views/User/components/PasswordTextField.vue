@@ -1,7 +1,7 @@
 <template>
   <v-text-field class="mb-2" v-model="formData.password" :rules="PasswordRules"
     :type="showPassword ? 'text' : 'password'" density="comfortable" variant="outlined"
-    :label="$t('global.login.validation.passwordLabel')" prepend-inner-icon="mdi-lock-outline">
+    :label="$t('login.validation.passwordLabel')" prepend-inner-icon="mdi-lock-outline">
   </v-text-field>
 </template>
 
@@ -27,7 +27,7 @@ const formData = computed({
 // const showPassword = ref(false)
 
 const PasswordRules = ref([
-  v => !!v || t('global.login.validation.passwordRequired'),
+  v => !!v || t('login.validation.passwordRequired'),
 ])
 
 

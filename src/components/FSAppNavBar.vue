@@ -6,38 +6,37 @@
           <li>
             <RouterLink to="/member/info">
               <v-icon class="mr-1">mdi-account</v-icon>
-              {{ $t('global.nav.user.welcome') }} {{ userStore?.userInfo?.nickName }}
+              {{ $t('nav.user.welcome') }} {{ userStore?.userInfo?.nickName }}
             </RouterLink>
           </li>
           <li>
-            <a href="javascript:void(0)" @click="logoutDialog = true">{{ $t('global.nav.user.logout') }}</a>
+            <a href="javascript:void(0)" @click="logoutDialog = true">{{ $t('nav.user.logout') }}</a>
           </li>
           <li>
-            <RouterLink to="/member/order">{{ $t('global.nav.user.myOrder') }}</RouterLink>
+            <RouterLink to="/member/order">{{ $t('nav.user.myOrder') }}</RouterLink>
           </li>
           <li>
-            <RouterLink to="/member/info">{{ $t('global.nav.user.memberCenter') }}</RouterLink>
+            <RouterLink to="/member/info">{{ $t('nav.user.memberCenter') }}</RouterLink>
           </li>
         </template>
         <template v-else>
           <li>
-            <RouterLink to="/user/login">{{ $t('global.nav.user.login') }}</RouterLink>
+            <RouterLink to="/user/login">{{ $t('nav.user.login') }}</RouterLink>
           </li>
-          <li><a href="javascript:void(0)">{{ $t('global.nav.user.helpCenter') }}</a></li>
-          <li><a href="javascript:void(0)">{{ $t('global.nav.user.aboutUs') }}</a></li>
+          <li><a href="javascript:void(0)">{{ $t('nav.user.helpCenter') }}</a></li>
+          <li><a href="javascript:void(0)">{{ $t('nav.user.aboutUs') }}</a></li>
         </template>
         <li>
-          <a href="javascript:void(0)"><v-icon class="mr-1">mdi-phone</v-icon>&nbsp;{{ $t('global.nav.contact.phone')
-          }}</a>
+          <a href="javascript:void(0)"><v-icon class="mr-1">mdi-phone</v-icon>&nbsp;{{ $t('nav.contact.phone')
+            }}</a>
         </li>
       </ul>
     </v-sheet>
   </nav>
 
   <!-- 确认退出对话框 -->
-  <FSConfirmationDialog v-model="logoutDialog" :title="$t('global.nav.confirm.title')"
-    :content="$t('global.nav.confirm.content')" titleIcon="mdi-logout" contentIcon=""
-    :confirm-text="$t('global.nav.confirm.confirmText')" @confirm="confirmLogout" />
+  <FSConfirmationDialog v-model="logoutDialog" :title="$t('nav.confirm.title')" :content="$t('nav.confirm.content')"
+    titleIcon="mdi-logout" contentIcon="" :confirm-text="$t('nav.confirm.confirmText')" @confirm="confirmLogout" />
 </template>
 
 <script setup>

@@ -2,89 +2,95 @@
   "global": {
     "moneyTemplate": "¥{money}",
     "countTemplate": "x{count}",
-    "login": {
-      "welcomeBack": "欢迎回来",
-      "seeYouAgain": "很高兴再次见到你！",
-      "showPassword": "显示密码",
-      "forgotPassword": "忘记密码？",
-      "login": "登录",
-      "noAccount": "还没有账号？",
-      "registerNow": "去注册",
-      "successMessage": "登录成功",
-      "failureMessage": "登录失败，请检查您的账号和密码",
-      "invalidFormMessage": "请填写有效的邮箱和密码",
-      "validation": {
-        "emailLabel": "邮箱",
-        "emailRequired": "电子邮件是必填项。",
-        "emailValid": "电子邮件格式无效。",
-        "passwordLabel": "密码",
-        "passwordRequired": "密码是必填项。"
-      }
-    },
-    "register": {
-      "createAccount": "创建一个账户",
-      "welcome": "欢迎来到花卉市场",
-      "showPassword": "显示密码",
-      "alreadyHaveAccount": "已有账户？",
-      "toLogin": "去登录",
-      "successMessage": "注册成功，请登录",
-      "failureMessage": "注册失败，请检查您的账号和密码",
-      "invalidFormMessage": "请填写有效的邮箱和密码",
-      "verificationCode": "请输入邮箱验证码",
-      "sendCode": "发送验证码",
-      "codeSentMessage": "验证码已发送，请检查邮箱！",
-      "codeSendFailedMessage": "验证码发送失败，请稍后再试。",
-      "emailInvalidMessage": "请输入有效的邮箱地址。",
-      "validation": {
-        "checkPasswordLabel": "确认密码",
-        "checkPasswordRequired": "确认密码是必填项",
-        "passwordMismatch": "两次密码不一致",
-        "requiredField": "验证码是必填项"
-      }
-    },
-    "forgotPassword": {
-      "title": "忘记密码",
-      "subtitle": "请输入您的电子邮件地址以重置密码。",
-      "resetPassword": "重置密码",
-      "backToLogin": "返回登录？",
-      "login": "去登录",
-      "emailInvalid": "请输入有效的电子邮件地址。",
-      "successMessage": "您的密码已成功重置。请重新登录"
-    },
-    "nav": {
-      "user": {
-        "welcome": "欢迎",
-        "logout": "退出",
-        "memberCenter": "会员中心",
-        "helpCenter": "帮助中心",
-        "aboutUs": "关于我们",
-        "login": "登录",
-        "register": "注册",
-        "cart": "购物车",
-        "myOrder": "我的订单",
-        "myAccount": "我的账户",
-        "myAddress": "收货地址",
-        "search": "搜索"
-      },
-      "confirm": {
-        "title": "确认退出",
-        "content": "确定要退出当前账号吗？退出后将需要重新登录才能访问会员内容。",
-        "confirmText": "确认退出"
-      },
-      "contact": {
-        "phone": "XXXXXXX",
-        "title": "售后客服热线：",
-        "subtitle": "(周一至周五 9:00-18:00 国定假日休息)"
-      }
-    },
-    "header": {
-      "label": "商品关键词",
-      "searchBtn": "搜索",
-      "cartIconBtn": "去购物车结算",
-      "cartIconTotalItems": "共 {count} 件商品"
-    },
     "homeProductSubTitle": "精选好物",
     "allCategoriesText": "所有分类"
+  },
+  "pageLoader": {
+    "errorImgAlt": "图片加载失败",
+    "errorTitle": "页面加载失败",
+    "errorDescription": "网络可能开了个小差，请检查连接或稍后重试。",
+    "errorRetry": "重试"
+  },
+  "login": {
+    "welcomeBack": "欢迎回来",
+    "seeYouAgain": "很高兴再次见到你！",
+    "showPassword": "显示密码",
+    "forgotPassword": "忘记密码？",
+    "login": "登录",
+    "noAccount": "还没有账号？",
+    "registerNow": "去注册",
+    "successMessage": "登录成功",
+    "failureMessage": "登录失败，请检查您的账号和密码",
+    "invalidFormMessage": "请填写有效的邮箱和密码",
+    "validation": {
+      "emailLabel": "邮箱",
+      "emailRequired": "电子邮件是必填项。",
+      "emailValid": "电子邮件格式无效。",
+      "passwordLabel": "密码",
+      "passwordRequired": "密码是必填项。"
+    }
+  },
+  "register": {
+    "createAccount": "创建一个账户",
+    "welcome": "欢迎来到花卉市场",
+    "showPassword": "显示密码",
+    "alreadyHaveAccount": "已有账户？",
+    "toLogin": "去登录",
+    "successMessage": "注册成功，请登录",
+    "failureMessage": "注册失败，请检查您的账号和密码",
+    "invalidFormMessage": "请填写有效的邮箱和密码",
+    "verificationCode": "请输入邮箱验证码",
+    "sendCode": "发送验证码",
+    "codeSentMessage": "验证码已发送，请检查邮箱！",
+    "codeSendFailedMessage": "验证码发送失败，请稍后再试。",
+    "emailInvalidMessage": "请输入有效的邮箱地址。",
+    "validation": {
+      "checkPasswordLabel": "确认密码",
+      "checkPasswordRequired": "确认密码是必填项",
+      "passwordMismatch": "两次密码不一致",
+      "requiredField": "验证码是必填项"
+    }
+  },
+  "forgotPassword": {
+    "title": "忘记密码",
+    "subtitle": "请输入您的电子邮件地址以重置密码。",
+    "resetPassword": "重置密码",
+    "backToLogin": "返回登录？",
+    "login": "去登录",
+    "emailInvalid": "请输入有效的电子邮件地址。",
+    "successMessage": "您的密码已成功重置。请重新登录"
+  },
+  "nav": {
+    "user": {
+      "welcome": "欢迎",
+      "logout": "退出",
+      "memberCenter": "会员中心",
+      "helpCenter": "帮助中心",
+      "aboutUs": "关于我们",
+      "login": "登录",
+      "register": "注册",
+      "cart": "购物车",
+      "myOrder": "我的订单",
+      "myAccount": "我的账户",
+      "myAddress": "收货地址",
+      "search": "搜索"
+    },
+    "confirm": {
+      "title": "确认退出",
+      "content": "确定要退出当前账号吗？退出后将需要重新登录才能访问会员内容。",
+      "confirmText": "确认退出"
+    },
+    "contact": {
+      "phone": "XXXXXXX",
+      "title": "售后客服热线：",
+      "subtitle": "(周一至周五 9:00-18:00 国定假日休息)"
+    }
+  },
+  "header": {
+    "label": "商品关键词",
+    "searchBtn": "搜索",
+    "cartIconBtn": "去购物车结算",
+    "cartIconTotalItems": "共 {count} 件商品"
   },
   "allCategories": {
     "title": "分类",

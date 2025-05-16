@@ -13,11 +13,11 @@
       <!-- 错误提示 + 重试按钮 -->
       <slot name="error">
         <v-container class="text-center py-10">
-          <v-img :src="errorImg" max-width="300" class="mx-auto mb-4" alt="加载失败" />
-          <h2 class="text-h6 mb-2">页面加载失败</h2>
-          <p class="text-body-2 mb-4">网络可能开了个小差，请检查连接或稍后重试。</p>
+          <v-img :src="errorImg" max-width="300" class="mx-auto mb-4" :alt="$t('pageLoader.errorImgAlt')" />
+          <h2 class="text-h6 mb-2">{{ $t('pageLoader.errorTitle') }}</h2>
+          <p class="text-body-2 mb-4">{{ $t('pageLoader.errorDescription') }}</p>
           <!-- <v-btn color="primary" variant="elevated" @click="reload" class="px-6">
-            重试
+          {{$t('pageLoader.errorRetry')}}}
           </v-btn> -->
         </v-container>
       </slot>
@@ -31,7 +31,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watchEffect } from 'vue'
+import { ref, onMounted } from 'vue'
 import errorImg from '@/assets/images/error.svg'
 const props = defineProps({
   fetch: {

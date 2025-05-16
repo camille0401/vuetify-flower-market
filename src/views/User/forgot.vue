@@ -1,19 +1,18 @@
 <!-- 忘记密码 -->
 <template>
-  <FormPanel :title="$t('global.forgotPassword.title')" :subTitle="$t('global.forgotPassword.subtitle')"
-    :footTitle="$t('global.forgotPassword.backToLogin')" :footBtnText="$t('global.forgotPassword.login')"
-    @on-foot-btn="toLogin">
+  <FormPanel :title="$t('forgotPassword.title')" :subTitle="$t('forgotPassword.subtitle')"
+    :footTitle="$t('forgotPassword.backToLogin')" :footBtnText="$t('forgotPassword.login')" @on-foot-btn="toLogin">
 
     <template #main>
       <v-form ref="forgotFormRef" validate-on="blur" @submit.prevent="doRestPassword">
         <EmailTextField v-model="forgotForm" />
         <EmailVerificationCode :email="forgotForm.username" v-model="forgotForm.code" :type="1" />
         <PasswordTextField v-model="forgotForm" :showPassword="showPassword" />
-        <v-checkbox v-model="showPassword" color="primary" :label="$t('global.register.showPassword')"
+        <v-checkbox v-model="showPassword" color="primary" :label="$t('register.showPassword')"
           hide-details></v-checkbox>
         <br>
         <v-btn :loading="loading" color="primary" size="x-large" type="submit" variant="elevated" block>
-          {{ $t('global.forgotPassword.resetPassword') }}
+          {{ $t('forgotPassword.resetPassword') }}
         </v-btn>
       </v-form>
     </template>
@@ -61,7 +60,7 @@ const doRestPassword = async () => {
   // 验证表单有效性
   const { valid } = await forgotFormRef.value.validate()
   if (!valid) {
-    toast.error(t('global.register.invalidFormMessage'), {
+    toast.error(t('register.invalidFormMessage'), {
       timeout: 2000
     })
     return;
@@ -75,7 +74,7 @@ const doRestPassword = async () => {
     await forgetPwdAPI({ username, nickname, password, code })
 
     // 提示用户密码重置成功
-    toast.success(t('global.forgotPassword.successMessage'), {
+    toast.success(t('forgotPassword.successMessage'), {
       timeout: 2000
     });
 

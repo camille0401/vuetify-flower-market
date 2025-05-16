@@ -33,14 +33,6 @@
     padding: 30px 0; // 小屏缩小上下间距
   }
 
-  // &::before {
-  //   content: "";
-  //   position: absolute;
-  //   inset: 0;
-  //   background-color: rgba(0, 0, 0, 0.2);
-  //   z-index: 1;
-  // }
-
   .v-container {
     position: relative;
     z-index: 2;

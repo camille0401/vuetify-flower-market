@@ -1,7 +1,7 @@
 <template>
   <v-text-field class="mb-2" v-model="formData.checkPassword" :rules="checkPasswordRules"
     :type="showPassword ? 'text' : 'password'" density="comfortable" variant="outlined"
-    :label="$t('global.register.validation.checkPasswordLabel')" prepend-inner-icon="mdi-lock-check-outline">
+    :label="$t('register.validation.checkPasswordLabel')" prepend-inner-icon="mdi-lock-check-outline">
   </v-text-field>
 </template>
 
@@ -27,11 +27,11 @@ const formData = computed({
 // const showPassword = ref(false)
 
 const checkPasswordRules = ref([
-  v => !!v || t('global.register.validation.checkPasswordRequired'),
+  v => !!v || t('register.validation.checkPasswordRequired'),
   v => {
     if (v === formData.value.password) return true
 
-    return t('global.register.validation.passwordMismatch')
+    return t('register.validation.passwordMismatch')
   },
 ])
 

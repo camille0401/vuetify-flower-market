@@ -4,7 +4,7 @@
     <!-- <v-app-bar-title class="text-primary font-weight-bold">Flower Market</v-app-bar-title> -->
     <v-spacer />
     <v-btn v-if="!userStore.token" variant="text" @click="goLogin">
-      {{ $t('global.nav.user.login') }}
+      {{ $t('nav.user.login') }}
     </v-btn>
     <CartIcon />
     <v-icon v-if="userStore.token" class="mr-2"></v-icon>

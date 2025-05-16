@@ -5,28 +5,28 @@
         <template v-if="userStore?.token">
           <RouterLink to="/member/info" class="nav-item">
             <v-icon class="mr-1">mdi-account</v-icon>
-            {{ $t('global.nav.user.welcome') }} {{ userStore?.userInfo?.nickName }}
+            {{ $t('nav.user.welcome') }} {{ userStore?.userInfo?.nickName }}
           </RouterLink>
           <a href="javascript:void(0)" class="nav-item" @click="$emit('logout')">
-            {{ $t('global.nav.user.logout') }}
+            {{ $t('nav.user.logout') }}
           </a>
           <RouterLink to="/member/order" class="nav-item">
-            {{ $t('global.nav.user.myOrder') }}
+            {{ $t('nav.user.myOrder') }}
           </RouterLink>
           <RouterLink to="/member/info" class="nav-item">
-            {{ $t('global.nav.user.memberCenter') }}
+            {{ $t('nav.user.memberCenter') }}
           </RouterLink>
         </template>
         <template v-else>
           <RouterLink to="/user/login" class="nav-item">
-            {{ $t('global.nav.user.login') }}
+            {{ $t('nav.user.login') }}
           </RouterLink>
         </template>
-        <a href="javascript:void(0)" class="nav-item">{{ $t('global.nav.user.helpCenter') }}</a>
-        <a href="javascript:void(0)" class="nav-item">{{ $t('global.nav.user.aboutUs') }}</a>
+        <a href="javascript:void(0)" class="nav-item">{{ $t('nav.user.helpCenter') }}</a>
+        <a href="javascript:void(0)" class="nav-item">{{ $t('nav.user.aboutUs') }}</a>
         <a href="javascript:void(0)" class="nav-item">
           <v-icon class="mr-1">mdi-phone</v-icon>
-          {{ $t('global.nav.contact.phone') }}
+          {{ $t('nav.contact.phone') }}
         </a>
       </div>
     </v-container>

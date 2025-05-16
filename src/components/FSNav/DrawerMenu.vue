@@ -4,16 +4,16 @@
       <template v-if="userStore?.token">
         <v-list-item prepend-icon="mdi-account" :title="userStore.userInfo?.nickName" />
         <v-divider />
-        <v-list-item :title="$t('global.nav.user.memberCenter')" to="/member/info" link />
-        <v-list-item :title="$t('global.nav.user.myOrder')" to="/member/order" link />
-        <v-list-item :title="$t('global.nav.user.logout')" @click="$emit('logout')" />
+        <v-list-item :title="$t('nav.user.memberCenter')" to="/member/info" link />
+        <v-list-item :title="$t('nav.user.myOrder')" to="/member/order" link />
+        <v-list-item :title="$t('nav.user.logout')" @click="$emit('logout')" />
       </template>
       <template v-else>
-        <v-list-item :title="$t('global.nav.user.helpCenter')" link />
-        <v-list-item :title="$t('global.nav.user.aboutUs')" link />
+        <v-list-item :title="$t('nav.user.helpCenter')" link />
+        <v-list-item :title="$t('nav.user.aboutUs')" link />
         <v-list-item>
           <v-list-item-title>
-            {{ $t('global.nav.contact.phone') }}
+            {{ $t('nav.contact.phone') }}
           </v-list-item-title>
         </v-list-item>
       </template>

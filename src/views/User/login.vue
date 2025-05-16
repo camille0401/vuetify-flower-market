@@ -1,20 +1,20 @@
 <template>
-  <FormPanel :title="$t('global.login.welcomeBack')" :subTitle="$t('global.login.seeYouAgain')"
-    :footTitle="$t('global.login.noAccount')" :footBtnText="$t('global.login.registerNow')" @on-foot-btn="toRegister">
+  <FormPanel :title="$t('login.welcomeBack')" :subTitle="$t('login.seeYouAgain')" :footTitle="$t('login.noAccount')"
+    :footBtnText="$t('login.registerNow')" @on-foot-btn="toRegister">
 
     <template #main>
       <v-form ref="loginFormRef" validate-on="submit" @submit.prevent="doLogin">
         <EmailTextField v-model="loginForm" />
         <PasswordTextField v-model="loginForm" :showPassword="showPassword" />
         <div class="d-flex justify-space-between">
-          <v-checkbox v-model="showPassword" color="primary" :label="$t('global.login.showPassword')" hide-details />
+          <v-checkbox v-model="showPassword" color="primary" :label="$t('login.showPassword')" hide-details />
           <v-btn class="forget " color="primary" variant="text" to="/user/forgot">{{
-            $t('global.login.forgotPassword') }}</v-btn>
+            $t('login.forgotPassword') }}</v-btn>
         </div>
         <br>
 
         <v-btn :loading="loading" color="primary" size="x-large" type="submit" variant="elevated" block>
-          {{ $t('global.login.login') }}
+          {{ $t('login.login') }}
         </v-btn>
       </v-form>
     </template>
@@ -54,7 +54,7 @@ const doLogin = async () => {
   // 先进行表单校验
   const { valid } = await loginFormRef.value.validate();
   if (!valid) {
-    toast.error(t('global.login.invalidFormMessage'), { timeout: 2000 });
+    toast.error(t('login.invalidFormMessage'), { timeout: 2000 });
     return;
   }
 
@@ -65,7 +65,7 @@ const doLogin = async () => {
     // 尝试登录
     await userStore.login({ username, password });
 
-    toast.success(t('global.login.successMessage'), { timeout: 2000 });
+    toast.success(t('login.successMessage'), { timeout: 2000 });
 
     // 跳转页面
     const redirect = route.query.redirect || '/';
@@ -75,7 +75,7 @@ const doLogin = async () => {
     loginForm.value = { username: "", password: "" };
   } catch (error) {
     // 捕获并处理错误，显示注册失败提示
-    // toast.error(t('global.login.failureMessage'), {
+    // toast.error(t('login.failureMessage'), {
     //   timeout: 2000
     // })
     console.error('Login error:', error);

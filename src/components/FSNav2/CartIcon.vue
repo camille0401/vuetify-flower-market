@@ -27,7 +27,7 @@
           <p class="text-error text-h6"> {{ totalPriceText }}</p>
         </div>
         <v-btn class="checkout-btn" size="large" color="primary-darken-1" @click="toCartListPage">
-          {{ $t("global.header.cartIconBtn") }}
+          {{ $t("header.cartIconBtn") }}
         </v-btn>
       </div>
     </div>
@@ -50,7 +50,7 @@ const formatPrice = (price) => {
 }
 
 const totalItemsText = computed(() =>
-  t('global.header.cartIconTotalItems', { count: cartStore.cartAllCount })
+  t('header.cartIconTotalItems', { count: cartStore.cartAllCount })
 )
 const totalPriceText = computed(() =>
   t('global.moneyTemplate', { money: formatPrice(cartStore.cartAllPrice) })

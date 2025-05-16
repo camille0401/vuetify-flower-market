@@ -24,41 +24,41 @@
       <v-divider class="mb-4"></v-divider>
       <template v-if="userStore.token">
         <v-list-subheader class="text-primary text-h6">
-          {{ $t('global.nav.user.welcome') }} {{ userStore?.userInfo?.nickName }}
+          {{ $t('nav.user.welcome') }} {{ userStore?.userInfo?.nickName }}
         </v-list-subheader>
-        <v-list-item :title="$t('global.nav.user.myAccount')" link to="/member/info">
+        <v-list-item :title="$t('nav.user.myAccount')" link to="/member/info">
           <template v-slot:prepend>
             <v-icon icon="mdi-account"></v-icon>
           </template>
         </v-list-item>
-        <v-list-item :title="$t('global.nav.user.myOrder')" link to="/member/order">
+        <v-list-item :title="$t('nav.user.myOrder')" link to="/member/order">
           <template v-slot:prepend>
             <v-icon icon="mdi-flower-poppy"></v-icon>
           </template>
         </v-list-item>
-        <v-list-item :title="$t('global.nav.user.myAddress')" link to="/member/address">
+        <v-list-item :title="$t('nav.user.myAddress')" link to="/member/address">
           <template v-slot:prepend>
             <v-icon icon="mdi-map-marker-multiple"></v-icon>
           </template>
         </v-list-item>
-        <v-list-item :title="$t('global.nav.user.cart')" link to="/cartlist">
+        <v-list-item :title="$t('nav.user.cart')" link to="/cartlist">
           <template v-slot:prepend>
             <v-icon icon="mdi-cart"></v-icon>
           </template>
         </v-list-item>
-        <v-list-item :title="$t('global.nav.user.logout')" @click="handleLogout">
+        <v-list-item :title="$t('nav.user.logout')" @click="handleLogout">
           <template v-slot:prepend>
             <v-icon icon="mdi-logout"></v-icon>
           </template>
         </v-list-item>
       </template>
       <template v-else>
-        <v-list-item :title="$t('global.nav.user.login')" to="/user/login">
+        <v-list-item :title="$t('nav.user.login')" to="/user/login">
           <template v-slot:prepend>
             <v-icon icon="mdi-login"></v-icon>
           </template>
         </v-list-item>
-        <v-list-item :title="$t('global.nav.user.register')" to="/user/register">
+        <v-list-item :title="$t('nav.user.register')" to="/user/register">
           <template v-slot:prepend>
             <v-icon icon="mdi-account-plus"></v-icon>
           </template>
@@ -69,7 +69,7 @@
 </template>
 
 <script setup>
-import { computed, onBeforeMount, onMounted, onUnmounted, ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useUserStore } from '@/stores/user'
 import { useCategoryStore } from '@/stores/category'
 

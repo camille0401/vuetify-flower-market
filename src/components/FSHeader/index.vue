@@ -10,10 +10,10 @@
         <!-- 搜索区域 -->
         <v-col cols="12" md="8">
           <div class="search">
-            <v-text-field v-model="searchQuery" :label="$t('global.header.label')" type="text" variant="outlined"
+            <v-text-field v-model="searchQuery" :label="$t('header.label')" type="text" variant="outlined"
               color="primary" prepend-inner-icon="mdi-magnify" clearable hide-details />
             <v-btn color="primary" size="x-large" @click="onSearch">
-              {{ $t('global.header.searchBtn') }}
+              {{ $t('header.searchBtn') }}
             </v-btn>
           </div>
         </v-col>
