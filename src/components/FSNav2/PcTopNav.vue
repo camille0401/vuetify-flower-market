@@ -1,18 +1,23 @@
 <template>
   <v-container color="background" class="d-flex justify-space-between align-center">
-    <!-- <RouterLink to="/" class="text-h5 font-weight-bold">
-      <span>Flower Market</span>
-    </RouterLink> -->
     <FSLogo />
     <div class="d-flex align-center ga-2">
       <!-- 是否登录 -->
       <template v-if="userStore?.token">
-        <div class="px-4 ga-1 font-weight-bold">
-          <span>{{ $t('nav.user.welcome') }} {{ userStore?.userInfo?.nickName }}</span>
-        </div>
-        <v-btn class="px-4 ga-1" variant="text" active-color="primary" @click="$emit('logout')">
+        <v-menu open-on-hover>
+          <template v-slot:activator="{ props }">
+            <v-btn class="px-4 font-weight-bold" v-bind="props" variant="text">
+              {{ $t('nav.user.welcome') + userStore?.userInfo?.nickName }}
+            </v-btn>
+          </template>
+          <v-list>
+            <v-list-item :title="$t('nav.user.logout')" @click="$emit('logout')">
+            </v-list-item>
+          </v-list>
+        </v-menu>
+        <!-- <v-btn class="px-4 ga-1" variant="text" active-color="primary" @click="$emit('logout')">
           <span>{{ $t('nav.user.logout') }}</span>
-        </v-btn>
+        </v-btn> -->
       </template>
       <template v-else>
         <v-btn class="px-4 ga-1" variant="text" active-color="primary" to="/user/login">
@@ -23,10 +28,10 @@
         </v-btn>
       </template>
 
-      <RouterLink to="/member/order" class="nav-item px-4 ga-1">
+      <!-- <RouterLink to="/member/order" class="nav-item px-4 ga-1">
         <v-icon icon="mdi-shopping-search"></v-icon>
         <span>{{ $t('nav.user.search') }}</span>
-      </RouterLink>
+      </RouterLink> -->
 
       <RouterLink to="/member/order" class="nav-item px-4 ga-1">
         <v-icon icon="mdi-flower-poppy"></v-icon>
