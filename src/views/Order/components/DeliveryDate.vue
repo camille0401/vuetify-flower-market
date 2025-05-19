@@ -8,8 +8,8 @@
     </v-toolbar>
     <v-card-text>
       <v-date-picker v-model="selectedDate" width="100%" event-color="primary" :min="minDate" :max="maxDate"
-        :density="mobile && 'comfortable'" :allowed-dates="allowedDates" :events="dateEvents"
-        @update:modelValue="onDateSelected" :first-day-of-week="0">
+        :density="mobile && 'comfortable'" :events="dateEvents" @update:modelValue="onDateSelected"
+        :first-day-of-week="0">
       </v-date-picker>
 
       <!-- 選択内容表示 -->
