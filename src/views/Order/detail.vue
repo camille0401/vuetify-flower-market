@@ -5,9 +5,9 @@
       <v-sheet color="surface" class="pa-4 mb-4" elevation="2">
         <v-alert :type="statusConfig.type" variant="tonal" :title="statusConfig.title" :text="statusConfig.description"
           class="mb-4 responsive-alert">
-          <template #prepend>
+          <!-- <template #prepend>
             <v-icon :color="statusConfig.type" :icon="statusConfig.icon" size="40" />
-          </template>
+          </template> -->
           <v-spacer />
           <template #append>
             <div class="text-caption text-grey-darken-1">
@@ -174,7 +174,7 @@ const ORDER_STATUS_CONFIG = {
     get description() { return t('order.detail.status.waitPay.desc') }
   },
   2: { // 待支付
-    type: 'success',
+    type: 'warning',
     icon: 'mdi-check-circle-outline',
     get title() { return t('order.detail.status.success.title') },
     get description() { return t('order.detail.status.success.desc') }
