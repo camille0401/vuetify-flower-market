@@ -1,5 +1,5 @@
 <template>
-  <v-card :class="smAndDown ? 'rounded-0' : 'rounded-lg elevation-2'">
+  <v-card :class="mobile ? 'rounded-0' : 'rounded-lg elevation-2'">
     <v-toolbar color="primary" :title="$t('member.user.editPwdDialog.password.title')" density="compact">
       <v-btn icon @click="close">
         <v-icon>mdi-close</v-icon>
@@ -30,7 +30,7 @@
 
       </v-form>
     </v-card-text>
-    <v-card-actions class="bg-grey-lighten-4" :class="smAndDown ? 'position-sticky bottom-0' : ''">
+    <v-card-actions class="bg-grey-lighten-4" :class="mobile ? 'position-sticky bottom-0' : ''">
       <v-spacer />
       <v-btn variant="text" @click="close">{{ $t('member.user.editPwdDialog.common.cancel') }}</v-btn>
       <v-btn color="primary" :loading="submitting" prepend-icon="mdi-lock-reset" @click="handleSubmit">
@@ -47,8 +47,9 @@ import { useToast } from 'vue-toastification'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import { useDisplay } from 'vuetify'
+import { encrypt } from '@/utils/rsaEncrypt'
 
-const { smAndDown } = useDisplay()
+const { mobile } = useDisplay()
 const { t } = useI18n()
 const router = useRouter()
 const emit = defineEmits(['close'])
@@ -98,9 +99,9 @@ const handleSubmit = async () => {
   try {
     const res = await userStore.changePassword({
       username: userStore.userInfo.username,
-      password: newPassword.value
+      password: encrypt(newPassword.value)
     })
-    console.log(res)
+    // console.log(res)
     await userStore.logout() // 清除 token
     router.replace('/user/login') // 跳转登录页
     toast.success(t('member.user.editPwdDialog.password.updateSuccess'))

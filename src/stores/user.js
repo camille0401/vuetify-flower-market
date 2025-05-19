@@ -22,7 +22,7 @@ export const useUserStore = defineStore(
     };
 
     /** 获取登录后的用户信息 */
-    const getUserInfo = async (data) => {
+    const getUserInfo = (data) => {
       if (!data?.token || !data?.user) return;
 
       token.value = data.token;
@@ -34,8 +34,9 @@ export const useUserStore = defineStore(
     const login = async (form) => {
       try {
         const res = await loginAPI(form);
+        console.log(res);
         if (res) {
-          await getUserInfo(res);
+          getUserInfo(res);
           await cartStore.mergeCartList(); // 合并购物车
         }
       } catch (err) {

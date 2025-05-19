@@ -69,7 +69,10 @@
               <!-- 空状态 -->
               <tr v-if="cartStore.cartList.length === 0">
                 <td colspan="6" class="py-10">
-                  <v-empty-state :text="$t('cartlist.empty')">
+                  <v-empty-state :title="$t('cartlist.empty')" :text="$t('cartlist.emptySubtitle')">
+                    <template #media>
+                      <v-img :src="EmptyCart" alt="Empty Cart" max-width="300" class="mx-auto mb-2" aspect-ratio="1" />
+                    </template>
                     <template #actions>
                       <v-btn color="primary" prepend-icon="mdi-shopping" to="/">
                         {{ $t('cartlist.goShopping') }}
@@ -146,7 +149,11 @@
           <!-- 空状态 -->
           <v-card v-if="cartStore.cartList.length === 0" class="cart-item" flat>
             <v-card-text>
-              <v-empty-state :text="$t('cartlist.empty')">
+              <v-empty-state :title="$t('cartlist.empty')" :text="$t('cartlist.emptySubtitle')">
+                <template #media>
+                  <v-img :src="EmptyCart" alt="Empty Cart" max-width="80%" max-height="80" class="mx-auto mb-2"
+                    aspect-ratio="1" />
+                </template>
                 <template #actions>
                   <v-btn color="primary" prepend-icon="mdi-shopping" to="/">
                     {{ $t('cartlist.goShopping') }}
@@ -195,6 +202,7 @@
 </template>
 
 <script setup>
+import EmptyCart from '@/assets/svgs/empty-cart.svg'
 import FSTitlePanel from '@/components/FSTitlePanel/index.vue'
 import FSBoundedNumInput from '@/components/FSBoundedNumInput.vue'
 import Big from 'big.js'

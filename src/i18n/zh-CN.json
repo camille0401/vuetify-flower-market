@@ -146,6 +146,7 @@
       "itemsInventory": "库存: {inventory} 件"
     },
     "empty": "购物车空空如也",
+    "emptySubtitle": "去看看喜欢的商品吧！",
     "goShopping": "去逛逛",
     "allSelect": "全选",
     "deleteSelected": "删除选中",

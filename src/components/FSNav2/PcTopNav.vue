@@ -43,7 +43,7 @@
         <span>{{ $t('nav.user.myAccount') }}</span>
       </RouterLink>
 
-      <RouterLink to="/cartlist" class="nav-item px-4 ga-1">
+      <RouterLink to="/cartlist" class="nav-item ga-1">
         <CartIcon />
         <span>{{ $t('nav.user.cart') }}</span>
       </RouterLink>

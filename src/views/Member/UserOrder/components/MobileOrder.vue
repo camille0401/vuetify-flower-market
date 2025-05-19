@@ -121,7 +121,7 @@ const formatTime = (time) => {
   .item-order {
 
     &:not(:last-child) {
-      border-bottom: 1px solid #eaeaea;
+      border-bottom: 1px solid rgba(var(--v-theme-surface-variant), 0.2);
     }
   }
 

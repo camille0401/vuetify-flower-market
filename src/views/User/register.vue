@@ -33,7 +33,7 @@ import { useUserStore } from '@/stores/user'
 import { useToast } from "vue-toastification"
 import { useI18n } from 'vue-i18n' // Import useI18n to access translations
 import { useInviteCode } from '@/composables/useInviteCode'
-
+import { encrypt } from '@/utils/rsaEncrypt'
 
 // Initialize i18n
 const { t } = useI18n();  // Use `t` for translation
@@ -75,7 +75,7 @@ const doRegister = async () => {
   const inviteCode = getInviteCode()
   try {
     // 发送注册请求
-    await userStore.register({ username, nickname, password, code, inviteCode })
+    await userStore.register({ username, nickname, password: encrypt(password), code, inviteCode })
 
     // 提示用户注册成功
     toast.success(t('register.successMessage'), {

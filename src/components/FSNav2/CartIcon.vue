@@ -1,6 +1,6 @@
 <template>
   <div class="fs-cart-icon" @mouseenter="showDropdown = true" @mouseleave="showDropdown = false">
-    <v-badge :content="cartStore.cartList.length || 0" color="error">
+    <v-badge :content="cartStore.cartList.length || 0" color="error" class="cart-badge" :class="bageFlag && 'animate'">
       <v-icon icon="mdi-cart"></v-icon>
     </v-badge>
     <div class="cart-dropdown" v-show="showDropdown && cartStore.cartList.length > 0">
@@ -18,7 +18,7 @@
               <p class="item-count">x{{ item.count }}</p>
             </div>
           </RouterLink>
-          <v-icon icon="mdi-close" class="delete-icon" @click.stop="handleDeleteCart(item.goodsId)" />
+          <v-icon icon="mdi-close" class="delete-icon" @click="handleDeleteCart(item.goodsId)" />
         </div>
       </div>
       <div class="cart-footer elevation-4">
@@ -35,7 +35,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { useCartStore } from '@/stores/cart'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
@@ -43,6 +43,7 @@ import { useI18n } from 'vue-i18n'
 const cartStore = useCartStore()
 const router = useRouter()
 const showDropdown = ref(false)
+const bageFlag = ref(false)
 const { t } = useI18n()
 
 const formatPrice = (price) => {
@@ -65,7 +66,19 @@ const toCartListPage = () => {
   router.push('/cartlist')
 }
 
-
+watch(
+  () => cartStore.cartList.length,
+  (newVal, oldVal) => {
+    if (newVal > oldVal) {
+      // 添加动画类
+      bageFlag.value = true
+      // 动画持续时间结束后移除类名
+      setTimeout(() => {
+        bageFlag.value = false
+      }, 300) // 与 SCSS 中动画时长一致
+    }
+  }
+)
 </script>
 
 <style scoped lang="scss">
@@ -230,6 +243,7 @@ const toCartListPage = () => {
 .cart-summary {
   p {
     margin: 0;
+    color: #333;
     font-size: 14px;
   }
 }

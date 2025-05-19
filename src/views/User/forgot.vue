@@ -28,16 +28,15 @@ import PasswordCheckTextField from './components/PasswordCheckTextField.vue'
 import EmailVerificationCode from './components/EmailVerificationCode.vue'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { useUserStore } from '@/stores/user'
 import { useToast } from "vue-toastification"
 import { useI18n } from 'vue-i18n' // Import useI18n to access translations
 import { forgetPwdAPI } from '@/apis/user'
+import { encrypt } from '@/utils/rsaEncrypt'
 
 // Initialize i18n
 const { t } = useI18n();  // Use `t` for translation
 
 const toast = useToast();
-const userStore = useUserStore();
 const router = useRouter();
 
 // 注册
@@ -71,7 +70,7 @@ const doRestPassword = async () => {
   const nickname = username.split("@")[0]
   try {
     // 发送重置密码请求
-    await forgetPwdAPI({ username, nickname, password, code })
+    await forgetPwdAPI({ username, nickname, password: encrypt(password), code })
 
     // 提示用户密码重置成功
     toast.success(t('forgotPassword.successMessage'), {

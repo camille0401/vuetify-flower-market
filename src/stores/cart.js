@@ -59,7 +59,6 @@ export const useCartStore = defineStore(
     };
 
     const mergeCartList = async () => {
-      if (!cartList.value.length) return;
       const data = cartList.value.map(({ goodsId, selected, count }) => ({
         goodsId,
         selected,
@@ -108,6 +107,7 @@ export const useCartStore = defineStore(
     };
 
     const delCart = async (goodsId) => {
+      console.log(isLogin.value);
       if (isLogin.value) {
         await deleteCartAPI([goodsId]);
         await syncCartList();

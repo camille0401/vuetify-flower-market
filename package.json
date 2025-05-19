@@ -16,6 +16,7 @@
     "big.js": "^6.2.2",
     "dayjs": "^1.11.13",
     "japanese-holidays": "^1.0.10",
+    "jsencrypt": "^3.3.2",
     "nprogress": "^0.2.0",
     "pinia": "^3.0.1",
     "pinia-plugin-persistedstate": "^4.2.0",

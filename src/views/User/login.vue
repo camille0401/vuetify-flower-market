@@ -24,14 +24,14 @@
 
 <script setup>
 import FormPanel from './components/FormPanel.vue'
-import EmailTextField from './components/EmailTextField.vue';
-import PasswordTextField from './components/PasswordTextField.vue';
+import EmailTextField from './components/EmailTextField.vue'
+import PasswordTextField from './components/PasswordTextField.vue'
 import { ref } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useUserStore } from '@/stores/user'
-import { useI18n } from 'vue-i18n';  // Import useI18n to access translations
-import { useToast } from "vue-toastification";
-
+import { useI18n } from 'vue-i18n'  // Import useI18n to access translations
+import { useToast } from "vue-toastification"
+import { encrypt } from '@/utils/rsaEncrypt'
 
 // Initialize i18n
 const { t } = useI18n();  // Use `t` for translation
@@ -63,7 +63,7 @@ const doLogin = async () => {
 
   try {
     // 尝试登录
-    await userStore.login({ username, password });
+    await userStore.login({ username, password: encrypt(password) });
 
     toast.success(t('login.successMessage'), { timeout: 2000 });
 

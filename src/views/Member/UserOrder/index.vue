@@ -11,13 +11,12 @@
       </v-tabs>
 
       <v-tabs-window v-model="activeTab">
-        <v-tabs-window-item v-for="tab in orderTabs" :key="tab.value" :value="tab.value">
+        <v-tabs-window-item v-for="tab in orderTabs" :key="tab.value" :value="tab.value" style="min-height: 100px;">
           <template v-if="isLoading">
             <!-- 加载状态 -->
             <div v-if="isLoading" class="text-center my-10">
               <v-progress-circular indeterminate color="primary" />
             </div>
-
           </template>
 
           <template v-else-if="orders.length === 0">
