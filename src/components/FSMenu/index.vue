@@ -13,7 +13,7 @@
         </li>
 
         <li v-for="category in categoryStore.categoryList" :key="category.id">
-          <v-btn class="px-4" variant="text" height="60" block :to="`/category/1/${category.id}`"
+          <v-btn class="px-4" variant="text" rounded="0" height="60" block :to="`/category/1/${category.id}`"
             active-color="primary-darken-1">
             {{ category.cname }}
           </v-btn>

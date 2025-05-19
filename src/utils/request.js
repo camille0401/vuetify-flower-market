@@ -13,8 +13,7 @@ const baseURL =
 // 创建axios实例
 const request = axios.create({
   baseURL,
-  timeout: 10000,
-  showLoading: true,
+  timeout: 15000,
 });
 
 // axios请求拦截器
@@ -30,27 +29,30 @@ request.interceptors.request.use(
     return config;
   },
   (e) => {
-    Promise.reject(e);
+    return Promise.reject(e);
   },
 );
 
 // axios响应式拦截器
 request.interceptors.response.use(
   (res) => {
-    console.log(res);
+    // console.log(res);
     return Promise.resolve(res.data);
   },
   (error) => {
-    console.log(error);
+    // console.log(error);
     // 统一错误提示
     toast.warning(error.response?.data?.message || error.message, {
       timeout: 2000,
     });
     // 401 token timeout
-    if (error.response.status === 401) {
+    if (error.response?.status === 401) {
       const userStore = useUserStore();
       userStore.clearUserInfo();
-      router.replace('/user/login');
+      router.replace({
+        path: '/user/login',
+        query: { redirect: router.currentRoute.value.fullPath },
+      });
     }
     return Promise.reject(error);
   },
