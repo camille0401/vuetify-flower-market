@@ -41,6 +41,7 @@ const { t } = useI18n();  // Use `t` for translation
 const toast = useToast();
 const userStore = useUserStore();
 const router = useRouter();
+const { getInviteCode, clearInviteCode } = useInviteCode()
 
 // 注册
 const loading = ref(false)
@@ -68,7 +69,6 @@ const doRegister = async () => {
     return;
   }
 
-  const { getInviteCode, clearInviteCode } = useInviteCode()
   loading.value = true;
   const { username, password, code } = registerForm.value
   const nickname = username.split("@")[0]

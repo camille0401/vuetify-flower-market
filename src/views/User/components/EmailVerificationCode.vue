@@ -59,7 +59,7 @@ const handleSend = async () => {
   sending.value = true
 
   try {
-    await sendCodeAPI({ email: '2964196727@qq.com', isCheck: props.type })
+    await sendCodeAPI({ email: props.email, isCheck: props.type })
     toast.success(t('register.codeSentMessage'))
     countdown.value = 60
     timer = setInterval(() => {

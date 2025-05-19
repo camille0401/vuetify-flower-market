@@ -1,7 +1,7 @@
 <script setup>
 import FSNav from '@/components/FSNav2/index.vue'
 import FSFooter from './components/FSFooter.vue'
-import { onMounted } from 'vue'
+import { onMounted, watch } from 'vue'
 import { useCategoryStore } from '@/stores/category'
 import { useRoute } from 'vue-router'
 import { useInviteCode } from '@/composables/useInviteCode'
@@ -9,18 +9,29 @@ import { useGlobalLoading } from '@/composables/useGlobalLoading'
 
 const categoryStore = useCategoryStore()
 const { globalLoading } = useGlobalLoading()
+const route = useRoute()
+const { setInviteCode } = useInviteCode()
 
 onMounted(() => categoryStore.getCategory())
 
-onMounted(() => {
-  const route = useRoute()
-  const inviteCode = route.query.inviteCode
-  const { setInviteCode } = useInviteCode()
+// onMounted(() => {
+//   const inviteCode = route.query.inviteCode
+//   const { setInviteCode } = useInviteCode()
 
-  if (inviteCode) {
-    setInviteCode(inviteCode)
+//   if (inviteCode) {
+//     console.log(inviteCode)
+//     setInviteCode(inviteCode)
+//   }
+// })
+
+
+watch(() => route.query.inviteCode, (newCode) => {
+  if (newCode) {
+    setInviteCode(newCode)
+    // console.log('邀请码更新:', newCode)
   }
 })
+
 </script>
 
 <template>
