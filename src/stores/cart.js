@@ -85,6 +85,7 @@ export const useCartStore = defineStore(
     };
 
     const updateCart = async (goods) => {
+      console.log(goods);
       if (isLogin.value) {
         await updateCartAPI({
           goodsId: goods.goodsId,

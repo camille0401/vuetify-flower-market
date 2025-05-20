@@ -27,7 +27,7 @@
     <v-card-actions class="bg-grey-lighten-4" :class="mobile ? 'position-sticky bottom-0' : ''">
       <v-spacer />
       <v-btn variant="text" @click="$emit('close')">{{ $t('order.checkout.deliveryDateDialog.cancelBtn') }}</v-btn>
-      <v-btn color="primary" type="submit" prepend-icon="mdi-lock-reset" @click="confirmSelection">
+      <v-btn variant="flat" color="primary" type="submit" prepend-icon="mdi-lock-reset" @click="confirmSelection">
         {{ $t('order.checkout.deliveryDateDialog.saveBtn') }}
       </v-btn>
     </v-card-actions>

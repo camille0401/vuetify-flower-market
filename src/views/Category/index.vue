@@ -12,7 +12,7 @@
         <!-- 子分类导航 -->
         <ul class="category-list mb-6">
           <li v-for="sub in subCategoryList" :key="sub.id">
-            <v-btn active-class="active" :to="`/category/2/${sub.id}`" variant="text">
+            <v-btn active-color="primary" :to="`/category/2/${sub.id}`" variant="text">
               {{ sub.cname }}
             </v-btn>
           </li>

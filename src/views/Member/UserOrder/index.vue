@@ -36,7 +36,7 @@
                 @cancel="handleCancelOrder" @view-detail="toOrderDetailPage" class="my-6" />
             </template>
             <template v-else>
-              <order-card v-for="order in orders" :key="order.id" :order="order" :orderTabs="orderTabs"
+              <PcOrder v-for="order in orders" :key="order.id" :order="order" :orderTabs="orderTabs"
                 @cancel="handleCancelOrder" @view-detail="toOrderDetailPage" class="my-6" />
             </template>
 
@@ -58,7 +58,7 @@
 
 <script setup>
 import FSTitlePanel from '@/components/FSTitlePanel/index.vue'
-import OrderCard from './components/OrderCard.vue'
+import PcOrder from './components/PcOrder.vue'
 import MobileOrder from './components/MobileOrder.vue'
 import FSConfirmationDialog from '@/components/FSConfirmationDialog.vue'
 import { ref, onMounted } from 'vue'

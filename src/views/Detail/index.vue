@@ -91,8 +91,8 @@
         <div class="goods-detail-section">
           <v-tabs v-model="activeTab" color="primary" grow>
             <v-tab value="details">{{ $t('detail.product.details') }}</v-tab>
-            <v-tab value="specs">{{ $t('detail.product.specs') }}</v-tab>
-            <v-tab value="reviews">{{ $t('detail.product.reviews') }}</v-tab>
+            <!-- <v-tab value="specs">{{ $t('detail.product.specs') }}</v-tab>
+            <v-tab value="reviews">{{ $t('detail.product.reviews') }}</v-tab> -->
           </v-tabs>
 
           <v-window v-model="activeTab" class="mt-4">
@@ -103,7 +103,7 @@
               </div>
             </v-window-item>
 
-            <v-window-item value="specs">
+            <!-- <v-window-item value="specs">
               <div class="specs-content text-center pa-10">
                 <p>{{ $t('detail.product.specContent') }}</p>
               </div>
@@ -113,7 +113,7 @@
               <div class="reviews-content text-center pa-10">
                 <p>{{ $t('detail.product.reviewContent') }}</p>
               </div>
-            </v-window-item>
+            </v-window-item> -->
           </v-window>
         </div>
       </v-sheet>

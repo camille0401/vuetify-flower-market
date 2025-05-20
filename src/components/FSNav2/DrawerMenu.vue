@@ -1,6 +1,6 @@
 <template>
   <v-navigation-drawer v-model="drawerValue" temporary location="left" color="grey-darken-4">
-    <v-list nav density="comfortable" color="primary">
+    <v-list nav density="comfortable" color="primary" active-color="primary">
 
       <v-list density="comfortable" nav>
         <v-list-item :title="$t('global.allCategoriesText')" link to="/allCategories"></v-list-item>
@@ -8,24 +8,22 @@
         <v-list-group v-for="(category, index) in categoryStore.categoryList" :key="index" :value="category.id">
           <template #activator="{ props }">
             <v-list-item v-bind="props">
-              <v-list-item-title>{{ category.cname }}</v-list-item-title>
+              <v-list-item-title>{{ category.name }}</v-list-item-title>
             </v-list-item>
           </template>
-
           <!-- 二级菜单 -->
-          <v-list-item link v-for="(subItem, i) in category.children" :key="i" :active="activeItem === subItem.id"
-            @click="setActive(subItem.id)" :to="`/category/2/${subItem.id}`">
-            <v-list-item-content>
-              <v-list-item-title>{{ subItem.cname }}</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
+          <div class="d-flex flex-wrap">
+            <v-list-item link v-for="(subItem, i) in category.children" :key="i" :active="activeItem === subItem.id"
+              @click="setActive(subItem.id)" :to="`/category/2/${subItem.id}`">
+              <v-list-item-title>{{ subItem.name }}</v-list-item-title>
+            </v-list-item>
+          </div>
         </v-list-group>
       </v-list>
       <v-divider class="mb-4"></v-divider>
       <template v-if="userStore.token">
-        <v-list-subheader class="text-primary text-h6">
-          {{ $t('nav.user.welcome') }} {{ userStore?.userInfo?.nickName }}
-        </v-list-subheader>
+        <v-list-item :title="$t('nav.user.welcome') + userStore?.userInfo?.nickName" link
+          to="/allCategories"></v-list-item>
         <v-list-item :title="$t('nav.user.myAccount')" link to="/member/info">
           <template v-slot:prepend>
             <v-icon icon="mdi-account"></v-icon>
