@@ -3,7 +3,7 @@
     <MobileTopNav v-if="mobile" @toggle-drawer="drawer = !drawer" @logout="logoutDialog = true" />
     <PcTopNav v-else @logout="logoutDialog = true" />
 
-    <DrawerMenu v-if="mobile" v-model="drawer" @logout="logoutDialog = true" />
+    <DrawerMenu v-if="mobile && logoutDialog" v-model="drawer" @logout="logoutDialog = true" />
     <FSConfirmationDialog v-model="logoutDialog" :title="$t('nav.confirm.title')" :content="$t('nav.confirm.content')"
       titleIcon="mdi-logout" contentIcon="" :confirm-text="$t('nav.confirm.confirmText')" @confirm="confirmLogout" />
   </nav>

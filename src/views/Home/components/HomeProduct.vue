@@ -7,17 +7,14 @@
           <RouterLink class="cover" :to="`/category/1/${cate.id}`" aria-label="查看分类">
             <img v-img-lazy="cate.picture" :alt="cate.cname" class="category-image" />
             <div class="label">
-              <span>{{ cate.cname }}</span>
+              <span class="text-h5">{{ cate.cname }}</span>
               <v-icon icon="mdi mdi-chevron-right"></v-icon>
             </div>
           </RouterLink>
 
-          <v-row class="goods-list" :dense="xs">
-            <v-col v-for="goods in cate.goods.slice(0, 8)" :key="goods.id" cols="6" sm="4" md="3" lg="3"
-              class="goods-item">
-              <v-fade-transition>
-                <FSGoodsItem :goods="goods" />
-              </v-fade-transition>
+          <v-row :dense="xs">
+            <v-col v-for="goods in cate.goods.slice(0, 8)" :key="goods.id" cols="6" sm="6" md="4" lg="3">
+              <FSGoodsItem :goods="goods" />
             </v-col>
           </v-row>
         </div>
@@ -28,9 +25,8 @@
 
 <script setup>
 import HomePanel from './HomePanel.vue'
-import FSGoodsItem from '@/components/FSGoodsItem.vue'
-import { ref, onMounted } from 'vue'
-import { getHomeGoodsAPI } from '@/apis/home'
+// import FSGoodsItem from '@/components/FSGoodsItem.vue'
+import FSGoodsItem from '@/components/FSGoodsItem/index.vue'
 import { useDisplay } from 'vuetify'
 
 const { xs } = useDisplay()
@@ -42,35 +38,11 @@ defineProps({
   }
 })
 
-// const loading = ref(true)
-// const error = ref(false)
-// const goodsProduct = ref([])
-
-
-
-// const getHomeGoods = async () => {
-//   loading.value = true
-//   error.value = false
-//   try {
-//     const res = await getHomeGoodsAPI()
-//     goodsProduct.value = res || []
-//   } catch (error) {
-//     console.error('获取商品数据失败:', error)
-//     goodsProduct.value = []
-//     error.value = true
-//   } finally {
-//     loading.value = false
-//   }
-// }
-
-// onMounted(() => {
-//   getHomeGoods()
-// })
 </script>
 
 <style scoped lang="scss">
 .home-product {
-  --grid-gap: clamp(12px, 1.5vw, 20px);
+  --grid-gap: clamp(24px, 1.5vw, 24px);
   --cover-width: clamp(240px, 25vw, 280px);
   --goods-aspect: 3/4;
 
@@ -139,17 +111,6 @@ defineProps({
         }
       }
     }
-
-    .goods-list {
-      .goods-item {
-        transition: transform 0.3s ease;
-
-        &:hover {
-          transform: translateY(-5px);
-          z-index: 2;
-        }
-      }
-    }
   }
 }
 
@@ -179,10 +140,6 @@ defineProps({
     bottom: 12px;
     padding: 10px 12px;
 
-    span {
-      font-size: 1.1rem;
-    }
-
     .v-icon {
       font-size: 1.4em;
     }
@@ -196,10 +153,6 @@ defineProps({
     .box {
       .cover {
         height: 240px;
-
-        .label span {
-          font-size: 1.1rem;
-        }
       }
     }
   }

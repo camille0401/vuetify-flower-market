@@ -31,11 +31,9 @@
         </div>
 
         <!-- 商品列表 -->
-        <v-row v-else-if="goodsList.length > 0" class="goods-list" :dense="xs">
-          <v-col v-for="goods in goodsList" :key="goods.id" cols="6" sm="4" md="3" lg="3" class="goods-item">
-            <v-fade-transition>
-              <FSGoodsItem :goods="goods" />
-            </v-fade-transition>
+        <v-row v-else-if="goodsList.length > 0" :dense="xs">
+          <v-col v-for="goods in goodsList" :key="goods.id" cols="6" sm="6" md="4" lg="3">
+            <FSGoodsItem :goods="goods" />
           </v-col>
         </v-row>
 
@@ -57,7 +55,8 @@
 </template>
 
 <script setup>
-import FSGoodsItem from "@/components/FSGoodsItem.vue"
+// import FSGoodsItem from "@/components/FSGoodsItem.vue"
+import FSGoodsItem from '@/components/FSGoodsItem/index.vue'
 import { ref, computed, watch, onUnmounted } from 'vue'
 import { useRoute, onBeforeRouteUpdate } from 'vue-router'
 import { getCategoryAPI, getCategoryGoodsAPI } from "@/apis/category"
@@ -210,16 +209,6 @@ onUnmounted(() => {
 
 
       }
-    }
-  }
-
-  .goods-item {
-    transition: transform 0.3s ease;
-
-    /* 改为 visible 让阴影不被裁剪 */
-    &:hover {
-      transform: translateY(-5px);
-      z-index: 2;
     }
   }
 

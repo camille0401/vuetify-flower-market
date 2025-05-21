@@ -27,7 +27,7 @@
 
     <template v-else>
       <!-- 成功状态：通过插槽传出数据 -->
-      <slot :data="data" />
+      <slot :data="data"></slot>
     </template>
   </div>
 </template>
@@ -48,7 +48,7 @@ const props = defineProps({
 
 const data = ref(null)
 const error = ref(null)
-const loading = ref(true)
+const loading = ref(false)
 
 const load = async () => {
   loading.value = true

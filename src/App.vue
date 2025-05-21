@@ -14,17 +14,6 @@ const { setInviteCode } = useInviteCode()
 
 onMounted(() => categoryStore.getCategory())
 
-// onMounted(() => {
-//   const inviteCode = route.query.inviteCode
-//   const { setInviteCode } = useInviteCode()
-
-//   if (inviteCode) {
-//     console.log(inviteCode)
-//     setInviteCode(inviteCode)
-//   }
-// })
-
-
 watch(() => route.query.inviteCode, (newCode) => {
   if (newCode) {
     setInviteCode(newCode)
@@ -43,9 +32,9 @@ watch(() => route.query.inviteCode, (newCode) => {
         <v-progress-circular indeterminate size="64" color="primary" />
       </v-overlay>
       <router-view v-slot="{ Component }">
-        <v-fade-transition hide-on-leave>
-          <component :is="Component" />
-        </v-fade-transition>
+        <component :is="Component" />
+        <!-- <v-fade-transition hide-on-leave>
+        </v-fade-transition> -->
       </router-view>
     </v-main>
     <FSFooter />

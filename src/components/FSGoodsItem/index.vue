@@ -5,20 +5,29 @@
         :aspect-ratio="aspectRatio || '1 / 1'" :height="aspectRatio ? undefined : imgHeight" class="goods-img" />
     </RouterLink>
     <div class="content pa-3">
-      <p class="name text-subtitle-1 font-weight-medium mb-1">{{ goods.cname }}</p>
+      <p class="name text-h6 font-weight-medium mb-1">{{ goods.cname }}</p>
 
       <div class="d-flex justify-space-between align-center">
         <p class="price text-h6 text-primary-darken-2">
           {{ $t('global.moneyTemplate', { money: goods.price?.toFixed(2) }) }}
         </p>
-        <v-btn icon="mdi-cart-outline" color="primary" size="small"></v-btn>
+        <v-btn icon="mdi-cart-outline" color="primary" size="small" @click="openAddToCartDialog(goods.id)"></v-btn>
       </div>
     </div>
   </div>
+
+  <!-- 添加到购物车dialog -->
+  <v-dialog v-model="showDialog" max-width="800" min-height="200" :fullscreen="smAndDown" persistent>
+    <AddToCart :goodsId="selectedGoodsId" @close="closeAddToCartDialog" />
+  </v-dialog>
 </template>
 
 <script setup>
+import AddToCart from './AddToCart.vue'
+import { ref } from 'vue'
+import { useDisplay } from 'vuetify'
 
+const { mobile, smAndDown } = useDisplay()
 defineProps({
   goods: {
     type: Object,
@@ -33,6 +42,21 @@ defineProps({
     default: '1 / 1', // 默认方形
   },
 })
+
+const showDialog = ref(false)
+const selectedGoodsId = ref('')
+
+const openAddToCartDialog = (id) => {
+  selectedGoodsId.value = id
+  showDialog.value = true
+}
+
+
+const closeAddToCartDialog = () => {
+  selectedGoodsId.value = ''
+  showDialog.value = false
+}
+
 
 </script>
 
@@ -56,7 +80,6 @@ defineProps({
     background: #ffffff;
     overflow: hidden;
 
-
     .v-img {
       transition: transform 0.5s;
 
@@ -73,25 +96,6 @@ defineProps({
 
     @media (max-width: 600px) {
       padding: 0.75rem;
-    }
-  }
-
-  .name {
-    color: rgba(var(--v-theme-on-background), 0.9);
-    // min-height: 2.5em;
-    line-height: 1.3;
-
-    @media (max-width: 600px) {
-      font-size: 0.95rem;
-    }
-  }
-
-  .price {
-    letter-spacing: -0.5px;
-    font-size: 1.125rem;
-
-    @media (max-width: 600px) {
-      font-size: 1rem;
     }
   }
 }
