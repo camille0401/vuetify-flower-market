@@ -8,13 +8,13 @@
     </v-app-bar-title>
 
     <!-- <v-btn icon="mdi-shopping-search"></v-btn> -->
-    <v-btn variant="text" active-color="primary" size="small" to="/user/login">
+    <v-btn v-if="userStore.token" variant="text" active-color="primary" size="small" to="/user/login">
       <span>{{ $t('nav.user.login') }}</span>
     </v-btn>
     <!-- <v-btn variant="text" active-color="primary" size="small" to="/user/register">
       <span>{{ $t('nav.user.register') }}</span>
     </v-btn> -->
-    <v-btn icon="mdi-cart" to="/cartlist" class="mr-2">
+    <v-btn icon="mdi-cart" to="/cartlist" size="small" class="mr-2">
       <v-badge :content="cartStore.cartList.length || 0" color="error" class="cart-badge"
         :class="bageFlag && 'animate'">
         <v-icon icon="mdi-cart"></v-icon>
@@ -26,8 +26,10 @@
 <script setup>
 import { watch, ref } from 'vue'
 import { useCartStore } from '@/stores/cart'
+import { useUserStore } from '@/stores/user'
 
 const cartStore = useCartStore()
+const userStore = useUserStore()
 const bageFlag = ref(false)
 
 watch(

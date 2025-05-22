@@ -23,8 +23,8 @@
           <th class="text-center">{{ $t('order.detail.subtotal') }}</th>
         </tr>
       </thead>
-      <tbody>
-        <tr v-for="item in order.itemsDtos" :key="item.id">
+      <transition-group name="fade" tag="tbody">
+        <tr v-for="item in visibleItems" :key="item.id">
           <td>
             <div class="d-flex align-center py-2">
               <div style="width: 80px; height: 80px;" class="mr-4 rounded-lg">
@@ -46,7 +46,15 @@
             {{ $t('global.moneyTemplate', { money: (item.price * item.quantity).toFixed(2) }) }}
           </td>
         </tr>
-      </tbody>
+      </transition-group>
+      <tr v-if="hasMoreItems">
+        <td colspan="4" class="text-center py-2">
+          <v-btn @click="toggleExpand" variant="text" size="small" color="primary">
+            {{ isExpanded ? '收起' : '查看更多' }}
+            <v-icon end>{{ isExpanded ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
+          </v-btn>
+        </td>
+      </tr>
     </v-table>
 
     <!-- 订单底部 -->
@@ -57,20 +65,12 @@
           {{ $t('global.moneyTemplate', { money: order.totalAmount.toFixed(2) }) }}
         </span>
       </div>
-
+      <v-spacer />
       <div class="d-flex flex-wrap gap-2 justify-end">
-        <template v-if="order.status === 0">
-          <v-btn color="error" variant="text" prepend-icon="mdi-close" @click="$emit('cancel', order.id)">
-            {{ $t('member.order.itemCancelBtn') }}
-          </v-btn>
-        </template>
-
-        <!-- <template v-if="order.status === 'shipped'">
-          <v-btn color="primary" variant="outlined" prepend-icon="mdi-check" @click="$emit('confirm', order.id)">
-            确认收货
-          </v-btn>
-        </template> -->
-
+        <v-btn v-if="order.status === 0" color="error" variant="text" prepend-icon="mdi-close"
+          @click="$emit('cancel', order.id)">
+          {{ $t('member.order.itemCancelBtn') }}
+        </v-btn>
         <v-btn variant="text" prepend-icon="mdi-information-outline" @click="$emit('view-detail', order.id)">
           {{ $t('member.order.itemDetailBtn') }}
         </v-btn>
@@ -80,11 +80,10 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
 import dayjs from 'dayjs'
+import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
-
-const { t } = useI18n()
+import { useExpandableList } from '@/composables/useExpandableList'
 
 const props = defineProps({
   order: {
@@ -100,6 +99,10 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['cancel', 'pay', 'confirm', 'view-detail'])
+
+const { t } = useI18n()
+const { isExpanded, visibleItems, hasMoreItems, toggleExpand } = useExpandableList(props.order.itemsDtos, 1)
+
 
 // 构建状态配置映射
 const statusConfigMap = computed(() => {
@@ -136,14 +139,14 @@ const formatTime = (time) => {
   border-radius: 16px;
   padding: 0;
   border: 1px solid #eaeaea;
-  transition: box-shadow 0.3s ease, transform 0.2s ease;
   background-color: #f0f0f0; // 默认或通用灰
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); // 轻投影
   border-radius: 12px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 0.5rem 1rem;
+  transition: 0.3s cubic-bezier(0, 0, 0.5, 1);
 
   &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    box-shadow: rgba(0, 0, 0, 0.16) 2px 4px 12px;
+    transform: scale3d(1.01, 1.01, 1.01) translateZ(0px);
   }
 }
 
@@ -187,22 +190,14 @@ const formatTime = (time) => {
   }
 }
 
-@media (max-width: 960px) {
+.fade-enter-active,
+.fade-leave-active {
+  transition: all 0.3s ease;
+}
 
-  .order-items-table th,
-  .order-items-table td {
-    padding: 6px 4px;
-    font-size: 0.8rem;
-  }
-
-  .fs-order-card {
-    border-radius: 8px;
-  }
-
-  .v-card-title {
-    flex-direction: column;
-    align-items: flex-start !important;
-    gap: 4px;
-  }
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+  transform: translateY(-10px);
 }
 </style>

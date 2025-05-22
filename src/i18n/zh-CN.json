@@ -3,7 +3,8 @@
     "moneyTemplate": "¥{money}",
     "countTemplate": "x{count}",
     "homeProductSubTitle": "精选好物",
-    "allCategoriesText": "所有分类"
+    "allCategoriesText": "所有分类",
+    "deleteBtn": "删除"
   },
   "pageLoader": {
     "errorImgAlt": "图片加载失败",

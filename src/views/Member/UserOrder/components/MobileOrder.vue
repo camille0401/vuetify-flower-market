@@ -17,57 +17,58 @@
 
     <!-- 商品简要信息（只显示第一件）-->
     <v-card-text class="px-3 pt-2 pb-0">
-      <div v-for="item in order.itemsDtos" :key="item.id" class="d-flex align-center py-4 item-order">
-        <div style="width: 120px; height: 120px;" class="mr-2 rounded-lg">
-          <v-img :src="item.goodsPic" width="120" height="120" cover aspect-ratio="1" />
-        </div>
-        <div class="flex-grow-1">
-          <div class="text-body-1 font-weight-medium">
-            {{ item.goodsName }}
+      <transition-group name="fade">
+        <div v-for="item in visibleItems" :key="item.id" class="d-flex align-center py-4 item-order">
+          <div style="width: 120px; height: 120px;" class="mr-2 rounded-lg">
+            <v-img :src="item.goodsPic" width="120" height="120" cover aspect-ratio="1" />
           </div>
-          <!-- <div class="text-caption text-grey">
-            {{ item.goodsCnname }}
-          </div> -->
-          <div class="mt-1">
-            {{ $t('order.detail.price') }}：
-            {{ $t('global.moneyTemplate', { money: item.price.toFixed(2) }) }}
-            {{ $t('global.countTemplate', { count: item.quantity }) }}
+          <div class="flex-grow-1">
+            <div class="text-body-1 font-weight-medium">
+              {{ item.goodsName }}
+            </div>
+            <div class="mt-1">
+              {{ $t('order.detail.price') }}：
+              {{ $t('global.moneyTemplate', { money: item.price.toFixed(2) }) }}
+              {{ $t('global.countTemplate', { count: item.quantity }) }}
+            </div>
           </div>
         </div>
+      </transition-group>
+      <div v-if="hasMoreItems" class="text-center py-2">
+        <v-btn @click="toggleExpand" variant="text" size="small" color="primary">
+          {{ isExpanded ? '收起' : '查看更多' }}
+          <v-icon end>{{ isExpanded ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
+        </v-btn>
       </div>
     </v-card-text>
 
-    <!-- 订单总价 -->
-    <v-card-text class="px-3 pt-2 pb-0">
-      <div class="text-right font-weight-medium text-body-2">
-        {{ $t('order.detail.final') }}
+    <v-divider />
+    <!-- 操作按钮 -->
+    <v-card-actions class="d-flex flex-column flex-sm-row justify-space-between align-end px-3">
+      <div class="d-flex align-center font-weight-500">
+        <span class="text-body-2">{{ $t('order.detail.final') }}</span>
         <span class="text-error text-h6 ml-1">
           {{ $t('global.moneyTemplate', { money: order.totalAmount.toFixed(2) }) }}
         </span>
       </div>
-    </v-card-text>
-
-    <!-- 操作按钮 -->
-    <v-card-actions class="d-flex justify-end px-3 pt-2 pb-2 flex-wrap gap-2">
-      <template v-if="order.status === 0">
-        <v-btn color="error" variant="text" size="small" prepend-icon="mdi-close" @click="$emit('cancel', order.id)">
+      <div class="d-flex flex-wrap gap-2 justify-end">
+        <v-btn v-if="order.status === 0" color="error" variant="text" prepend-icon="mdi-close"
+          @click="$emit('cancel', order.id)">
           {{ $t('member.order.itemCancelBtn') }}
         </v-btn>
-      </template>
-
-      <v-btn variant="text" size="small" prepend-icon="mdi-information-outline" @click="$emit('view-detail', order.id)">
-        {{ $t('member.order.itemDetailBtn') }}
-      </v-btn>
+        <v-btn variant="text" prepend-icon="mdi-information-outline" @click="$emit('view-detail', order.id)">
+          {{ $t('member.order.itemDetailBtn') }}
+        </v-btn>
+      </div>
     </v-card-actions>
   </v-card>
 </template>
 
 <script setup>
-import { computed } from 'vue'
 import dayjs from 'dayjs'
+import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
-
-const { t } = useI18n()
+import { useExpandableList } from '@/composables/useExpandableList'
 
 const props = defineProps({
   order: {
@@ -81,6 +82,9 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['cancel', 'pay', 'confirm', 'view-detail'])
+
+const { t } = useI18n()
+const { isExpanded, visibleItems, hasMoreItems, toggleExpand } = useExpandableList(props.order.itemsDtos, 1)
 
 const statusConfigMap = computed(() => {
   const map = {}
@@ -114,16 +118,21 @@ const formatTime = (time) => {
   transition: all 0.2s ease;
   background-color: #f0f0f0; // 默认或通用灰
 
-  .v-img {
-    border-radius: 8px;
+  .fade-enter-active,
+  .fade-leave-active {
+    transition: all 0.3s ease;
+  }
+
+  .fade-enter-from,
+  .fade-leave-to {
+    opacity: 0;
+    transform: translateY(-10px);
   }
 
   .item-order {
-
-    &:not(:last-child) {
-      border-bottom: 1px solid rgba(var(--v-theme-surface-variant), 0.2);
+    &:not(:first-child) {
+      border-top: 1px solid rgba(var(--v-theme-surface-variant), 0.2);
     }
   }
-
 }
 </style>

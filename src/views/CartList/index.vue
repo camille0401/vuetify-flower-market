@@ -6,12 +6,12 @@
 
         <!-- 移动端 -->
         <template v-if="mobile">
-          <MobileCart :list="cartStore.cartList" @storeCount="handleCountStore" @updateSelected="handleSingleChange"
-            @deleteItem="handleDelCart" />
+          <MobileCard v-for="cart in cartStore.cartList" :key="cart.goodsId" :cart="cart" @storeCount="handleCountStore"
+            @updateSelected="handleSingleChange" @deleteItem="handleDelCart" />
         </template>
         <!-- 购物车表格（仅桌面端显示） -->
         <template v-else>
-          <PcCart :list="cartStore.cartList" @storeCount="handleCountStore" @updateSelected="handleSingleChange"
+          <PcTable :list="cartStore.cartList" @storeCount="handleCountStore" @updateSelected="handleSingleChange"
             @deleteItem="handleDelCart" />
         </template>
 
@@ -66,8 +66,8 @@
 <script setup>
 import EmptyCart from '@/assets/svgs/empty-cart.svg'
 import FSTitlePanel from '@/components/FSTitlePanel/index.vue'
-import MobileCart from './components/MobileCart.vue'
-import PcCart from './components/PcCart.vue'
+import MobileCard from './components/MobileCard.vue'
+import PcTable from './components/PcTable.vue'
 import Big from 'big.js'
 import { useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
