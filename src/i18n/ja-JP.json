@@ -1,1 +1,369 @@
-{}
+{
+  "global": {
+    "moneyTemplate": "¥{money}",
+    "countTemplate": "x{count}",
+    "homeProductSubTitle": "厳選アイテム",
+    "allCategoriesText": "すべてのカテゴリー",
+    "deleteBtn": "削除"
+  },
+  "pageLoader": {
+    "errorImgAlt": "画像の読み込みに失敗しました。",
+    "errorTitle": "ページの読み込みに失敗しました。",
+    "errorDescription": "ネットワーク接続に問題がある可能性があります。接続を確認するか、しばらくしてから再試行してください。",
+    "errorRetry": "再試行"
+  },
+  "login": {
+    "welcomeBack": "Welcome",
+    "seeYouAgain": "またお会いできて嬉しいです！",
+    "showPassword": "パスワードを表示",
+    "forgotPassword": "パスワードをお忘れですか？",
+    "login": "ログイン",
+    "noAccount": "アカウントをお持ちでないですか？",
+    "registerNow": "新規登録はこちら",
+    "successMessage": "ログインに成功しました。",
+    "failureMessage": "ログインに失敗しました。アカ​​ウントとパスワードを確認してください。",
+    "invalidFormMessage": "有効なメールアドレスとパスワードを入力してください。",
+    "validation": {
+      "emailLabel": "メールアドレス",
+      "emailRequired": "メールアドレスは必須です。",
+      "emailValid": "無効なメールアドレス形式です。",
+      "passwordLabel": "パスワード",
+      "passwordRequired": "パスワードは必須です。"
+    }
+  },
+  "register": {
+    "createAccount": "アカウントを作成する",
+    "welcome": "フラワーマーケットへようこそ",
+    "showPassword": "パスワードを表示",
+    "alreadyHaveAccount": "すでにアカウントをお持ちですか?",
+    "toLogin": "ログインはこちら",
+    "successMessage": "登録が完了しました。ログインしてください。",
+    "failureMessage": "登録に失敗しました。アカ​​ウントとパスワードを確認してください。",
+    "invalidFormMessage": "有効なメールアドレスとパスワードを入力してください。",
+    "verificationCode": "メール認証コードを入力してください。",
+    "sendCode": "確認コードを送信",
+    "codeSentMessage": "確認コードが送信されました。メールをご確認ください！",
+    "codeSendFailedMessage": "確認コードの送信に失敗しました。しばらくしてから再試行してください。",
+    "emailInvalidMessage": "有効なメールアドレスを入力してください。",
+    "validation": {
+      "checkPasswordLabel": "パスワードを認証する",
+      "checkPasswordRequired": "パスワードの確認が必要です。",
+      "passwordMismatch": "パスワードが一致しません。",
+      "requiredField": "確認コードは必須です。"
+    }
+  },
+  "forgotPassword": {
+    "title": "パスワードをお忘れですか",
+    "subtitle": "パスワードをリセットするために、メールアドレスを入力してください。",
+    "resetPassword": "パスワードをリセットする",
+    "backToLogin": "ログインに戻る？?",
+    "login": "ログインする",
+    "emailInvalid": "有効なメールアドレスを入力してください。",
+    "successMessage": "パスワードが正常にリセットされました。再度ログインしてください"
+  },
+  "nav": {
+    "user": {
+      "welcome": "ようこそ",
+      "logout": "ログアウト",
+      "memberCenter": "会員センター",
+      "helpCenter": "ヘルプセンター",
+      "aboutUs": "私たちについて",
+      "login": "ログイン",
+      "register": "新規登録",
+      "cart": "カート",
+      "myOrder": "注文履歴",
+      "myAccount": "マイアカウント",
+      "myAddress": "お届け先住所",
+      "search": "検索"
+    },
+    "confirm": {
+      "title": "ログアウトの確認",
+      "content": "現在のアカウントからログアウトしてもよろしいですか?ログアウトした後、会員専用コンテンツにアクセスするには再度ログインが必要です。",
+      "confirmText": "ログアウトを確認"
+    },
+    "contact": {
+      "phone": "XXXXXXX",
+      "title": "カスタマーサポート電話：",
+      "subtitle": "(月〜金 9:00〜18:00／祝日を除く)"
+    }
+  },
+  "header": {
+    "label": "商品キーワード",
+    "searchBtn": "検索",
+    "cartIconBtn": "今すぐ購入",
+    "cartIconTotalItems": "合計 {count} 点の商品"
+  },
+  "allCategories": {
+    "title": "全商品",
+    "breadcrumbsHome": "ホーム",
+    "breadcrumbsAllCate": "全商品"
+  },
+  "category": {
+    "title": "全商品",
+    "breadcrumbsHome": "ホーム",
+    "tabs": {
+      "tab0": "全商品",
+      "tab1": "新着商品",
+      "tab2": "人気商品",
+      "tab3": "好評商品"
+    },
+    "emptyTitle": "該当する商品が見つかりません。",
+    "emptyText": "別の条件で試してみてください。"
+  },
+  "detail": {
+    "product": {
+      "productList": "商品詳細",
+      "price": "単価",
+      "total": "合計金額",
+      "quantity": "数量",
+      "stock": "在庫数",
+      "sold": "在庫切れ",
+      "addToCart": "カートに追加",
+      "buyNow": "今すぐ購入",
+      "details": "商品情報",
+      "specs": "",
+      "reviews": "カスタマーレビュー",
+      "detailImage": "商品画像",
+      "specContent": "。",
+      "reviewContent": "レビューはまだありません。",
+      "pleaseSelectQuantity": "正しい数量を選択してください。",
+      "addedToCart": "カートに追加しました。",
+      "failedToLoad": "商品の詳細の読み込みに失敗しました。"
+    },
+    "common": {
+      "home": "ホーム",
+      "networkError": "ネットワークエラー。しばらくしてから再試行してください。"
+    }
+  },
+  "cartlist": {
+    "title": "マイカート",
+    "totalItems": "合計 {count} 点の商品",
+    "table": {
+      "product": "商品情報",
+      "price": "単価",
+      "quantity": "数量",
+      "subtotal": "小計",
+      "actions": "",
+      "itemsInventory": "在庫: {inventory} 点"
+    },
+    "empty": "カートに商品がありません。",
+    "goShopping": "ショッピングを続ける",
+    "allSelect": "全選択",
+    "deleteSelected": "選択した項目を削除。",
+    "selectedInfo": "{count}件を選択中　合計：：",
+    "checkout": "チェックアウト",
+    "toast": {
+      "delMessage": "カートから削除しました。",
+      "delSelectedMessage": "{count}点の商品を削除しました。",
+      "loginMessge": "ログインをお願いします。"
+    }
+  },
+  "member": {
+    "user": {
+      "profile": {
+        "title": "個人情報",
+        "username": "ユーザー名",
+        "nickname": "",
+        "email": "メールアドレス",
+        "changePasswordBtn": "パスワードを変更"
+      },
+      "common": {
+        "saveBtn": "保存する"
+      },
+      "editPwdDialog": {
+        "password": {
+          "title": "パスワードの変更",
+          "current": "現在のパスワード",
+          "new": "新しいパスワード",
+          "confirm": "新しいパスワードを確認",
+          "updateSuccess": "パスワードが正常に変更されました。再度ログインしてください。",
+          "updateFailed": "パスワードの変更に失敗しました。もう一度お試しください。"
+        },
+        "validation": {
+          "required": "必須項目です",
+          "passwordLength": "パスワードは6文字以上で入力してください。",
+          "passwordMismatch": "パスワードが一致しません。"
+        },
+        "common": {
+          "cancel": "キャンセル",
+          "confirm": "変更を確定する"
+        }
+      }
+    },
+    "address": {
+      "title": "お届け先住所",
+      "add": "住所を追加",
+      "confirmDeleteTitle": "削除の確認",
+      "confirmDeleteContent": "この住所を本当に削除しますか？この操作は取り消せません。",
+      "columns": {
+        "recipient": "受取人",
+        "phone": "連絡先",
+        "fullAddress": "詳細住所",
+        "default": "デフォルト住所",
+        "actions": ""
+      },
+      "common": {
+        "confirmDelete": "削除を確認"
+      },
+      "addDialog": {
+        "formTitle": {
+          "edit": "住所を編集する",
+          "create": "新しい住所を追加"
+        },
+        "addressForm": {
+          "recipient": "受取人名",
+          "phone": "電話番号",
+          "prefecture": "都道府県",
+          "city": "市区町村",
+          "address": "詳細住所",
+          "postalCode": "郵便番号",
+          "defaultAddress": "デフォルト住所として設定"
+        },
+        "common": {
+          "cancel": "キャンセル",
+          "save": "住所を保存する",
+          "submitError": "フォームを正しく入力してください。",
+          "submitFail": "送信に失敗しました。"
+        },
+        "formRules": {
+          "required": "必須項目です。",
+          "phoneInvalid": "有効な携帯電話番号を入力してください。",
+          "zipInvalid": "有効な郵便番号を入力してください。",
+          "addInvalid": "住所詳細は5文字以上で入力してください。"
+        }
+      },
+      "swapDialog": {
+        "formTitle": "住所を切り替え",
+        "emptyTip": "住所が登録されていません。まずは住所を追加してください。",
+        "list": {
+          "recipient": "受取人：",
+          "defaultChip": "デフォルト",
+          "phone": "連絡先：",
+          "address": "お届け先住所："
+        },
+        "common": {
+          "cancel": "キャンセル",
+          "save": "住所を切り替え"
+        }
+      }
+    },
+    "order": {
+      "title": "マイ注文",
+      "empty": "関連する注文はありません。",
+      "goShopping": "ショッピングを続ける",
+      "cancelConfirmTitle": "注文をキャンセル",
+      "cancelConfirmContent": "この注文をキャンセルしますか？この操作は取り消せません！",
+      "cancelConfirmBtn": "キャンセルを確定",
+      "cancelSuccess": "注文は正常にキャンセルされました。",
+      "itemCancelBtn": "注文をキャンセル",
+      "itemDetailBtn": "注文の詳細",
+      "status": {
+        "pending": "出荷待ち",
+        "waitingPayment": "受け取り待ち",
+        "paid": "支払い待ち",
+        "completed": "完了",
+        "canceled": "キャンセル済み",
+        "refund": "返品返金＆修理",
+        "unknown": "",
+        "all": "すべての注文"
+      }
+    }
+  },
+  "order": {
+    "checkout": {
+      "addressTitle": "お届け先住所",
+      "addAddressBtn": "住所を追加する",
+      "switchAddressBtn": "住所を切り替え",
+      "emptyAddress": "注文を確定するにはお届け先住所を設定してください。",
+      "defaultAddressChip": "デフォルト住所",
+      "recipient": "受取人 ：",
+      "contact": "連絡先：",
+      "fullAddress": "お届け先住所：",
+      "productInfo": "商品情報",
+      "table": {
+        "product": "商品",
+        "price": "単価",
+        "count": "数量",
+        "amount": "小計"
+      },
+      "deliveryDate": "配送日",
+      "selectDeliveryDate": "配送日を選択してください。",
+      "totalDetail": "金額の明細",
+      "goodsCount": "商品数量：",
+      "totalAmount": "商品合計：",
+      "totalPayAmount": "お支払い金額：",
+      "goodsCountTemplate": "{count}点",
+      "backBtn": "戻る",
+      "submitOrderBtn": "注文を確定",
+      "common": {
+        "deliveryTimeFailedMessage": "配送日を選択してください。",
+        "switchAddressMessage": "配送先住所が変更されました。",
+        "submitOrderNoAddMessage": "先にお届け先住所を選択してください。"
+      },
+      "deliveryDateDialog": {
+        "formTitle": "配送日を選択",
+        "cancelBtn": "キャンセル",
+        "saveBtn": "保存",
+        "timeSlots": {
+          "morning": "午前 (9:00-12:00)",
+          "noon": "12:00-14:00",
+          "afternoon": "午後 (14:00-17:00)",
+          "evening": "夕方 (17:00-20:00)",
+          "night": "夜間 (19:00-21:00)"
+        }
+      }
+    },
+    "detail": {
+      "title": "注文詳細",
+      "status": {
+        "confirm": {
+          "title": "出荷待ち",
+          "desc": "商品を準備中です。"
+        },
+        "waitPay": {
+          "title": "受け取り待ち",
+          "desc": "商品は配送中です。"
+        },
+        "success": {
+          "title": "支払い待ち",
+          "desc": "ご注文の処理にはお支払いが必要です。"
+        },
+        "complete": {
+          "title": "完了",
+          "desc": "ご注文の商品は正常に配達されました。ご利用ありがとうございました！"
+        },
+        "cancel": {
+          "title": "キャンセル済み",
+          "desc": "ご注文はキャンセルされました。"
+        },
+        "refund": {
+          "title": "返金・アフターサービス",
+          "desc": "ご注文は返金またはアフターサービスの対応中です。"
+        },
+        "default": {
+          "title": "不明な状態",
+          "desc": "注文の状態に異常があります。カスタマーサポートにお問い合わせください。"
+        }
+      },
+      "orderNo": "注文番号：",
+      "createdAt": "注文日時：",
+      "cancelTime": "キャンセル日時：",
+      "delivery": "配送情報",
+      "recipient": "受取人",
+      "phone": "電話番号",
+      "address": "配送先住所",
+      "expectedTime": "お届け予定時間",
+      "goodsInfo": "商品情報",
+      "emptyGoods": "商品情報はありません。",
+      "price": "単価",
+      "quantity": "数量",
+      "subtotal": "小計",
+      "total": "商品合計：",
+      "payType": "支払い方法：",
+      "final": "お支払い金額：",
+      "backToShop": "ショッピングを続ける",
+      "viewOrders": "すべての注文を見る",
+      "deliveryTimeFailedMessage": "配送日時の確認をお待ちください"
+    }
+  }
+}

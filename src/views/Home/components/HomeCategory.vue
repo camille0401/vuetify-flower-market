@@ -5,12 +5,12 @@
         <!-- 遍历主分类 -->
         <li v-for="category in categoryStore.categoryList" :key="category.id">
           <RouterLink class="main-menu" :to="`/category/1/${category.id}`">
-            {{ category.cname }}
+            {{ category.name }}
           </RouterLink>
           <!-- 子分类 -->
           <div v-if="category.children.length" class="sub-menu">
             <RouterLink v-for="child in category.children" :key="child.id" :to="`/category/2/${child.id}`">
-              {{ child.cname }}
+              {{ child.name }}
             </RouterLink>
           </div>
         </li>
@@ -59,7 +59,7 @@ const categoryStore = useCategoryStore()
       .sub-menu {
         display: flex;
         flex-wrap: wrap;
-        gap: 10px;
+        gap: 15px;
 
         a {
           font-size: 14px;

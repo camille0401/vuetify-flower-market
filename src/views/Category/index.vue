@@ -13,7 +13,7 @@
         <ul class="category-list mb-6">
           <li v-for="sub in subCategoryList" :key="sub.id">
             <v-btn active-color="primary" :to="`/category/2/${sub.id}`" variant="text">
-              {{ sub.cname }}
+              {{ sub.name }}
             </v-btn>
           </li>
         </ul>
@@ -92,19 +92,19 @@ const breadcrumbItems = computed(() => {
 
   if (route.params.type === '1') {
     items.push({
-      title: categoryData.value.cname,
+      title: categoryData.value.name,
       disabled: true
     })
   } else {
     if (categoryData.value.id) {
       items.push({
-        title: categoryData.value.cname,
+        title: categoryData.value.name,
         disabled: false,
         href: `/category/1/${categoryData.value.id}`
       })
     }
     items.push({
-      title: subCategoryData.value.cname,
+      title: subCategoryData.value.name,
       disabled: true
     })
   }

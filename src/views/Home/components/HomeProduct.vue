@@ -1,13 +1,13 @@
 <template>
   <div class="home-product py-6">
-    <HomePanel v-for="cate in goodsProduct" :key="cate.id" :title="cate.cname"
+    <HomePanel v-for="cate in goodsProduct" :key="cate.id" :title="cate.name"
       :sub-title="$t('global.homeProductSubTitle')">
       <template #main>
         <div class="box" :class="{ loaded: goodsProduct.length > 0 }">
           <RouterLink class="cover" :to="`/category/1/${cate.id}`" aria-label="查看分类">
-            <img v-img-lazy="cate.picture" :alt="cate.cname" class="category-image" />
+            <img v-img-lazy="cate.picture" :alt="cate.name" class="category-image" />
             <div class="label">
-              <span class="text-h5">{{ cate.cname }}</span>
+              <span class="text-h5">{{ cate.name }}</span>
               <v-icon icon="mdi mdi-chevron-right"></v-icon>
             </div>
           </RouterLink>
@@ -25,7 +25,6 @@
 
 <script setup>
 import HomePanel from './HomePanel.vue'
-// import FSGoodsItem from '@/components/FSGoodsItem.vue'
 import FSGoodsItem from '@/components/FSGoodsItem/index.vue'
 import { useDisplay } from 'vuetify'
 

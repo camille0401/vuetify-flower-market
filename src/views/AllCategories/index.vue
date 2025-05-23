@@ -1,7 +1,7 @@
 <template>
   <div class="fs-all-categories-page">
     <v-container class="mx-auto pb-10">
-      <v-sheet color="surface" class="pa-4" elevation="2">
+      <v-sheet color="" class="pa-4" elevation="2">
         <v-breadcrumbs :items="breadcrumbs" class="px-0 text-body-2">
           <template v-slot:divider>
             <v-icon>mdi-chevron-right</v-icon>
@@ -12,14 +12,14 @@
         <div class="strain-box mt-4">
           <v-btn v-for="item in categoryStore.categoryList" :key="item.id" :to="`/category/1/${item.id}`"
             color="primary-darken-2" variant="outlined" height="50" class="category-link">
-            {{ item.cname }}</v-btn>
+            {{ item.name }}</v-btn>
         </div>
 
         <!-- 详细分类列表 -->
         <div class="menu-box mb-8" v-for="category in categoryStore.categoryList" :key="category.id">
           <h3 class="strain-name mb-2">
             <v-icon start color="primary" size="20">mdi-flower-poppy</v-icon>
-            <span>{{ category.cname }}</span>
+            <span>{{ category.name }}</span>
           </h3>
 
           <ul class="list-box">
@@ -28,7 +28,7 @@
               <div class="list pa-3">
                 <v-btn v-for="child in category.children" :key="child.id" :to="`/category/2/${child.id}`"
                   variant="text">
-                  {{ child.cname }}</v-btn>
+                  {{ child.name }}</v-btn>
               </div>
             </li>
           </ul>

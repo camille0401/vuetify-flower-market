@@ -60,19 +60,16 @@ import { getDetailAPI } from '@/apis/detail'
 const { t } = useI18n()
 const route = useRoute()
 
-
 const detailData = ref(null)
 const count = ref(1)
 const activeTab = ref('details')
 const detailLoading = ref(true)
 
-
 // 面包屑导航
 const breadcrumbItems = computed(() => [
   { title: t('detail.common.home'), disabled: false, href: '/' },
-  { title: detailData.value?.cname || t('detail.product.productList'), disabled: true }
+  { title: detailData.value?.name || t('detail.product.productList'), disabled: true }
 ])
-
 
 const fetchDetailData = async (id = route.params.id) => {
   try {

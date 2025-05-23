@@ -11,7 +11,7 @@
           </v-btn>
           <v-btn class="px-4" variant="text" v-for="category in categoryStore.categoryList" :key="category.id"
             :to="`/category/1/${category.id}`" active-color=" primary-darken-1">
-            {{ category.cname }}
+            {{ category.name }}
           </v-btn>
         </v-col>
       </v-row>

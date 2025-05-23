@@ -18,7 +18,7 @@
               <p class="item-count">x{{ item.count }}</p>
             </div>
           </RouterLink>
-          <v-icon icon="mdi-close" class="delete-icon" @click="handleDeleteCart(item.goodsId)" />
+          <v-icon icon="mdi-trash-can" class="delete-icon" @click="handleDeleteCart(item.goodsId)" />
         </div>
       </div>
       <div class="cart-footer elevation-4">

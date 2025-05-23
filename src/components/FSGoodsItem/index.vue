@@ -1,24 +1,24 @@
 <template>
-  <div class="goods-link">
-    <RouterLink class="img-box" :to="`/detail/${goods.id}`">
-      <v-img :src="goods.picture" :alt="goods.cname" cover transition="scale-transition"
+  <RouterLink class="goods-link" :to="`/detail/${goods.id}`">
+    <div class="img-box">
+      <v-img :src="goods.picture" :alt="goods.name" cover transition="scale-transition"
         :aspect-ratio="aspectRatio || '1 / 1'" :height="aspectRatio ? undefined : imgHeight" class="goods-img" />
-    </RouterLink>
+    </div>
     <div class="content pa-3">
-      <p class="name text-h6 font-weight-medium mb-1">{{ goods.cname }}</p>
-
+      <p class="name mb-1 text-h6 font-weight-medium text-truncate">{{ goods.name }}</p>
       <div class="d-flex justify-space-between align-center">
         <p class="price text-h6 text-primary-darken-2">
           {{ $t('global.moneyTemplate', { money: goods.price?.toFixed(2) }) }}
         </p>
-        <v-btn icon="mdi-cart-outline" color="primary" size="small" @click="openAddToCartDialog(goods.id)"></v-btn>
+        <v-btn icon="mdi-cart-outline" color="primary" size="small"
+          @click="(event) => openAddToCartDialog(event, goods)"></v-btn>
       </div>
     </div>
-  </div>
+  </RouterLink>
 
   <!-- 添加到购物车dialog -->
   <v-dialog v-model="showDialog" max-width="800" min-height="200" :fullscreen="smAndDown" persistent>
-    <AddToCart :goodsId="selectedGoodsId" @close="closeAddToCartDialog" />
+    <AddToCart :goodsId="selectedGoods?.id" @close="closeAddToCartDialog" />
   </v-dialog>
 </template>
 
@@ -27,7 +27,7 @@ import AddToCart from './AddToCart.vue'
 import { ref } from 'vue'
 import { useDisplay } from 'vuetify'
 
-const { mobile, smAndDown } = useDisplay()
+const { smAndDown } = useDisplay()
 defineProps({
   goods: {
     type: Object,
@@ -44,19 +44,19 @@ defineProps({
 })
 
 const showDialog = ref(false)
-const selectedGoodsId = ref('')
+const selectedGoods = ref(null)
 
-const openAddToCartDialog = (id) => {
-  selectedGoodsId.value = id
+const openAddToCartDialog = (event, goods) => {
+  event.preventDefault() // 仅需要时阻止默认行为
+  selectedGoods.value = goods
   showDialog.value = true
 }
 
 
 const closeAddToCartDialog = () => {
-  selectedGoodsId.value = ''
+  selectedGoods.value = null
   showDialog.value = false
 }
-
 
 </script>
 
@@ -90,9 +90,10 @@ const closeAddToCartDialog = () => {
   }
 
   .content {
+    display: block;
+    padding: 1rem;
     border-radius: 0.5rem;
     backdrop-filter: blur(4px);
-    padding: 1rem;
 
     @media (max-width: 600px) {
       padding: 0.75rem;

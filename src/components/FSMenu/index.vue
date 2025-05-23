@@ -16,7 +16,7 @@
           @mouseenter="setHoverCategory('item', category)">
           <v-btn class="px-8" variant="text" rounded="0" height="60" block :to="`/category/1/${category.id}`"
             active-color="primary-darken-1">
-            {{ category.cname }}
+            {{ category.name }}
           </v-btn>
         </li>
       </ul>
@@ -27,7 +27,7 @@
             <li v-for="sub in hoverCategory?.children" :key="sub.id">
               <v-btn class="px-4" variant="text" rounded="0" :to="`/category/2/${sub.id}`"
                 active-color="primary-darken-1">
-                {{ sub.cname }}
+                {{ sub.name }}
               </v-btn>
             </li>
           </ul>
@@ -35,13 +35,13 @@
             <li v-for="category in hoverCategory" :key="category.id">
               <v-btn class="px-4" variant="text" rounded="0" :to="`/category/1/${category.id}`" color="primary"
                 active-color="primary-darken-1">
-                {{ category.cname }}
+                {{ category.name }}
               </v-btn>
               <ul class="d-flex flex-row ga-2 px-4">
                 <li v-for="sub in category?.children" :key="sub.id">
                   <v-btn class="px-4" variant="text" rounded="0" block :to="`/category/2/${sub.id}`"
                     active-color="primary-darken-1">
-                    {{ sub.cname }}
+                    {{ sub.name }}
                   </v-btn>
                 </li>
               </ul>

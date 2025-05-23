@@ -32,6 +32,8 @@ const cartStore = useCartStore()
 const userStore = useUserStore()
 const bageFlag = ref(false)
 
+defineEmits(['toggle-drawer'])
+
 watch(
   () => cartStore.cartList.length,
   (newVal, oldVal) => {
