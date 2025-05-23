@@ -4,7 +4,9 @@
     "countTemplate": "x{count}",
     "homeProductSubTitle": "厳選アイテム",
     "allCategoriesText": "すべてのカテゴリー",
-    "deleteBtn": "削除"
+    "deleteBtn": "削除",
+    "hasMoreText": "もっと見る",
+    "expandText": "閉じる"
   },
   "pageLoader": {
     "errorImgAlt": "画像の読み込みに失敗しました。",

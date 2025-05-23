@@ -1,7 +1,7 @@
 import { createVuetify } from 'vuetify';
+import { zhHans, ja } from 'vuetify/locale';
 import 'vuetify/styles';
 import '@mdi/font/css/materialdesignicons.css';
-import { zhHans, ja } from 'vuetify/locale';
 // import i18n from '../i18n';
 import * as components from 'vuetify/components';
 import * as directives from 'vuetify/directives';
@@ -47,7 +47,7 @@ const milkTeaDark = {
 
 export default createVuetify({
   locale: {
-    locale: 'zhHans',
+    locale: 'ja',
     fallback: 'zhHans',
     messages: {
       zhHans,

@@ -4,7 +4,9 @@
     "countTemplate": "x{count}",
     "homeProductSubTitle": "精选好物",
     "allCategoriesText": "所有分类",
-    "deleteBtn": "删除"
+    "deleteBtn": "删除",
+    "hasMoreText": "查看更多",
+    "expandText": "收起"
   },
   "pageLoader": {
     "errorImgAlt": "图片加载失败",

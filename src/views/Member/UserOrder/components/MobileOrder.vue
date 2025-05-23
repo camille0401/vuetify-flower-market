@@ -36,7 +36,7 @@
       </transition-group>
       <div v-if="hasMoreItems" class="text-center py-2">
         <v-btn @click="toggleExpand" variant="text" size="small" color="primary">
-          {{ isExpanded ? '收起' : '查看更多' }}
+          {{ isExpanded ? $t('global.expandText') : $t('global.hasMoreText') }}
           <v-icon end>{{ isExpanded ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
         </v-btn>
       </div>

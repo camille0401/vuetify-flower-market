@@ -68,7 +68,7 @@
               </td>
               <td class="text-center">{{ $t('global.moneyTemplate', { money: item.price }) }}</td>
               <td class="text-center">{{ $t('global.countTemplate', { count: item.goodsCount })
-              }}</td>
+                }}</td>
               <td class="text-center text-error">
                 {{ $t('global.moneyTemplate', { money: item.totalPayAmount }) }}
               </td>
@@ -179,7 +179,7 @@ const { goodsList, summary, loadDraft, clearDraft } = useOrderDraft()
 const loading = ref(false)
 const switchDialog = ref(false)
 const deliveryTimeDialog = ref(false)
-const deliveryTime = ref(dayjs().add(1, 'day').format('YYYY-MM-DD')) // 默认2天后
+const deliveryTime = ref(dayjs().add(1, 'day').format('YYYY-MM-DD')) // 默认1天后
 const activeAddress = ref(null)
 
 
@@ -189,6 +189,7 @@ const fullAddress = computed(() => {
   const { prefecture = '', city = '', address = '' } = activeAddress.value
   return `${prefecture}${city}${address}`
 })
+
 
 // 配送日期
 const selectedDateDisplay = computed(() => {
